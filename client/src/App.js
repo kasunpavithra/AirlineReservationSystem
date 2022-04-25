@@ -58,7 +58,15 @@ function App() {
                 </RequireAuth>
               }
             />
-
+            <Route
+              exact
+              path="/home"
+              element={
+                <RequireAuth>
+                  <Home />
+                </RequireAuth>
+              }
+            />
             <Route exact path="*" element={<NoPage />} />
           </Route>
         </Routes>
