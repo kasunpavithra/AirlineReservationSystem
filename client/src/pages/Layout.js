@@ -1,4 +1,7 @@
 import { Outlet, Link } from "react-router-dom";
+import { useAuth } from "../utils/auth";
+
+const auth = useAuth();
 
 const Layout = () => {
   return (
@@ -22,7 +25,9 @@ const Layout = () => {
           </li>
         </ul>
       </nav>
-
+{
+  !auth.use
+}
       <Outlet />
     </>
   );
