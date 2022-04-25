@@ -1,9 +1,10 @@
 import { Outlet, Link } from "react-router-dom";
 import { useAuth } from "../utils/auth";
 
-const auth = useAuth();
+
 
 const Layout = () => {
+  const auth = useAuth();
   return (
     <>
       <nav>
@@ -25,9 +26,7 @@ const Layout = () => {
           </li>
         </ul>
       </nav>
-{
-  !auth.use
-}
+      {!auth.user && <Link to="/login"> LogoutHere </Link>}
       <Outlet />
     </>
   );
