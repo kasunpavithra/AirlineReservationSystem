@@ -29,4 +29,6 @@ router
     });
   });
 
+  router.post("/register",siteController.registerUser);
+
 module.exports = router;

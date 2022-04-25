@@ -25,6 +25,8 @@ const getUsers = (req, res) => {
   });
 };
 
+
+
 // const loginUser = (req, res) => {
 //   const username = req.body.name;
 //   const password = req.body.password;
@@ -50,10 +52,18 @@ const getUsers = (req, res) => {
 //     res.send(req.params.id);
 // }
 
+const registerUser =(req,res)=>{
+  const userInfo = req.body;
+  siteModel.registerUser(userInfo);
+
+  //you need to do some activity here
+}
+
 module.exports = {
   // index,
   // about,
   getUsers,
+  registerUser
 //   loginUser,
   // addUser
 };

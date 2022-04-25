@@ -1,9 +1,14 @@
 import '../styles/registerStyle.css';
 import {useState} from 'react';
+import axios from 'axios';
 
 const Register = () => {
   const [inputs,setInputs]= useState({});
   const [selectionVal,setSelectionVal]= useState("..");
+
+  const register = ()=>{
+    axios.post("http://localhost:3001/api/register",inputs).then(res=>console.log(res));
+  };
 
   const handleChange = (event)=>{
     
@@ -13,13 +18,14 @@ const Register = () => {
     console.log(inputs);
   }
 
-  const handleSelection=(event)=>{
-    setSelectionVal(event.target.value);
-  }
+  // const handleSelection=(event)=>{
+  //   setSelectionVal(event.target.value);
+  // }
 
   const handleSubmit = (event)=>{
     event.preventDefault();
-    alert(JSON.stringify( inputs));
+    // alert(JSON.stringify( inputs));
+    register();
   }
   return (
     <div id="layoutAuthentication">
