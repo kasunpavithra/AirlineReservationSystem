@@ -7,14 +7,24 @@ import NoPage from "./pages/NoPage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import { AuthProvider } from "./utils/auth";
+import { RequireAuth } from "./utils/RequireAuth";
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
-            <Route index element={<Home />} />
+            <Route
+              index
+              element={
+                <RequireAuth>
+                  <Home />
+                </RequireAuth>
+              }
+            />
+
             <Route exact path="/login" element={<Login />} />
+
             <Route
               exact
               path="/redirect"
@@ -26,12 +36,29 @@ function App() {
           ) : (
             <Navigate to="/login" />
           )} */}
+
             <Route
               exact
               path="/blogs"
-              element={false ? <Blogs /> : <Navigate to="/login" />}
+              element={
+                <RequireAuth>
+                  <Blogs />
+                </RequireAuth>
+              }
             />
-            <Route exact path="/contact" element={<Contact />} />
+
+            <Route exact path="/register" element={<Register />} />
+
+            <Route
+              exact
+              path="/contact"
+              element={
+                <RequireAuth>
+                  <Contact />
+                </RequireAuth>
+              }
+            />
+
             <Route exact path="*" element={<NoPage />} />
           </Route>
         </Routes>
