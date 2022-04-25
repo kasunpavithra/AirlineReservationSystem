@@ -1,9 +1,12 @@
 import { useState } from "react";
 import Axios from "axios";
+import { useAuth } from "../utils/auth";
+import { useNavigate } from "react-router-dom";
 function Login() {
   const [inputs, setInputs] = useState({});
   const [loginStatus, setLoginStatus] = useState("");
-
+  const auth = useAuth();
+  const navigate = useNavigate();
   const login = () => {
     Axios.post("http://localhost:3001/api/login", {
       name: inputs.username,
@@ -16,6 +19,8 @@ function Login() {
         setLoginStatus(response.data.message);
       } else {
         setLoginStatus(response.data[0].name);
+        auth.login(response.data[0].name);
+        navigate("/blog");
       }
     });
   };
