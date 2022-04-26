@@ -26,8 +26,9 @@ const Layout = () => {
           </li>
         </ul>
       </nav>
-      {!auth.user && <Link to="/login"> LogoutHere </Link>}
       <Outlet />
+
+      {!auth.user && <Link to="/login"> LogoutHere </Link>}
     </>
   );
 };

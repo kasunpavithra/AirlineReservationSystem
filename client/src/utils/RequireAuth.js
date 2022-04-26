@@ -6,6 +6,6 @@ export const RequireAuth = ({ chidren }) => {
   if (!auth.user) {
     return <Navigate to="/login"  state={{path:location.pathname}} />;
   }
-  console.log("chidren");
-  return;
+  console.log(chidren);
+  return chidren
 };
