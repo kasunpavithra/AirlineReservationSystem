@@ -2,14 +2,32 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./pages/Layout";
 import Home from "./pages/Home";
 import Blogs from "./pages/Blogs";
-import Contact from "./pages/Contact";
+// import Contact from "./pages/Contact";
 import NoPage from "./pages/NoPage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import { AuthProvider } from "./utils/auth";
+import { AuthProvider, useAuth } from "./utils/auth";
 import { RequireAuth } from "./utils/RequireAuth";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 function App() {
+  const auth = useAuth();
+
+  const Contact = () => {
+    const auth = useAuth();
+
+    const handleLogout = () => {
+      auth.logout();
+      Navigate("/");
+    };
+
+    return (
+      <div>
+        <h1>Welcome {auth.user}</h1>
+        <button onClick={handleLogout}>Logout Here</button>
+      </div>
+    );
+  };
+
   return (
     <AuthProvider>
       <BrowserRouter>
@@ -18,6 +36,7 @@ function App() {
             <Route
               index
               element={
+                
                 <RequireAuth>
                   <Home />
                 </RequireAuth>
@@ -39,7 +58,6 @@ function App() {
           )} */}
 
             <Route
-              exact
               path="/blogs"
               element={
                 <RequireAuth>
