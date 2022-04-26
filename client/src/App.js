@@ -8,6 +8,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import { AuthProvider } from "./utils/auth";
 import { RequireAuth } from "./utils/RequireAuth";
+import AdminDashboard from "./pages/admin/AdminDashboard";
 function App() {
   return (
     <AuthProvider>
@@ -67,8 +68,12 @@ function App() {
                 </RequireAuth>
               }
             />
+
             <Route exact path="*" element={<NoPage />} />
           </Route>
+
+          <Route exact path="/admin/*" element={<AdminDashboard />} />
+
         </Routes>
       </BrowserRouter>
     </AuthProvider>
