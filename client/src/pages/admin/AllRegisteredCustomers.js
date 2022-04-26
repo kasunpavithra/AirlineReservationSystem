@@ -10,9 +10,6 @@ const AllRegisteredCustomers = () => {
             {isPending && <p> Loading... </p>}
             {error && <p>Error occured: {error} </p>}
             {data && !data.success && <p>Error occured: {JSON.stringify(data.err)} </p>}
-
-
-
             {data && data.success &&
                 <table className="table table-hover">
                     <thead>
@@ -28,7 +25,7 @@ const AllRegisteredCustomers = () => {
                     </thead>
                     <tbody>
                         {data.result.map(registeredCustomer => (
-                            <tr>
+                            <tr key={registeredCustomer.userID}>
                                 <td>{registeredCustomer.userID}</td>
                                 <td>{registeredCustomer.firstname}</td>
                                 <td>{registeredCustomer.lastname}</td>
