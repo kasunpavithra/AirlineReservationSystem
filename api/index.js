@@ -1,6 +1,7 @@
 const express = require('express');
 const mysql = require("mysql");
 const siteRouter = require("./routes/site");
+const registeredCustomerRoutes = require('./routes/registeredCustomerRoutes')
 
 
 const app = express();
@@ -11,7 +12,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use("/api",siteRouter);
-
+app.use("/api/registered-customer", registeredCustomerRoutes);
 
 app.listen(3001,()=>{
     console.log("Running server");

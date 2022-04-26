@@ -1,6 +1,11 @@
 const AllRegisteredCustomers = () => {
+
+
     return (
-        <h2>All Registered Customers</h2>
+        <>
+        <h2 className="add-margin-top">All Registered Customers</h2>
+        
+        </>
     );
 }
  
