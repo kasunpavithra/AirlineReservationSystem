@@ -1,12 +1,12 @@
 import useFetch from "./useFetch";
 
-const AllRegisteredCustomers = () => {
+const AllAuthorizedUsers = () => {
 
-    const { data, isPending, error } = useFetch("http://localhost:3001/api/registered-customer/all")
+    const { data, isPending, error } = useFetch("http://localhost:3001/api/authorized-user/all")
 
     return (
         <>
-            <h2 className="add-margin-top">All Registered Customers</h2>
+            <h2 className="add-margin-top">All Authorized Users</h2>
             {isPending && <p> Loading... </p>}
             {error && <p>Error occured: {error} </p>}
             {data && !data.success && <p>Error occured: {JSON.stringify(data.err)} </p>}
@@ -41,4 +41,4 @@ const AllRegisteredCustomers = () => {
     );
 }
 
-export default AllRegisteredCustomers;
+export default AllAuthorizedUsers;
