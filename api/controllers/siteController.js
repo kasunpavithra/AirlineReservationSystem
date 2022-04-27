@@ -1,4 +1,6 @@
 const siteModel = require("../models/siteModel");
+const CryptoJS = require("crypto-js");
+const { password } = require("../config/db.config");
 // const index = (req, res) => {
 //     console.log(req.body.foo);
 //     res.render('index', { viewTitle: 'Home' });
@@ -52,18 +54,20 @@ const getUsers = (req, res) => {
 //     res.send(req.params.id);
 // }
 
-const registerUser =(req,res)=>{
-  const userInfo = req.body;
-  siteModel.registerUser(userInfo);
-
-  //you need to do some activity here
+const registerUser = async (req, res) => {
+  //onsole.log(req.body);
+  const userInfo = {...(req.body),["password"]:CryptoJS.AES.encrypt(password,process.env.PASS_SECRET).toString()};
+  const success = await siteModel.registerUser(userInfo);
+  if(success) res.status(200).json({success:true});
+  else res.send({success:false});
 }
+
 
 module.exports = {
   // index,
   // about,
   getUsers,
   registerUser
-//   loginUser,
+  //   loginUser,
   // addUser
 };
