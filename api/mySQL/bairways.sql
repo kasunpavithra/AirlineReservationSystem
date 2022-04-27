@@ -1,9 +1,9 @@
-drop database bairways;
+-- drop database bairways;
 create database bairways;
 use bairways;
 
 CREATE TABLE `RegisteredCustomer` (
- `userID` VARCHAR(5),
+ `userID` INT(5) NOT NULL AUTO_INCREMENT,
   `firstname` VARCHAR(20),
   `lastname` VARCHAR(20),
   `email` VARCHAR(50),
@@ -18,7 +18,7 @@ CREATE TABLE `RegisteredCustomer` (
 
 
 CREATE TABLE `Guest` (
- `userID` VARCHAR(5),
+ `userID` INT(5) NOT NULL AUTO_INCREMENT,
   `firstname` VARCHAR(20),
   `lastname` VARCHAR(20),
   `email` VARCHAR(50),
@@ -30,7 +30,7 @@ CREATE TABLE `Guest` (
 
 
 CREATE TABLE `authorizedUser` (
-  `userID` VARCHAR(5),
+  `userID` INT(5) NOT NULL AUTO_INCREMENT,
   `firstname` VARCHAR(20),
   `lastname` VARCHAR(20),
   `email` VARCHAR(50),
@@ -44,18 +44,20 @@ CREATE TABLE `authorizedUser` (
 
 
 CREATE TABLE `userPhone` (
-  `userPhoneID` VARCHAR(5),
-  `userID` VARCHAR(5),
+  `userPhoneID` INT(5) NOT NULL AUTO_INCREMENT,
+  `registeredUserID` INT(5),
+  `guestUserID` INT(5),
+  `authUserID` INT(5),
   `phoneNumber` VARCHAR(15),
   PRIMARY KEY (`userPhoneID`),
-  FOREIGN KEY (`userID`) REFERENCES `RegisteredCustomer`(`userID`),
-FOREIGN KEY (`userID`) REFERENCES `Guest`(`userID`),
-FOREIGN KEY (`userID`) REFERENCES `authorizedUser`(`userID`)
+  FOREIGN KEY (`registeredUserID`) REFERENCES `RegisteredCustomer`(`userID`),
+FOREIGN KEY (`guestUserID`) REFERENCES `Guest`(`userID`),
+FOREIGN KEY (`authUserID`) REFERENCES `authorizedUser`(`userID`)
 );
 
 
 CREATE TABLE `Discount` (
-  `discountID` VARCHAR(5),
+  `discountID` INT(5) NOT NULL AUTO_INCREMENT,
   `discountClassType` TINYINT(4),
   `amount` decimal(8,2) ,
   `startTimeDate` datetime,
@@ -65,7 +67,7 @@ CREATE TABLE `Discount` (
 
 
 CREATE TABLE `aircraftType` (
-  `aircraftTypeID` VARCHAR(5),
+  `aircraftTypeID` INT(5) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(20),
   `description` VARCHAR(255),
   `image` BLOB,
@@ -74,8 +76,8 @@ CREATE TABLE `aircraftType` (
 
 
 CREATE TABLE `airCraft` (
-  `aircraftID` VARCHAR(5),
-  `aircraftTypeID` VARCHAR(5),
+  `aircraftID` INT(5) NOT NULL AUTO_INCREMENT,
+  `aircraftTypeID` INT(5),
   `EconomySeatCount` INT(3),
   `BusinessSeatCount` INT(3),
   `PlanitnumSeatCount` INT(3),
@@ -85,16 +87,16 @@ CREATE TABLE `airCraft` (
 
 
 CREATE TABLE `class` (
-  `classID` VARCHAR(5),
+  `classID` INT(5) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(20),
   PRIMARY KEY (`classID`)
 );
 
 
 CREATE TABLE `airCraftSeat` (
-  `airCraftseatID` VARCHAR(5),
-  `airCrafftID` VARCHAR(5),
-  `classID` VARCHAR(5),
+  `airCraftseatID` INT(5) NOT NULL AUTO_INCREMENT,
+  `airCrafftID` INT(5),
+  `classID` INT(5),
   `xCord` INT(1),
   `yCord` INT(2),
   `seatNumber` INT(3),
@@ -105,14 +107,14 @@ CREATE TABLE `airCraftSeat` (
 
 
 CREATE TABLE `AirPort` (
-  `airport_id` VARCHAR(5),
+  `airport_id` INT(5) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(20),
   PRIMARY KEY (`airport_id`)
 );
 
 
 CREATE TABLE `level` (
-  `levelID` VARCHAR(5),
+  `levelID` INT(5) NOT NULL AUTO_INCREMENT,
   `levelName` VARCHAR(20),
   `levelrank` INT(2),
   PRIMARY KEY (`levelID`)
@@ -120,9 +122,9 @@ CREATE TABLE `level` (
 
 
 CREATE TABLE `airportlevelDetail` (
-  `airportlevelDetailID` VARCHAR(5),
-  `airport_id` VARCHAR(5),
-  `levelID` VARCHAR(5),
+  `airportlevelDetailID` INT(5) NOT NULL AUTO_INCREMENT,
+  `airport_id` INT(5),
+  `levelID` INT(5),
   `value` VARCHAR(20),
   PRIMARY KEY (`airportlevelDetailID`),
   FOREIGN KEY (`levelID`) REFERENCES `level`(`levelID`),
@@ -131,9 +133,9 @@ CREATE TABLE `airportlevelDetail` (
 
 
 CREATE TABLE `Route` (
-  `RouteID` VARCHAR(5),
-  `OriginID` VARCHAR(5),
-  `DestinationID` VARCHAR(5),
+  `RouteID` INT(5) NOT NULL AUTO_INCREMENT,
+  `OriginID` INT(5),
+  `DestinationID` INT(5),
   PRIMARY KEY (`RouteID`),
   FOREIGN KEY (`DestinationID`) REFERENCES `AirPort`(`airport_id`),
   FOREIGN KEY (`OriginID`) REFERENCES `AirPort`(`airport_id`)
@@ -141,9 +143,9 @@ CREATE TABLE `Route` (
 
 
 CREATE TABLE `flight` (
-  `flightID` VARCHAR(5),
-  `aircraftID` VARCHAR(5),
-  `RouteID` VARCHAR(5),
+  `flightID` INT(5) NOT NULL AUTO_INCREMENT,
+  `aircraftID` INT(5),
+  `RouteID` INT(5),
   PRIMARY KEY (`flightID`),
   FOREIGN KEY (`aircraftID`) REFERENCES `airCraft`(`aircraftID`),
   FOREIGN KEY (`RouteID`) REFERENCES `Route`(`RouteID`)
@@ -151,8 +153,8 @@ CREATE TABLE `flight` (
 
 
 CREATE TABLE `FlightTime` (
-  `flightTimeID`VARCHAR(5),
-  `flightID` VARCHAR(5),
+  `flightTimeID`INT(5) NOT NULL AUTO_INCREMENT,
+  `flightID` INT(5),
   `dispatchTime` DATETIME,
   `startTimeDate` DATETIME,
   `endTimeDate` DATETIME,
@@ -164,9 +166,9 @@ CREATE TABLE `FlightTime` (
 
 
 CREATE TABLE `classPrice` (
-  `classPriceID` VARCHAR(5),
-  `RouteID` VARCHAR(5),
-  `classID` VARCHAR(5),
+  `classPriceID` INT(5),
+  `RouteID` INT(5),
+  `classID` INT(5),
   `Price` decimal(8,2),
   `startTimeDate` DATETIME,
   `endTimeDate` DATETIME,
@@ -177,22 +179,23 @@ FOREIGN KEY (`classID`) REFERENCES `Class`(`classID`)
 
 
 CREATE TABLE `Booking` (
-  `bookingID` VARCHAR(5),
-  `userID` VARCHAR(5),
-  `flightID` VARCHAR(5),
+  `bookingID` INT(5),
+  `registeredUserID` INT(5),
+  `guestUserID` INT(5),
+  `flightID` INT(5),
   `paymentStatus` TINYINT,
   `bookingTimeDate` DATETIME,
-  `classID` VARCHAR(5),
-  `airCraftseatID` VARCHAR(5),
+  `classID` INT(5),
+  `airCraftseatID` INT(5),
   `status` TINYINT,
-  `discountID` VARCHAR(5),
+  `discountID` INT(5),
   PRIMARY KEY (`bookingID`),
   FOREIGN KEY (`discountID`) REFERENCES `Discount`(`discountID`),
   FOREIGN KEY (`airCraftseatID`) REFERENCES `airCraftSeat`(`airCraftseatID`),
   FOREIGN KEY (`classID`) REFERENCES `class`(`classID`),
 FOREIGN KEY (`flightID`) REFERENCES `flight`(`flightID`),
-FOREIGN KEY (`userID`) REFERENCES `RegisteredCustomer`(`userID`),
-FOREIGN KEY (`userID`) REFERENCES `Guest`(`userID`)
+FOREIGN KEY (`registeredUserID`) REFERENCES `RegisteredCustomer`(`userID`),
+FOREIGN KEY (`guestUserID`) REFERENCES `Guest`(`userID`)
   
 );
 

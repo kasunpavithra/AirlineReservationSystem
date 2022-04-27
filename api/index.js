@@ -3,11 +3,13 @@ const mysql = require("mysql");
 const siteRouter = require("./routes/site");
 const registeredCustomerRoutes = require('./routes/registeredCustomerRoutes')
 const authorizedUserRoutes = require("./routes/authorizedUserRoutes")
+const dotenv = require("dotenv");
 
 const app = express();
 const cors = require('cors');
 
 
+dotenv.config();
 app.use(express.json());
 app.use(cors());
 
