@@ -1,8 +1,9 @@
 const express = require('express');
 const mysql = require("mysql");
 const siteRouter = require("./routes/site");
-const registeredCustomerRoutes = require('./routes/registeredCustomerRoutes')
-const authorizedUserRoutes = require("./routes/authorizedUserRoutes")
+const registeredCustomerRoutes = require('./routes/registeredCustomerRoutes');
+const bookingRouter = require("./routes/bookings");
+const authorizedUserRoutes = require("./routes/authorizedUserRoutes");
 const dotenv = require("dotenv");
 
 const app = express();
@@ -16,6 +17,7 @@ app.use(cors());
 app.use("/api",siteRouter);
 app.use("/api/registered-customer", registeredCustomerRoutes);
 app.use("/api/authorized-user", authorizedUserRoutes);
+app.use("/api/bookings",bookingRouter);
 
 app.listen(3001,()=>{
     console.log("Running server");
