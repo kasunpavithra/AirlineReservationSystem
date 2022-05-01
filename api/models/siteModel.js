@@ -28,7 +28,8 @@ const registerUser = (userInfo) => {
         let mobile = userInfo.mobile;
         let birthday = userInfo.birthday;
         let password = userInfo.password;
-        let gender = userInfo.gender;
+        let gender;
+        (userInfo.gender === "male") ? gender = 1 : gender = 0;
 
         let sql = "INSERT INTO registeredcustomer (firstname, lastname, email, address, password, gender,birthday) VALUES (?,?,?,?,?,?,?)";
 
