@@ -1,10 +1,7 @@
 import useFetch from "./useFetch";
 import axios from 'axios'
-import { useNavigate } from "react-router-dom"
 
 const AllRegisteredCustomers = () => {
-
-    const navigate = useNavigate()
 
     const { data, isPending, error } = useFetch("http://localhost:3001/api/registered-customer/all")
 

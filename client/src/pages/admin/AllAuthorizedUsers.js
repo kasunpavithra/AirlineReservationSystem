@@ -1,8 +1,18 @@
 import useFetch from "./useFetch";
+import axios from "axios"
 
 const AllAuthorizedUsers = () => {
 
     const { data, isPending, error } = useFetch("http://localhost:3001/api/authorized-user/all")
+
+    const handleDelete = (userID) => {
+        alert("are you sure, you want to delete this authorized user?")
+        axios.delete("http://localhost:3001/api/authorized-user/delete/" + userID)
+        .then(result => {
+            window.location.reload(false);
+        })
+        .catch(err => console.log(err))
+    }
 
     return (
         <>
@@ -24,14 +34,14 @@ const AllAuthorizedUsers = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {data.result.map(registeredCustomer => (
-                            <tr key={registeredCustomer.userID}>
-                                <td>{registeredCustomer.userID}</td>
-                                <td>{registeredCustomer.firstname}</td>
-                                <td>{registeredCustomer.lastname}</td>
-                                <td>{registeredCustomer.email}</td>
-                                <td>{registeredCustomer.status === 1 ? "Active" : "Deleted"}</td>
-                                <td><a className="btn btn-danger" href="#">Delete</a></td>
+                        {data.result.map(authorizedUser => (
+                            <tr key={authorizedUser.userID}>
+                                <td>{authorizedUser.userID}</td>
+                                <td>{authorizedUser.firstname}</td>
+                                <td>{authorizedUser.lastname}</td>
+                                <td>{authorizedUser.email}</td>
+                                <td>{authorizedUser.status === 1 ? "Active" : "Deleted"}</td>
+                                <td><a className="btn btn-danger" onClick={() => handleDelete(authorizedUser.userID)}>Delete</a></td>
                                 <td><a className="btn btn-info" href="#">Edit</a></td>
                             </tr>
                         ))}
