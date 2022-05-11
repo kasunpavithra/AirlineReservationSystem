@@ -17,6 +17,26 @@ const get_all_customers = async (req, res) => {
     })
 }
 
+const delete_customers_by_id = async (req, res) => {
+    const userID = req.params.id
+    await registeredCustomerModel.delete_customers_by_id(userID)
+    .then(result => {
+        console.log("Registered  user deleted!")
+        res.json({
+            success: true,
+            result 
+        })
+    })
+    .catch(err => {
+        console.log("ERROR WHEN DELETING A CUSTOMER BY ID: "+err);
+        res.json({
+            success: false,
+            err
+        })
+    })
+}
+
 module.exports = {
-    get_all_customers
+    get_all_customers,
+    delete_customers_by_id
 }
