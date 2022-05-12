@@ -13,6 +13,16 @@ const registerUser = (userInfo) => {
         let password = userInfo.password;
         let gender;
         (userInfo.gender === "male") ? gender = 1 : gender = 0;
+        
+        checkEmailSQL = "SELECT * FROM registeredcustomer WHERE email=?";
+        db.query(checkEmailSQL,email,(err,data)=>{
+            console.log(data.length);
+            if(err) return reject(err);
+            
+            else if(data.length>1){
+                return reject({message:"emailAlreadyExists"});
+            }
+        });
 
         let sql = "INSERT INTO registeredcustomer (firstname, lastname, email, address, password, gender,birthday) VALUES (?,?,?,?,?,?,?)";
 
