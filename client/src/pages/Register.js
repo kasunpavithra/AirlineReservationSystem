@@ -1,12 +1,17 @@
 import '../styles/registerStyle.css';
 import {useState} from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
+  const navigate = useNavigate();
   const [inputs,setInputs]= useState({});
 
   const register = ()=>{
-    axios.post("http://localhost:3001/api/register",inputs).then(res=>console.log(res));
+    axios.post("http://localhost:3001/api/register",inputs).then(res=>{
+      if(res.data.success) navigate("/login",{replace:false});
+      else console.log("HI?"+res.data.err.message);
+    });
   };
 
   const handleChange = (event)=>{
