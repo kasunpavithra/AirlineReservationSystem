@@ -8,10 +8,12 @@ const Register = () => {
   const [inputs,setInputs]= useState({});
 
   const register = ()=>{
-    axios.post("http://localhost:3001/api/register",inputs).then(res=>{
-      if(res.data.success) navigate("/login",{replace:false});
-      else console.log("HI?"+res.data.err.message);
-    });
+    axios.post("http://localhost:3001/api/register",inputs)
+    .then(res=>{
+      if(res.data.success) navigate("/login",{replace:true});
+      else console.log(res.data.err); //handle already exists here
+    })
+    .catch(err=>console.log(err));
   };
 
   const handleChange = (event)=>{
