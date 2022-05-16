@@ -6,15 +6,10 @@ import Blogs from "./pages/Blogs";
 import NoPage from "./pages/NoPage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-<<<<<<< HEAD
 import Update from "./pages/Update";
-import { AuthProvider } from "./utils/auth";
-
-=======
 import { AuthProvider, useAuth } from "./utils/auth";
 import { RequireAuth } from "./utils/RequireAuth";
 import AdminDashboard from "./pages/admin/AdminDashboard";
->>>>>>> bd0eba56771d6de2dabb197d6b82fea4f4f0ade8
 function App() {
   const auth = useAuth();
 
@@ -50,26 +45,18 @@ function App() {
             />
 
             <Route exact path="/login" element={<Login />} />
-<<<<<<< HEAD
-            <Route exact path="/redirect" element={<Navigate to="/register" />}/>
-=======
 
             <Route
               exact
               path="/redirect"
               element={<Navigate to="/register" />}
             />
->>>>>>> bd0eba56771d6de2dabb197d6b82fea4f4f0ade8
 
             {/* {localStorage.getItem("token") ? (
             <Route exact path="blogs" element={<Blogs />} />
           ) : (
             <Navigate to="/login" />
           )} */}
-<<<<<<< HEAD
-            <Route exact path="/blogs" element={false ? <Blogs /> : <Navigate to="/login" />}/>
-            <Route exact path="/contact" element={<Contact />} />
-=======
 
             <Route
               path="/blogs"
@@ -101,7 +88,6 @@ function App() {
               }
             />
 
->>>>>>> bd0eba56771d6de2dabb197d6b82fea4f4f0ade8
             <Route exact path="*" element={<NoPage />} />
             <Route exact path="/update" element={<Update/>} />
           </Route>
