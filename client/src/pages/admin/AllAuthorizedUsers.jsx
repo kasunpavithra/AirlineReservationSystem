@@ -6,12 +6,15 @@ const AllAuthorizedUsers = () => {
     const { data, isPending, error } = useFetch("http://localhost:3001/api/authorized-user/all")
 
     const handleDelete = (userID) => {
-        alert("are you sure, you want to delete this authorized user?")
-        axios.delete("http://localhost:3001/api/authorized-user/delete/" + userID)
-        .then(result => {
-            window.location.reload(false);
-        })
-        .catch(err => console.log(err))
+        if (window.confirm("are you sure, you want to delete this authorized user?") === true) {
+            axios.delete("http://localhost:3001/api/authorized-user/delete/" + userID)
+                .then(result => {
+                    window.location.reload(false);
+                })
+                .catch(err => console.log(err))
+        } else {
+            return
+        }
     }
 
     return (
