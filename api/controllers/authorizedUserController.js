@@ -51,8 +51,29 @@ const update_authorized_user = async (req, res) => {
         })
     })
 }
+
+const register_authorized_users = async (req, res) => {
+    const userData = req.body
+    await authorizedUserModel.register_authorized_users(userData)
+    .then(result => {
+        console.log("Authorized user updated!")
+        res.json({
+            success: true,
+            result 
+        })
+    })
+    .catch(err => {
+        console.log("ERROR WHEN UPDATING AN AUTHORIZED USER: "+err);
+        res.json({
+            success: false,
+            err
+        })
+    })
+}
+
 module.exports = {
     get_all_authorized_users,
     delete_authorized_users_by_id,
-    update_authorized_user
+    update_authorized_user,
+    register_authorized_users
 }

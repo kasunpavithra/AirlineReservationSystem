@@ -42,8 +42,24 @@ const update_authorized_user = (userData) => {
     })
 }
 
+const register_authorized_users = (userData) => {
+    return new Promise((resolve, reject) => {
+        var sql = "INSERT INTO authorizeduser (firstname, lastname, email, password, address, status, type, image) VALUES (?,?,?,?,?,?,?,?);"
+        const hash = bcrypt.hashSync(userData.password, 9)
+        const valueSet = [userData.firstname, userData.lastname, userData.email, hash, userData.address, userData.status, userData.type, userData.image]
+        db.query(sql, valueSet ,(err, result) => {
+            if (err) {
+                return reject(err)
+            } else {
+                return resolve(result);
+            }
+        })
+    })
+}
+
 module.exports = {
     get_all_authorized_users,
     delete_authorized_users_by_id,
-    update_authorized_user
+    update_authorized_user,
+    register_authorized_users
 }
