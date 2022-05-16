@@ -6,6 +6,7 @@ import Blogs from "./pages/Blogs";
 import NoPage from "./pages/NoPage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Update from "./pages/Update";
 import { AuthProvider, useAuth } from "./utils/auth";
 import { RequireAuth } from "./utils/RequireAuth";
 import AdminDashboard from "./pages/admin/AdminDashboard";
@@ -88,6 +89,7 @@ function App() {
             />
 
             <Route exact path="*" element={<NoPage />} />
+            <Route exact path="/update" element={<Update/>} />
           </Route>
 
           <Route exact path="/admin/*" element={<AdminDashboard />} />

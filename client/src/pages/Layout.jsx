@@ -2,7 +2,6 @@ import { Outlet, Link } from "react-router-dom";
 import { useAuth } from "../utils/auth";
 
 
-
 const Layout = () => {
   const auth = useAuth();
   return (
