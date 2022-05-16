@@ -42,8 +42,22 @@ const update_customer = (userData) => {
     })
 }
 
+const get_customer_by_id = (userID) => {
+    return new Promise((resolve, reject) => {
+        var sql = "SELECT * FROM registeredcustomer WHERE userID=?;"
+        db.query(sql, userID, (err, result) => {
+            if (err) {
+                return reject(err)
+            } else {
+                return resolve(result);
+            }
+        })
+    })
+}
+
 module.exports = {
     get_all_customers,
     delete_customers_by_id,
-    update_customer
+    update_customer,
+    get_customer_by_id
 }
