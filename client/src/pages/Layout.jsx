@@ -1,11 +1,6 @@
 import { Outlet, Link } from "react-router-dom";
 import { useAuth } from "../utils/auth";
 
-<<<<<<< HEAD
-//const auth = useAuth();
-=======
-
->>>>>>> bd0eba56771d6de2dabb197d6b82fea4f4f0ade8
 
 const Layout = () => {
   const auth = useAuth();
@@ -30,12 +25,6 @@ const Layout = () => {
           </li>
         </ul>
       </nav>
-<<<<<<< HEAD
-{
- // !auth.use
-}
-=======
->>>>>>> bd0eba56771d6de2dabb197d6b82fea4f4f0ade8
       <Outlet />
 
       {!auth.user && <Link to="/login"> LogoutHere </Link>}
