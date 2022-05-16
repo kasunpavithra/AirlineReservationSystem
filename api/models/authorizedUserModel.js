@@ -1,6 +1,8 @@
 const db = require("../db/db")
 const bcrypt = require("bcrypt")
 
+//type: 0 for admin , 1 for manager
+
 const get_all_authorized_users = () => {
     return new Promise((resolve, reject) => {
         var sql = "SELECT * FROM authorizeduser ORDER BY userID;"
