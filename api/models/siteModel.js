@@ -1,3 +1,4 @@
+const { json } = require('express');
 const db = require('../db/db');
 
 function getUsers(result) {
@@ -14,11 +15,14 @@ function getUsers(result) {
     })
 }
 
-function loginUser(result,data) {
+function loginUser(result, data) {
     console.log(data);
 }
 
+
+
+
 module.exports = {
-  getUsers,
-  loginUser,
+    getUsers,
+    loginUser
 };

@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const db = require("../db/db");
 const siteController = require("../controllers/siteController");
+const registerController = require("../controllers/registerController")
 router
   // .get('/', siteController.index)
   // .get('/about', siteController.about)
@@ -28,5 +29,7 @@ router
       }
     });
   });
+
+  router.post("/register",registerController.registerUser);
 
 module.exports = router;

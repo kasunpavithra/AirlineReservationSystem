@@ -1,6 +1,34 @@
 import '../styles/registerStyle.css';
+import {useState} from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
+  const navigate = useNavigate();
+  const [inputs,setInputs]= useState({});
+
+  const register = ()=>{
+    axios.post("http://localhost:3001/api/register",inputs)
+    .then(res=>{
+      if(res.data.success) navigate("/login",{replace:true});
+      else console.log(res.data.err); //handle already exists here
+    })
+    .catch(err=>console.log(err));
+  };
+
+  const handleChange = (event)=>{
+    
+    const name = event.target.name;
+    const value= event.target.value;
+    setInputs(values=>({...values,[name]:value}));
+  }
+
+  
+
+  const handleSubmit = (event)=>{
+    event.preventDefault();
+    register();
+  }
   return (
     <div id="layoutAuthentication">
       <div id="layoutAuthentication_content">
@@ -13,41 +41,41 @@ const Register = () => {
                     <h3 className="text-center font-weight-light my-4">Create Account</h3>
                   </div>
                   <div className="card-body">
-                    <form onsubmit="" action="register/createAccount" method="POST">
+                    <form onSubmit={handleSubmit}>
                       <div className="row mb-3">
                         <div className="col-md-6">
                           <div className="form-floating mb-3 mb-md-0">
-                            <input className="form-control" id="inputFirstName" name="FirstName" type="text" placeholder="Enter your first name" required />
-                            <label for="inputFirstName">First name</label>
+                            <input onChange={handleChange} className="form-control" id="inputFirstName" name="FirstName" type="text" placeholder="Enter your first name" required />
+                            <label htmlFor="inputFirstName">First name</label>
                           </div>
                         </div>
                         <div className="col-md-6">
                           <div className="form-floating">
-                            <input className="form-control" id="inputLastName" name="LastName" type="text" placeholder="Enter your last name" />
-                            <label for="inputLastName">Last name</label>
+                            <input onChange={handleChange} className="form-control" id="inputLastName" name="LastName" type="text" placeholder="Enter your last name" />
+                            <label htmlFor="inputLastName">Last name</label>
                           </div>
                         </div>
                       </div>
                       <div className="form-floating mb-3">
-                        <input className="form-control" id="inputEmail" type="email" name="Email" placeholder="name@example.com" required />
-                        <label for="inputEmail">Email address</label>
+                        <input onChange={handleChange} className="form-control" id="inputEmail" type="email" name="Email" placeholder="name@example.com" required />
+                        <label htmlFor="inputEmail">Email address</label>
                       </div>
                       <div className="form-floating mb-3">
-                        <input className="form-control" id="inputAddress" type="text" name="Address" placeholder="Your address" required />
-                        <label for="inputEmail">Address</label>
+                        <input onChange={handleChange} className="form-control" id="inputAddress" type="text" name="Address" placeholder="Your address" required />
+                        <label htmlFor="inputEmail">Address</label>
                       </div>
                       {/* <!--Edditing to add phone to the form--> */}
                       <div className="row mb-3">
                         <div className="col-md-6">
                           <div className="form-floating">
-                            <input className="form-control" id="inputmobile" name="mobile" type="tel" placeholder="Enter your phone number" required />
-                            <label for="inputmobile">Mobile</label>
+                            <input onChange={handleChange} className="form-control" id="inputmobile" name="mobile" type="tel" placeholder="Enter your phone number" required />
+                            <label htmlFor="inputmobile">Mobile</label>
                           </div>
                         </div>
                         <div className="col-md-6">
                           <div className="form-floating">
-                            <input className="form-control" id="inputBirthday" name="birthday" type="date" required />
-                            <label for="inputmobile">Birthday</label>
+                            <input onChange={handleChange} className="form-control" id="inputBirthday" name="birthday" type="date" required />
+                            <label htmlFor="inputmobile">Birthday</label>
                           </div>
                         </div>
                       </div>
@@ -55,14 +83,14 @@ const Register = () => {
                       <div className="row mb-3">
                         <div className="col-md-6">
                           <div className="form-floating mb-3 mb-md-0">
-                            <input className="form-control" id="inputPassword" name="password" type="password" placeholder="Create a password" required />
-                            <label for="inputPassword">Password</label>
+                            <input onChange={handleChange} className="form-control" id="inputPassword" name="password" type="password" placeholder="Create a password" required />
+                            <label htmlFor="inputPassword">Password</label>
                           </div>
                         </div>
                         <div className="col-md-6">
                           <div className="form-floating mb-3 mb-md-0">
-                            <input className="form-control" id="inputPasswordConfirm" type="password" placeholder="Confirm password" required />
-                            <label for="inputPasswordConfirm">Confirm Password</label>
+                            <input onChange={handleChange} className="form-control" id="inputPasswordConfirm" name="confirm" type="password" placeholder="Confirm password" required />
+                            <label htmlFor="inputPasswordConfirm">Confirm Password</label>
                           </div>
                         </div>
                       </div>
@@ -71,13 +99,13 @@ const Register = () => {
                         <div className="col-md-3"></div>
                         <div className="col-md-6">
                           <div className="form-floating mb-3 mb-md-0">
-                            <select className="form-select" name="gender" id="inputGender">
-                              <option value="male">..</option>
+                            <select onChange={handleChange} value={inputs.gender || ".."} className="form-select" name="gender" id="inputGender">
+                              <option value="..">..</option>
                               <option value="male">Male</option>
                               <option value="female">Female</option>
                             </select>
                             {/* <input className="form-control" id="inputPasswordConfirm" type="password" placeholder="Confirm password" required /> */}
-                            <label for="inputGender">Gender</label>
+                            <label htmlFor="inputGender">Gender</label>
                           </div>
                         </div>
                       </div>

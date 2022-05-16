@@ -1,4 +1,5 @@
 const siteModel = require("../models/siteModel");
+const { password } = require("../config/db.config");
 // const index = (req, res) => {
 //     console.log(req.body.foo);
 //     res.render('index', { viewTitle: 'Home' });
@@ -25,6 +26,8 @@ const getUsers = (req, res) => {
   });
 };
 
+
+
 // const loginUser = (req, res) => {
 //   const username = req.body.name;
 //   const password = req.body.password;
@@ -50,10 +53,13 @@ const getUsers = (req, res) => {
 //     res.send(req.params.id);
 // }
 
+
+
+
 module.exports = {
   // index,
   // about,
-  getUsers,
-//   loginUser,
+  getUsers
+  //   loginUser,
   // addUser
 };

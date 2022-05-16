@@ -20,7 +20,9 @@ function Login() {
       } else {
         setLoginStatus(response.data[0].name);
         auth.login(response.data[0].name);
-        navigate("/blog");
+
+        console.log(response.data[0].name);
+        navigate("/home", { replace: true });
       }
     });
   };
