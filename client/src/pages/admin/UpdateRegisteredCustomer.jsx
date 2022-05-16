@@ -45,8 +45,7 @@ const UpdateRegisteredCustomer = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        // console.log(firstname.length, lastname, email, password, confirmPassword);
-
+        
         //validation
         if (firstname.length > 255 || lastname.length > 255 || email.length > 255) {
             if (firstname.length > 255) {

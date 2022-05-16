@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt")
 
 const get_all_customers = () => {
     return new Promise((resolve, reject) => {
-        var sql = "SELECT * FROM registeredcustomer;"
+        var sql = "SELECT * FROM registeredcustomer ORDER BY userID;"
         db.query(sql, (err, result) => {
             if (err) {
                 return reject(err)
