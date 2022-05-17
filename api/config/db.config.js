@@ -1,6 +1,6 @@
 module.exports = {
     host: 'localhost',
-    user: 'root',
-    password: '',
+    user: 'sqluser1',
+    password: 'password',
     db: 'bairways'
 }

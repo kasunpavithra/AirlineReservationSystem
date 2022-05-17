@@ -1,15 +1,14 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Layout from "./pages/Layout";
-import Home from "./pages/Home";
-import Blogs from "./pages/Blogs";
+import Layout from "./pages/Navbar/Layout/Layout";
+import Home from "./pages/Navbar/Home/Home";
 // import Contact from "./pages/Contact";
-import NoPage from "./pages/NoPage";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Update from "./pages/Update";
+import NoPage from "./pages/Navbar/NoPage/NoPage";
+import Login from "./pages/Navbar/Login/Login";
+import Register from "./pages/Navbar/Register/Register";
+import Update from "./pages/User/Update/Update";
 import { AuthProvider, useAuth } from "./utils/auth";
 import { RequireAuth } from "./utils/RequireAuth";
-import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminDashboard from "./pages/Admin/AdminDashboard";
 function App() {
   const auth = useAuth();
 
@@ -33,66 +32,32 @@ function App() {
     <AuthProvider>
       <BrowserRouter>
         <Routes>
+          {/* Layout Router paths */}
           <Route path="/" element={<Layout />}>
-            <Route
-              index
-              element={
-                
-                <RequireAuth>
-                  <Home />
-                </RequireAuth>
-              }
-            />
+            {/* Auth required routes*/}
+            <Route index element={<RequireAuth><Home/></RequireAuth>}/>
+            <Route exact path="contact"  element={<RequireAuth><Contact/></RequireAuth>}/>
+            <Route exact path="/home"     element={<RequireAuth><Home /></RequireAuth>}/>
 
-            <Route exact path="/login" element={<Login />} />
+            <Route exact path="/login"    element={<Login />} />
 
-            <Route
-              exact
-              path="/redirect"
-              element={<Navigate to="/register" />}
-            />
+            <Route exact path="*"         element={<NoPage />} />
+            <Route exact path="/update"   element={<Update/>} />
+            <Route exact path="/register" element={<Register/>}/>
+          </Route>
+            {/* Other routes */}
+            <Route exact path="/admin/*"  element={<AdminDashboard />} />
+            
 
-            {/* {localStorage.getItem("token") ? (
+
+
+
+          {/* {localStorage.getItem("token") ? (
             <Route exact path="blogs" element={<Blogs />} />
           ) : (
             <Navigate to="/login" />
           )} */}
 
-            <Route
-              path="/blogs"
-              element={
-                <RequireAuth>
-                  <Blogs />
-                </RequireAuth>
-              }
-            />
-
-            <Route exact path="/register" element={<Register />} />
-
-            <Route
-              exact
-              path="/contact"
-              element={
-                <RequireAuth>
-                  <Contact />
-                </RequireAuth>
-              }
-            />
-            <Route
-              exact
-              path="/home"
-              element={
-                <RequireAuth>
-                  <Home />
-                </RequireAuth>
-              }
-            />
-
-            <Route exact path="*" element={<NoPage />} />
-            <Route exact path="/update" element={<Update/>} />
-          </Route>
-
-          <Route exact path="/admin/*" element={<AdminDashboard />} />
 
         </Routes>
       </BrowserRouter>

@@ -10,12 +10,14 @@ const dotenv = require("dotenv");
 
 const app = express();
 const cors = require('cors');
+const coresOptions = require('./config/corsOptions');
 
-
+const PORT = process.env.PORT || 3001;
 dotenv.config();
 app.use(express.json());
-app.use(cors());
+app.use(cors(coresOptions));
 
+//Routes
 app.use("/api",siteRouter);
 app.use("/api/registered-customer", registeredCustomerRoutes);
 app.use("/api/authorized-user", authorizedUserRoutes);
@@ -24,5 +26,5 @@ app.use("/api/routes", airWayRoutesRouter);
 app.use("/api/airport", airportRouter);
 
 app.listen(3001,()=>{
-    console.log("Running server");
+    console.log(`Server started on port ${PORT}`);
 })

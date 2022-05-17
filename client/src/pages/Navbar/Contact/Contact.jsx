@@ -1,4 +1,4 @@
-import { useAuth } from "../utils/auth";
+import { useAuth } from "../../utils/authuth";
 import { Navigate, useNavigate } from "react-router-dom"; 
 const Contact = () => {
   const auth = useAuth();

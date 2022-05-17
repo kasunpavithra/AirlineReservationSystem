@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Axios from "axios";
-import { useAuth } from "../utils/auth";
+import { useAuth } from "../../../utils/auth";
 import { useNavigate } from "react-router-dom";
 function Login() {
   const [inputs, setInputs] = useState({});
