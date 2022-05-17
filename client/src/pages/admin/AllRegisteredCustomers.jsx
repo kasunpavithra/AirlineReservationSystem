@@ -35,7 +35,7 @@ const AllRegisteredCustomers = () => {
                 <table className="table table-hover">
                     <thead>
                         <tr>
-                            <th>UserID</th>
+                            <th>UserIDQQQQQQQQQQQQQQQQQQ</th>
                             <th>Fisrt name</th>
                             <th>Last name</th>
                             <th>Email</th>

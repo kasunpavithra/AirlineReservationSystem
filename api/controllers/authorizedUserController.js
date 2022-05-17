@@ -16,6 +16,23 @@ const get_all_authorized_users = async (req, res) => {
     })
 }
 
+const get_authorized_user = async (req, res) => {
+    const userID = req.params.id
+    await authorizedUserModel.get_authorized_user(userID)
+    .then(result => {
+        res.json({
+            success: true,
+            result
+        })
+    })
+    .catch(err => {
+        res.json({
+            success: false,
+            err
+        })
+    })
+}
+
 const delete_authorized_users_by_id = async (req, res) => {
     const userID = req.params.id
     await authorizedUserModel.delete_authorized_users_by_id(userID)
@@ -75,5 +92,6 @@ module.exports = {
     get_all_authorized_users,
     delete_authorized_users_by_id,
     update_authorized_user,
-    register_authorized_users
+    register_authorized_users,
+    get_authorized_user
 }

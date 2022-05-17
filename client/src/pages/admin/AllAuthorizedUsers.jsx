@@ -1,8 +1,10 @@
 import useFetch from "./useFetch";
 import axios from "axios"
+import { useNavigate } from "react-router-dom";
 
 const AllAuthorizedUsers = () => {
 
+    const navigate = useNavigate()
     const { data, isPending, error } = useFetch("http://localhost:3001/api/authorized-user/all")
 
     const handleDelete = (userID) => {
@@ -15,6 +17,10 @@ const AllAuthorizedUsers = () => {
         } else {
             return
         }
+    }
+
+    const handleEdit = (userID) => {
+        navigate("../update-authorized-user/" + userID)
     }
 
     return (
@@ -45,7 +51,7 @@ const AllAuthorizedUsers = () => {
                                 <td>{authorizedUser.email}</td>
                                 <td>{authorizedUser.status === 1 ? "Active" : "Deleted"}</td>
                                 <td><a className="btn btn-danger" onClick={() => handleDelete(authorizedUser.userID)}>Delete</a></td>
-                                <td><a className="btn btn-info" href="#">Edit</a></td>
+                                <td><a className="btn btn-info" onClick={() => handleEdit(authorizedUser.userID)}>Edit</a></td>
                             </tr>
                         ))}
                     </tbody>
