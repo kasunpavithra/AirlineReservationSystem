@@ -55,8 +55,48 @@ const update_customer = async (req, res) => {
     })
 }
 
+const get_customer_by_id = async (req, res) => {
+
+    const userID = req.params.id
+    await registeredCustomerModel.get_customer_by_id(userID)
+    .then(result => {
+        res.json({
+            success: true,
+            result 
+        })
+    })
+    .catch(err => {
+        console.log("ERROR WHEN FETCHING THE CUSTOMERS BY ID: "+err);
+        res.json({
+            success: false,
+            err
+        })
+    })
+}
+
+const register_customer = async (req, res) => {
+    const userData = req.body
+    await registeredCustomerModel.register_customer(userData)
+    .then(result => {
+        console.log("Registered customer Added successfully!")
+        res.json({
+            success: true,
+            result 
+        })
+    })
+    .catch(err => {
+        console.log("ERROR WHEN ADDING A CUSTOMER: "+err);
+        res.json({
+            success: false,
+            err
+        })
+    })
+}
+
 module.exports = {
     get_all_customers,
     delete_customers_by_id,
-    update_customer
+    update_customer,
+    get_customer_by_id,
+    register_customer
 }

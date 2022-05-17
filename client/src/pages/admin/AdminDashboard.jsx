@@ -5,6 +5,7 @@ import CreateAuthorizedUser from "./CreateAuthorizedUser";
 import CreateRegisteredCustomer from "./CreateRegisteredCustomer";
 import './admin.css'
 import AllAuthorizedUsers from "./AllAuthorizedUsers";
+import UpdateRegisteredCustomer from "./UpdateRegisteredCustomer";
 
 const AdminDashboard = () => {
     return (
@@ -26,6 +27,7 @@ const AdminDashboard = () => {
                 <Route path="/all-authorized-users" element={<AllAuthorizedUsers />} />
                 <Route path="/create-authorized-user" element={<CreateAuthorizedUser />} />
                 <Route path="/create-registered-customer" element={<CreateRegisteredCustomer />} />
+                <Route path="/update-registered-customer/:id" element={<UpdateRegisteredCustomer />} />
             </Routes>
         </div>
     );
