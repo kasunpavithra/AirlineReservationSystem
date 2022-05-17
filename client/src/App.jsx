@@ -9,6 +9,7 @@ import Update from "./pages/User/Update/Update";
 import { AuthProvider, useAuth } from "./utils/auth";
 import { RequireAuth } from "./utils/RequireAuth";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
+import BookSeat from "./pages/User/BookSeat/BookSeat";
 function App() {
   const auth = useAuth();
 
@@ -42,8 +43,12 @@ function App() {
             <Route exact path="/login"    element={<Login />} />
 
             <Route exact path="*"         element={<NoPage />} />
-            <Route exact path="/update"   element={<Update/>} />
             <Route exact path="/register" element={<Register/>}/>
+            {/* User routes */}
+            <Route exact path="/update"   element={<Update/>} />
+            <Route exact path="/bookSeat"   element={<BookSeat/>} />
+
+
           </Route>
             {/* Other routes */}
             <Route exact path="/admin/*"  element={<AdminDashboard />} />
