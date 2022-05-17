@@ -1,11 +1,11 @@
 import React from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import "../styles/updateStyle.css";
+import "./updateStyle.css";
 import 'font-awesome/css/font-awesome.css';
 import { Row,Col} from 'react-bootstrap';
 //import UserServices from '../../services/API/UserServices';
-import Validation  from '../Validation/updateValidation';
+import Validation  from '../../../Validation/updateValidation';
 
 const  Update =() => {
     
