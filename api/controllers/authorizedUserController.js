@@ -16,6 +16,38 @@ const get_all_authorized_users = async (req, res) => {
     })
 }
 
+const get_only_deleted_authorized_users = async (req, res) => {
+    await authorizedUserModel.get_only_deleted_authorized_users()
+    .then(result => {
+        res.json({
+            success: true,
+            result
+        })
+    })
+    .catch(err => {
+        res.json({
+            success: false,
+            err
+        })
+    })
+}
+
+const get_only_active_authorized_users = async (req, res) => {
+    await authorizedUserModel.get_only_active_authorized_users()
+    .then(result => {
+        res.json({
+            success: true,
+            result
+        })
+    })
+    .catch(err => {
+        res.json({
+            success: false,
+            err
+        })
+    })
+}
+
 const get_authorized_user = async (req, res) => {
     const userID = req.params.id
     await authorizedUserModel.get_authorized_user(userID)
@@ -93,5 +125,7 @@ module.exports = {
     delete_authorized_users_by_id,
     update_authorized_user,
     register_authorized_users,
-    get_authorized_user
+    get_authorized_user,
+    get_only_active_authorized_users,
+    get_only_deleted_authorized_users
 }

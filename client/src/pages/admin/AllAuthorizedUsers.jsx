@@ -1,11 +1,23 @@
 import useFetch from "./useFetch";
 import axios from "axios"
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const AllAuthorizedUsers = () => {
 
+    const [searchParams, setSearchParams] = useSearchParams()
+    const filter = parseInt(searchParams.get("filter"))
+
     const navigate = useNavigate()
-    const { data, isPending, error } = useFetch("http://localhost:3001/api/authorized-user/all")
+    var data, isPending, error;
+    
+    if (filter === 1) {
+        ({ data, isPending, error } = useFetch("http://localhost:3001/api/authorized-user/all"))
+    } 
+    else if (filter === 2) {
+        ({ data, isPending, error } = useFetch("http://localhost:3001/api/authorized-user/onlyActive"))
+    } else {
+        ({ data, isPending, error } = useFetch("http://localhost:3001/api/authorized-user/onlyDeleted"))
+    }
 
     const handleDelete = (userID) => {
         if (window.confirm("are you sure, you want to delete this authorized user?") === true) {
@@ -23,9 +35,25 @@ const AllAuthorizedUsers = () => {
         navigate("../update-authorized-user/" + userID)
     }
 
+    const handleSelectQuery = (e) => {
+        if (parseInt(e.target.value) === 1) navigate("../all-authorized-users?filter=1")
+        else if (parseInt(e.target.value) === 2) navigate("../all-authorized-users?filter=2")
+        else navigate("../all-authorized-users?filter=3")
+    }
+
     return (
         <>
-            <h2 className="add-margin-top">All Authorized Users</h2>
+            <h2 className="add-margin-top">All Authorized Users</h2> <br />
+
+            <select className="form-select" aria-label="Default select example"
+                defaultValue={0}
+                onChange={(e) => handleSelectQuery(e)}>
+                <option value="0" disabled>Filter by:</option>
+                <option value="1"  >All</option>
+                <option value="2"  >Only Active</option>
+                <option value="3"  >Only Deleted</option>
+            </select> <br />
+
             {isPending && <p> Loading... </p>}
             {error && <p>Error occured: {error} </p>}
             {data && !data.success && <p>Error occured: {JSON.stringify(data.err)} </p>}
