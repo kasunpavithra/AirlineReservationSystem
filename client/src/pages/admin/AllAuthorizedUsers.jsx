@@ -37,6 +37,7 @@ const AllAuthorizedUsers = () => {
                             <th>Fisrt name</th>
                             <th>Last name</th>
                             <th>Email</th>
+                            <th>Type</th>
                             <th>Status</th>
                             <th></th>
                             <th></th>
@@ -44,14 +45,26 @@ const AllAuthorizedUsers = () => {
                     </thead>
                     <tbody>
                         {data.result.map(authorizedUser => (
-                            <tr key={authorizedUser.userID}>
+                            <tr key={authorizedUser.userID} className={authorizedUser.status === 0 ? "table-danger" : ""} >
                                 <td>{authorizedUser.userID}</td>
                                 <td>{authorizedUser.firstname}</td>
                                 <td>{authorizedUser.lastname}</td>
                                 <td>{authorizedUser.email}</td>
+                                <td>{authorizedUser.type === 1 ? "Manager" : "Admin"}</td>
                                 <td>{authorizedUser.status === 1 ? "Active" : "Deleted"}</td>
-                                <td><a className="btn btn-danger" onClick={() => handleDelete(authorizedUser.userID)}>Delete</a></td>
-                                <td><a className="btn btn-info" onClick={() => handleEdit(authorizedUser.userID)}>Edit</a></td>
+
+                                {!!authorizedUser.status &&
+                                    <>
+                                        <td><a className="btn btn-danger" onClick={() => handleDelete(authorizedUser.userID)}>Delete</a></td>
+                                        <td><a className="btn btn-info" onClick={() => handleEdit(authorizedUser.userID)}>Edit</a></td>
+                                    </>
+                                }
+                                {!authorizedUser.status &&
+                                    <>
+                                        <td></td>
+                                        <td></td>
+                                    </>
+                                }
                             </tr>
                         ))}
                     </tbody>

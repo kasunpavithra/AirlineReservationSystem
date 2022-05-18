@@ -13,6 +13,7 @@ const UpdateAuthorizedUser = () => {
     const [firstname, setfirstname] = useState("")
     const [lastname, setlastname] = useState("")
     const [email, setemail] = useState("")
+    const [type, settype] = useState(null)
     const [password, setpassword] = useState("")
     const [confirmPassword, setconfirmPassword] = useState("")
 
@@ -22,20 +23,21 @@ const UpdateAuthorizedUser = () => {
             .then(result => {
                 var data = result.data
                 if (data.success) {
-                    console.log(data.result);
-                    // setauthorizedUser(data.result[0])
-                    // setfirstname(data.result[0].firstname)
-                    // setlastname(data.result[0].lastname)
-                    // setemail(data.result[0].email)
-                    // setpassword(data.result[0].password)
-                    // setconfirmPassword(data.result[0].confirmPassword)
+                    setauthorizedUser(data.result[0])
+                    setfirstname(data.result[0].firstname)
+                    setlastname(data.result[0].lastname)
+                    setemail(data.result[0].email)
+                    settype(data.result[0].type)
+                    // console.log(typeof data.result[0].type, data.result[0].type);
+                    setpassword(data.result[0].password)
+                    setconfirmPassword(data.result[0].confirmPassword)
                 } else {
                     seterror(data.err)
                 }
                 setisPending(false)
             })
             .catch(err => {
-                console.log("Error when fetching authorized-user dataAAAAAAAAAAAAAAA: ", err);
+                console.log("Error when fetching authorized-user data: ", err);
                 seterror(err)
                 setisPending(false)
             })
@@ -45,7 +47,7 @@ const UpdateAuthorizedUser = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        
+
         //validation
         if (firstname.length > 255 || lastname.length > 255 || email.length > 255) {
             if (firstname.length > 255) {
@@ -61,16 +63,16 @@ const UpdateAuthorizedUser = () => {
             if (password !== confirmPassword) {
                 document.getElementById("invalid-confirmPassword").innerHTML = "Password and confirm password fields do not match"
             } else {
-                // var updatedRegCustomer = { ...authorizedUser, firstname, lastname, email, password }
-                // axios.put("http://localhost:3001/api/registered-customer/update", updatedRegCustomer)
-                //     .then(result => {
-                //         // console.log("YAYYY", result.data);
-                //         navigate("../all-registered-customers")
-                //     })
-                //     .catch(err => {
-                //         console.log("error: ", err);
-                //     })
-                console.log("YAYYYY");
+                var updatedAuthUser = { ...authorizedUser, firstname, lastname, email, password }
+                axios.put("http://localhost:3001/api/authorized-user/update", updatedAuthUser)
+                    .then(result => {
+                        console.log("YAYYY", result.data);
+                        navigate("../all-authorized-users")
+                    })
+                    .catch(err => {
+                        console.log("error: ", err);
+                    })
+                
             }
         }
     }
@@ -79,7 +81,7 @@ const UpdateAuthorizedUser = () => {
         <>
 
             {isPending && <p> Loading... </p>}
-            {error && <p> Error occuredddddddddddd: {error.message} </p>}
+            {error && <p> Error occured: {error.message} </p>}
             {authorizedUser &&
                 <>
                     <form onSubmit={(e) => handleSubmit(e)} className="needs-validation">
@@ -120,6 +122,59 @@ const UpdateAuthorizedUser = () => {
                                 onChange={(e) => setconfirmPassword(e.target.value)} />
                             <div className="invalid-div" id="invalid-confirmPassword"></div>
                         </div>
+
+                        {!!type &&
+                            <>
+                                <div className="form-check">
+                                    <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"
+                                        value="1"
+                                        onClick={(e) => settype(e.target.value)}
+                                        defaultChecked
+                                    />
+                                    <label className="form-check-label" htmlFor="flexRadioDefault1">
+                                        Manager
+                                    </label>
+                                </div>
+
+                                <div className="form-check">
+                                    <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
+                                        value="0"
+                                        onClick={(e) => settype(e.target.value)}
+
+                                    />
+                                    <label className="form-check-label" htmlFor="flexRadioDefault2">
+                                        Admin
+                                    </label>
+                                </div>
+                            </>
+                        }
+                        {!type &&
+                            <>
+                                <div className="form-check">
+                                    <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"
+                                        value="1"
+                                        onClick={(e) => settype(e.target.value)}
+                                        
+                                    />
+                                    <label className="form-check-label" htmlFor="flexRadioDefault1">
+                                        Manager
+                                    </label>
+                                </div>
+
+                                <div className="form-check">
+                                    <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
+                                        value="0"
+                                        onClick={(e) => settype(e.target.value)}
+                                        defaultChecked
+                                    />
+                                    <label className="form-check-label" htmlFor="flexRadioDefault2">
+                                        Admin
+                                    </label>
+                                </div>
+                            </>
+                        }
+                        <br />
+
                         <button className="btn btn-primary" type="submit">Update</button>
                     </form>
                 </>

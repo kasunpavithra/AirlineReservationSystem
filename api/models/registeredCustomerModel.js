@@ -16,7 +16,7 @@ const get_all_customers = () => {
 
 const delete_customers_by_id = (userID) => {
     return new Promise((resolve, reject) => {
-        var sql = "DELETE FROM registeredcustomer WHERE userID=?;"
+        var sql = "UPDATE registeredcustomer SET status=0 WHERE userID=?;"
         db.query(sql, userID ,(err, result) => {
             if (err) {
                 return reject(err)

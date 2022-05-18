@@ -31,7 +31,7 @@ const get_authorized_user = (userID) => {
 
 const delete_authorized_users_by_id = (userID) => {
     return new Promise((resolve, reject) => {
-        var sql = "DELETE FROM authorizeduser WHERE userID=?;"
+        var sql = "UPDATE authorizeduser SET status=0 WHERE userID=?;"
         db.query(sql, userID, (err, result) => {
             if (err) {
                 return reject(err)

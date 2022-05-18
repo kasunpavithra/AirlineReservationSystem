@@ -11,10 +11,10 @@ const AllRegisteredCustomers = () => {
     const handleDelete = (userID) => {
         if (window.confirm("are you sure, you want to delete this registered customer?") === true) {
             axios.delete("http://localhost:3001/api/registered-customer/delete/" + userID)
-            .then(result => {
-                window.location.reload(false);
-            })
-            .catch(err => console.log(err))
+                .then(result => {
+                    window.location.reload(false);
+                })
+                .catch(err => console.log(err))
         } else {
             return
         }
@@ -35,7 +35,7 @@ const AllRegisteredCustomers = () => {
                 <table className="table table-hover">
                     <thead>
                         <tr>
-                            <th>UserIDQQQQQQQQQQQQQQQQQQ</th>
+                            <th>UserID</th>
                             <th>Fisrt name</th>
                             <th>Last name</th>
                             <th>Email</th>
@@ -46,14 +46,25 @@ const AllRegisteredCustomers = () => {
                     </thead>
                     <tbody>
                         {data.result.map(registeredCustomer => (
-                            <tr key={registeredCustomer.userID}>
+                            <tr key={registeredCustomer.userID} className={registeredCustomer.status === 0 ? "table-danger" : ""}>
                                 <td>{registeredCustomer.userID}</td>
                                 <td>{registeredCustomer.firstname}</td>
                                 <td>{registeredCustomer.lastname}</td>
                                 <td>{registeredCustomer.email}</td>
                                 <td>{registeredCustomer.status === 1 ? "Active" : "Deleted"}</td>
-                                <td><a className="btn btn-danger" onClick={() => handleDelete(registeredCustomer.userID)}>Delete</a></td>
-                                <td><a className="btn btn-info" onClick={() => handleEdit(registeredCustomer.userID)} >Edit</a></td>
+
+                                {!!registeredCustomer.status &&
+                                    <>
+                                        <td><a className="btn btn-danger" onClick={() => handleDelete(registeredCustomer.userID)}>Delete</a></td>
+                                        <td><a className="btn btn-info" onClick={() => handleEdit(registeredCustomer.userID)} >Edit</a></td>
+                                    </>
+                                }
+                                {!registeredCustomer.status &&
+                                    <>
+                                        <td></td>
+                                        <td></td>
+                                    </>
+                                }
                             </tr>
                         ))}
                     </tbody>
