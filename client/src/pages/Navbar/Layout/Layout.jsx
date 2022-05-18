@@ -12,10 +12,7 @@ const Layout = () => {
             <Link to="/"> Home</Link>
           </li>
           <li>
-            <Link to="/blogs"> Blog </Link>
-          </li>
-          <li>
-            <Link to="/contact"> Contact RRRRRRR </Link>
+            <Link to="/contact"> Contact </Link>
           </li>
           <li>
             <Link to="/login"> Login </Link>
