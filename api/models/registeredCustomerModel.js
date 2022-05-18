@@ -14,6 +14,32 @@ const get_all_customers = () => {
     })
 }
 
+const get_only_active_customers = () => {
+    return new Promise((resolve, reject) => {
+        var sql = "SELECT * FROM registeredcustomer WHERE status=1 ORDER BY userID;"
+        db.query(sql, (err, result) => {
+            if (err) {
+                return reject(err)
+            } else {
+                return resolve(result);
+            }
+        })
+    })
+}
+
+const get_only_deleted_customers = () => {
+    return new Promise((resolve, reject) => {
+        var sql = "SELECT * FROM registeredcustomer WHERE status=0 ORDER BY userID;"
+        db.query(sql, (err, result) => {
+            if (err) {
+                return reject(err)
+            } else {
+                return resolve(result);
+            }
+        })
+    })
+}
+
 const delete_customers_by_id = (userID) => {
     return new Promise((resolve, reject) => {
         var sql = "UPDATE registeredcustomer SET status=0 WHERE userID=?;"
@@ -75,5 +101,7 @@ module.exports = {
     delete_customers_by_id,
     update_customer,
     get_customer_by_id,
-    register_customer
+    register_customer,
+    get_only_active_customers,
+    get_only_deleted_customers
 }

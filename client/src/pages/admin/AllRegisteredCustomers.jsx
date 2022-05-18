@@ -1,12 +1,24 @@
 import useFetch from "./useFetch";
 import axios from 'axios'
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const AllRegisteredCustomers = () => {
 
-    const navigate = useNavigate()
+    const [searchParams, setSearchParams] = useSearchParams();
+    const filter = parseInt(searchParams.get("filter"))
 
-    const { data, isPending, error } = useFetch("http://localhost:3001/api/registered-customer/all")
+    const navigate = useNavigate()
+    var data, isPending, error;
+    // ({ data, isPending, error } = useFetch("http://localhost:3001/api/registered-customer/all"))
+
+    if (filter === 1) {
+        ({ data, isPending, error } = useFetch("http://localhost:3001/api/registered-customer/all"))
+    }
+    else if (filter === 2) {
+        ({ data, isPending, error } = useFetch("http://localhost:3001/api/registered-customer/onlyActive"))
+    } else {
+        ({ data, isPending, error } = useFetch("http://localhost:3001/api/registered-customer/onlyDeleted"))
+    }
 
     const handleDelete = (userID) => {
         if (window.confirm("are you sure, you want to delete this registered customer?") === true) {
@@ -24,9 +36,25 @@ const AllRegisteredCustomers = () => {
         navigate("../update-registered-customer/" + userID)
     }
 
+    const handleSelectQuery = (e) => {
+        if (parseInt(e.target.value) === 1) navigate("../all-registered-customers?filter=1")
+        else if (parseInt(e.target.value) === 2) navigate("../all-registered-customers?filter=2")
+        else navigate("../all-registered-customers?filter=3")
+    }
+
     return (
         <>
             <h2 className="add-margin-top">All Registered Customers</h2>
+
+            <select className="form-select" aria-label="Default select example"
+                defaultValue={0}
+                onChange={(e) => handleSelectQuery(e)}>
+                <option value="0" disabled>Filter by:</option>
+                <option value="1"  >All</option>
+                <option value="2"  >Only Active</option>
+                <option value="3"  >Only Deleted</option>
+            </select>
+
             <br />
             {isPending && <p> Loading... </p>}
             {error && <p>Error occured: {error} </p>}
@@ -46,6 +74,7 @@ const AllRegisteredCustomers = () => {
                     </thead>
                     <tbody>
                         {data.result.map(registeredCustomer => (
+
                             <tr key={registeredCustomer.userID} className={registeredCustomer.status === 0 ? "table-danger" : ""}>
                                 <td>{registeredCustomer.userID}</td>
                                 <td>{registeredCustomer.firstname}</td>

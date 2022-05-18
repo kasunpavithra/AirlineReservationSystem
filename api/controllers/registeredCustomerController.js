@@ -17,6 +17,40 @@ const get_all_customers = async (req, res) => {
     })
 }
 
+const get_only_active_customers = async (req, res) => {
+    await registeredCustomerModel.get_only_active_customers()
+    .then(result => {
+        res.json({
+            success: true,
+            result 
+        })
+    })
+    .catch(err => {
+        console.log("ERROR WHEN FETCHING ONLY-ACTIVE CUSTOMERS: "+err);
+        res.json({
+            success: false,
+            err
+        })
+    })
+}
+
+const get_only_deleted_customers = async (req, res) => {
+    await registeredCustomerModel.get_only_deleted_customers()
+    .then(result => {
+        res.json({
+            success: true,
+            result 
+        })
+    })
+    .catch(err => {
+        console.log("ERROR WHEN FETCHING ONLY-DELETED CUSTOMERS: "+err);
+        res.json({
+            success: false,
+            err
+        })
+    })
+}
+
 const delete_customers_by_id = async (req, res) => {
     const userID = req.params.id
     await registeredCustomerModel.delete_customers_by_id(userID)
@@ -98,5 +132,7 @@ module.exports = {
     delete_customers_by_id,
     update_customer,
     get_customer_by_id,
-    register_customer
+    register_customer,
+    get_only_active_customers,
+    get_only_deleted_customers
 }
