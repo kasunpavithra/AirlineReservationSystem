@@ -16,9 +16,48 @@ const get_all_authorized_users = () => {
     })
 }
 
+const get_only_deleted_authorized_users = () => {
+    return new Promise((resolve, reject) => {
+        var sql = "SELECT * FROM authorizeduser WHERE status=0 ORDER BY userID;"
+        db.query(sql, (err, result) => {
+            if (err) {
+                return reject(err)
+            } else {
+                return resolve(result);
+            }
+        })
+    })
+}
+
+const get_only_active_authorized_users = () => {
+    return new Promise((resolve, reject) => {
+        var sql = "SELECT * FROM authorizeduser WHERE status=1 ORDER BY userID;"
+        db.query(sql, (err, result) => {
+            if (err) {
+                return reject(err)
+            } else {
+                return resolve(result);
+            }
+        })
+    })
+}
+
+const get_authorized_user = (userID) => {
+    return new Promise((resolve, reject) => {
+        var sql = "SELECT * FROM authorizeduser WHERE userID=?;"
+        db.query(sql, userID, (err, result) => {
+            if (err) {
+                return reject(err)
+            } else {
+                return resolve(result);
+            }
+        })
+    })
+}
+
 const delete_authorized_users_by_id = (userID) => {
     return new Promise((resolve, reject) => {
-        var sql = "DELETE FROM authorizeduser WHERE userID=?;"
+        var sql = "UPDATE authorizeduser SET status=0 WHERE userID=?;"
         db.query(sql, userID, (err, result) => {
             if (err) {
                 return reject(err)
@@ -63,5 +102,8 @@ module.exports = {
     get_all_authorized_users,
     delete_authorized_users_by_id,
     update_authorized_user,
-    register_authorized_users
+    register_authorized_users,
+    get_authorized_user,
+    get_only_active_authorized_users,
+    get_only_deleted_authorized_users
 }

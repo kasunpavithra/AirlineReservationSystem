@@ -65,7 +65,7 @@ const CreateAuthorizedUser = () => {
     return (
         <>
             <br />
-            <h2>Create Authorized User</h2>
+            <h2>Create Authorized User </h2>
             {error &&
                 <div className="invalid-div">
                     ERROR OCCURED: {error}
