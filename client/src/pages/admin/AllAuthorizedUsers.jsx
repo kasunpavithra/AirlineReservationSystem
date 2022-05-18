@@ -10,13 +10,13 @@ const AllAuthorizedUsers = () => {
     const navigate = useNavigate()
     var data, isPending, error;
     
-    if (filter === 1) {
-        ({ data, isPending, error } = useFetch("http://localhost:3001/api/authorized-user/all"))
+    if (filter === 3) {
+        ({ data, isPending, error } = useFetch("http://localhost:3001/api/authorized-user/onlyDeleted"))
     } 
     else if (filter === 2) {
         ({ data, isPending, error } = useFetch("http://localhost:3001/api/authorized-user/onlyActive"))
     } else {
-        ({ data, isPending, error } = useFetch("http://localhost:3001/api/authorized-user/onlyDeleted"))
+        ({ data, isPending, error } = useFetch("http://localhost:3001/api/authorized-user/all"))
     }
 
     const handleDelete = (userID) => {

@@ -67,7 +67,7 @@ const UpdateAuthorizedUser = () => {
                 axios.put("http://localhost:3001/api/authorized-user/update", updatedAuthUser)
                     .then(result => {
                         console.log("YAYYY", result.data);
-                        navigate("../all-authorized-users")
+                        navigate("../all-authorized-users?filter=1")
                     })
                     .catch(err => {
                         console.log("error: ", err);
