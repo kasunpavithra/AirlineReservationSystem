@@ -1,10 +1,51 @@
 const db = require("../db/db")
 const bcrypt = require("bcrypt")
 
+//type: 0 for admin , 1 for manager
+
 const get_all_authorized_users = () => {
     return new Promise((resolve, reject) => {
-        var sql = "SELECT * FROM authorizeduser;"
+        var sql = "SELECT * FROM authorizeduser ORDER BY userID;"
         db.query(sql, (err, result) => {
+            if (err) {
+                return reject(err)
+            } else {
+                return resolve(result);
+            }
+        })
+    })
+}
+
+const get_only_deleted_authorized_users = () => {
+    return new Promise((resolve, reject) => {
+        var sql = "SELECT * FROM authorizeduser WHERE status=0 ORDER BY userID;"
+        db.query(sql, (err, result) => {
+            if (err) {
+                return reject(err)
+            } else {
+                return resolve(result);
+            }
+        })
+    })
+}
+
+const get_only_active_authorized_users = () => {
+    return new Promise((resolve, reject) => {
+        var sql = "SELECT * FROM authorizeduser WHERE status=1 ORDER BY userID;"
+        db.query(sql, (err, result) => {
+            if (err) {
+                return reject(err)
+            } else {
+                return resolve(result);
+            }
+        })
+    })
+}
+
+const get_authorized_user = (userID) => {
+    return new Promise((resolve, reject) => {
+        var sql = "SELECT * FROM authorizeduser WHERE userID=?;"
+        db.query(sql, userID, (err, result) => {
             if (err) {
                 return reject(err)
             } else {
@@ -16,7 +57,7 @@ const get_all_authorized_users = () => {
 
 const delete_authorized_users_by_id = (userID) => {
     return new Promise((resolve, reject) => {
-        var sql = "DELETE FROM authorizeduser WHERE userID=?;"
+        var sql = "UPDATE authorizeduser SET status=0 WHERE userID=?;"
         db.query(sql, userID, (err, result) => {
             if (err) {
                 return reject(err)
@@ -42,8 +83,27 @@ const update_authorized_user = (userData) => {
     })
 }
 
+const register_authorized_users = (userData) => {
+    return new Promise((resolve, reject) => {
+        var sql = "INSERT INTO authorizeduser (firstname, lastname, email, password, address, status, type, image) VALUES (?,?,?,?,?,?,?,?);"
+        const hash = bcrypt.hashSync(userData.password, 9)
+        const valueSet = [userData.firstname, userData.lastname, userData.email, hash, userData.address, userData.status, userData.type, userData.image]
+        db.query(sql, valueSet ,(err, result) => {
+            if (err) {
+                return reject(err)
+            } else {
+                return resolve(result);
+            }
+        })
+    })
+}
+
 module.exports = {
     get_all_authorized_users,
     delete_authorized_users_by_id,
-    update_authorized_user
+    update_authorized_user,
+    register_authorized_users,
+    get_authorized_user,
+    get_only_active_authorized_users,
+    get_only_deleted_authorized_users
 }

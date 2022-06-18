@@ -1,3 +1,7 @@
 .add-margin-top {
     margin-top: 35px;
 }
+
+.invalid-div {
+    color: red;
+}

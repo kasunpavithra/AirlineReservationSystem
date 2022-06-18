@@ -1,17 +1,24 @@
 const siteModel = require("../models/registerModel");
 // const CryptoJS = require("crypto-js");
 const bcrypt = require('bcrypt');
+const { json } = require("express");
 
 const registerUser = async (req, res) => {
     const saltRounds = 9;
-    bcrypt.hash(req.body["password"], saltRounds,async (err, hash) => {
-        if(err){
-            res.status(500).send({success:false,err:err})
+    bcrypt.hash(req.body["password"], saltRounds, async (err, hash) => {
+        if (err) {
+            res.json({success:false,err:err.message});
         }
         const userInfo = { ...(req.body), ["password"]: hash };
-        const success = await siteModel.registerUser(userInfo);
-        if (success===true) res.status(200).json({ success: true });
-        else res.send({ success: false, err:success });
+
+        try {
+            const success = await siteModel.registerUser(userInfo);
+            if (success) res.json({success:true})
+        }
+        catch (err) {
+            res.json({success:false,err:err.message});
+        }
+
     });
 
 }
