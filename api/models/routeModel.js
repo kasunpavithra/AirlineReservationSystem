@@ -12,7 +12,20 @@ const getAllRoutes = () => {
     });
   });
 };
-
+const getRoutePrices = (routeID) => {
+  return new Promise((resolve, reject) => {
+    var sql =
+      "SELECT * FROM ROUTE NATURAL JOIN CLASSPRICE,CLASS WHERE CLASSPRICE.CLASSID=CLASS.CLASSID AND ROUTEID=?";
+    db.query(sql, routeID, (err, result) => {
+      if (err) {
+        return reject(err);
+      } else {
+        return resolve(result);
+      }
+    });
+  });
+};
 module.exports = {
   getAllRoutes,
+  getRoutePrices,
 };

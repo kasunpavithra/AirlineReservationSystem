@@ -1,8 +1,8 @@
-const routeModel = require("../models/routeModel");
+const airCraftModel = require("../models/airCraftModel");
 
-const getAllRoutes = async (req, res) => {
-  await routeModel
-    .getAllRoutes()
+const getAirCraftByRoute = async (req, res) => {
+  await airCraftModel
+    .getAirCraftByRoute(req.query)
     .then((result) => {
       res.json({
         success: true,
@@ -16,10 +16,10 @@ const getAllRoutes = async (req, res) => {
       });
     });
 };
-const getRoutePrices = async (req, res) => {
-  const routeID = req.params.routeID;
-  await routeModel
-    .getRoutePrices(routeID)
+const getAirCraftByFlight = async (req, res) => {
+  
+  await airCraftModel
+    .getAirCraftByFlight(req.query)
     .then((result) => {
       res.json({
         success: true,
@@ -33,4 +33,4 @@ const getRoutePrices = async (req, res) => {
       });
     });
 };
-module.exports = { getAllRoutes, getRoutePrices };
+module.exports = { getAirCraftByRoute, getAirCraftByFlight };

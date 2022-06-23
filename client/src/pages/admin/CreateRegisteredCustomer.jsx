@@ -103,7 +103,7 @@ const CreateRegisteredCustomer = () => {
                         onChange={(e) => setconfirmPassword(e.target.value)} />
                     <div className="invalid-div" id="invalid-confirmPassword"></div>
                 </div>
-                <button className="btn btn-primary" type="submit">Update</button>
+                <button className="btn btn-primary" type="submit">Create</button>
             </form>
         </>
     );
