@@ -63,7 +63,8 @@ const UpdateAuthorizedUser = () => {
             if (password !== confirmPassword) {
                 document.getElementById("invalid-confirmPassword").innerHTML = "Password and confirm password fields do not match"
             } else {
-                var updatedAuthUser = { ...authorizedUser, firstname, lastname, email, password }
+                var updatedAuthUser = { ...authorizedUser, firstname, lastname, email, password, type }
+                // console.log(type)
                 axios.put("http://localhost:3001/api/authorized-user/update", updatedAuthUser)
                     .then(result => {
                         console.log("YAYYY", result.data);

@@ -1,38 +1,57 @@
-import { Routes, Route, NavLink } from "react-router-dom";
+import AdminNavbar from "./AdminNavbar";
+import { Routes, Route } from "react-router-dom";
 import AllRegisteredCustomers from "./AllRegisteredCustomers";
 import CreateAuthorizedUser from "./CreateAuthorizedUser";
 import CreateRegisteredCustomer from "./CreateRegisteredCustomer";
-import './admin.css'
 import AllAuthorizedUsers from "./AllAuthorizedUsers";
 import UpdateRegisteredCustomer from "./UpdateRegisteredCustomer";
 import UpdateAuthorizedUser from "./UpdateAuthorizedUser";
-import AdminPanel from "./AdminPanel";
+import AdminDashboardContent from "./AdminDashboardContent";
+import './admin.css'
 
 const AdminDashboard = () => {
     return (
-        <div className="container">
-            <Routes>
-                <Route path="/all-registered-customers" element={<AllRegisteredCustomers />} />
-                <Route path="/all-authorized-users" element={<AllAuthorizedUsers />} />
-                <Route path="/create-authorized-user" element={<CreateAuthorizedUser />} />
-                <Route path="/create-registered-customer" element={<CreateRegisteredCustomer />} />
-                <Route path="/update-registered-customer/:id" element={<UpdateRegisteredCustomer />} />
-                <Route path="/update-authorized-user/:id" element={<UpdateAuthorizedUser />} />
-                <Route path="/admin-panel" element={<AdminPanel />} />
-            </Routes>
+        <>
+            <AdminNavbar />
+            <div className="container-fluid">
+                <div className="row">
+                    <div className="col-sm-4 col-lg-3" >
+                        <h3 className="mt-4">B-Airways</h3>
+                        <ul className="nav nav-pills flex-column">
+                            <li className="nav-item">
+                                <a className="nav-link" href="/admin">Admin-Dashboard</a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link" href="/admin/all-registered-customers">all-registered-customers</a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link" href="/admin/all-authorized-users">all-authorized-users</a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link" href="/admin/create-authorized-user">create-authorized-user</a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link" href="/admin/create-registered-customer">create-registered-customer</a>
+                            </li>
+                        </ul>
+                        <hr className="d-sm-none" />
+                    </div>
 
-            <h2 className="add-margin-top">Welcome Admin</h2>
 
-            <ul>
-                <li><NavLink to='/admin/all-registered-customers?filter=1' >all-registered-customers</NavLink></li>
-                <li><NavLink to='/admin/all-authorized-users?filter=1' >all-authorized-users</NavLink></li>
-                <li><NavLink to='/admin/create-authorized-user' >create-authorized-user</NavLink></li>
-                <li><NavLink to='/admin/create-registered-customer' >create-registered-customer</NavLink></li>
-                <li><NavLink to='/admin/admin-panel' >admin-panel</NavLink></li>
-            </ul>
-
-            
-        </div>
+                    <div className="col-sm-8 col-lg-9">
+                        <Routes>
+                            <Route exact path="/" element={<AdminDashboardContent />} />
+                            <Route exact path="/all-registered-customers" element={<AllRegisteredCustomers />} />
+                            <Route exact path="/all-authorized-users" element={<AllAuthorizedUsers />} />
+                            <Route exact path="/create-authorized-user" element={<CreateAuthorizedUser />} />
+                            <Route exact path="/create-registered-customer" element={<CreateRegisteredCustomer />} />
+                            <Route exact path="/update-registered-customer/:id" element={<UpdateRegisteredCustomer />} />
+                            <Route exact path="/update-authorized-user/:id" element={<UpdateAuthorizedUser />} />
+                        </Routes>
+                    </div>
+                </div>
+            </div>
+        </>
     );
 }
 
