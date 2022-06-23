@@ -45,7 +45,7 @@ const CreateRegisteredCustomer = () => {
                 axios.post("http://localhost:3001/api/registered-customer/register", newRegCustomer)
                     .then(result => {
                         if (result.data.success) {
-                            navigate("../all-registered-customers")
+                            navigate("../all-registered-customers?filter=1")
                         } else {
                             seterror(result.data.err.sqlMessage)
                         }
