@@ -7,5 +7,10 @@
 }
 
 .admin-panel {
-    background-color: lightgray;
+    background-color: #add8e6;
+    padding-bottom: 140px;
+}
+
+.admin-panel .active{
+    color: aqua;
 }

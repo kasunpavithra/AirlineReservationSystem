@@ -4,7 +4,7 @@ const AdminNavbar = () => {
     return (
         <>
             {/* <!-- A grey horizontal navbar that becomes vertical on small screens --> */}
-            <nav className="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
+            <nav className="navbar navbar-expand-sm navbar-dark bg-primary fixed-top">
                 <div className="container-fluid">
                     <a className="navbar-brand" href="#">Admin-Panel</a>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
@@ -25,7 +25,8 @@ const AdminNavbar = () => {
                         <form className="d-flex">
                             {/* <input className="form-control me-2" type="text" placeholder="Search" />
                                 <button className="btn btn-primary" type="button">Search</button> */}
-                            <a className="nav-link" href="#">Signout</a>
+                            {/* <a className="nav-link" href="#">Signout</a> */}
+                            <a className='btn btn-dark'>Signout</a>
                         </form>
                     </div>
                 </div>
