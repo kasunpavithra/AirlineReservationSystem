@@ -65,7 +65,7 @@ const UpdateRegisteredCustomer = () => {
                 axios.put("http://localhost:3001/api/registered-customer/update", updatedRegCustomer)
                     .then(result => {
                         // console.log("YAYYY", result.data);
-                        navigate("../all-registered-customers")
+                        navigate("../all-registered-customers?filter=1")
                     })
                     .catch(err => {
                         console.log("error: ", err);

@@ -11,13 +11,13 @@ const AllRegisteredCustomers = () => {
     var data, isPending, error;
     // ({ data, isPending, error } = useFetch("http://localhost:3001/api/registered-customer/all"))
 
-    if (filter === 1) {
-        ({ data, isPending, error } = useFetch("http://localhost:3001/api/registered-customer/all"))
+    if (filter === 3) {
+        ({ data, isPending, error } = useFetch("http://localhost:3001/api/registered-customer/onlyDeleted"))
     }
     else if (filter === 2) {
         ({ data, isPending, error } = useFetch("http://localhost:3001/api/registered-customer/onlyActive"))
     } else {
-        ({ data, isPending, error } = useFetch("http://localhost:3001/api/registered-customer/onlyDeleted"))
+        ({ data, isPending, error } = useFetch("http://localhost:3001/api/registered-customer/all"))
     }
 
     const handleDelete = (userID) => {

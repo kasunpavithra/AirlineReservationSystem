@@ -49,7 +49,7 @@ const CreateAuthorizedUser = () => {
                 axios.post("http://localhost:3001/api/authorized-user/register", newAuthorizedUser)
                     .then(result => {
                         if (result.data.success) {
-                            navigate("../all-authorized-users")
+                            navigate("../all-authorized-users?filter=1")
                         } else {
                             seterror(result.data.err.sqlMessage)
                         }
@@ -111,8 +111,10 @@ const CreateAuthorizedUser = () => {
 
                 <div className="mb-3 mt-3">
                     {/* <label htmlFor="type">Select type:</label> */}
-                    <select className="form-select" name="type" id="type" aria-label="Default select example" onClick={(e) => settype(e.target.value)} required>
-                        <option selected disabled>Select type:</option>
+                    <select className="form-select" name="type" id="type" aria-label="Default select example" 
+                    defaultValue={2}
+                    onClick={(e) => settype(e.target.value)} required>
+                        <option disabled value="2">Select type:</option>
                         <option value="1">Manager</option>
                         <option value="0">Admin</option>
                     </select>
