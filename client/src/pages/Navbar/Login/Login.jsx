@@ -14,7 +14,7 @@ function Login() {
       // console.log(response);
       if (response){
         if(response.data.auth){
-          console.log(response.data.token);
+          // console.log(response.data.token);
           localStorage.setItem("token",response.data.token);
 
           navigate("/home", { replace: true });
