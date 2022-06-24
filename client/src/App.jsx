@@ -52,11 +52,10 @@ function App() {
           {/* Layout Router paths */}
           <Route path="/" element={<Layout />}>
             {/* Auth required routes*/}
-            <Route index element={<RequireAuth><Home/></RequireAuth>}/>
-            <Route exact path="contact"  element={<RequireAuth><Contact/></RequireAuth>}/>
-            <Route exact path="/home"     element={<RequireAuth><Home /></RequireAuth>}/>
 
-            <Route exact path="/login"    element={<Login />} />
+            <Route index element={<RequireAuth><Home /></RequireAuth>} />
+            <Route exact path="contact" element={<RequireAuth><Contact /></RequireAuth>} />
+            <Route exact path="/home" element={<RequireAuth><Home /></RequireAuth>} />
 
             <Route exact path="*"         element={<NoPage />} />
             <Route exact path="/register" element={<Register/>}/>
@@ -64,15 +63,14 @@ function App() {
             <Route exact path="/update"   element={<Update/>} />
             <Route exact path="/bookSeat"   element={<BookSeat/>} />
             <Route exact path="/manager"   element={<Manager/>} />
+            <Route exact path="/login" element={<Login />} />
 
+            {/* User routes */}
 
           </Route>
-            {/* Other routes */}
-            <Route exact path="/admin/*"  element={<AdminDashboard />} />
-            
-
-
-
+          {/* Other routes */}
+          <Route exact path="/admin/*" element={<AdminDashboard />} />
+          
 
           {/* {localStorage.getItem("token") ? (
             <Route exact path="blogs" element={<Blogs />} />
