@@ -10,6 +10,10 @@ import { AuthProvider, useAuth } from "./utils/auth";
 import { RequireAuth } from "./utils/RequireAuth";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import BookSeat from "./pages/User/BookSeat/BookSeat";
+import Manager from "./pages/Manager/Manager"
+import {ToastContainer} from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
+
 function App() {
   const auth = useAuth();
 
@@ -30,6 +34,18 @@ function App() {
   };
 
   return (
+    <div>
+       <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     <AuthProvider>
       <BrowserRouter>
         <Routes>
@@ -47,6 +63,7 @@ function App() {
             {/* User routes */}
             <Route exact path="/update"   element={<Update/>} />
             <Route exact path="/bookSeat"   element={<BookSeat/>} />
+            <Route exact path="/manager"   element={<Manager/>} />
 
 
           </Route>
@@ -67,6 +84,7 @@ function App() {
         </Routes>
       </BrowserRouter>
     </AuthProvider>
+    </div>
   );
 }
 
