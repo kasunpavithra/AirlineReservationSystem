@@ -1,7 +1,5 @@
 const siteModel = require("../models/registerModel");
-// const CryptoJS = require("crypto-js");
 const bcrypt = require('bcrypt');
-const { json } = require("express");
 
 const registerUser = async (req, res) => {
     const saltRounds = 9;

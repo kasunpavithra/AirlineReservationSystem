@@ -37,6 +37,7 @@ function App() {
           {/* Layout Router paths */}
           <Route path="/" element={<Layout />}>
             {/* Auth required routes*/}
+
             <Route index element={<RequireAuth><Home /></RequireAuth>} />
             <Route exact path="contact" element={<RequireAuth><Contact /></RequireAuth>} />
             <Route exact path="/home" element={<RequireAuth><Home /></RequireAuth>} />
