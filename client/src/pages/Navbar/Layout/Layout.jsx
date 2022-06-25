@@ -27,7 +27,7 @@ const Layout = () => {
       </nav>
       <Outlet />
 
-      {!auth.user && <Link to="/login"> LogoutHere </Link>}
+      {!auth.user && <Link onClick={auth.logout} to="/login"> LogoutHere </Link>}
     </>
   );
 };
