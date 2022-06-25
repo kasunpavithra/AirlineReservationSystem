@@ -15,7 +15,20 @@
     color: aqua;
 }
 
-svg.bi.bi-cloud-arrow-down {
+/* svg.bi.bi-cloud-arrow-down {
     height: 80px !important;
     width: 80px !important;
+} */
+
+.admin-card-link {
+    text-decoration: solid;
+}
+
+.admin-card-link:hover {
+    color: hotpink;
+}
+
+.margin-left-top {
+    margin-left: 30px;
+    margin-top: 8px;
 }

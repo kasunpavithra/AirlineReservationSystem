@@ -44,13 +44,15 @@ const AdminDashboard = () => {
 
                     <div className="col-sm-8 col-lg-9">
                         <Routes>
-                            <Route exact path="/dashboard-content" element={<AdminDashboardContent />} />
+                            
                             <Route exact path="/all-registered-customers" element={<AllRegisteredCustomers />} />
                             <Route exact path="/all-authorized-users" element={<AllAuthorizedUsers />} />
                             <Route exact path="/create-authorized-user" element={<CreateAuthorizedUser />} />
                             <Route exact path="/create-registered-customer" element={<CreateRegisteredCustomer />} />
                             <Route exact path="/update-registered-customer/:id" element={<UpdateRegisteredCustomer />} />
                             <Route exact path="/update-authorized-user/:id" element={<UpdateAuthorizedUser />} />
+                            <Route exact path="/dashboard-content" element={<AdminDashboardContent />} />
+                            <Route exact path="/*" element={<AdminDashboardContent />} />
                         </Routes>
                     </div>
                 </div>
