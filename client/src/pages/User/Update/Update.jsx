@@ -20,7 +20,8 @@ const  Update =() => {
     }
     const [state,setState]=React.useState(formValues);
     const [errordata,setError]=React.useState(formValues);
-    const [base64_img, setBase64Img] = React.useState("");
+    const [img, setImg] = React.useState();
+    const [imgname, setImgName] = React.useState("");
     const [img_err, setImgErr] = React.useState("");
     const navigate = useNavigate();
         
@@ -40,14 +41,16 @@ const  Update =() => {
         var fileInput = document.getElementById("file");
         if (Validation.imageValidation(fileInput)) {
           // Image preview
+          console.log(fileInput.files);
           if (fileInput.files && fileInput.files[0]) {
             var reader = new FileReader();
             reader.onload = function (e) {
               document.getElementById("imagePreview").innerHTML =
                 '<img width="200" height="200" src="' + e.target.result + '"/>';
-              setBase64Img(reader.result.replace("data:", "").replace(/^.+,/, ""));
+            //   setImg(reader.result.replace("data:", "").replace(/^.+,/, ""));
+            setImg(fileInput.files[0]);
+            setImgName(fileInput.files[0].name);
             };
-    
             reader.readAsDataURL(fileInput.files[0]);
           }
         }
@@ -105,7 +108,8 @@ const  Update =() => {
                     formData.append("Contact Number", state['Contact Number']);
                     formData.append("Email", state['Email']);
                     formData.append("Birthday", state['Birthday']);
-                    formData.append("image_string", base64_img);
+                    formData.append("Image", img);
+                    formData.append("ImageName", imgname);
                     // const response = await ExaminerServices.dotest(formData);
                     // if (response.status === 200) {
                     // Messages.SuccessMessage("User updated successfully");
@@ -132,7 +136,7 @@ const  Update =() => {
     <div>
     <div className='form-container col-xl-5 mt-2 pt-4 mx-auto '>
         
-        <h1 className='fs-1 text-primary mb-5'>Update Account </h1>
+        <h1 className='fs-1 text-primary mb-3'>Update Account </h1>
          <Form onSubmit={handleSubmit} >
             <Form.Group  className=" fw-bold  col-xl-12 mb-3 mx-auto">
             <div className="preview" id="imagePreview">

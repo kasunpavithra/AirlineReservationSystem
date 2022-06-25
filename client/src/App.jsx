@@ -10,7 +10,7 @@ import { AuthProvider, useAuth } from "./utils/auth";
 import { RequireAuth } from "./utils/RequireAuth";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import BookSeat from "./pages/User/BookSeat/BookSeat";
-import Manager from "./pages/Manager/Manager"
+import ManagerDashboard from "./pages/Manager/ManagerDashboard"
 import {ToastContainer} from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.css';
 
@@ -62,7 +62,7 @@ function App() {
             {/* User routes */}
             <Route exact path="/update"   element={<Update/>} />
             <Route exact path="/bookSeat"   element={<BookSeat/>} />
-            <Route exact path="/manager"   element={<Manager/>} />
+            <Route exact path="/manager/*"   element={<ManagerDashboard/>} />
             <Route exact path="/login" element={<Login />} />
 
             {/* User routes */}
