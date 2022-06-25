@@ -98,6 +98,19 @@ const register_authorized_users = (userData) => {
     })
 }
 
+const get_total_authorized_users = () => {
+    return new Promise((resolve, reject) => {
+        var sql = "SELECT COUNT(*) AS total from authorizeduser;"
+        db.query(sql, (err, result) => {
+            if (err) {
+                return reject(err)
+            } else {
+                return resolve(result);
+            }
+        })
+    })
+}
+
 module.exports = {
     get_all_authorized_users,
     delete_authorized_users_by_id,
@@ -105,5 +118,6 @@ module.exports = {
     register_authorized_users,
     get_authorized_user,
     get_only_active_authorized_users,
-    get_only_deleted_authorized_users
+    get_only_deleted_authorized_users,
+    get_total_authorized_users
 }

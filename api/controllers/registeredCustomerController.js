@@ -127,6 +127,23 @@ const register_customer = async (req, res) => {
     })
 }
 
+const get_total_registered_customers = async (req, res) => {
+    await registeredCustomerModel.get_total_registered_customers()
+    .then(result => {
+        res.json({
+            success: true,
+            result 
+        })
+    })
+    .catch(err => {
+        console.log("ERROR WHEN GETTING TOTAL CUSTOMERS: "+err);
+        res.json({
+            success: false,
+            err
+        })
+    })
+}
+
 module.exports = {
     get_all_customers,
     delete_customers_by_id,
@@ -134,5 +151,6 @@ module.exports = {
     get_customer_by_id,
     register_customer,
     get_only_active_customers,
-    get_only_deleted_customers
+    get_only_deleted_customers,
+    get_total_registered_customers
 }
