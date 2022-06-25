@@ -8,6 +8,7 @@ import { Row,Col, Dropdown,DropdownButton} from 'react-bootstrap';
 //import UserServices from '../../services/API/UserServices';
 import Validation  from '../../../Validation/updateValidation';
 import Messages from "../../../helpers/Messages";
+import UserServices from '../../../../services/UserServices';
 
 const  Update =() => {
     const formValues={
@@ -102,21 +103,24 @@ const  Update =() => {
                 try {
                     // const test_id = location.state.test_id;
                     const formData = new FormData();
-                    formData.append("First Name", state['First Name']);
-                    formData.append("Last Name",state['Last Name']);
-                    formData.append("Gender", state['Gender']);
-                    formData.append("Contact Number", state['Contact Number']);
-                    formData.append("Email", state['Email']);
-                    formData.append("Birthday", state['Birthday']);
+                    formData.append("firstname", state['First Name']);
+                    formData.append("lastname",state['Last Name']);
+                    formData.append("gender", state['Gender']);
+                    formData.append("contactnumber", state['Contact Number']);
+                    formData.append("email", state['Email']);
+                    formData.append("userID", 312);
+                    formData.append("birthday", state['Birthday']);
                     formData.append("Image", img);
                     formData.append("ImageName", imgname);
-                    // const response = await ExaminerServices.dotest(formData);
+                 
+                    const response = await UserServices.update(formData);
+                   
                     // if (response.status === 200) {
                     // Messages.SuccessMessage("User updated successfully");
                     setTimeout(() => {
                         // setLoader(false);
                     }, 200);
-                    navigate(`/test-records/`);
+                    // navigate(`/test-records/`);
                     
                 } catch (error) {
                     // console.log(error);
@@ -228,9 +232,9 @@ const  Update =() => {
             <Form.Group as={Row} className='fw-bold col-xl-12 mb-3 mx-auto' controlId='Gender'>
                <Form.Label className='fa' column sm={4} >Gender</Form.Label>
                <Col sm={1}>
-                <DropdownButton bsPrefix='button1' id="dropdown-basic-button"   title={state.Gender =='' ? 'Gender' : state.Gender} onSelect={handleSelect}>
-                        <Dropdown.Item eventKey='Male'>Male</Dropdown.Item>
-                        <Dropdown.Item eventKey='Female'>Female</Dropdown.Item>
+                <DropdownButton bsPrefix='button1' id="dropdown-basic-button"   title={state.Gender =='' ? 'Gender' : state.Gender =='1'? 'Male':'Female'} onSelect={handleSelect}>
+                        <Dropdown.Item eventKey='1'>Male</Dropdown.Item>
+                        <Dropdown.Item eventKey='2'>Female</Dropdown.Item>
                 </DropdownButton>
                 </Col>
                 <Row >

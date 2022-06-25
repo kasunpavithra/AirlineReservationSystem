@@ -68,6 +68,21 @@ const update_customer = (userData) => {
     })
 }
 
+const update_customer_by_customer = (userData) => {
+    return new Promise((resolve, reject) => {
+        var imgsrc = 'http://127.0.0.1:3001/images/' + userData.Image.filename
+        var sql = "UPDATE registeredcustomer SET firstname=?, lastname=?, email=?, image=?, gender=?, birthday=? WHERE userID=?;"
+        const valueSet = [userData.firstname, userData.lastname, userData.email,[imgsrc], userData.gender, userData.birthday, userData.userID]
+        db.query(sql, valueSet ,(err, result) => {
+            if (err) {
+                return reject(err)
+            } else {
+                return resolve(result);
+            }
+        })
+    })
+}
+
 const get_customer_by_id = (userID) => {
     return new Promise((resolve, reject) => {
         var sql = "SELECT * FROM registeredcustomer WHERE userID=?;"
@@ -100,6 +115,7 @@ module.exports = {
     get_all_customers,
     delete_customers_by_id,
     update_customer,
+    update_customer_by_customer,
     get_customer_by_id,
     register_customer,
     get_only_active_customers,
