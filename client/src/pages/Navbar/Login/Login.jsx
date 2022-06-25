@@ -1,26 +1,19 @@
 import { useState } from "react";
-import Axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../utils/auth";
 
 function Login() {
   const [inputs, setInputs] = useState({});
-  const [loginStatus, setLoginStatus] = useState("");
+  const auth = useAuth();
   const navigate = useNavigate();
-  const login = () => {
-    Axios.post("http://localhost:3001/api/auth/login", {
+
+  const handlelogin = () => {
+    auth.login({
       email: inputs.username,
       password: inputs.password,
-    }).then((response) => {
-      // console.log(response);
-      if (response){
-        if(response.data.auth){
-          // console.log(response.data.token);
-          localStorage.setItem("token",response.data.token);
-
-          navigate("/home", { replace: true });
-        }
-      }
-    });
+    })
+    navigate("/home", { replace: true });
+    
   };
 
   const handleChange = (event) => {
@@ -33,7 +26,7 @@ function Login() {
   const handleSubmit = (event) => {
     event.preventDefault();
     // alert(JSON.stringify(inputs));
-    login();
+    handlelogin();
   };
 
   return (
@@ -59,7 +52,6 @@ function Login() {
         </label>
         <input type="submit" />
       </form>
-      <h1>{loginStatus}</h1>
     </div>
   );
 }

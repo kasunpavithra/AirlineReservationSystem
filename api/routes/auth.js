@@ -20,7 +20,7 @@ router.post("/login", (req,res)=>{
                     const id = result[0].userID;
                     const token = jwt.sign({id},process.env.JWT_secret,{expiresIn:300});
 
-                    res.send({auth: true, token:token,result:result});
+                    res.send({auth: true, token:token,result:result[0]});
                 }else res.send({auth:false});
             });
         }
@@ -45,7 +45,7 @@ const verifyJWT = (req,res,next)=>{
 }
 
 router.get("/checklogin",verifyJWT, (req,res)=>{
-    res.send({auth:true});
+    res.send({auth:true, userID:req.userID});
 })
 
 

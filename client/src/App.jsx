@@ -53,7 +53,7 @@ function App() {
           <Route path="/" element={<Layout />}>
             {/* Auth required routes*/}
 
-            <Route index element={<RequireAuth><Home /></RequireAuth>} />
+            <Route index element={<Home />} />
             <Route exact path="contact" element={<RequireAuth><Contact /></RequireAuth>} />
             <Route exact path="/home" element={<RequireAuth><Home /></RequireAuth>} />
 
