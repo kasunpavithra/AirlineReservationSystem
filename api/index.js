@@ -10,22 +10,24 @@ const flightRoutes = require("./routes/flightRoutes");
 const airCraftRoute = require("./routes/airCraftRoutes");
 const authROuter = require("./routes/auth");
 const dotenv = require("dotenv");
-
-const app = express();
-
+const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const coresOptions = require('./config/corsOptions');
 
+const app = express();
 
 
 dotenv.config();
 app.use(express.json());
 app.use(cors(coresOptions));
 
+//midleware for cookies
+app.use(cookieParser());
+
 
 //Routes
-app.use("/api/auth",authROuter)
 app.use("/api",siteRouter);
+app.use("/api/auth",authROuter);
 
 app.use("/api/registered-customer", registeredCustomerRoutes);
 app.use("/api/authorized-user", authorizedUserRoutes);
