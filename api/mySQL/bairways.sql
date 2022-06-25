@@ -10,7 +10,7 @@ CREATE TABLE `RegisteredCustomer` (
   `address` VARCHAR(255),
   `password` VARCHAR(70),
   `status` TINYINT(4),
-  `image` BLOB,
+  `image` VARCHAR(255),
   `gender` TINYINT(4),
   `birthday` DATE,
  PRIMARY KEY (`userID`)
@@ -189,6 +189,7 @@ CREATE TABLE `Booking` (
   `airCraftseatID` INT(5),
   `status` TINYINT,
   `discountID` INT(5),
+  `under18` TINYINT,
   PRIMARY KEY (`bookingID`),
   FOREIGN KEY (`discountID`) REFERENCES `Discount`(`discountID`),
   FOREIGN KEY (`airCraftseatID`) REFERENCES `airCraftSeat`(`airCraftseatID`),
