@@ -14,3 +14,8 @@
 .admin-panel .active{
     color: aqua;
 }
+
+svg.bi.bi-cloud-arrow-down {
+    height: 80px !important;
+    width: 80px !important;
+}
