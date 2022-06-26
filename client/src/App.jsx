@@ -10,6 +10,8 @@ import { AuthProvider, useAuth } from "./utils/auth";
 import { RequireAuth } from "./utils/RequireAuth";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import BookSeat from "./pages/User/BookSeat/BookSeat";
+import Dashboard from "./pages/User/Dashboard/Dashboard";
+import GetFlight from "./pages/User/GetFlight/GetFlight";
 
 function App() {
   const auth = useAuth();
@@ -39,8 +41,27 @@ function App() {
             {/* Auth required routes*/}
 
             <Route index element={<Home />} />
-            <Route exact path="contact" element={<RequireAuth><Contact /></RequireAuth>} />
-            <Route exact path="/home" element={<RequireAuth><Home /></RequireAuth>} />
+            <Route exact path="/dashboard" element={<Dashboard />} />
+            <Route exact path="/getFlight" element={<GetFlight />} />
+
+            <Route
+              exact
+              path="contact"
+              element={
+                <RequireAuth>
+                  <Contact />
+                </RequireAuth>
+              }
+            />
+            <Route
+              exact
+              path="/home"
+              element={
+                <RequireAuth>
+                  <Home />
+                </RequireAuth>
+              }
+            />
 
             <Route exact path="/login" element={<Login />} />
 
@@ -49,19 +70,15 @@ function App() {
             {/* User routes */}
             <Route exact path="/update" element={<Update />} />
             <Route exact path="/bookSeat" element={<BookSeat />} />
-
           </Route>
           {/* Other routes */}
           <Route exact path="/admin/*" element={<AdminDashboard />} />
-          
 
           {/* {localStorage.getItem("token") ? (
             <Route exact path="blogs" element={<Blogs />} />
           ) : (
             <Navigate to="/login" />
           )} */}
-
-
         </Routes>
       </BrowserRouter>
     </AuthProvider>
