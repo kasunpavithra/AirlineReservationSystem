@@ -58,8 +58,46 @@ const getFlightsOnwards = (params) => {
   });
 };
 
+const getFlightsById = (params) => {
+  console.log(params);
+  return new Promise((resolve, reject) => {
+    var sql =
+      "SELECT flightID FROM `flight` order by flightID;";
+    db.query(sql, (err, result) => {
+      if (err) {
+        return reject(err);
+      } else {
+        console.log(result);
+        return resolve(result);
+      }
+    });
+  });
+};
+
+
+
+const getPassengersByFlightId= (params) => {
+  console.log(params);
+  return new Promise((resolve, reject) => {
+    var sql =
+      "SELECT flightID FROM `flight` order by flightID;";
+    db.query(sql, (err, result) => {
+      if (err) {
+        return reject(err);
+      } else {
+        console.log(result);
+        return resolve(result);
+      }
+    });
+  });
+};
+
+
+
 module.exports = {
   getAllFlights,
   getFlightsbyDate,
   getFlightsOnwards,
+  getFlightsById,
+  getPassengersByFlightId
 };

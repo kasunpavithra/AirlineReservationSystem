@@ -50,7 +50,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           {/* Layout Router paths */}
-          <Route path="/" element={<Layout />}>
+            <Route path="/" element={<Layout />}>
             {/* Auth required routes*/}
 
             <Route index element={<Home />} />

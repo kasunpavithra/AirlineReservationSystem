@@ -1,0 +1,42 @@
+
+.logo>img {
+    width: 130px;
+    object-fit: contain;
+
+}
+
+.logo {
+    margin-top: -120px;
+    margin-bottom: -120px;
+}
+
+.NAV {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+}
+
+.contents {
+    margin-right: 5%;
+}
+
+.navlink {
+    color:rgb(244, 240, 240) !important;
+    font-size: 1.2rem !important;
+    margin-left: 3% !important;
+    border-style: solid;
+    border-color: #1376BD;
+
+}
+
+.Link {
+    text-decoration: none !important;
+}
+
+.navlink:hover {
+    background-color:grey!important;
+}
+
+.navBtn{
+    border: none !important;
+}
