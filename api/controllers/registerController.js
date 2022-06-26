@@ -5,16 +5,16 @@ const registerUser = async (req, res) => {
     const saltRounds = 9;
     bcrypt.hash(req.body["password"], saltRounds, async (err, hash) => {
         if (err) {
-            res.json({success:false,err:err.message});
+            res.status(500).json({success:false,err:err.message});
         }
         const userInfo = { ...(req.body), ["password"]: hash };
 
         try {
             const success = await siteModel.registerUser(userInfo);
-            if (success) res.json({success:true})
+            if (success) res.status(201).json({success:true})
         }
         catch (err) {
-            res.json({success:false,err:err.message});
+            res.status(500).json({success:false,err:err.message});
         }
 
     });

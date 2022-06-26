@@ -111,6 +111,19 @@ const register_customer = (userData) => {
     })
 }
 
+const get_total_registered_customers = () => {
+    return new Promise((resolve, reject) => {
+        var sql = "SELECT COUNT(*) AS total FROM registeredcustomer;"
+        db.query(sql, (err, result) => {
+            if (err) {
+                return reject(err)
+            } else {
+                return resolve(result);
+            }
+        })
+    })
+}
+
 module.exports = {
     get_all_customers,
     delete_customers_by_id,
@@ -119,5 +132,6 @@ module.exports = {
     get_customer_by_id,
     register_customer,
     get_only_active_customers,
-    get_only_deleted_customers
+    get_only_deleted_customers,
+    get_total_registered_customers
 }

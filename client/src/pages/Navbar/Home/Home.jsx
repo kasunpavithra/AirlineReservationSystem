@@ -7,7 +7,7 @@ const Home = () => {
 
   const checkAuth = ()=>{
     Axios.get("http://localhost:3001/api/auth/checklogin", {headers:{
-      "x-access-token": localStorage.getItem("token")
+      "authorization": localStorage.getItem("token")
     }}).then((response)=>{
       if (response.data.auth) setauthStatus("You are Authenticated!");
       else setauthStatus("You're not authenticated!");

@@ -38,8 +38,14 @@ const Layout = () => {
     
      
       <Outlet />
+<<<<<<< HEAD
     </div>
    
+=======
+
+      {!auth.user && <Link onClick={auth.logout} to="/login"> LogoutHere </Link>}
+    </>
+>>>>>>> b2adb4bcfdd13a2cc46d95094e8a7483da7e993c
   );
 };
 
