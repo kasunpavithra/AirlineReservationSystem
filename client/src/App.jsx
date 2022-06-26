@@ -12,6 +12,8 @@ import AdminDashboard from "./pages/Admin/AdminDashboard";
 import BookSeat from "./pages/User/BookSeat/BookSeat";
 import Dashboard from "./pages/User/Dashboard/Dashboard";
 import GetFlight from "./pages/User/GetFlight/GetFlight";
+import ViewBookings from "./pages/User/ViewBookings/ViewBookings";
+
 
 function App() {
   const auth = useAuth();
@@ -70,6 +72,8 @@ function App() {
             {/* User routes */}
             <Route exact path="/update" element={<Update />} />
             <Route exact path="/bookSeat" element={<BookSeat />} />
+            <Route exact path="/userbookings" element={<ViewBookings/>} />
+
           </Route>
           {/* Other routes */}
           <Route exact path="/admin/*" element={<AdminDashboard />} />
