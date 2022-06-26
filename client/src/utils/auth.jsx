@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }) => {
       if (response) {
         if (response.data.auth) {
           // console.log(response.data.token);
-          localStorage.setItem("token", response.data.token);
+          localStorage.setItem("token","Bearer "+ response.data.token);
           localStorage.setItem("userID", response.data.result.userID);
           setUser(response.data.result.userID);
           return true
