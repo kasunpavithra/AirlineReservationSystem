@@ -13,4 +13,16 @@ const getUserByEmail = (email)=>{
     
 }
 
-module.exports = {getUserByEmail}
+const getAuthUserByEmail = (email)=>{
+    return new Promise((resolve,reject)=>{
+        db.query("SELECT * FROM authorizeduser WHERE email=?",email,(err,result)=>{
+            if (err) {
+                return reject(err);
+            } else {
+                return resolve(result);
+            }
+        });
+    });
+}
+
+module.exports = {getUserByEmail,getAuthUserByEmail}
