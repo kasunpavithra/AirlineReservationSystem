@@ -1,18 +1,37 @@
 const bookingsModel = require("../models/bookingsModel");
 
-const getBooking = (req,res)=>{
-    bookingsModel.getBooking(parseInt(req.params.id),(err,data)=>{
-        if (err) {
-            res.status(500).send({
-              message: err.message || "Some errors occured while recieving",
-            });
-          }
-        else{
-            res.send(data);
-        }
-    });
-    console.log(req.params.id);
-    res.send({id:req.params.id});
+const getRegisteredBooking = async(req,res)=>{
+    await bookingsModel.getRegisteredBooking(parseInt(req.params.id))
+    .then(result =>{
+      res.json({
+        success: true,
+        result
+      })
+    })
+    .catch(err => {
+      console.log("ERROR WHEN FETCHING BOOKINGS: "+err);
+      res.status(500).json({
+          success: false,
+          err
+      })
+  })
 }
 
-module.exports = {getBooking};
+const getGuestBooking = async(req,res)=>{
+  await bookingsModel.getGuestBooking(parseInt(req.params.id))
+  .then(result =>{
+    res.json({
+      success: true,
+      result
+    })
+  })
+  .catch(err => {
+    console.log("ERROR WHEN FETCHING BOOKINGS: "+err);
+    res.json({
+        success: false,
+        err
+    })
+})
+}
+
+module.exports = {getRegisteredBooking,getGuestBooking};
