@@ -120,6 +120,23 @@ const register_authorized_users = async (req, res) => {
     })
 }
 
+const get_total_authorized_users = async (req, res) => {
+    await authorizedUserModel.get_total_authorized_users()
+    .then(result => {
+        res.json({
+            success: true,
+            result 
+        })
+    })
+    .catch(err => {
+        console.log("ERROR WHEN GETTING TOTAL AUTHORIZED USERS: "+err);
+        res.json({
+            success: false,
+            err
+        })
+    })
+}
+
 module.exports = {
     get_all_authorized_users,
     delete_authorized_users_by_id,
@@ -127,5 +144,6 @@ module.exports = {
     register_authorized_users,
     get_authorized_user,
     get_only_active_authorized_users,
-    get_only_deleted_authorized_users
+    get_only_deleted_authorized_users,
+    get_total_authorized_users
 }
