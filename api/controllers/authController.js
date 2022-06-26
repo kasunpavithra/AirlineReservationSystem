@@ -16,12 +16,17 @@ const loginHandler = async (req, res) => {
                 }
                 if (response) {
                     const id = result[0].userID;
-                    const accessToken = jwt.sign({ id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 300 });
+                    const accessToken = jwt.sign({
+                        "userInfo":{
+                            "id":id,
+                            "role":5000   //5000 for registered users
+                        }
+                 }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 300 });
                     const refreshToken = jwt.sign({ id }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1d' });
 
                     //here you need to store this refreshtoken in a database
 
-                    res.cookie('jwt', refreshToken,{ httpOnly:true , maxAge: 24*60*60*1000});
+                    res.cookie('jwt', refreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
                     res.send({ auth: true, token: accessToken, result: result[0] });
                 } else res.status(401).json({ auth: false });
             });
