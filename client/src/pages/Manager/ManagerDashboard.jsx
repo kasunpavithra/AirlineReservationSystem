@@ -456,15 +456,15 @@ const ManagerDashboard = () => {
             <i class="bx bx-menu sidebarBtn" onClick={handleSideBar}></i>
             <span class="dashboard">Manager</span>
           </div>
-          <div class="search-box">
+          {/* <div class="search-box">
             <input type="text" placeholder="Search..." />
             <i class="bx bx-search"></i>
-          </div>
-          <div class="profile-details">
+          </div> */}
+          {/* <div class="profile-details"> */}
             {/* <!--<img src="images/profile.jpg" alt=""/>--> */}
-            <span class="admin_name">Thushalya</span>
+            {/* <span class="admin_name">Thushalya</span>
             <i class="bx bx-chevron-down"></i>
-          </div>
+          </div> */}
         </nav>
 
         <div class="home-content">

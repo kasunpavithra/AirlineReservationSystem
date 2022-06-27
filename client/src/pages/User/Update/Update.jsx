@@ -2,7 +2,7 @@ import React from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import "./updateStyle.css";
-import 'font-awesome/css/font-awesome.css';
+
 import { useNavigate} from "react-router-dom";
 import { Row,Col, Dropdown,DropdownButton} from 'react-bootstrap';
 //import UserServices from '../../services/API/UserServices';
@@ -138,7 +138,7 @@ const  Update =() => {
     }
   return (
     <div>
-    <div className='form-container col-xl-5 mt-2 pt-4 mx-auto '>
+    <div className=' col-xl-5 pt-4 mx-auto form-container'>
         
         <h1 className='fs-1 text-primary mb-3'>Update Account </h1>
          <Form onSubmit={handleSubmit} >
@@ -176,9 +176,10 @@ const  Update =() => {
             </Form.Group>
 
             <Form.Group as={Row} className='fw-bold col-xl-12 mb-3 mx-auto' controlId='First Name'>
-                <Form.Label className='fa' column sm={4}>First Name</Form.Label>
+                <Form.Label style={{"font-family":"FontAwesome"}}  column sm={4}>First Name</Form.Label>
                 <Col sm={7} >
-                <Form.Control className='fa'  type="text" name='First Name' placeholder='&#xf007; First Name' onChange={handleUser} />
+                
+                <Form.Control style={{"font-family":"FontAwesome"}}  type="text" name='First Name' placeholder='&#xf007; First Name' onChange={handleUser} />
                 </Col>
                 <Row>
                     <Col>
@@ -192,9 +193,9 @@ const  Update =() => {
             </Form.Group>
 
             <Form.Group as={Row} className='fw-bold col-xl-12 mb-3 mx-auto' controlId='Last Name'>
-                 <Form.Label className='fa' column sm={4} >Last Name </Form.Label>
+                 <Form.Label style={{"font-family":"FontAwesome"}}   column sm={4} >Last Name </Form.Label>
                  <Col sm={7}>
-                <Form.Control className='fa' type="text" name='Last Name' placeholder='&#xf234; Last Name' onChange={handleUser}/>
+                <Form.Control style={{"font-family":"FontAwesome"}}  type="text" name='Last Name' placeholder='&#xf234; Last Name' onChange={handleUser}/>
                 </Col>
                 <Row>
                     <Col>
@@ -207,9 +208,9 @@ const  Update =() => {
             </Form.Group>
 
             <Form.Group as={Row} className='fw-bold col-xl-12 mb-3 mx-auto' controlId='Email'>
-               <Form.Label className='fa' column sm={4} >Email</Form.Label>
+               <Form.Label style={{"font-family":"FontAwesome"}}  column sm={4} >Email</Form.Label>
                <Col sm={7}>
-               <Form.Control className='fa' type="text" name='Email' placeholder='&#xf0e0; Email' onChange={handleUser}/>
+               <Form.Control style={{"font-family":"FontAwesome"}}   type="text" name='Email' placeholder='&#xf0e0; Email' onChange={handleUser}/>
                </Col>
                <Row>
                     <Col>
@@ -230,7 +231,7 @@ const  Update =() => {
                 
             </Form.Group> */}
             <Form.Group as={Row} className='fw-bold col-xl-12 mb-3 mx-auto' controlId='Gender'>
-               <Form.Label className='fa' column sm={4} >Gender</Form.Label>
+               <Form.Label style={{"font-family":"FontAwesome"}}  column sm={4} >Gender</Form.Label>
                <Col sm={1}>
                 <DropdownButton bsPrefix='button1' id="dropdown-basic-button"   title={state.Gender =='' ? 'Gender' : state.Gender =='1'? 'Male':'Female'} onSelect={handleSelect}>
                         <Dropdown.Item eventKey='1'>Male</Dropdown.Item>
@@ -250,9 +251,9 @@ const  Update =() => {
             </Form.Group>
 
             <Form.Group as={Row} className='fw-bold col-xl-12 mb-3 mx-auto' controlId='Contact Number'>
-                <Form.Label className='fa' column sm={4}>Contact Number</Form.Label>
+                <Form.Label style={{"font-family":"FontAwesome"}}   column sm={4}>Contact Number</Form.Label>
                 <Col sm={7}>
-                <Form.Control className='fa' type="text" name='Contact Number' placeholder='&#xf095; Contact Number' onChange={handleUser}/>
+                <Form.Control style={{"font-family":"FontAwesome"}}  type="text" name='Contact Number' placeholder='&#xf095; Contact Number' onChange={handleUser}/>
                 </Col>
                 <Row>
                     <Col>
@@ -266,9 +267,9 @@ const  Update =() => {
 
 
            <Form.Group as={Row} className='fw-bold col-xl-12 mb-3 mx-auto' controlId='Birthday'>
-               <Form.Label className='fa' column sm={4} >Birthday</Form.Label>
+               <Form.Label style={{"font-family":"FontAwesome"}}  column sm={4} >Birthday</Form.Label>
                <Col sm={7}>
-               <Form.Control className='fa' type="date" name='Birthday' placeholder='&#xf1fd; Birthday' onChange={handleUser}/>
+               <Form.Control style={{"font-family":"FontAwesome"}}  type="date" name='Birthday' placeholder='&#xf1fd; Birthday' onChange={handleUser}/>
                </Col>
                <Row>
                     <Col>

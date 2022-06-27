@@ -15,7 +15,7 @@ const Layout = () => {
    }
   return (
     <div className=''>
-      <Navbar className="fixed-top navbar navbar-expand-sm navbar-dark bg-dark NAV " >
+      <Navbar className="fixed-top navbar navbar-expand-sm navbar-dark bg-dark NAV  " >
         
         <div className="contents ">
           <Container>
