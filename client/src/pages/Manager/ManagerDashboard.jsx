@@ -58,7 +58,7 @@ const ManagerDashboard = () => {
   const getPassengerTypes = async () => {
     try {
       const passengerTypes = await ManagerServices.getPassengerTypes();
-      console.log(passengerTypes.data.result);
+      console.log("passsenger",passengerTypes.data.result);
       // console.log(flightNumbers);
       setPassengerTypes(passengerTypes.data.result);
       // setPatientID(location.state.patient_id);

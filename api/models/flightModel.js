@@ -32,7 +32,7 @@ const getAllDestinations = () => {
 const getAllPassengerTypes = () => {
   return new Promise((resolve, reject) => {
     var sql =
-      "SELECT name FROM `airport`b;";
+      "SELECT classID,name FROM `class`;";
     db.query(sql, (err, result) => {
       if (err) {
         return reject(err);
