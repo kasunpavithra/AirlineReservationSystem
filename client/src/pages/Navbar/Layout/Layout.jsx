@@ -42,7 +42,6 @@ const Layout = () => {
    
 
       // {!auth.user && <Link onClick={auth.logout} to="/login"> LogoutHere </Link>}
-   
   );
 };
 
