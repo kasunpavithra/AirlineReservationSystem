@@ -12,6 +12,7 @@ import AdminDashboard from "./pages/Admin/AdminDashboard";
 import BookSeat from "./pages/User/BookSeat/BookSeat";
 import Dashboard from "./pages/User/Dashboard/Dashboard";
 import GetFlight from "./pages/User/GetFlight/GetFlight";
+import Landing from "./pages/Landing";
 import ViewBookings from "./pages/User/ViewBookings/ViewBookings";
 
 
@@ -77,6 +78,8 @@ function App() {
           </Route>
           {/* Other routes */}
           <Route exact path="/admin/*" element={<AdminDashboard />} />
+          <Route exact path="/landing" element={<Landing />} />
+
 
           {/* {localStorage.getItem("token") ? (
             <Route exact path="blogs" element={<Blogs />} />
