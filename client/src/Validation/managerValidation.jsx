@@ -14,6 +14,20 @@ const ValidateFlightPassengers = (data) => {
 
 }
 
+
+const ValidateAllPassengers = (data) => {
+    const UpdateValidationSchema = Joi.object({
+        'Destination Name': Joi.string().required(),
+        'Start Date':Joi.date().required().max('now').min('01-01-1900'),
+        'End Date':Joi.date().max('now').min('01-01-1900').min(Joi.ref('Start Date')).required()
+    })
+    const { error, value } = UpdateValidationSchema.validate(data, { abortEarly: false });
+    return { value, error };
+
+    
+
+}
 export default{
-    ValidateFlightPassengers
+    ValidateFlightPassengers,
+    ValidateAllPassengers
 }

@@ -10,16 +10,14 @@ import { AuthProvider, useAuth } from "./utils/auth";
 import { RequireAuth } from "./utils/RequireAuth";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import BookSeat from "./pages/User/BookSeat/BookSeat";
-<<<<<<< HEAD
 import ManagerDashboard from "./pages/Manager/ManagerDashboard"
 import {ToastContainer} from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.css';
-=======
 import Dashboard from "./pages/User/Dashboard/Dashboard";
 import GetFlight from "./pages/User/GetFlight/GetFlight";
 import ViewBookings from "./pages/User/ViewBookings/ViewBookings";
 
->>>>>>> b2adb4bcfdd13a2cc46d95094e8a7483da7e993c
+
 
 function App() {
   const auth = useAuth();
@@ -92,12 +90,9 @@ function App() {
             <Route exact path="/login" element={<Login />} />
 
             {/* User routes */}
-<<<<<<< HEAD
-=======
             <Route exact path="/update" element={<Update />} />
             <Route exact path="/bookSeat" element={<BookSeat />} />
             <Route exact path="/userbookings" element={<ViewBookings/>} />
->>>>>>> b2adb4bcfdd13a2cc46d95094e8a7483da7e993c
 
           </Route>
           {/* Other routes */}

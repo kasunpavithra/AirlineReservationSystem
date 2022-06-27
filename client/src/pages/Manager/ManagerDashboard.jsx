@@ -10,13 +10,21 @@ import managerValidation from "../../Validation/managerValidation";
 const ManagerDashboard = () => {
   const [ageType, setAgeType] = useState([]);
   const [flightId,setFlightId] = useState();
+  const [destinationName,setDestinationName] = useState();
+  const [destinationDates,setDestinationDates]=useState('');
+  const [flightPassengers,setFlightPassengers]=useState('');
+  const [allPassengers,setAllPassengers]=useState('');
+
   const [FlightNumbers,setflightNumbers]=useState([]);
+  const [Destinations,setDestinationNames]=useState([]);
+
   const [errorData, setError] = useState({'Flight No':'','Age Type':''});
   let sidebar = document.querySelector(".sidebar");
   let sidebarBtn = document.querySelector(".sidebarBtn");
 
   useEffect(() => {
     getFlightNumbers();
+    getDestinationNames();
   }, []);
 
   const getFlightNumbers = async () => {
@@ -26,7 +34,20 @@ const ManagerDashboard = () => {
       // console.log(flightNumbers);
       setflightNumbers(flightNumbers.data.result);
       // setPatientID(location.state.patient_id);
-      console.log(flightNumbers.data.result);
+      // console.log(flightNumbers.data.result);
+    } catch (err) {
+      //   console.log(err);
+    }
+  };
+
+  const getDestinationNames = async () => {
+    try {
+      const destionationNames = await ManagerServices.getDestinationNames();
+      // console.log(testType.data.testTypes);
+      // console.log(flightNumbers);
+      setDestinationNames(destionationNames.data.result);
+      // setPatientID(location.state.patient_id);
+      console.log(destionationNames.data);
     } catch (err) {
       //   console.log(err);
     }
@@ -39,8 +60,8 @@ const ManagerDashboard = () => {
     } else sidebarBtn.classList.replace("bx-menu-alt-right", "bx-menu");
   };
   const passengertypes = [
-    ["18+", "0"],
-    ["18-", "1"],
+    ["18+", "1"],
+    ["18-", "0"],
   ];
   const errors = {};
 
@@ -63,6 +84,7 @@ const ManagerDashboard = () => {
           const response = await ManagerServices.getFlightNumberPassengers(state)
           // console.log(response);
           console.log(response)
+          setFlightPassengers(response.data.result[0].passengers)
           // if (response.status === 200) {            
         //   //   Messages.SuccessMessage("Patient Updated Successfully");
         // }
@@ -79,11 +101,60 @@ const ManagerDashboard = () => {
 
   }
 
-  const handleSetFlightId=(event)=>{
-    console.log(event.target.value);
-    setFlightId(event.target.value);
+  const handleSubmitAllPassengers=async(e)=>{
+    e.preventDefault();
+
+    var state={'Destination Name':destinationName,'Start Date':destinationDates['startDate'],'End Date':destinationDates['endDate']}
+    // console.log(state);
+    const {value,error}=managerValidation.ValidateAllPassengers(state)
+    console.log("err",error.details)
+    if (error) {
+      error.details.map((item) => {
+        errors[item.path[0]] = item.message;
+      });
+      // console.log(errors["End Date"])
+      if (errors["End Date"]=='"End Date" must be greater than or equal to "ref:Start Date"')
+        errors['End Date']='End Date must be greater than or equal to Start Date'
+        console.log('hello');
+      console.log(errors["End Date"])
+    } else {
+        try {
+          // const patient_id = params.patient_id;
+          
+          // console.log("State:", state);
+          console.log("hello")
+          const startDate=new Date(destinationDates['startDate']);
+          const endDate=new Date(destinationDates['endDate']);
+
+          startDate.setUTCHours(0, 0, 0);
+          endDate.setUTCHours(23, 59, 59)
+        
+          
+          state={'Destination Name':destinationName,'Start Date':startDate.toISOString(),'End Date':endDate.toISOString()}
+          const response = await ManagerServices.getDateDestinationPassengers(state)
+
+          console.log(response);
+          setAllPassengers(response.data.result[0].passengers)
+          // console.log(response.data.result[0])
+          // setPassengers(response.data.result[0].passengers)
+         
+          // if (response.status === 200) {            
+        //   //   Messages.SuccessMessage("Patient Updated Successfully");
+        // }
+      } catch (error) {
+        // console.log(error.message);
+        // Messages.ErrorMessage({
+        //   error: error,
+        //   custom_message: `Patient update failed`,
+        // });
+      }
+    }
+
+    setError(errors);
 
   }
+
+
   const handleSetAgeFlightPassengers = (event) => {
     // console.log("event is", event.split(",")[0]);
     // console.log('helllo',event)
@@ -95,6 +166,8 @@ const ManagerDashboard = () => {
     });
     
   };
+
+
 
 
   return (
@@ -218,7 +291,7 @@ const ManagerDashboard = () => {
                      FlightNumbers?.map((flightno,idx)=>(
                     
     
-                    <button class="dropdown-item" value={flightno.flightID} type="button" onClick={handleSetFlightId}>
+                    <button class="dropdown-item" value={flightno.flightID} type="button" onClick={(event)=>{setFlightId(event.target.value);}}>
                       {flightno.flightID}
                     </button>
                      ))}
@@ -251,7 +324,8 @@ const ManagerDashboard = () => {
                       </ButtonGroup>
                       {errorData['Age Type'] !== "" && <p className="error">{errorData['Age Type']}</p>}
                     </div>
-                    <span className="col-5 number mr-5">35</span>
+               
+                    <span className="col-5 number mr-5"> {flightPassengers? flightPassengers:'0'}</span>
                     <span>
                       <Button  type="submit">
                         search
@@ -279,6 +353,7 @@ const ManagerDashboard = () => {
               <div class="right-side">
                 <div class="box-topic">All Passengers</div>
                 Destination
+                <Form onSubmit={handleSubmitAllPassengers}>
                 <div class="btn-group">
                   <button
                     type="button"
@@ -289,31 +364,32 @@ const ManagerDashboard = () => {
                   >
                     Action
                   </button>
-                  <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">
-                      Action
-                    </a>
-                    <a class="dropdown-item" href="#">
-                      Another action
-                    </a>
-                    <a class="dropdown-item" href="#">
-                      Something else here
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">
-                      Separated link
-                    </a>
+                  {errorData['Destination Name'] !== "" && <p className="error">{errorData['Destination Name']}</p>}
+                     {/* {errorData.NI !== "" && <p className="error">{errorData.NIC}</p>} */}
+                     <div class="dropdown-menu">
+                    {
+                     Destinations?.map((DestinationName,idx)=>(
+                    
+    
+                    <button class="dropdown-item" value={DestinationName.name} type="button" onClick={(event)=>{setDestinationName(event.target.value);}}>
+                      {DestinationName.name}
+                    </button>
+                     ))}
+                   
                   </div>
                 </div>
                 <div class="container">
-                  Start Date: <input type="date" id="startDate" width="276" />
+                  Start Date: <input type="date" name='startDate' id="startDate" onChange={(event)=>{setDestinationDates({...destinationDates,[event.target.name]: event.target.value})}} width="276" />
+                  {errorData['Start Date'] !== "" && <p className="error">{errorData['Start Date']}</p>}
                   <br></br>
-                  End Date: <input type="date" id="endDate" width="276" />
+                  End Date: <input type="date" name='endDate' id="endDate"   onChange={(event)=>{setDestinationDates({...destinationDates,[event.target.name]: event.target.value})}} width="276" />
+                  {errorData['End Date'] !== "" && <p className="error">{errorData['End Date']}</p>}
                 </div>
-                <div class="number">38,876</div>
+                <div class="number">{allPassengers? allPassengers:'0'}</div>
                 <span>
                   <Button type="submit">search</Button>
                 </span>
+                </Form>
                 <div class="indicator">
                   <i class="bx bx-up-arrow-alt"></i>
                   <span class="text">Up from yesterday</span>
