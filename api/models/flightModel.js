@@ -32,7 +32,7 @@ const getAllDestinations = () => {
 const getAllPassengerTypes = () => {
   return new Promise((resolve, reject) => {
     var sql =
-      "SELECT name FROM `airport`b;";
+      "SELECT classID,name FROM `class`;";
     db.query(sql, (err, result) => {
       if (err) {
         return reject(err);
@@ -42,6 +42,22 @@ const getAllPassengerTypes = () => {
     });
   });
 };
+
+const getAllAirCraftTypes = () => {
+  return new Promise((resolve, reject) => {
+    var sql =
+      "SELECT aircraftTypeID,name FROM `aircrafttype`;";
+    db.query(sql, (err, result) => {
+      if (err) {
+        return reject(err);
+      } else {
+        return resolve(result);
+      }
+    });
+  });
+};
+
+
 
 const getFlightsbyDate = (params) => {
   console.log(params);
@@ -125,6 +141,25 @@ const getPassengersByDateDestination = (params) => {
   });
 };
 
+const getAllBookings = (params) => {
+  
+  return new Promise((resolve, reject) => {
+    var sql =
+    "SELECT count(*) as passengers FROM `booking` where classID=? and under18=? and flightID in (  select flightID from (Select flightID from flighttime group by flightID having max(dispatchTime)  between ? and ?) as dispatchdate;"
+    const valueSet=[params.ClassId,params.AgeType,params.StartDate,params.EndDate]
+    console.log(valueSet)
+    db.query(sql,valueSet, (err, result) => {
+      if (err) {
+        return reject(err);
+      } else {
+        console.log(result);
+        return resolve(result);
+      }
+    });
+  });
+};
+
+
 
 const getPassengersByFlightId= (params) => {
   console.log(params);
@@ -132,6 +167,42 @@ const getPassengersByFlightId= (params) => {
     var sql =
       "SELECT count(*) as passengers FROM `booking` where flightID=? and under18=? and status=0;";
     const valueSet=[params.FlightNo,params.AgeType]
+    db.query(sql,valueSet, (err, result) => {
+      if (err) {
+        return reject(err);
+      } else {
+        console.log(result);
+        return resolve(result);
+      }
+    });
+  });
+};
+
+const getRevenue= (params) => {
+  console.log(params);
+  return new Promise((resolve, reject) => {
+    var sql =
+      "SELECT count(*) as passengers FROM `booking` where flightID=? and under18=? and status=0;";
+    const valueSet=[params.AirCraftId]
+    db.query(sql,valueSet, (err, result) => {
+      if (err) {
+        return reject(err);
+      } else {
+        console.log(result);
+        return resolve(result);
+      }
+    });
+  });
+};
+
+const getPastFlights= (params) => {
+  console.log(params);
+  return new Promise((resolve, reject) => {
+    var sql =
+   
+    "select flightID,count(*) as passengers from booking where flightID in(select flightID from flight where RouteID=(Select RouteID from route where OriginID=? and DestinationID=?))"
+
+    const valueSet=[params.OriginID,params.DestinationID]
     db.query(sql,valueSet, (err, result) => {
       if (err) {
         return reject(err);
@@ -153,5 +224,9 @@ module.exports = {
   getPassengersByFlightId,
   getAllDestinations,
   getPassengersByDateDestination,
-  getAllPassengerTypes
+  getAllPassengerTypes,
+  getAllBookings,
+  getAllAirCraftTypes,
+  getRevenue,
+  getPastFlights
 };

@@ -17,6 +17,24 @@ const getAllFlights = async (req, res) => {
     });
 };
 
+const getAllBookings= async (req, res) => {
+  await flightModel
+    .getAllBookings()
+    .then((result) => {
+      res.json({
+        success: true,
+        result,
+      });
+    })
+    .catch((err) => {
+      res.json({
+        success: false,
+        err,
+      });
+    });
+};
+
+
 
 
 const getAllPassengerTypes = async (req, res) => {
@@ -53,6 +71,25 @@ const getAllDestinations = async (req, res) => {
     });
 };
 
+const getAllAirCraftTypes = async (req, res) => {
+  await flightModel
+    .getAllAirCraftTypes()
+    .then((result) => {
+      res.json({
+        success: true,
+        result,
+      });
+    })
+    .catch((err) => {
+      res.json({
+        success: false,
+        err,
+      });
+    });
+};
+
+
+
 
 const getPassengersByFlightId = async (req, res) => {
 
@@ -73,6 +110,7 @@ const getPassengersByFlightId = async (req, res) => {
 };
 
 
+
 const getPassengersByDateDestination = async (req, res) => {
 
   await flightModel
@@ -90,6 +128,25 @@ const getPassengersByDateDestination = async (req, res) => {
       });
     });
 };
+
+const getRevenue = async (req, res) => {
+
+  await flightModel
+    .getRevenue(req.params)
+    .then((result) => {
+      res.json({
+        success: true,
+        result,
+      });
+    })
+    .catch((err) => {
+      res.json({
+        success: false,
+        err,
+      });
+    });
+};
+
 
 
 
@@ -147,4 +204,25 @@ const getFlightsOnwards = async (req, res) => {
     });
 };
 
-module.exports = { getAllFlights, getFlightsbyDate, getFlightsOnwards,getFlightsById,getPassengersByFlightId,getAllDestinations,getPassengersByDateDestination,getAllPassengerTypes };
+const getPastFlights = async (req, res) => {
+  await flightModel
+    .getPastFlights(req.params)
+    .then((result) => {
+      res.json({
+        success: true,
+        result,
+      });
+    })
+    .catch((err) => {
+      res.json({
+        success: false,
+        err,
+      });
+    });
+};
+
+
+
+
+
+module.exports = { getAllFlights, getFlightsbyDate, getFlightsOnwards,getFlightsById,getPassengersByFlightId,getAllDestinations,getPassengersByDateDestination,getAllPassengerTypes,getAllBookings,getAllAirCraftTypes,getRevenue,getPastFlights};

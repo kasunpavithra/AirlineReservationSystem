@@ -33,12 +33,12 @@ function Login() {
 
   return (
     
-        <div className="mt-5 container">
+        <div className=" logincontainer">
             <div className="mt-5 d-flex justify-content-center h-100">
-                <div className="card">
-                    <div className="card-header">
+                <div className="logincard">
+                    <div className="logincard-header">
                         <h1 >Log In</h1>
-                        <div className="d-flex justify-content-end social_icon">
+                        <div className="d-flex justify-content-end loginsocial_icon">
                             <span><i className="fab fa-facebook-square"></i></span>
                             <span><i className="fab fa-google-plus-square"></i></span>
                             <span><i className="fab fa-twitter-square"></i></span>
@@ -59,16 +59,16 @@ function Login() {
                                 </div>
                                 <input type="password" name="password" className="form-control" placeholder="password" value={inputs.password || ""} onChange={handleChange}/>
                             </div>
-                            <div className="row align-items-center remember">
+                            <div className="row align-items-center loginremember">
                                 <input type="checkbox"/>Remember Me
                             </div>
                             <div className="form-group">
-                                <input type="submit" value="Login" className=" float-right login_btn"/>
+                                <input type="submit" value="Login" className=" float-right loginlogin_btn"/>
                             </div>
                         </form>
                     </div>
                     <div className="card-footer">
-                        <div className="d-flex justify-content-center links">
+                        <div className="d-flex justify-content-center loginlinks">
                             Don't have an account?<a href="#">Sign Up</a>
                         </div>
                         <div className="d-flex justify-content-center">

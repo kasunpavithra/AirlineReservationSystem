@@ -50,11 +50,55 @@ const getFlightNumberPassengers = (Data) => {
   });
 };
 
+const getAllBookings = (Data) => {
+
+  return axios({
+    method: "get",
+    url: APIEndpoint + `/flights/allBookings/${Data['Class Id']}/${Data['Age Type']}/${Data['Start Date']}/${Data['End Date']}`,
+  //   headers: { Authorization: `Bearer ${token.getAccessToken()}` },
+  });
+};
+
+const getAirCraftTypes = (Data) => {
+
+  return axios({
+    method: "get",
+    url: APIEndpoint + `/flights/allAirCraftTypes`,
+  //   headers: { Authorization: `Bearer ${token.getAccessToken()}` },
+  });
+};
+
+const getRevenue = (Data) => { 
+
+  return axios({
+    method: "get",
+    url: APIEndpoint + `/flights/getRevenue/${Data['AirCraft Id']}`,
+  //   headers: { Authorization: `Bearer ${token.getAccessToken()}` },
+  });
+};
+
+const getPastFlights = (Data) => { 
+
+  return axios({
+    method: "get",
+    url: APIEndpoint + `/flights/getPastFlights/${Data['Origin Id']}/${Data['Destination Id']}`,
+  //   headers: { Authorization: `Bearer ${token.getAccessToken()}` },
+  });
+};
+
+
+
+
+
 
 export default{
     getFlightNumbers,
     getFlightNumberPassengers,
     getDestinationNames,
     getDateDestinationPassengers,
-    getPassengerTypes
+    getPassengerTypes,
+    getAllBookings,
+    getAirCraftTypes,
+    getRevenue,
+    getPastFlights
 }

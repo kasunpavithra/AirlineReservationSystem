@@ -14,10 +14,10 @@ const Layout = () => {
      var user=null
    }
   return (
-    <div className='Layout.css'>
-      <Navbar className="navbar navbar-expand-sm navbar-dark bg-dark NAV" >
+    <div className=''>
+      <Navbar className="fixed-top navbar navbar-expand-sm navbar-dark bg-dark NAV  " >
         
-        <div className="contents">
+        <div className="contents ">
           <Container>
             <Nav className="me-auto">
               <Nav.Link as={Link} to="/"  className="navlink" style={{borderRadius: "30px",textDecoration: "none"}}>Home </Nav.Link>
@@ -35,8 +35,7 @@ const Layout = () => {
           <img width='400' height="300" src={Logo} alt="" />
         </div>
       </Navbar>
-    
-     
+
       <Outlet />
     </div>
    
