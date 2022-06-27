@@ -15,7 +15,7 @@ import {ToastContainer} from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.css';
 import Dashboard from "./pages/User/Dashboard/Dashboard";
 import GetFlight from "./pages/User/GetFlight/GetFlight";
-import Landing from "./pages/Landing";
+import Landing from "./pages/LandingPage/Landing";
 import ViewBookings from "./pages/User/ViewBookings/ViewBookings";
 
 

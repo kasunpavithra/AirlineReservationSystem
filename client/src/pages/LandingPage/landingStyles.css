@@ -3,7 +3,7 @@
     padding:0;
     font-family: 'Poppins', sans-serif;
 }
-.headerGradient{
+.landing-headerGradient{
     background: rgb(0,0,0,0.2);
     height: 100%;
     width: 100%;
@@ -13,7 +13,7 @@
     transition: 0.5s;
     
 }
-.header{
+.landing-header{
     min-height: 100vh;
     width: 100%;
     background-image: url(254381.webp);
@@ -21,33 +21,33 @@
     background-size: cover;
     position: relative;
 }
-nav{
+.landing-nav{
     display:flex;
     padding: 2% 6%;
     justify-content: space-between;
     align-items: center;
 }
-nav img{
+.landing-nav img{
     width:100px;
 
 }
-.nav-links{
+.landing-nav-links{
     flex: 1;
     text-align: right;
 }
-.nav-links ul li{
+.landing-nav-links ul li{
     list-style: none;
     display: inline-block;
     padding: 8px 12px;
     position: relative;
 }
-.nav-links ul li a{
+.landing-nav-links ul li a{
     color: #fff;
     text-decoration: none;
     font-size: 13px;
 
 }
-.nav-links ul li::after{
+.landing-nav-links ul li::after{
     content: '';
     width: 0%;
     height: 2px;
@@ -56,10 +56,10 @@ nav img{
     margin: auto;
     transition: 0.5s;
 }
-.nav-links ul li:hover::after{
+.landing-nav-links ul li:hover::after{
     width:100%;
 }
-.text-box{
+.landing-text-box{
     width: 90%;
     color: #fff;
     position: absolute;
@@ -68,17 +68,17 @@ nav img{
     transform: translate(-50%,-50%);
     text-align: center;
 }
-.text-box h1{
+.landing-text-box h1{
     margin: 10px 0 40px;
     font-size: 50px;
     color: #fff;
 }
-.text-box p{
+.landing-text-box p{
     margin: 10px 0 40px;
     font-size: 13px;
     color: #fff;
 }
-.hero-btn{
+.landing-hero-btn {
     display: inline-block;
     text-decoration: none;
     color: #fff;
@@ -89,12 +89,13 @@ nav img{
     position: relative;
     cursor: pointer;
 }
-.hero-btn:hover{
+.landing-hero-btn:hover{
+    text-decoration: none;
     border:1px solid rgb(17,51,0);
     background: rgb(254, 235, 95);
     transition: 1s;
 }
-/*course*/
+
 .city-carousal{
     width: 80%;
     margin: auto;
@@ -120,11 +121,11 @@ nav img{
     line-height: 22px;
     padding: 10px;
 }
-.row1{
+/* .row1{
     margin-top: 5%;
     display: flex;
     justify-content: space-between;
-}
+} */
 /* .faculty-col{
     flex-basis: 31%;
     background: rgb(204,255,153,0.5);
@@ -134,7 +135,7 @@ nav img{
     box-sizing: border-box;
     transition: 0.5s;
 } */
-.row2{
+/* .row2{
     margin-top: 5%;
     display: flex;
     justify-content: space-between;
@@ -143,12 +144,12 @@ nav img{
     text-align: center;
     font-weight: 600;
     margin: 10px 0;
-}
+} */
 /* .faculty-col:hover{
     box-shadow: 0 0 20px 0px rgba(0,0,0,0.2);
 } */
 /*contact*/
-.contact{
+.landing-contact{
     margin:100px auto;
     width:80%;
     background-image: linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.4)),url(1425.jpg);
@@ -158,41 +159,46 @@ nav img{
     text-align: center;
     padding: 100px 0;
 }
-.contact h1{
+.landing-contact h1{
     color:#fff;
     margin-bottom: 40px;
     font-size: 40px ;
     padding: 0;
 }
-.footer{
+.landing-footer{
     background: rgba(0, 0, 0);
     height: 200px;
     width: 100%;
     display: flex;
     justify-content: space-between;
 }
-.footer-col{
+.landing-footer-col{
     flex-basis: 31%;
     margin-top: 1%;
     margin-bottom: 5%;
     padding: 10px 1px;
     box-sizing: border-box;
 }
-.footer-col h1{
+.landing-footer-col h1{
     margin-left: 65px;
     margin-bottom: 25px;
     font-size: 15px;
     color: #fff;
 
 }
-.footer-col p{
+.landing-footer-col p{
     color: #777;
     font-size: 12px;
     margin-left: 60px;
     text-decoration: none;
 }
+
+.landing-footer-col a {
+    text-decoration: none;
+    color: aqua;
+}
 /*--------about us------*/
-.sub-header{
+/* .sub-header{
     height: 50vh;
     width: 100%;
     background-image: url(about.jpg);
@@ -200,24 +206,24 @@ nav img{
     background-position: center;
     background-size: cover;
     text-align: center;
-}
-.sub-header h1{
+} */
+/* .sub-header h1{
     margin-top: 5%;
     font-size: 30px;
-}
-.about-us{
+} */
+/* .about-us{
     width: 80%;
     margin: auto;
     text-align: center;
     padding-top: 100px;
     padding-bottom: 50px;
-}
-.row{
+} */
+/* .row{
     margin-top: 5%;
     display: flex;
     justify-content: space-between;
-}
-.about-col{
+} */
+/* .about-col{
     flex-basis: 31%;
     background: rgba(62, 86, 160, 0.5);
     border-radius: 20px;
@@ -228,15 +234,15 @@ nav img{
     padding-left: 20px;
     padding-right: 20px;
     box-sizing: border-box;
-}
-.about-col h1{
+} */
+/* .about-col h1{
     color: #fff;
     text-align: center;
 }
 .about-col p{
     color: #fff;
     text-align: center;
-}
+} */
 
 .image-width {
     width: 100%;
@@ -246,12 +252,12 @@ nav img{
     height: 10%;
 } */
 
-.contact a {
+.landing-contact a {
     margin-top: 12px;
     text-decoration: none;
     color: white;
 }
 
-.contact a:hover {
+.landing-contact a:hover {
     color: hotpink;
 }
