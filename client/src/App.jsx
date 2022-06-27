@@ -10,10 +10,14 @@ import { AuthProvider, useAuth } from "./utils/auth";
 import { RequireAuth } from "./utils/RequireAuth";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import BookSeat from "./pages/User/BookSeat/BookSeat";
+import ManagerDashboard from "./pages/Manager/ManagerDashboard"
+import {ToastContainer} from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 import Dashboard from "./pages/User/Dashboard/Dashboard";
 import GetFlight from "./pages/User/GetFlight/GetFlight";
 import Landing from "./pages/Landing";
 import ViewBookings from "./pages/User/ViewBookings/ViewBookings";
+
 
 
 function App() {
@@ -36,11 +40,23 @@ function App() {
   };
 
   return (
+    <div>
+       <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     <AuthProvider>
       <BrowserRouter>
         <Routes>
           {/* Layout Router paths */}
-          <Route path="/" element={<Layout />}>
+            <Route path="/" element={<Layout />}>
             {/* Auth required routes*/}
 
             <Route index element={<Home />} />
@@ -66,13 +82,16 @@ function App() {
               }
             />
 
+            <Route exact path="*"         element={<NoPage />} />
+            <Route exact path="/register" element={<Register/>}/>
+            {/* User routes */}
+            <Route exact path="/update"   element={<Update/>} />
+            <Route exact path="/bookSeat"   element={<BookSeat/>} />
+            <Route exact path="/manager/*"   element={<ManagerDashboard/>} />
             <Route exact path="/login" element={<Login />} />
 
-            <Route exact path="*" element={<NoPage />} />
-            <Route exact path="/register" element={<Register />} />
             {/* User routes */}
-            <Route exact path="/update" element={<Update />} />
-            <Route exact path="/bookSeat" element={<BookSeat />} />
+  
             <Route exact path="/userbookings" element={<ViewBookings/>} />
 
           </Route>
@@ -89,6 +108,7 @@ function App() {
         </Routes>
       </BrowserRouter>
     </AuthProvider>
+    </div>
   );
 }
 

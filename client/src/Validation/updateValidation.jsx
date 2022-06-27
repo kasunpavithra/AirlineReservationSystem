@@ -17,6 +17,23 @@ const ValidateUpdate = (data) => {
     return { value, error };
 
 }
+
+const imageValidation = (fileInput) => {
+    var filePath = fileInput.value;
+  
+    // Allowing file type
+    var allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+  
+    if (!allowedExtensions.exec(filePath)) {
+      alert("Invalid file type. Only JPG, JPEG & PNG types are supported.");
+      fileInput.value = "";
+      return false;
+    }
+  
+    return true;
+};
+
 export default {
-    ValidateUpdate
+    ValidateUpdate,
+    imageValidation,
 }

@@ -71,8 +71,29 @@ const delete_customers_by_id = async (req, res) => {
 }
 
 const update_customer = async (req, res) => {
-    const userData = req.body
+    const userData=req.body
     await registeredCustomerModel.update_customer(userData)
+    .then(result => {
+        console.log("Registered customer updated!")
+        res.json({
+            success: true,
+            result 
+        })
+    })
+    .catch(err => {
+        console.log("ERROR WHEN UPDATING A CUSTOMER: "+err);
+        res.json({
+            success: false,
+            err
+        })
+    })
+}
+
+const update_customer_by_customer= async (req, res) => {
+    var userData=req.body
+    userData={...userData,'Image': req.file}
+    console.log(userData)
+    await registeredCustomerModel.update_customer_by_customer(userData)
     .then(result => {
         console.log("Registered customer updated!")
         res.json({
@@ -148,6 +169,7 @@ module.exports = {
     get_all_customers,
     delete_customers_by_id,
     update_customer,
+    update_customer_by_customer,
     get_customer_by_id,
     register_customer,
     get_only_active_customers,
