@@ -49,7 +49,7 @@ const isEmailExist = (email) => {
     return new Promise((resolve, reject) => {
         checkEmailSQL = "SELECT * FROM registeredcustomer WHERE email=?";
         db.query(checkEmailSQL, email, (err, data) => {
-            console.log(data.length);
+            // console.log(data.length);
             if (err) return reject(err);
 
             else if (data.length > 0) {
