@@ -1,4 +1,4 @@
-.react-calendar {
+ /* .react-calendar {
     width: 400px;
     max-width: 100%;
     background-color: #fff;
@@ -31,9 +31,9 @@ abbr[title] {
 }
 
 
-/* .react-calendar__month-view__days__day--weekend {
+ .react-calendar__month-view__days__day--weekend {
  color: #d10000;
-} */
+} 
 
 .react-calendar__tile:enabled:hover,
 .react-calendar__tile:enabled:focus {
@@ -101,9 +101,6 @@ abbr[title] {
     border-bottom-right-radius: 6px;
     background: #6f48eb;
     color: white;
-}
+} 
 
-
-/* div {
-    border: solid black;
-} */
+ */
