@@ -10,13 +10,14 @@ import managerValidation from "../../Validation/managerValidation";
 const ManagerDashboard = () => {
   const [ageType, setAgeType] = useState([]);
   const [flightId,setFlightId] = useState();
-  const [destinationName,setDestinationName] = useState();
+  const [destinationId,setDestinationId] = useState();
   const [destinationDates,setDestinationDates]=useState('');
   const [flightPassengers,setFlightPassengers]=useState('');
   const [allPassengers,setAllPassengers]=useState('');
 
   const [FlightNumbers,setflightNumbers]=useState([]);
   const [Destinations,setDestinationNames]=useState([]);
+  const [passengerTypes,setPassengerTypes]=useState([]);
 
   const [errorData, setError] = useState({'Flight No':'','Age Type':''});
   let sidebar = document.querySelector(".sidebar");
@@ -25,6 +26,7 @@ const ManagerDashboard = () => {
   useEffect(() => {
     getFlightNumbers();
     getDestinationNames();
+    getPassengerTypes();
   }, []);
 
   const getFlightNumbers = async () => {
@@ -48,6 +50,18 @@ const ManagerDashboard = () => {
       setDestinationNames(destionationNames.data.result);
       // setPatientID(location.state.patient_id);
       console.log(destionationNames.data);
+    } catch (err) {
+      //   console.log(err);
+    }
+  };
+
+  const getPassengerTypes = async () => {
+    try {
+      const passengerTypes = await ManagerServices.getPassengerTypes();
+      console.log(passengerTypes.data.result);
+      // console.log(flightNumbers);
+      setPassengerTypes(passengerTypes.data.result);
+      // setPatientID(location.state.patient_id);
     } catch (err) {
       //   console.log(err);
     }
@@ -103,11 +117,10 @@ const ManagerDashboard = () => {
 
   const handleSubmitAllPassengers=async(e)=>{
     e.preventDefault();
-
-    var state={'Destination Name':destinationName,'Start Date':destinationDates['startDate'],'End Date':destinationDates['endDate']}
+    console.log('id',destinationId)
+    var state={'Destination Id':destinationId,'Start Date':destinationDates['startDate'],'End Date':destinationDates['endDate']}
     // console.log(state);
     const {value,error}=managerValidation.ValidateAllPassengers(state)
-    console.log("err",error.details)
     if (error) {
       error.details.map((item) => {
         errors[item.path[0]] = item.message;
@@ -115,8 +128,10 @@ const ManagerDashboard = () => {
       // console.log(errors["End Date"])
       if (errors["End Date"]=='"End Date" must be greater than or equal to "ref:Start Date"')
         errors['End Date']='End Date must be greater than or equal to Start Date'
-        console.log('hello');
-      console.log(errors["End Date"])
+      if (errors["Destination Id"]=='"Destination Id" is required')
+        errors["Destination Id"]='"Destination" is required'
+
+        console.log(errors)
     } else {
         try {
           // const patient_id = params.patient_id;
@@ -130,7 +145,7 @@ const ManagerDashboard = () => {
           endDate.setUTCHours(23, 59, 59)
         
           
-          state={'Destination Name':destinationName,'Start Date':startDate.toISOString(),'End Date':endDate.toISOString()}
+          state={'Destination Id':destinationId,'Start Date':startDate.toISOString(),'End Date':endDate.toISOString()}
           const response = await ManagerServices.getDateDestinationPassengers(state)
 
           console.log(response);
@@ -271,7 +286,7 @@ const ManagerDashboard = () => {
             <div class="box">
               <div class="right-side">
                 <div class="box-topic">Flight Passengers</div>
-                Flight No
+             
                 <Form onSubmit={handleSubmitFlightPassengers}>
                 <div class="btn-group">
                   <button
@@ -281,7 +296,7 @@ const ManagerDashboard = () => {
                     aria-haspopup="true"
                     aria-expanded="false"
                   >
-                    Action
+                    Flight No
                   </button>
         
                   {errorData['Flight No'] !== "" && <p className="error">{errorData['Flight No']}</p>}
@@ -352,7 +367,7 @@ const ManagerDashboard = () => {
             <div class="box">
               <div class="right-side">
                 <div class="box-topic">All Passengers</div>
-                Destination
+              
                 <Form onSubmit={handleSubmitAllPassengers}>
                 <div class="btn-group">
                   <button
@@ -362,17 +377,17 @@ const ManagerDashboard = () => {
                     aria-haspopup="true"
                     aria-expanded="false"
                   >
-                    Action
+                    Destination
                   </button>
-                  {errorData['Destination Name'] !== "" && <p className="error">{errorData['Destination Name']}</p>}
+                  {errorData['Destination Id'] !== "" && <p className="error">{errorData['Destination Id']}</p>}
                      {/* {errorData.NI !== "" && <p className="error">{errorData.NIC}</p>} */}
                      <div class="dropdown-menu">
                     {
-                     Destinations?.map((DestinationName,idx)=>(
+                     Destinations?.map((Destination,idx)=>(
                     
     
-                    <button class="dropdown-item" value={DestinationName.name} type="button" onClick={(event)=>{setDestinationName(event.target.value);}}>
-                      {DestinationName.name}
+                    <button class="dropdown-item" value={Destination.airport_id} type="button" onClick={(event)=>{setDestinationId(event.target.value);}}>
+                      {Destination.name}
                     </button>
                      ))}
                    

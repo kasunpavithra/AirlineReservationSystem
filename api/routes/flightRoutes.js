@@ -2,11 +2,12 @@ const express = require("express");
 const router = express.Router();
 const flightController = require("../controllers/flightController");
 
-router.get("/allFlights", flightController.getAllFlights);
+router.get("/all", flightController.getAllFlights);
 router.get("/allFlightIds", flightController.getFlightsById);
 router.get("/allFlightIdsPassengers/:FlightNo/:AgeType", flightController.getPassengersByFlightId);
 router.get("/allDestinations", flightController.getAllDestinations);
 router.get("/allDateDestinationPassengers/:Destination/:StartDate/:EndDate", flightController.getPassengersByDateDestination);
+router.get("/allPassengerTypes", flightController.getAllPassengerTypes)
 
 router.get(
   "/year/:year/month/:month/date/:date",

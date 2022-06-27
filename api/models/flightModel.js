@@ -16,6 +16,22 @@ const getAllFlights = () => {
 const getAllDestinations = () => {
   return new Promise((resolve, reject) => {
     var sql =
+      "SELECT name,airport_id FROM `airport`;";
+    db.query(sql, (err, result) => {
+      if (err) {
+        return reject(err);
+      } else {
+        return resolve(result);
+      }
+    });
+  });
+};
+
+
+
+const getAllPassengerTypes = () => {
+  return new Promise((resolve, reject) => {
+    var sql =
       "SELECT name FROM `airport`b;";
     db.query(sql, (err, result) => {
       if (err) {
@@ -136,5 +152,6 @@ module.exports = {
   getFlightsById,
   getPassengersByFlightId,
   getAllDestinations,
-  getPassengersByDateDestination
+  getPassengersByDateDestination,
+  getAllPassengerTypes
 };

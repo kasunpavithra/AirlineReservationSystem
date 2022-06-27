@@ -17,6 +17,25 @@ const getAllFlights = async (req, res) => {
     });
 };
 
+
+
+const getAllPassengerTypes = async (req, res) => {
+  await flightModel
+    .getAllPassengerTypes()
+    .then((result) => {
+      res.json({
+        success: true,
+        result,
+      });
+    })
+    .catch((err) => {
+      res.json({
+        success: false,
+        err,
+      });
+    });
+};
+
 const getAllDestinations = async (req, res) => {
   await flightModel
     .getAllDestinations()
@@ -128,4 +147,4 @@ const getFlightsOnwards = async (req, res) => {
     });
 };
 
-module.exports = { getAllFlights, getFlightsbyDate, getFlightsOnwards,getFlightsById,getPassengersByFlightId,getAllDestinations,getPassengersByDateDestination };
+module.exports = { getAllFlights, getFlightsbyDate, getFlightsOnwards,getFlightsById,getPassengersByFlightId,getAllDestinations,getPassengersByDateDestination,getAllPassengerTypes };

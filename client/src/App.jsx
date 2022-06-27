@@ -90,8 +90,7 @@ function App() {
             <Route exact path="/login" element={<Login />} />
 
             {/* User routes */}
-            <Route exact path="/update" element={<Update />} />
-            <Route exact path="/bookSeat" element={<BookSeat />} />
+  
             <Route exact path="/userbookings" element={<ViewBookings/>} />
 
           </Route>

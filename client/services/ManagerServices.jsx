@@ -12,6 +12,17 @@ const getFlightNumbers = () => {
     });
   };
 
+  
+
+  
+const getPassengerTypes = () => {
+  return axios({
+    method: "get",
+    url: APIEndpoint + "/flights/allPassengerTypes",
+  //   headers: { Authorization: `Bearer ${token.getAccessToken()}` },
+  });
+};
+
   const getDestinationNames = () => {
     return axios({
       method: "get",
@@ -25,7 +36,7 @@ const getFlightNumbers = () => {
   const getDateDestinationPassengers = (Data) => {
     return axios({
       method: "get",
-      url: APIEndpoint + `/flights/allDateDestinationPassengers/${Data['Destination Name']}/${Data['Start Date']}/${Data['End Date']}`,
+      url: APIEndpoint + `/flights/allDateDestinationPassengers/${Data['Destination Id']}/${Data['Start Date']}/${Data['End Date']}`,
     //   headers: { Authorization: `Bearer ${token.getAccessToken()}` },
     });
   };
@@ -44,5 +55,6 @@ export default{
     getFlightNumbers,
     getFlightNumberPassengers,
     getDestinationNames,
-    getDateDestinationPassengers
+    getDateDestinationPassengers,
+    getPassengerTypes
 }
