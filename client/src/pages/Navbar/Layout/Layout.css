@@ -40,3 +40,7 @@
 .navBtn{
     border: none !important;
 }
+.Layout{
+    position: fixed;
+    top:0px;
+}

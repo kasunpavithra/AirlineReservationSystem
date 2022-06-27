@@ -19,25 +19,31 @@ import Landing from "./pages/Landing";
 import ViewBookings from "./pages/User/ViewBookings/ViewBookings";
 
 
+const ROLES ={
+  'Examiner':'_32247',
+  'Manager':'_32446',
+  'Admin':'_32345'
+}
+
 
 function App() {
-  const auth = useAuth();
+  // const auth = useAuth();
 
-  const Contact = () => {
-    const auth = useAuth();
+  // const Contact = () => {
+  //   // const auth = useAuth();
 
-    const handleLogout = () => {
-      auth.logout();
-      Navigate("/");
-    };
+  //   // const handleLogout = () => {
+  //   //   auth.logout();
+  //   //   Navigate("/");
+  //   // };
 
-    return (
-      <div>
-        <h1>Welcome {auth.user}</h1>
-        <button onClick={handleLogout}>Logout Here</button>
-      </div>
-    );
-  };
+  //   return (
+  //     <div>
+  //       <h1>Welcome {auth.user}</h1>
+  //       <button onClick={handleLogout}>Logout Here</button>
+  //     </div>
+  //   );
+  // };
 
   return (
     <div>
@@ -63,7 +69,7 @@ function App() {
             <Route exact path="/dashboard" element={<Dashboard />} />
             <Route exact path="/getFlight" element={<GetFlight />} />
 
-            <Route
+            {/* <Route
               exact
               path="contact"
               element={
@@ -71,7 +77,7 @@ function App() {
                   <Contact />
                 </RequireAuth>
               }
-            />
+            /> */}
             <Route
               exact
               path="/home"

@@ -1,11 +1,23 @@
 import { useAuth } from "./auth";
 import { Navigate, useLocation } from "react-router-dom";
-export const RequireAuth = ({ chidren }) => {
-  const auth = useAuth();
+export const RequireAuth = ({ children,allowedRoles }) => {
   const location = useLocation();
-  if (!localStorage.getItem("token")) {
-    return <Navigate to="/login"  state={{path:location.pathname}} />;
-  }
-  console.log(chidren);
-  return chidren
+
+  try{
+    // var user=jwtDecode(Token.getAccessToken())
+   }
+   catch(err){
+    var user=null
+   }
+  
+  return (
+    allowedRoles?.find(role => user?.role?.includes(role))? children
+        : user? <Navigate to="/unauthorized" state={{ from: location.pathname }} replace />
+            : <Navigate to="/login" state={{ from: location.pathname }} replace />
+);
 };
+
+
+
+
+ 

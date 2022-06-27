@@ -8,10 +8,23 @@ import ManagerServices from "../../../services/ManagerServices";
 import managerValidation from "../../Validation/managerValidation";
 
 const ManagerDashboard = () => {
-  const [ageType, setAgeType] = useState([]);
+  const [ageType, setAgeType] = useState('');
+  const [ageTypeForBookings, setAgeTypeForBookings] = useState('');
+  
   const [flightId,setFlightId] = useState();
   const [destinationId,setDestinationId] = useState();
+  const [aircrafttypes,setaircraftTypes] = useState();
+  const [aircrafttypeID, setaircraftTypeID] = useState();
+
+  const [pastFlightsDestinationId, setPastFlightsDestinationId] = useState();
+  const [pastFlightsOriginId, setPastFlightsOriginId] = useState();
+
+
+ 
+  
+  const [classId,setClassId] = useState();
   const [destinationDates,setDestinationDates]=useState('');
+  const [bookingDates,setBookingDates]=useState('');
   const [flightPassengers,setFlightPassengers]=useState('');
   const [allPassengers,setAllPassengers]=useState('');
 
@@ -19,7 +32,13 @@ const ManagerDashboard = () => {
   const [Destinations,setDestinationNames]=useState([]);
   const [passengerTypes,setPassengerTypes]=useState([]);
 
-  const [errorData, setError] = useState({'Flight No':'','Age Type':''});
+  const [errorFlightPassengers, setFlightPassengersError] = useState({'Flight No':'','Age Type':''});
+  const [errorAllPassengers, setAllPassengersError] = useState({'Class Id':'','Start Date':'','End Date':''});
+  const [errorAllBookings, setAllBookingsError] = useState({'Class Id':'','Age Type':'','Start Date':'','End Date':''});
+  const [errorRevenue,setRevenueError] = useState({'AirCraft Id':''});
+  const [errorPastFlights,setPastFlightsError] = useState({'Origin Id':'','Destination Id':''});
+
+ 
   let sidebar = document.querySelector(".sidebar");
   let sidebarBtn = document.querySelector(".sidebarBtn");
 
@@ -27,6 +46,8 @@ const ManagerDashboard = () => {
     getFlightNumbers();
     getDestinationNames();
     getPassengerTypes();
+    getAirCraftTypes()
+
   }, []);
 
   const getFlightNumbers = async () => {
@@ -41,6 +62,19 @@ const ManagerDashboard = () => {
       //   console.log(err);
     }
   };
+  const getAirCraftTypes = async () => {
+    try {
+      const aircraftTypes = await ManagerServices. getAirCraftTypes();
+      // console.log(testType.data.testTypes);
+      console.log(aircraftTypes);
+      setaircraftTypes( aircraftTypes.data.result);
+      // setPatientID(location.state.patient_id);
+      // console.log(flightNumbers.data.result);
+    } catch (err) {
+      //   console.log(err);
+    }
+  };
+
 
   const getDestinationNames = async () => {
     try {
@@ -74,14 +108,14 @@ const ManagerDashboard = () => {
     } else sidebarBtn.classList.replace("bx-menu-alt-right", "bx-menu");
   };
   const passengertypes = [
-    ["18+", "1"],
-    ["18-", "0"],
+    ["Adult", "1"],
+    ["Children", "0"],
   ];
   const errors = {};
 
   const handleSubmitFlightPassengers=async(e)=>{
     e.preventDefault();
-    const state={'Flight No':flightId,'Age Type':ageType.value}
+    const state={'Flight No':flightId?.id,'Age Type':ageType.value}
     console.log(state);
     const {value,error}=managerValidation.ValidateFlightPassengers(state)
     console.log(error)
@@ -111,15 +145,15 @@ const ManagerDashboard = () => {
       }
     }
 
-    setError(errors);
+    setFlightPassengersError(errors);
 
   }
 
   const handleSubmitAllPassengers=async(e)=>{
     e.preventDefault();
-    console.log('id',destinationId)
-    var state={'Destination Id':destinationId,'Start Date':destinationDates['startDate'],'End Date':destinationDates['endDate']}
-    // console.log(state);
+ 
+    var state={'Destination Id':destinationId?.id,'Start Date':destinationDates['startDate'],'End Date':destinationDates['endDate']}
+    console.log(state);
     const {value,error}=managerValidation.ValidateAllPassengers(state)
     if (error) {
       error.details.map((item) => {
@@ -165,25 +199,177 @@ const ManagerDashboard = () => {
       }
     }
 
-    setError(errors);
+    setAllPassengersError(errors);
 
   }
 
 
-  const handleSetAgeFlightPassengers = (event) => {
-    // console.log("event is", event.split(",")[0]);
-    // console.log('helllo',event)
-    // console.log(event[0]);
-    // console.log(event[1]);
-    setAgeType({
-      name: event[0],
-      value: event[1],
-    });
-    
-  };
+  const handleSubmitAllBookings=async(e)=>{
+    e.preventDefault();
+ 
+    var state={'Class Id':classId?.id,'Age Type':ageTypeForBookings.value,'Start Date':bookingDates['startDate'],'End Date':bookingDates['endDate']}
+  
+    const {value,error}=managerValidation.ValidateAllBookings(state)
+    if (error) {
+      error.details.map((item) => {
+        errors[item.path[0]] = item.message;
+      });
+      // console.log(errors["End Date"])
+      if (errors["End Date"]=='"End Date" must be greater than or equal to "ref:Start Date"')
+        errors['End Date']='End Date must be greater than or equal to Start Date'
+      if (errors["Class Id"]=='"Class Id" is required')
+        errors["Class Id"]='"Class" is required'
+      
+        console.log(errors)
+    } else {
+      
+        try {
+          // const patient_id = params.patient_id;
+          
+          // console.log("State:", state);
+      
+          const startDate=new Date(bookingDates['startDate']);
+          const endDate=new Date(bookingDates['endDate']);
+
+          startDate.setUTCHours(0, 0, 0);
+          endDate.setUTCHours(23, 59, 59)
+        
+          
+          state={'Class Id':classId,'Age Type':ageTypeForBookings.value,'Start Date':startDate.toISOString(),'End Date':endDate.toISOString()}
+          
+          const response = await ManagerServices.getAllBookings(state)
+      
+          console.log(response);
+          // setAllPassengers(response.data.result[0].passengers)
+          // console.log(response.data.result[0])
+          // setPassengers(response.data.result[0].passengers)
+         
+          // if (response.status === 200) {            
+        //   //   Messages.SuccessMessage("Patient Updated Successfully");
+        // }
+      } catch (error) {
+        // console.log(error.message);
+        // Messages.ErrorMessage({
+        //   error: error,
+        //   custom_message: `Patient update failed`,
+        // });
+      }
+    }
+
+    setAllBookingsError(errors);
+  }
+
+  const handleSubmitRevenue=async(e)=>{
+    e.preventDefault();
+ 
+    var state={'AirCraft Id':aircrafttypeID?.id}
+  
+    const {value,error}=managerValidation.ValidateRevenue(state)
+    if (error) {
+      error.details.map((item) => {
+        errors[item.path[0]] = item.message;
+      });
+      // console.log(errors["End Date"])'
+      if (errors["AirCraft Id"]=='"AirCraft Id" is required')
+        errors["AirCraft Id"]='"AirCraft" is required'
+      
+        console.log(errors)
+    } else {
+      
+        try {
+          // const patient_id = params.patient_id;
+          
+          // console.log("State:", state);
+      
+          // const startDate=new Date(bookingDates['startDate']);
+          // const endDate=new Date(bookingDates['endDate']);
+
+          // startDate.setUTCHours(0, 0, 0);
+          // endDate.setUTCHours(23, 59, 59)
+        
+          
+          // state={'Class Id':classId,'Age Type':ageTypeForBookings.value,'Start Date':startDate.toISOString(),'End Date':endDate.toISOString()}
+          
+          const response = await ManagerServices.getRevenue(state)
+      
+          console.log(response);
+          // setAllPassengers(response.data.result[0].passengers)
+          // console.log(response.data.result[0])
+          // setPassengers(response.data.result[0].passengers)
+         
+          // if (response.status === 200) {            
+        //   //   Messages.SuccessMessage("Patient Updated Successfully");
+        // }
+      } catch (error) {
+        // console.log(error.message);
+        // Messages.ErrorMessage({
+        //   error: error,
+        //   custom_message: `Patient update failed`,
+        // });
+      }
+    }
+
+    setRevenueError(errors);
+    console.log( errorRevenue)
+  }
 
 
 
+  const handleSubmitPastFlights=async(e)=>{
+    e.preventDefault();
+ 
+    var state={'Origin Id':pastFlightsOriginId?.id,'Destination Id':pastFlightsDestinationId?.id}
+  
+    const {value,error}=managerValidation.ValidatePastFlights(state)
+    if (error) {
+      error.details.map((item) => {
+        errors[item.path[0]] = item.message;
+      });
+      // console.log(errors["End Date"])'
+      if (errors["Origin Id"]=='"Origin Id" is required')
+        errors["Origin Id"]='"Origin" is required'
+      if (errors["Destination Id"]=='"Destination Id" is required')
+        errors["Destination Id"]='"Destination" is required'
+      
+        console.log(errors)
+    } else {
+      
+        try {
+          // const patient_id = params.patient_id;
+          
+          // console.log("State:", state);
+      
+          // const startDate=new Date(bookingDates['startDate']);
+          // const endDate=new Date(bookingDates['endDate']);
+
+          // startDate.setUTCHours(0, 0, 0);
+          // endDate.setUTCHours(23, 59, 59)
+        
+          
+          // state={'Class Id':classId,'Age Type':ageTypeForBookings.value,'Start Date':startDate.toISOString(),'End Date':endDate.toISOString()}
+          
+          const response = await ManagerServices.getPastFlights(state)
+      
+          console.log(response);
+          // setAllPassengers(response.data.result[0].passengers)
+          // console.log(response.data.result[0])
+          // setPassengers(response.data.result[0].passengers)
+         
+          // if (response.status === 200) {            
+        //   //   Messages.SuccessMessage("Patient Updated Successfully");
+        // }
+      } catch (error) {
+        // console.log(error.message);
+        // Messages.ErrorMessage({
+        //   error: error,
+        //   custom_message: `Patient update failed`,
+        // });
+      }
+    }
+
+    setPastFlightsError(errors);
+    console.log( errorRevenue)
+  }
 
   return (
     <>
@@ -285,10 +471,10 @@ const ManagerDashboard = () => {
           <div class="overview-boxes">
             <div class="box">
               <div class="right-side">
-                <div class="box-topic">Flight Passengers</div>
-             
+                <div class="box-topic mb-2">Flight Passengers</div>
+                Flight No
                 <Form onSubmit={handleSubmitFlightPassengers}>
-                <div class="btn-group">
+                <div class="btn-group mt-2">
                   <button
                     type="button"
                     class="btn btn-danger dropdown-toggle"
@@ -296,24 +482,25 @@ const ManagerDashboard = () => {
                     aria-haspopup="true"
                     aria-expanded="false"
                   >
-                    Flight No
+                    {flightId? flightId.name:'Flight No'}
                   </button>
         
-                  {errorData['Flight No'] !== "" && <p className="error">{errorData['Flight No']}</p>}
+
                   {/* {errorData.NI !== "" && <p className="error">{errorData.NIC}</p>} */}
                   <div class="dropdown-menu">
                     {
                      FlightNumbers?.map((flightno,idx)=>(
                     
     
-                    <button class="dropdown-item" value={flightno.flightID} type="button" onClick={(event)=>{setFlightId(event.target.value);}}>
+                    <button class="dropdown-item" value={flightno.flightID} type="button" onClick={(event)=>{setFlightId({'name':flightno.flightID,'id':event.target.value});}}>
                       {flightno.flightID}
                     </button>
                      ))}
-                    
       
                   </div>
+        
                 </div>
+                {errorFlightPassengers['Flight No'] !== "" && <p className="error">{errorFlightPassengers['Flight No']}</p>}
                 <div className="row">
                   <Form.Group>
                     <Form.Label>Age Type</Form.Label>
@@ -322,8 +509,8 @@ const ManagerDashboard = () => {
               
                         {passengertypes?.map((radio, idx) => (
                           <ToggleButton
-                            key={idx}
-                            id={`radio-${idx}`}
+                            key={idx+5}
+                            id={`radio-${idx+5}`}
                             type="radio"
                             variant={
                               idx % 2 ? "outline-primary" : "outline-primary"
@@ -331,21 +518,30 @@ const ManagerDashboard = () => {
                             name="radio"
                             value={radio[1]}
                             checked={ageType.value === radio[1]}
-                            onChange={() => handleSetAgeFlightPassengers([radio[0], radio[1]])}
+                           
+                            onChange={() =>{ setAgeType({
+                              name: radio[0],
+                              value: radio[1],
+                            })}}
                           >
                             {radio[0]}
                           </ToggleButton>
                         ))}
                       </ButtonGroup>
-                      {errorData['Age Type'] !== "" && <p className="error">{errorData['Age Type']}</p>}
+                    
+          
                     </div>
-               
-                    <span className="col-5 number mr-5"> {flightPassengers? flightPassengers:'0'}</span>
-                    <span>
+                    {errorFlightPassengers['Age Type'] !== "" && <p className="error">{errorFlightPassengers['Age Type']}</p>}
+                    <i class='mt-2 bx bxs-plane-alt cart'></i>
+                   
+                    <div className="row">
+                    <div className="col-9 "></div>
+                    <div className="col-3 ">
                       <Button  type="submit">
                         search
                       </Button>
-                    </span>
+                    </div>
+                    </div>
                     {/* {type_err != "" && <p className="error">{type_err}</p>} */}
                   </Form.Group>
                 </div>
@@ -355,7 +551,7 @@ const ManagerDashboard = () => {
                   <span class="text">Up from yesterday</span>
                 </div>
               </div>
-              <i class="bx bx-cart-alt cart"></i>
+              <div className=" number mr-5"> {flightPassengers? flightPassengers:'0'} </div>
             </div>
            
 
@@ -364,12 +560,12 @@ const ManagerDashboard = () => {
 
 
 
-            <div class="box">
+            <div class="box ">
               <div class="right-side">
-                <div class="box-topic">All Passengers</div>
-              
+                <div class="box-topic mb-2">All Passengers</div>
+                Destination
                 <Form onSubmit={handleSubmitAllPassengers}>
-                <div class="btn-group">
+                <div class="btn-group mt-2">
                   <button
                     type="button"
                     class="btn btn-danger dropdown-toggle"
@@ -377,47 +573,57 @@ const ManagerDashboard = () => {
                     aria-haspopup="true"
                     aria-expanded="false"
                   >
-                    Destination
+                    {destinationId? destinationId.name:'Destination'}
                   </button>
-                  {errorData['Destination Id'] !== "" && <p className="error">{errorData['Destination Id']}</p>}
+
                      {/* {errorData.NI !== "" && <p className="error">{errorData.NIC}</p>} */}
                      <div class="dropdown-menu">
                     {
                      Destinations?.map((Destination,idx)=>(
                     
     
-                    <button class="dropdown-item" value={Destination.airport_id} type="button" onClick={(event)=>{setDestinationId(event.target.value);}}>
+                    <button class="dropdown-item" value={Destination.airport_id} type="button" onClick={(event)=>{setDestinationId({'name':Destination.name,'id':event.target.value});}}>
                       {Destination.name}
                     </button>
                      ))}
                    
                   </div>
                 </div>
+                {errorAllPassengers['Destination Id'] !== "" && <p className="error">{errorAllPassengers['Destination Id']}</p>}
                 <div class="container">
                   Start Date: <input type="date" name='startDate' id="startDate" onChange={(event)=>{setDestinationDates({...destinationDates,[event.target.name]: event.target.value})}} width="276" />
-                  {errorData['Start Date'] !== "" && <p className="error">{errorData['Start Date']}</p>}
-                  <br></br>
+                  {errorAllPassengers['Start Date'] !== "" && <p className="error">{errorAllPassengers['Start Date']}</p>}
+                  </div>
+                  <div class="container ">
                   End Date: <input type="date" name='endDate' id="endDate"   onChange={(event)=>{setDestinationDates({...destinationDates,[event.target.name]: event.target.value})}} width="276" />
-                  {errorData['End Date'] !== "" && <p className="error">{errorData['End Date']}</p>}
-                </div>
-                <div class="number">{allPassengers? allPassengers:'0'}</div>
-                <span>
-                  <Button type="submit">search</Button>
-                </span>
+                  {errorAllPassengers['End Date'] !== "" && <p className="error">{errorAllPassengers['End Date']}</p>}
+                  </div>
+                  
+                  <i class='mt-2 bx bx-user-circle cart two'></i>
+                <div className="row">
+                    <div className="col-9 "></div>
+                    <div className="col-3 ">
+                      <Button  type="submit">
+                        search
+                      </Button>
+                    </div>
+                    </div>
                 </Form>
                 <div class="indicator">
-                  <i class="bx bx-up-arrow-alt"></i>
+                 
                   <span class="text">Up from yesterday</span>
                 </div>
               </div>
-              <i class="bx bxs-cart-add cart two"></i>
+              
+              <div class="number mr-4 mt-5">{allPassengers? allPassengers:'0'}</div>
             </div>
 
 
             <div class="box">
               <div class="right-side">
                 <div class="box-topic">All Bookings</div>
-                Passenger Type
+                Class
+                <Form onSubmit={handleSubmitAllBookings}>
                 <div class="btn-group">
                   <button
                     type="button"
@@ -426,44 +632,91 @@ const ManagerDashboard = () => {
                     aria-haspopup="true"
                     aria-expanded="false"
                   >
-                    Action
+                    {classId? classId.name:'Class'}
+                    
                   </button>
+               
                   <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">
-                      Action
-                    </a>
-                    <a class="dropdown-item" href="#">
-                      Another action
-                    </a>
-                    <a class="dropdown-item" href="#">
-                      Something else here
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">
-                      Separated link
-                    </a>
+                  {
+                     passengerTypes?.map((passengertype,idx)=>(
+                    
+    
+                    <button class="dropdown-item" value={passengertype.classID} type="button" onClick={(event)=>{setClassId({'name':passengertype.name,'id':event.target.value});}}>
+                      {passengertype.name}
+                    </button>
+                     ))}
                   </div>
                 </div>
-                <div class="container">
-                  Start Date: <input type="date" id="startDate" width="276" />
+                {errorAllBookings['Class Id'] !== "" && <p className="error">{errorAllBookings['Class Id']}</p>}
+                
+            
+              <Form.Group>
+              <Form.Label>Age Type</Form.Label>
+                <div className="col-md-12">
+                      <ButtonGroup className="mb-12">
+              
+                        {passengertypes?.map((radio, idx) => (
+                          <ToggleButton
+                          
+                            key={idx}
+                            id={`radio-${idx}`}
+                            type="radio"
+                            variant={
+                              idx % 2 ? "outline-primary" : "outline-primary"
+                            }
+                            name="radio"
+                            value={radio[1]}
+                            checked={ageTypeForBookings.value === radio[1]}
+                            
+                            onChange={() =>{setAgeTypeForBookings({
+                              name: radio[0],
+                              value: radio[1],
+                            })}}
+                          >
+                            {radio[0]}
+                          </ToggleButton>
+                          
+                        ))}
+                        {ageTypeForBookings.value1}
+                      </ButtonGroup>
+                     
+                    </div>
+                    {errorAllBookings['Age Type'] !== "" && <p className="error">{errorAllBookings['Age Type']}</p>}
+                    </Form.Group>
+                    <div class="container">
+                  Start Date: <input type="date" name='startDate' id="startDate" onChange={(event)=>{setBookingDates({...bookingDates,[event.target.name]: event.target.value})}} width="276" />
+                  {errorAllBookings['Start Date'] !== "" && <p className="error">{errorAllBookings['Start Date']}</p>}
                   <br></br>
-                  End Date: <input type="date" id="endDate" width="276" />
+                  End Date: <input type="date" name='endDate' id="endDate"   onChange={(event)=>{setBookingDates({...bookingDates,[event.target.name]: event.target.value})}} width="276" />
+                  {errorAllBookings['End Date'] !== "" && <p className="error">{errorAllBookings['End Date']}</p>}
                 </div>
-                <div class="number">$12,876</div>
+                
+                <i class='mt-2 bx bxs-book cart three'></i>
+              
+                <div className="row">
+                    <div className="col-9 "></div>
+                    <div className="col-3 ">
+                      <Button  type="submit">
+                        search
+                      </Button>
+                    </div>
+                    </div>
+                </Form>
                 <div class="indicator">
                   <i class="bx bx-up-arrow-alt"></i>
                   <span class="text">Up from yesterday</span>
                 </div>
               </div>
-              <i class="bx bx-cart cart three"></i>
+              <div class="number mr-4 mt-5">0</div>
             </div>
 
 
             <div class="box">
               <div class="right-side">
-                <div class="box-topic">Total Revenue</div>
-                AirCraft Type
-                <div class="btn-group">
+                <div class="box-topic mb-2">Total Revenue</div>
+                AirCraft
+                <Form onSubmit={handleSubmitRevenue}>
+                <div class="btn-group mt-2">
                   <button
                     type="button"
                     class="btn btn-danger dropdown-toggle"
@@ -471,41 +724,52 @@ const ManagerDashboard = () => {
                     aria-haspopup="true"
                     aria-expanded="false"
                   >
-                    Action
+                    {aircrafttypeID? aircrafttypeID.name:'AirCraft'}
                   </button>
+                 
+
+                  
                   <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">
-                      Action
-                    </a>
-                    <a class="dropdown-item" href="#">
-                      Another action
-                    </a>
-                    <a class="dropdown-item" href="#">
-                      Something else here
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">
-                      Separated link
-                    </a>
+                  {
+                     aircrafttypes?.map((aircrafttype,idx)=>(
+                    
+    
+                    <button class="dropdown-item" value={aircrafttype.aircraftTypeID} type="button" onClick={(event)=>{setaircraftTypeID({'name':aircrafttype.name,'id':event.target.value});}}>
+                      {aircrafttype.name}
+                    </button>
+                     ))}
                   </div>
                 </div>
-                <div class="number">11,086</div>
+               
+                <div className="row"></div>
+                {errorRevenue['AirCraft Id'] !== "" && <p className="error">{errorRevenue['AirCraft Id']}</p>}
+                <Form.Group>
+                <i class="mt-2 bx bxs-cart-download cart four"></i>
+                
+                <div className="row">
+                    <div className="col-9 "></div>
+                    <div className="col-3 ">
+                      <Button  type="submit">
+                        search
+                      </Button>
+                    </div>
+                    </div>
+                    </Form.Group>
+                </Form>
                 <div class="indicator">
                   <i class="bx bx-down-arrow-alt down"></i>
                   <span class="text">Down From Today</span>
                 </div>
               </div>
-              <i class="bx bxs-cart-download cart four"></i>
+              <div class="number">11,086</div>
             </div>
-
-
 
 
             <div class="box">
               <div class="right-side">
                 <div class="box-topic">Past Flights</div>
-                Origin
-                <div class="btn-group">
+                <Form onSubmit={handleSubmitPastFlights}>
+                <div class="btn-group ml-2 mt-2">
                   <button
                     type="button"
                     class="btn btn-danger dropdown-toggle"
@@ -513,27 +777,24 @@ const ManagerDashboard = () => {
                     aria-haspopup="true"
                     aria-expanded="false"
                   >
-                    Action
+                    {pastFlightsOriginId? pastFlightsOriginId.name:'Origin'}
                   </button>
+                 
                   <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">
-                      Action
-                    </a>
-                    <a class="dropdown-item" href="#">
-                      Another action
-                    </a>
-                    <a class="dropdown-item" href="#">
-                      Something else here
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">
-                      Separated link
-                    </a>
+                  {
+                     Destinations?.map((destination,idx)=>(
+                    
+    
+                    <button class="dropdown-item" value={destination.airport_id} type="button" onClick={(event)=>{setPastFlightsOriginId({'name':destination.name,'id':event.target.value});}}>
+                      {destination.name}
+                    </button>
+                     ))}
                   </div>
                 </div>
-                <br></br>
-                Destination
-                <div class="btn-group">
+                { errorPastFlights['Origin Id'] !== "" && <p className="error">{ errorPastFlights['Origin Id']}</p>}
+                
+              
+                <div class="ml-2 mt-2 btn-group">
                   <button
                     type="button"
                     class="btn btn-danger dropdown-toggle"
@@ -541,31 +802,42 @@ const ManagerDashboard = () => {
                     aria-haspopup="true"
                     aria-expanded="false"
                   >
-                    Action
+                    {pastFlightsDestinationId? pastFlightsDestinationId.name:'Destination'}
+                    
                   </button>
+                  
                   <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">
-                      Action
-                    </a>
-                    <a class="dropdown-item" href="#">
-                      Another action
-                    </a>
-                    <a class="dropdown-item" href="#">
-                      Something else here
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">
-                      Separated link
-                    </a>
+                  {
+                     Destinations?.map((destination,idx)=>(
+                    
+    
+                    <button class="dropdown-item" value={destination.airport_id} type="button" onClick={(event)=>{setPastFlightsDestinationId({'name':destination.name, 'id':event.target.value});}}>
+                      {destination.name}
+                    </button>
+                     ))}
                   </div>
                 </div>
-                <div class="number">11,086</div>
+            
+                { errorPastFlights['Destination Id'] !== "" && <p className="error">{ errorPastFlights['Destination Id'] }</p>}
+                <div></div>
+                
+                <i class='mt-2 bx bxs-plane-take-off cart four'></i>
+                
+                <div className="row">
+                    <div className="col-9 "></div>
+                    <div className="col-3 ">
+                      <Button  type="submit">
+                        search
+                      </Button>
+                    </div>
+                    </div>
+                </Form>
                 <div class="indicator">
                   <i class="bx bx-down-arrow-alt down"></i>
                   <span class="text">Down From Today</span>
                 </div>
               </div>
-              <i class="bx bxs-cart-download cart four"></i>
+              <div class="mr-5 number">11</div>
             </div>
           </div>
 
