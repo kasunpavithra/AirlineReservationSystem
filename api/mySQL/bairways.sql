@@ -141,14 +141,20 @@ CREATE TABLE `Route` (
   FOREIGN KEY (`OriginID`) REFERENCES `AirPort`(`airport_id`)
 );
 
+CREATE TABLE `bairways2`.`staticflight` ( `staticFlightID` INT(5) NOT NULL AUTO_INCREMENT , `aircraftID` INT(5) NOT NULL , `RouteID` INT(5) NOT NULL , `dispatchTime` DATETIME NOT NULL , PRIMARY KEY (`staticFlightID`),FOREIGN KEY (`aircraftID`) REFERENCES `airCraft`(`aircraftID`),FOREIGN KEY (`RouteID`) REFERENCES `Route`(`RouteID`)) ENGINE = InnoDB;
+
+
+
 
 CREATE TABLE `flight` (
   `flightID` INT(5) NOT NULL AUTO_INCREMENT,
+  `staticFlightID` INT(5),
   `aircraftID` INT(5),
   `RouteID` INT(5),
   PRIMARY KEY (`flightID`),
   FOREIGN KEY (`aircraftID`) REFERENCES `airCraft`(`aircraftID`),
-  FOREIGN KEY (`RouteID`) REFERENCES `Route`(`RouteID`)
+  FOREIGN KEY (`RouteID`) REFERENCES `Route`(`RouteID`),
+  FOREIGN KEY (`staticFlightID`) REFERENCES `staticflight`(`staticFlightID`)
 );
 
 
@@ -200,4 +206,25 @@ FOREIGN KEY (`guestUserID`) REFERENCES `Guest`(`userID`)
   
 );
 
+
+--
+-- Structure for view `country_airport`
+--
+DROP TABLE IF EXISTS `country_airport`;
+
+CREATE  VIEW `country_airport`  AS  (select `airportleveldetail`.`levelID` AS `levelID`,`airport`.`airport_id` AS `airport_id`,`airport`.`name` AS `name`,`airportleveldetail`.`airportlevelDetailID` AS `airportlevelDetailID`,`airportleveldetail`.`value` AS `value`,`level`.`levelName` AS `levelName`,`level`.`levelrank` AS `levelrank` from ((`airport` join `airportleveldetail` on(`airport`.`airport_id` = `airportleveldetail`.`airport_id`)) left join `level` on(`airportleveldetail`.`levelID` = `level`.`levelID`)) where `level`.`levelrank` = 2) ;
+
+
+DROP TABLE IF EXISTS `destination_view`;
+
+CREATE  VIEW `destination_view`  AS  (select `route`.`RouteID` AS `routeID`,`route`.`DestinationID` AS `destinationID`,`airport`.`airport_id` AS `airport_ID`,`airport`.`name` AS `destination_name` from (`route` left join `airport` on(`route`.`DestinationID` = `airport`.`airport_id`))) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `origin_view`
+--
+DROP TABLE IF EXISTS `origin_view`;
+
+CREATE  VIEW `origin_view`  AS  (select `route`.`RouteID` AS `routeID`,`route`.`OriginID` AS `originID`,`airport`.`airport_id` AS `airport_ID`,`airport`.`name` AS `origin_name` from (`route` left join `airport` on(`route`.`OriginID` = `airport`.`airport_id`))) ;
 
