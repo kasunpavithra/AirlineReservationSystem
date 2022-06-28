@@ -17,11 +17,13 @@ import Dashboard from "./pages/User/Dashboard/Dashboard";
 import GetFlight from "./pages/User/GetFlight/GetFlight";
 import Landing from "./pages/LandingPage/Landing";
 import ViewBookings from "./pages/User/ViewBookings/ViewBookings";
+import Unauthorized from "./components/Unauthorized/Unauthorized";
 
 const ROLES = {
-  Examiner: "_32247",
-  Manager: "_32446",
-  Admin: "_32345",
+  RegisteredUser: 5000,
+  Guest: 5001,
+  Admin: 5002,
+  Manager: 5003,
 };
 
 function App() {
@@ -67,11 +69,11 @@ function App() {
               <Route exact path="/dashboard" element={<Dashboard />} />
               <Route exact path="/getFlight" element={<GetFlight />} />
 
-              <Route
+              {/* <Route
                 exact
                 path="contact"
                 element={
-                  <RequireAuth>
+                  <RequireAuth allowedRoles={[ROLES.RegisteredUser]}>
                     <Contact />
                   </RequireAuth>
                 }
@@ -84,7 +86,7 @@ function App() {
                     <Home />
                   </RequireAuth>
                 }
-              />
+              /> */}
 
               <Route exact path="*" element={<NoPage />} />
               <Route exact path="/register" element={<Register />} />
@@ -93,6 +95,7 @@ function App() {
               <Route exact path="/bookSeat" element={<BookSeat />} />
               <Route exact path="/manager/*" element={<ManagerDashboard />} />
               <Route exact path="/login" element={<Login />} />
+              <Route exact path="/unauthorized" element={<Unauthorized />} />
 
               {/* User routes */}
 
@@ -108,8 +111,7 @@ function App() {
             <Navigate to="/login" />
           )} */}
 
-
-          {/* there should be catch all route for 404 requests */}
+            {/* there should be catch all route for 404 requests */}
           </Routes>
         </BrowserRouter>
       </AuthProvider>

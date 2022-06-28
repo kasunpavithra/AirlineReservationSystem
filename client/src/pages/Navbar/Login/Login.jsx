@@ -1,7 +1,7 @@
 import React from "react";
 import "./Login.css";
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link,useLocation} from "react-router-dom";
 import { useAuth } from "../../../utils/auth";
 import { useEffect } from "react";
 import { useRef } from "react";
@@ -11,7 +11,10 @@ const LOGIN_URL = "/api/auth/login";
 
 function Login() {
   const { setAuth } = useAuth();
+
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/home"  //you need to specify here dashboard 
 
   const emailRef = useRef();
   const errRef = useRef();
@@ -19,7 +22,6 @@ function Login() {
   const [email, setEmail] = useState("");
   const [pwd, setPwd] = useState("");
   const [errMsg, setErrMsg] = useState("");
-  const [success, setSuccess] = useState(false);
 
   useEffect(() => {
     emailRef.current.focus();
@@ -46,12 +48,12 @@ function Login() {
       );
       console.log(JSON.stringify(response?.data));
       const accessToken = response?.data?.accessToken;
-      const role = response?.data?.role;
-      setAuth({ email, role, accessToken }); //you need to customise here
+      const role = response?.data?.role;    //5000 for registered customer
+      setAuth({ user:email, role:5000, accessToken }); //you need to customise here
       setEmail("");
       setPwd("");
 
-      navigate("/home", { replace: true });
+      navigate(from, { replace: true });
     } catch (err) {
       if (!err?.response) {
         setErrMsg("No server response!");
