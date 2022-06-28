@@ -8,6 +8,7 @@ const airWayRoutesRouter = require("./routes/airWayRoutesRouter");
 const airportRouter = require("./routes/airportRouter");
 const flightRoutes = require("./routes/flightRoutes");
 const airCraftRoute = require("./routes/airCraftRoutes");
+const airCraftTypeRoutes = require("./routes/airCraftTypeRoutes")
 const authROuter = require("./routes/auth");
 const dotenv = require("dotenv");
 const cookieParser = require('cookie-parser');
@@ -37,6 +38,7 @@ app.use("/api/airport", airportRouter);
 
 app.use("/api/flights", flightRoutes);
 app.use("/api/airCraft",airCraftRoute);
+app.use("/api/airCraftType", airCraftTypeRoutes)
 
 const PORT = process.env.PORT || 3001;
 app.listen(3001,()=>{
