@@ -10,33 +10,36 @@ height: 100%;
 font-family: 'Numans', sans-serif;
 }
 
-.container{
+.logincontainer{
+    margin-top: 150px;
 height: 100%;
 align-content: center;
 }
 
-.card{
-height: 370px;
+.logincard{
+height: 420px;
 margin-top: auto;
 margin-bottom: auto;
-width: 400px;
+width: 420px;
 background-color: rgba(0,0,0,0.5) !important;
 }
 
-.social_icon span{
+.loginsocial_icon span{
 font-size: 60px;
-margin-left: 10px;
+
+margin-right:15px;
 color: #FFC312;
 }
 
-.social_icon span:hover{
+.loginsocial_icon span:hover{
 color: white;
 cursor: pointer;
 }
 
-.card-header h1{
+.logincard-header h1{
 color: white;
-font-size:50px
+font-size:50px;
+margin-left:10px;
 }
 
 .social_icon{
@@ -58,11 +61,11 @@ box-shadow: 0 0 0 0 !important;
 
 }
 
-.remember{
+.loginremember{
 color: white;
 }
 
-.remember input
+.loginremember input
 {
 width: 20px;
 height: 20px;
@@ -70,7 +73,7 @@ margin-left: 15px;
 margin-right: 5px;
 }
 
-.login_btn{
+.loginlogin_btn{
 color: black;
 background-color: #FFC312;
 width: 100px;
@@ -79,15 +82,63 @@ padding: 4px 5px 4px 5px;
 border-radius: 4px;
 }
 
-.login_btn:hover{
+.loginlogin_btn:hover{
 color: black;
 background-color: white;
 }
 
-.links{
+.loginlinks{
 color: white;
 }
 
-.links a{
+.loginlinks a{
 margin-left: 4px;
 }
+
+
+
+
+.instructions {
+    font-size: 0.75rem;
+    border-radius: 0.5rem;
+    background: #000;
+    color: #fff;
+    padding: 0.25rem;
+    position: relative;
+    bottom: -10px;
+  }
+  
+  .instructions > svg {
+    margin-right: 0.25rem;
+  }
+  
+  .offscreen {
+    position: absolute;
+    left: -9999px;
+  }
+  
+  .hide {
+    display: none;
+  }
+  
+  .valid {
+    color: limegreen;
+    margin-left: 0.25rem;
+  }
+  
+  .invalid {
+    color: red;
+    margin-left: 0.25rem;
+  }
+  
+  .errmsg {
+    background-color: lightpink;
+    color: firebrick;
+    font-weight: bold;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .line {
+    display: inline-block;
+  }

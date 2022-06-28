@@ -14,6 +14,8 @@
     display: flex !important;
     flex-direction: row !important;
     justify-content: space-between !important;
+   
+
 }
 
 .contents {
@@ -39,4 +41,8 @@
 
 .navBtn{
     border: none !important;
+}
+.Layout{
+    position: fixed;
+    top:0px;
 }

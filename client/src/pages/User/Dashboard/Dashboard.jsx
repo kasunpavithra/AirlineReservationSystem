@@ -122,7 +122,7 @@ function Dashboard() {
       <div>
         <Container>
           <Row
-            style={{ margin: 10, justifyContent: "center" }}
+            // style={{ margin: 10, justifyContent: "center" }}
             className="Dashboard"
           >
             <Col>

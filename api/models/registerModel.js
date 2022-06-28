@@ -10,8 +10,13 @@ const registerUser = (userInfo) => {
         let mobile = userInfo.mobile;
         let birthday = userInfo.birthday;
         let password = userInfo.password;
+
+        if(!firstname || !lastname || !email || !address || !mobile || !birthday || !password || !userInfo.gender) return reject(new Error("BadReqest"));
+
         let gender;
         (userInfo.gender === "male") ? gender = 1 : gender = 0;
+
+
 
         try {
             const isExist = await isEmailExist(email);
