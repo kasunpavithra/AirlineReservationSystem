@@ -1,88 +1,157 @@
-import React from 'react'
-import './Login.css'
+import React from "react";
+import "./Login.css";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../../utils/auth";
+import { useEffect } from "react";
+import { useRef } from "react";
+
+import axios from "../../../api/axios";
+const LOGIN_URL = "/api/auth/login";
 
 function Login() {
-  const [inputs, setInputs] = useState({});
-  const auth = useAuth();
+  const { setAuth } = useAuth();
   const navigate = useNavigate();
 
-  const handlelogin = () => {
-    auth.login({
-      email: inputs.username,
-      password: inputs.password,
-    })
-    navigate("/home", { replace: true });
-    
-  };
+  const emailRef = useRef();
+  const errRef = useRef();
 
-  const handleChange = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
-    setInputs((values) => ({ ...values, [name]: value }));
-    // console.log(JSON.stringify(inputs));
-  };
+  const [email, setEmail] = useState("");
+  const [pwd, setPwd] = useState("");
+  const [errMsg, setErrMsg] = useState("");
+  const [success, setSuccess] = useState(false);
 
-  const handleSubmit = (event) => {
+  useEffect(() => {
+    emailRef.current.focus();
+  }, []);
+
+  useEffect(() => {
+    setErrMsg("");
+  }, [email, pwd]);
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // alert(JSON.stringify(inputs));
-    handlelogin();
+
+    try {
+      const response = await axios.post(
+        LOGIN_URL,
+        {
+          email: email,
+          password: pwd,
+        },
+        {
+          headers: { "Content-Type": "application/json" },
+          //   withCredentials: true,
+        }
+      );
+      console.log(JSON.stringify(response?.data));
+      const accessToken = response?.data?.accessToken;
+      const role = response?.data?.role;
+      setAuth({ email, role, accessToken }); //you need to customise here
+      setEmail("");
+      setPwd("");
+
+      navigate("/home", { replace: true });
+    } catch (err) {
+      if (!err?.response) {
+        setErrMsg("No server response!");
+      } else if (err.response?.status === 400) {
+        setErrMsg("Missing Email or Password!");
+      } else if (err.response?.status === 401) {
+        setErrMsg("Invalid username, password pair!");
+      } else {
+        setErrMsg("Login Failed!");
+      }
+      errRef.current.focus();
+    }
   };
 
   return (
-    
-        <div className=" logincontainer">
-            <div className="mt-5 d-flex justify-content-center h-100">
-                <div className="logincard">
-                    <div className="logincard-header">
-                        <h1 >Log In</h1>
-                        <div className="d-flex justify-content-end loginsocial_icon">
-                            <span><i className="fab fa-facebook-square"></i></span>
-                            <span><i className="fab fa-google-plus-square"></i></span>
-                            <span><i className="fab fa-twitter-square"></i></span>
-                        </div>
-                    </div>
-                    <div className="card-body">
-                        <form onSubmit={handleSubmit}>
-                            <div className="input-group form-group">
-                                <div className="input-group-prepend">
-                                    <span className="input-group-text"><i className="fas fa-user"></i></span>
-                                </div>
-                                <input type="text" name="username" className="form-control" placeholder="username" value={inputs.username || ""} onChange={handleChange} />
-                                
-                            </div>
-                            <div className="input-group form-group">
-                                <div className="input-group-prepend">
-                                    <span className="input-group-text"><i className="fas fa-key"></i></span>
-                                </div>
-                                <input type="password" name="password" className="form-control" placeholder="password" value={inputs.password || ""} onChange={handleChange}/>
-                            </div>
-                            <div className="row align-items-center loginremember">
-                                <input type="checkbox"/>Remember Me
-                            </div>
-                            <div className="form-group">
-                                <input type="submit" value="Login" className=" float-right loginlogin_btn"/>
-                            </div>
-                        </form>
-                    </div>
-                    <div className="card-footer">
-                        <div className="d-flex justify-content-center loginlinks">
-                            Don't have an account?<a href="#">Sign Up</a>
-                        </div>
-                        <div className="d-flex justify-content-center">
-                            <a href="#">Forgot your password?</a>
-                        </div>
-                    </div>
-                </div>
+    <div className=" logincontainer">
+      <div className="mt-5 d-flex justify-content-center h-100">
+        <div className="logincard">
+          <div className="logincard-header">
+            <h1>Log In</h1>
+            <p
+              ref={errRef}
+              className={errMsg ? "errmsg" : "offscreen"}
+              aria-live="assertive"
+            >
+              {errMsg}
+            </p>
+            <div className="d-flex justify-content-end loginsocial_icon">
+              <span>
+                <i className="fab fa-facebook-square"></i>
+              </span>
+              <span>
+                <i className="fab fa-google-plus-square"></i>
+              </span>
+              <span>
+                <i className="fab fa-twitter-square"></i>
+              </span>
             </div>
+          </div>
+          <div className="card-body">
+            <form onSubmit={handleSubmit}>
+              <div className="input-group form-group">
+                <div className="input-group-prepend">
+                  <span className="input-group-text">
+                    <i className="fas fa-user"></i>
+                  </span>
+                </div>
+                <input
+                  type="text"
+                  name="Email"
+                  autoComplete="off"
+                  className="form-control"
+                  placeholder="Email"
+                  value={email || ""}
+                  ref={emailRef}
+                  required
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+              <div className="input-group form-group">
+                <div className="input-group-prepend">
+                  <span className="input-group-text">
+                    <i className="fas fa-key"></i>
+                  </span>
+                </div>
+                <input
+                  type="password"
+                  name="password"
+                  className="form-control"
+                  placeholder="password"
+                  autoComplete="off"
+                  required
+                  value={pwd || ""}
+                  onChange={(e) => setPwd(e.target.value)}
+                />
+              </div>
+              <div className="row align-items-center loginremember">
+                <input type="checkbox" />
+                Remember Me
+              </div>
+              <div className="form-group">
+                <input
+                  type="submit"
+                  value="Login"
+                  className=" float-right loginlogin_btn"
+                />
+              </div>
+            </form>
+          </div>
+          <div className="card-footer">
+            <div className="d-flex justify-content-center loginlinks">
+              Don't have an account?<Link to="/register">Sign Up</Link>
+            </div>
+            <div className="d-flex justify-content-center">
+              <a href="#">Forgot your password?</a>
+            </div>
+          </div>
         </div>
-    
-  )
+      </div>
+    </div>
+  );
 }
-export default Login
-
-
-   
-
+export default Login;
