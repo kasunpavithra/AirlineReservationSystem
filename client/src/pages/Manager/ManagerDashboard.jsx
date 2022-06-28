@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import Navbar from "../Navbar/Navbar";
+
 
 import { Button, ButtonGroup, Card, Form, ToggleButton } from "react-bootstrap";
 import "./managerStyle.css";
@@ -374,11 +374,10 @@ const ManagerDashboard = () => {
   return (
     <>
       <div class="sidebar">
-        <div class="ml-4 logo-details">
-          <i class="pl-3 bx bx-bold"></i>
-          <span class=" logo_name">Airways</span>
+        <div class="ml-4 logo-details mt-3">
+          <span class=" logo_name">B Airways</span>
         </div>
-        <ul class="nav-links">
+        <ul class="nav-links mt-4">
           <li>
             <a href="#" class="active">
               <i class="bx bx-grid-alt"></i>
@@ -433,13 +432,8 @@ const ManagerDashboard = () => {
               <span class="links_name">Favourites</span>
             </a>
           </li>
-          <li>
-            <a href="#">
-              <i class="bx bx-cog"></i>
-              <span class="links_name">Setting</span>
-            </a>
-          </li>
-          <li class="log_out">
+         
+          <li >
             <a href="#">
               <i class="bx bx-log-out"></i>
               <span class="links_name">Log out</span>
@@ -453,8 +447,8 @@ const ManagerDashboard = () => {
       <section class="home-section">
         <nav>
           <div class="sidebar-button">
-            <i class="bx bx-menu sidebarBtn" onClick={handleSideBar}></i>
-            <span class="dashboard">Manager</span>
+            <i class="bx bx-menu sidebarBtn mt-4" onClick={handleSideBar}></i>
+            <span class="dashboard mt-4 ">Manager</span>
           </div>
           {/* <div class="search-box">
             <input type="text" placeholder="Search..." />
