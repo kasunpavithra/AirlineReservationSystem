@@ -48,6 +48,7 @@ CREATE TABLE `userPhone` (
   `registeredUserID` INT(5),
   `guestUserID` INT(5),
   `authUserID` INT(5),
+  `status` TINYINT(4),
   `phoneNumber` VARCHAR(15),
   PRIMARY KEY (`userPhoneID`),
   FOREIGN KEY (`registeredUserID`) REFERENCES `RegisteredCustomer`(`userID`),
@@ -60,6 +61,7 @@ CREATE TABLE `Discount` (
   `discountID` INT(5) NOT NULL AUTO_INCREMENT,
   `discountClassType` TINYINT(4),
   `amount` decimal(8,2) ,
+  `status` TINYINT(4),
   `startTimeDate` datetime,
   `endTimeDate` datetime,
   PRIMARY KEY (`discountID`)
@@ -70,6 +72,7 @@ CREATE TABLE `aircraftType` (
   `aircraftTypeID` INT(5) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(20),
   `description` VARCHAR(255),
+  `status` TINYINT(4),
   `image` BLOB,
   PRIMARY KEY (`aircraftTypeID`)
 );
@@ -81,6 +84,7 @@ CREATE TABLE `airCraft` (
   `EconomySeatCount` INT(3),
   `BusinessSeatCount` INT(3),
   `PlanitnumSeatCount` INT(3),
+  `status` TINYINT(4),
   PRIMARY KEY (`aircraftID`),
   FOREIGN KEY (`aircraftTypeID`) REFERENCES `aircraftType`(`aircraftTypeID`)
 );
@@ -89,6 +93,7 @@ CREATE TABLE `airCraft` (
 CREATE TABLE `class` (
   `classID` INT(5) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(20),
+  `status` TINYINT(4),
   PRIMARY KEY (`classID`)
 );
 
@@ -100,6 +105,7 @@ CREATE TABLE `airCraftSeat` (
   `xCord` INT(1),
   `yCord` INT(2),
   `seatNumber` INT(3),
+  `status` TINYINT(4),
   PRIMARY KEY (`airCraftseatID`),
   FOREIGN KEY (`airCrafftID`) REFERENCES `airCraft`(`aircraftID`),
   FOREIGN KEY (`classID`) REFERENCES `class`(`classID`)
@@ -109,6 +115,7 @@ CREATE TABLE `airCraftSeat` (
 CREATE TABLE `AirPort` (
   `airport_id` INT(5) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(20),
+  `status` TINYINT(4),
   PRIMARY KEY (`airport_id`)
 );
 
@@ -117,6 +124,7 @@ CREATE TABLE `level` (
   `levelID` INT(5) NOT NULL AUTO_INCREMENT,
   `levelName` VARCHAR(20),
   `levelrank` INT(2),
+  `status` TINYINT(4),
   PRIMARY KEY (`levelID`)
 );
 
@@ -126,6 +134,7 @@ CREATE TABLE `airportlevelDetail` (
   `airport_id` INT(5),
   `levelID` INT(5),
   `value` VARCHAR(20),
+  `status` TINYINT(4),
   PRIMARY KEY (`airportlevelDetailID`),
   FOREIGN KEY (`levelID`) REFERENCES `level`(`levelID`),
   FOREIGN KEY (`airport_id`) REFERENCES `AirPort`(`airport_id`)
@@ -136,12 +145,13 @@ CREATE TABLE `Route` (
   `RouteID` INT(5) NOT NULL AUTO_INCREMENT,
   `OriginID` INT(5),
   `DestinationID` INT(5),
+  `status` TINYINT(4),
   PRIMARY KEY (`RouteID`),
   FOREIGN KEY (`DestinationID`) REFERENCES `AirPort`(`airport_id`),
   FOREIGN KEY (`OriginID`) REFERENCES `AirPort`(`airport_id`)
 );
 
-CREATE TABLE `bairways2`.`staticflight` ( `staticFlightID` INT(5) NOT NULL AUTO_INCREMENT , `aircraftID` INT(5) NOT NULL , `RouteID` INT(5) NOT NULL , `dispatchTime` DATETIME NOT NULL , PRIMARY KEY (`staticFlightID`),FOREIGN KEY (`aircraftID`) REFERENCES `airCraft`(`aircraftID`),FOREIGN KEY (`RouteID`) REFERENCES `Route`(`RouteID`)) ENGINE = InnoDB;
+CREATE TABLE `staticflight` ( `staticFlightID` INT(5) NOT NULL AUTO_INCREMENT , `aircraftID` INT(5) NOT NULL , `RouteID` INT(5) NOT NULL , `dispatchTime` DATETIME NOT NULL ,`status` TINYINT(4), PRIMARY KEY (`staticFlightID`),FOREIGN KEY (`aircraftID`) REFERENCES `airCraft`(`aircraftID`),FOREIGN KEY (`RouteID`) REFERENCES `Route`(`RouteID`)) ENGINE = InnoDB;
 
 
 
@@ -151,6 +161,7 @@ CREATE TABLE `flight` (
   `staticFlightID` INT(5),
   `aircraftID` INT(5),
   `RouteID` INT(5),
+  `status` TINYINT(4),
   PRIMARY KEY (`flightID`),
   FOREIGN KEY (`aircraftID`) REFERENCES `airCraft`(`aircraftID`),
   FOREIGN KEY (`RouteID`) REFERENCES `Route`(`RouteID`),
@@ -163,6 +174,7 @@ CREATE TABLE `FlightTime` (
   `flightID` INT(5),
   `dispatchTime` DATETIME,
   `startTimeDate` DATETIME,
+  `status` TINYINT(4),
   `endTimeDate` DATETIME,
   PRIMARY KEY (`flightTimeID`),
   FOREIGN KEY (`flightID`) REFERENCES `flight`(`flightID`)
@@ -176,6 +188,7 @@ CREATE TABLE `classPrice` (
   `RouteID` INT(5),
   `classID` INT(5),
   `Price` decimal(8,2),
+  `status` TINYINT(4),
   `startTimeDate` DATETIME,
   `endTimeDate` DATETIME,
   PRIMARY KEY (`classPriceID`),
@@ -190,7 +203,7 @@ CREATE TABLE `Booking` (
   `guestUserID` INT(5),
   `flightID` INT(5),
   `paymentStatus` TINYINT,
-  `bookingTimeDate` DATETIME,
+ `bookingTimeDate` DATETIME,
   `classID` INT(5),
   `airCraftseatID` INT(5),
   `status` TINYINT,
@@ -207,12 +220,12 @@ FOREIGN KEY (`guestUserID`) REFERENCES `Guest`(`userID`)
 );
 
 
---
--- Structure for view `country_airport`
---
-DROP TABLE IF EXISTS `country_airport`;
+-- --
+-- -- Structure for view `country_airport`
+-- --
+-- DROP TABLE IF EXISTS `country_airport`;
 
-CREATE  VIEW `country_airport`  AS  (select `airportleveldetail`.`levelID` AS `levelID`,`airport`.`airport_id` AS `airport_id`,`airport`.`name` AS `name`,`airportleveldetail`.`airportlevelDetailID` AS `airportlevelDetailID`,`airportleveldetail`.`value` AS `value`,`level`.`levelName` AS `levelName`,`level`.`levelrank` AS `levelrank` from ((`airport` join `airportleveldetail` on(`airport`.`airport_id` = `airportleveldetail`.`airport_id`)) left join `level` on(`airportleveldetail`.`levelID` = `level`.`levelID`)) where `level`.`levelrank` = 2) ;
+-- CREATE  VIEW `country_airport`  AS  (select `airportleveldetail`.`levelID` AS `levelID`,`airport`.`airport_id` AS `airport_id`,`airport`.`name` AS `name`,`airportleveldetail`.`airportlevelDetailID` AS `airportlevelDetailID`,`airportleveldetail`.`value` AS `value`,`level`.`levelName` AS `levelName`,`level`.`levelrank` AS `levelrank` from ((`airport` join `airportleveldetail` on(`airport`.`airport_id` = `airportleveldetail`.`airport_id`)) left join `level` on(`airportleveldetail`.`levelID` = `level`.`levelID`)) where `level`.`levelrank` = 2) ;
 
 
 DROP TABLE IF EXISTS `destination_view`;
