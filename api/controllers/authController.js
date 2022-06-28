@@ -6,7 +6,7 @@ const { getUserByEmail, getAuthUserByEmail } = require('../models/authModel');
 const loginHandler = async (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
-    if (!email || !password) return res.sendStatus(401); //unauthorized user
+    if (!email || !password) return res.sendStatus(400); //bad request
 
     try {
         var result;
@@ -40,7 +40,7 @@ const loginHandler = async (req, res) => {
                 //here you need to store this refreshtoken in a database
 
                 res.cookie('jwt', refreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
-                res.send({ auth: true, token: accessToken, result: result[0] });
+                res.send({ auth: true, accessToken: accessToken, result: result[0] });
             } else res.status(401).json({ auth: false });
         });
     }

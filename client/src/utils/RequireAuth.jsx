@@ -8,7 +8,7 @@ export const RequireAuth = ({ children,allowedRoles }) => {
    }
    catch(err){
     var user=null
-   }
+   } 
   
   return (
     allowedRoles?.find(role => user?.role?.includes(role))? children
