@@ -2,6 +2,7 @@
 import "./NotFound.css";
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import Layout from './../Layout/Layout';
 
 
 const NotFound = (props) => {
@@ -12,6 +13,7 @@ const NotFound = (props) => {
   <div className="not_found">
 
   {/* <HeaderOne /> */}
+  <Layout/>
   {(props.content==="NoRecords" &&  <><h1 className="notfound_header">404 Error - No Test Records</h1><p style={{color: "black", textAlign: "center", margin: "10px"}}>Sorry, we couldn't find records you requested.</p></>)
   || 
    (props.content==="NoPatient" && <><h1 className="notfound_header">404 Error - No Patient Found</h1><p style={{color: "black", textAlign: "center", margin: "10px"}}>Sorry, we couldn't find the patient you requested.</p></>)

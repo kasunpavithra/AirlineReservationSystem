@@ -24,7 +24,7 @@ const Landing = () => {
                 <div className="landing-text-box">
                     <h1><b>B-Airways</b></h1>
                     <h4>Subsidiary of Indonesia's leading airline company- Virgin Airlines </h4><br /><br />
-                    <a href="/booking" className="landing-hero-btn">Book tickets now!</a>
+                    <a href="/dashboard" className="landing-hero-btn">Book tickets now!</a>
                 </div>
             </section>
 
@@ -75,7 +75,7 @@ const Landing = () => {
 
             {/* <!------cONTACT US--> */}
             <section className="landing-contact">
-                <h1><a href="/booking">Book your tickets now!</a> </h1>
+                <h1><a href="/dashboard">Book your tickets now!</a> </h1>
             </section>
             {/* <!------Footer--> */}
             <section>

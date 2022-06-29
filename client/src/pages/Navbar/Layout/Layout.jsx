@@ -2,17 +2,19 @@ import { Outlet, Link } from "react-router-dom";
 import { Navbar, Nav, Container, NavLink } from "react-bootstrap";
 import './Layout.css'
 import Logo from "../../../photos/B Airways.png"
+import jwtDecode from "jwt-decode";
 
 
 
-const Layout = () => {
+const Layout = (props) => {
   
   try{
-    // var user=jwtDecode(Token.getAccessToken())
+    var user=jwtDecode(localStorage.getItem("AccessToken"))
    }
    catch(err){
      var user=null
    }
+   console.log(user)
   return (
     <div class='fixed-top row' >
       {/* <Navbar className="fixed-top bg-light NAV  " > */}
@@ -26,9 +28,20 @@ const Layout = () => {
             <ul>
               <li><b><a href="/">Home </a></b></li>
               <li><b><a href="/contact">Contact </a></b></li>
-              <li><b><a href="/dashboard">Dashboard </a></b></li>
-              <li><b><a href="/register">Register </a></b></li>
-              <li><b><a href="/admin">Admin </a></b></li>
+              {
+                user?.userInfo?.role==5002 && (<li><b><a href="/admin">Dashboard </a></b></li>)
+              }
+               {
+                user?.userInfo?.role==5003 && (<li><b><a href="/manager">Dashboard </a></b></li>)
+              }
+               {
+                (user?.userInfo?.role!=5002 || user?.userInfo?.role!=5003)  && (<li><b><a href="/dashboard">Dashboard </a></b></li>)
+              }
+              {((props.content!='login'  && !user)&& (<li><b><a href="/login">Login</a></b></li>))}
+              
+              {((props.content!='register' && !user)) && (<li><b><a href="/register">Register </a></b></li>)}
+              
+              {/* <li><b><a href="/admin">Admin </a></b></li> */}
               {user && (
               <li><b><a href="/logout">Logout </a></b></li>
               )}
