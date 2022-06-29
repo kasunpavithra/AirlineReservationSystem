@@ -14,7 +14,7 @@ CREATE TABLE `RegisteredCustomer` (
   `gender` TINYINT(4),
   `birthday` DATE,
  PRIMARY KEY (`userID`)
-  );
+  ) ENGINE = InnoDB;
 
 
 CREATE TABLE `Guest` (
@@ -26,7 +26,7 @@ CREATE TABLE `Guest` (
 `gender` TINYINT,
   `birthday` DATE,
  PRIMARY KEY (`userID`)
-  );
+  ) ENGINE = InnoDB;
 
 
 CREATE TABLE `authorizedUser` (
@@ -40,7 +40,7 @@ CREATE TABLE `authorizedUser` (
   `type` TINYINT(4),
   `image` BLOB,
  PRIMARY KEY (`userID`)
-);
+) ENGINE = InnoDB;
 
 
 CREATE TABLE `userPhone` (
@@ -54,7 +54,7 @@ CREATE TABLE `userPhone` (
   FOREIGN KEY (`registeredUserID`) REFERENCES `RegisteredCustomer`(`userID`),
 FOREIGN KEY (`guestUserID`) REFERENCES `Guest`(`userID`),
 FOREIGN KEY (`authUserID`) REFERENCES `authorizedUser`(`userID`)
-);
+) ENGINE = InnoDB;
 
 
 CREATE TABLE `Discount` (
@@ -65,7 +65,7 @@ CREATE TABLE `Discount` (
   `startTimeDate` datetime,
   `endTimeDate` datetime,
   PRIMARY KEY (`discountID`)
-);
+) ENGINE = InnoDB;
 
 
 CREATE TABLE `aircraftType` (
@@ -75,7 +75,7 @@ CREATE TABLE `aircraftType` (
   `status` TINYINT(4),
   `image` BLOB,
   PRIMARY KEY (`aircraftTypeID`)
-);
+) ENGINE = InnoDB;
 
 
 CREATE TABLE `airCraft` (
@@ -87,7 +87,7 @@ CREATE TABLE `airCraft` (
   `status` TINYINT(4),
   PRIMARY KEY (`aircraftID`),
   FOREIGN KEY (`aircraftTypeID`) REFERENCES `aircraftType`(`aircraftTypeID`)
-);
+) ENGINE = InnoDB;
 
 
 CREATE TABLE `class` (
@@ -95,7 +95,7 @@ CREATE TABLE `class` (
   `name` VARCHAR(20),
   `status` TINYINT(4),
   PRIMARY KEY (`classID`)
-);
+) ENGINE = InnoDB;
 
 
 CREATE TABLE `airCraftSeat` (
@@ -109,7 +109,7 @@ CREATE TABLE `airCraftSeat` (
   PRIMARY KEY (`airCraftseatID`),
   FOREIGN KEY (`airCrafftID`) REFERENCES `airCraft`(`aircraftID`),
   FOREIGN KEY (`classID`) REFERENCES `class`(`classID`)
-);
+) ENGINE = InnoDB;
 
 
 CREATE TABLE `AirPort` (
@@ -117,7 +117,7 @@ CREATE TABLE `AirPort` (
   `name` VARCHAR(20),
   `status` TINYINT(4),
   PRIMARY KEY (`airport_id`)
-);
+) ENGINE = InnoDB;
 
 
 CREATE TABLE `level` (
@@ -126,7 +126,7 @@ CREATE TABLE `level` (
   `levelrank` INT(2),
   `status` TINYINT(4),
   PRIMARY KEY (`levelID`)
-);
+) ENGINE = InnoDB;
 
 
 CREATE TABLE `airportlevelDetail` (
@@ -138,7 +138,7 @@ CREATE TABLE `airportlevelDetail` (
   PRIMARY KEY (`airportlevelDetailID`),
   FOREIGN KEY (`levelID`) REFERENCES `level`(`levelID`),
   FOREIGN KEY (`airport_id`) REFERENCES `AirPort`(`airport_id`)
-);
+) ENGINE = InnoDB;
 
 
 CREATE TABLE `Route` (
@@ -149,7 +149,7 @@ CREATE TABLE `Route` (
   PRIMARY KEY (`RouteID`),
   FOREIGN KEY (`DestinationID`) REFERENCES `AirPort`(`airport_id`),
   FOREIGN KEY (`OriginID`) REFERENCES `AirPort`(`airport_id`)
-);
+) ENGINE = InnoDB;
 
 CREATE TABLE `staticflight` ( `staticFlightID` INT(5) NOT NULL AUTO_INCREMENT , `aircraftID` INT(5) NOT NULL , `RouteID` INT(5) NOT NULL , `dispatchTime` DATETIME NOT NULL ,`status` TINYINT(4), PRIMARY KEY (`staticFlightID`),FOREIGN KEY (`aircraftID`) REFERENCES `airCraft`(`aircraftID`),FOREIGN KEY (`RouteID`) REFERENCES `Route`(`RouteID`)) ENGINE = InnoDB;
 
@@ -166,7 +166,7 @@ CREATE TABLE `flight` (
   FOREIGN KEY (`aircraftID`) REFERENCES `airCraft`(`aircraftID`),
   FOREIGN KEY (`RouteID`) REFERENCES `Route`(`RouteID`),
   FOREIGN KEY (`staticFlightID`) REFERENCES `staticflight`(`staticFlightID`)
-);
+) ENGINE = InnoDB;
 
 
 CREATE TABLE `FlightTime` (
@@ -178,7 +178,7 @@ CREATE TABLE `FlightTime` (
   `endTimeDate` DATETIME,
   PRIMARY KEY (`flightTimeID`),
   FOREIGN KEY (`flightID`) REFERENCES `flight`(`flightID`)
-);
+) ENGINE = InnoDB;
 
 
 
@@ -194,7 +194,7 @@ CREATE TABLE `classPrice` (
   PRIMARY KEY (`classPriceID`),
   FOREIGN KEY (`RouteID`) REFERENCES `Route`(`RouteID`),
 FOREIGN KEY (`classID`) REFERENCES `Class`(`classID`)
-);
+) ENGINE = InnoDB;
 
 
 CREATE TABLE `Booking` (
@@ -217,7 +217,7 @@ FOREIGN KEY (`flightID`) REFERENCES `flight`(`flightID`),
 FOREIGN KEY (`registeredUserID`) REFERENCES `RegisteredCustomer`(`userID`),
 FOREIGN KEY (`guestUserID`) REFERENCES `Guest`(`userID`)
   
-);
+) ENGINE = InnoDB;
 
 
 -- --
