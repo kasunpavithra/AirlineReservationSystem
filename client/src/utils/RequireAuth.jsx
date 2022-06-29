@@ -1,33 +1,46 @@
 import { useAuth } from "./auth";
+import { useState } from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 
-// export const RequireAuth = ({ children, allowedRoles }) => {
-//   const location = useLocation();
+import jwtDecode from "jwt-decode";
+import { allow } from "joi";
 
-//   try {
-//     // var user=jwtDecode(Token.getAccessToken())
-//   } catch (err) {
-//     var user = null;
-//   }
-
-//   return allowedRoles?.find((role) => user?.role?.includes(role)) ? (
-//     children
-//   ) : user ? (
-//     <Navigate to="/unauthorized" state={{ from: location.pathname }} replace />
-//   ) : (
-//     <Navigate to="/login" state={{ from: location.pathname }} replace />
-//   );
-// };
-
-export const RequireAuth = ({ allowedRoles }) => {
-  const { auth } = useAuth();
+export const RequireAuth = ({ children, allowedRoles }) => {
   const location = useLocation();
 
-  return auth?.role && allowedRoles.includes(auth.role) ? (
-    <Outlet />
-  ) : auth?.user ? (
-    <Navigate to="/unauthorized" state={{ from: location }} replace />
+  try {
+    var user=jwtDecode(localStorage.getItem('AccessToken'))
+  } catch (err) {
+    var user = null;
+  }
+
+
+ 
+  // console.log
+  console.log(user?.userInfo?.role)
+  console.log(allowedRoles)
+  console.log('path',location.pathname)
+
+  return allowedRoles?.find((role) => user?.userInfo?.role==role) ? (
+    children
+  ) : user ? (
+    <Navigate to="/unauthorized" state={{ from: location.pathname }} replace />
   ) : (
-    <Navigate to="/login" state={{ from: location }} replace />
+    <Navigate to="/login" state={{ from: location.pathname }} replace />
   );
 };
+
+//kasun
+
+// export const RequireAuth = ({ allowedRoles }) => {
+//   const { auth } = useAuth();
+//   const location = useLocation();
+
+//   return auth?.role && allowedRoles.includes(auth.role) ? (
+//     <Outlet />
+//   ) : auth?.user ? (
+//     <Navigate to="/unauthorized" state={{ from: location }} replace />
+//   ) : (
+//     <Navigate to="/login" state={{ from: location }} replace />
+//   );
+// };

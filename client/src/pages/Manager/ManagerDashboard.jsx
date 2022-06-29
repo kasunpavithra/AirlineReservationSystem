@@ -6,6 +6,7 @@ import { Button, ButtonGroup, Card, Form, ToggleButton } from "react-bootstrap";
 import "./managerStyle.css";
 import ManagerServices from "../../../services/ManagerServices";
 import managerValidation from "../../Validation/managerValidation";
+import Layout from "../Navbar/Layout/Layout";
 
 const ManagerDashboard = () => {
   const [ageType, setAgeType] = useState('');
@@ -118,7 +119,7 @@ const ManagerDashboard = () => {
     const state={'Flight No':flightId?.id,'Age Type':ageType.value}
     console.log(state);
     const {value,error}=managerValidation.ValidateFlightPassengers(state)
-    console.log(error)
+   
     if (error) {
       error.details.map((item) => {
         errors[item.path[0]] = item.message;
@@ -373,6 +374,7 @@ const ManagerDashboard = () => {
 
   return (
     <>
+    <Layout/>
       <div class="sidebar">
         <div class="ml-4 logo-details mt-3">
           <span class=" logo_name">B Airways</span>
@@ -471,7 +473,7 @@ const ManagerDashboard = () => {
                 <div class="btn-group mt-2">
                   <button
                     type="button"
-                    class="btn btn-danger dropdown-toggle"
+                    class="btn btn-primary dropdown-toggle"
                     data-toggle="dropdown"
                     aria-haspopup="true"
                     aria-expanded="false"
@@ -562,7 +564,7 @@ const ManagerDashboard = () => {
                 <div class="btn-group mt-2">
                   <button
                     type="button"
-                    class="btn btn-danger dropdown-toggle"
+                    class="btn btn-success dropdown-toggle"
                     data-toggle="dropdown"
                     aria-haspopup="true"
                     aria-expanded="false"
@@ -584,12 +586,13 @@ const ManagerDashboard = () => {
                   </div>
                 </div>
                 {errorAllPassengers['Destination Id'] !== "" && <p className="error">{errorAllPassengers['Destination Id']}</p>}
+                <div></div>
                 <div class="container">
-                  Start Date: <input type="date" name='startDate' id="startDate" onChange={(event)=>{setDestinationDates({...destinationDates,[event.target.name]: event.target.value})}} width="276" />
+                  Start Date: <input type="date" name='startDate1' id="startDate1" onChange={(event)=>{setDestinationDates({...destinationDates,[event.target.name]: event.target.value})}} width="276" />
                   {errorAllPassengers['Start Date'] !== "" && <p className="error">{errorAllPassengers['Start Date']}</p>}
                   </div>
                   <div class="container ">
-                  End Date: <input type="date" name='endDate' id="endDate"   onChange={(event)=>{setDestinationDates({...destinationDates,[event.target.name]: event.target.value})}} width="276" />
+                  End Date: <input type="date" name='endDate1' id="endDate1"   onChange={(event)=>{setDestinationDates({...destinationDates,[event.target.name]: event.target.value})}} width="276" />
                   {errorAllPassengers['End Date'] !== "" && <p className="error">{errorAllPassengers['End Date']}</p>}
                   </div>
                   
@@ -597,7 +600,7 @@ const ManagerDashboard = () => {
                 <div className="row">
                     <div className="col-9 "></div>
                     <div className="col-3 ">
-                      <Button  type="submit">
+                      <Button variant="success"  type="submit">
                         search
                       </Button>
                     </div>
@@ -609,7 +612,7 @@ const ManagerDashboard = () => {
                 </div>
               </div>
               
-              <div class="number mr-4 mt-5">{allPassengers? allPassengers:'0'}</div>
+              <div class="number  mt-5">{allPassengers? allPassengers:'0'}</div>
             </div>
 
 
@@ -621,7 +624,7 @@ const ManagerDashboard = () => {
                 <div class="btn-group">
                   <button
                     type="button"
-                    class="btn btn-danger dropdown-toggle"
+                    class="btn btn-warning dropdown-toggle"
                     data-toggle="dropdown"
                     aria-haspopup="true"
                     aria-expanded="false"
@@ -656,7 +659,7 @@ const ManagerDashboard = () => {
                             id={`radio-${idx}`}
                             type="radio"
                             variant={
-                              idx % 2 ? "outline-primary" : "outline-primary"
+                              idx % 2 ? "outline-warning" : "outline-warning"
                             }
                             name="radio"
                             value={radio[1]}
@@ -678,10 +681,10 @@ const ManagerDashboard = () => {
                     {errorAllBookings['Age Type'] !== "" && <p className="error">{errorAllBookings['Age Type']}</p>}
                     </Form.Group>
                     <div class="container">
-                  Start Date: <input type="date" name='startDate' id="startDate" onChange={(event)=>{setBookingDates({...bookingDates,[event.target.name]: event.target.value})}} width="276" />
+                  Start Date: <input type="date" name='startDate2' id="startDate2" onChange={(event)=>{setBookingDates({...bookingDates,[event.target.name]: event.target.value})}} width="276" />
                   {errorAllBookings['Start Date'] !== "" && <p className="error">{errorAllBookings['Start Date']}</p>}
                   <br></br>
-                  End Date: <input type="date" name='endDate' id="endDate"   onChange={(event)=>{setBookingDates({...bookingDates,[event.target.name]: event.target.value})}} width="276" />
+                  End Date: <input type="date" name='endDate2' id="endDate2"   onChange={(event)=>{setBookingDates({...bookingDates,[event.target.name]: event.target.value})}} width="276" />
                   {errorAllBookings['End Date'] !== "" && <p className="error">{errorAllBookings['End Date']}</p>}
                 </div>
                 
@@ -690,7 +693,7 @@ const ManagerDashboard = () => {
                 <div className="row">
                     <div className="col-9 "></div>
                     <div className="col-3 ">
-                      <Button  type="submit">
+                      <Button variant="warning" type="submit">
                         search
                       </Button>
                     </div>
@@ -743,7 +746,7 @@ const ManagerDashboard = () => {
                 <div className="row">
                     <div className="col-9 "></div>
                     <div className="col-3 ">
-                      <Button  type="submit">
+                      <Button variant="danger" type="submit">
                         search
                       </Button>
                     </div>
@@ -766,7 +769,7 @@ const ManagerDashboard = () => {
                 <div class="btn-group ml-2 mt-2">
                   <button
                     type="button"
-                    class="btn btn-danger dropdown-toggle"
+                    class="btn btn-info dropdown-toggle"
                     data-toggle="dropdown"
                     aria-haspopup="true"
                     aria-expanded="false"
@@ -791,7 +794,7 @@ const ManagerDashboard = () => {
                 <div class="ml-2 mt-2 btn-group">
                   <button
                     type="button"
-                    class="btn btn-danger dropdown-toggle"
+                    class="btn btn-info dropdown-toggle"
                     data-toggle="dropdown"
                     aria-haspopup="true"
                     aria-expanded="false"
@@ -815,12 +818,12 @@ const ManagerDashboard = () => {
                 { errorPastFlights['Destination Id'] !== "" && <p className="error">{ errorPastFlights['Destination Id'] }</p>}
                 <div></div>
                 
-                <i class='mt-2 bx bxs-plane-take-off cart four'></i>
+                <i class='mt-2 bx bxs-plane-take-off cart five'></i>
                 
                 <div className="row">
                     <div className="col-9 "></div>
                     <div className="col-3 ">
-                      <Button  type="submit">
+                      <Button variant="info"  type="submit">
                         search
                       </Button>
                     </div>

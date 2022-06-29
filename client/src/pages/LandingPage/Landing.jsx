@@ -2,22 +2,24 @@ import "./landingStyles.css"
 import delhiPic from "./assets/DELHI.jpg"
 import singaPic from "./assets/singa.jpg"
 import bangkokPic from "./assets/bangkok.jpg"
+import Layout from "../Navbar/Layout/Layout"
 
 const Landing = () => {
     return (
-        <>
+        <><Layout/>
             <section className="landing-header">
                 <div className="landing-headerGradient"></div>
                 <nav className="landing-nav">
                     <a href="index.html"><img src="Dedsec.png" /></a>
-                    <div className="landing-nav-links">
+                    {/* <div className="landing-nav-links">
                         <ul>
                             <li><b><a href="/login">LOGIN</a></b></li>
                             <li><b><a href="/register">REGISTER</a></b></li>
                             <li><b><a href="/about">ABOUT</a></b></li>
                             <li><b><a href="/contact">CONTACT</a></b></li>
                         </ul>
-                    </div>
+                    </div> */}
+                    
                 </nav>
                 <div className="landing-text-box">
                     <h1><b>B-Airways</b></h1>

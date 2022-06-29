@@ -9,6 +9,7 @@ import { Row,Col, Dropdown,DropdownButton} from 'react-bootstrap';
 import Validation  from '../../../Validation/updateValidation';
 import Messages from "../../../helpers/Messages";
 import UserServices from '../../../../services/UserServices';
+import Layout from './../../Navbar/Layout/Layout';
 
 const  Update =() => {
     const formValues={
@@ -138,6 +139,7 @@ const  Update =() => {
     }
   return (
     <div>
+        <Layout/>
     <div className=' col-xl-5 pt-4 mx-auto form-container'>
         
         <h1 className='fs-1 text-primary mb-3'>Update Account </h1>
