@@ -4,4 +4,7 @@ const routeController = require("../controllers/routeController");
 
 router.get("/all", routeController.getAllRoutes);
 router.get("/routePrice/:routeID", routeController.getRoutePrices);
+router.post("/addRoute",routeController.addRoute);
+router.delete("/deleteRoute/:id",routeController.deleteRoute);
+
 module.exports = router;
