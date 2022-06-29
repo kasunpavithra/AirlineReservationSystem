@@ -5,6 +5,6 @@ const router = require('express').Router();
 router.get('/allLevels',getAllLevels);
 router.post('/addLevel',addLevel);
 router.delete('/deleteLevel/:id',deleteLevel);
-router.post('/updateLevel',updateLevel);
+router.put('/updateLevel',updateLevel);
 
 module.exports = router;
