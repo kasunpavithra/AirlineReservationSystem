@@ -119,11 +119,11 @@ function GetFlight() {
     <>
     
     <div className="body">
-    <Layout/>
-     
-      <div className="upper">
-        <Form onSubmit={submitForm}>
-          <div className="container">
+      {/* <Layout/>
+      */}
+      <div className="upper ">
+        <Form className='container4' onSubmit={submitForm}>
+          <div className="container4 mt-5">
             <div className="row mt-3">
               <div className="col d-flex align-items-center justify-content-center">
                 <label htmlFor="departure">From </label>

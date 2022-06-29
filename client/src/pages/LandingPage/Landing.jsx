@@ -75,7 +75,7 @@ const Landing = () => {
 
             {/* <!------cONTACT US--> */}
             <section className="landing-contact">
-                <h1><a href="/booking">Book your tickets now!</a> </h1>
+                <h1><a href="/dashboard">Book your tickets now!</a> </h1>
             </section>
             {/* <!------Footer--> */}
             <section>
