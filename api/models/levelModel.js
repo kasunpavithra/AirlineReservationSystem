@@ -32,7 +32,7 @@ const addLevel = (levelInfo) => {
   return new Promise((resolve, reject) => {
     var sql =
       "INSERT INTO `level` (levelName,levelrank,status) VALUES (?,?,1);";
-    if(!levelInfo?.levelName || !levelInfo?.levelrank) reject(new Error("BadRequest"));
+    if(!levelInfo?.levelName || !levelInfo?.levelrank) return reject(new Error("BadRequest"));
     
     db.query(sql,[levelInfo.levelName,levelInfo.levelrank] ,(err, result) => {
       if (err) {
@@ -48,7 +48,7 @@ const updateLevel = (levelInfo) => {
   return new Promise((resolve, reject) => {
     var sql =
       "UPDATE `level` SET levelName=? ,levelrank=? WHERE levelID=?;";
-    if(!levelInfo?.levelName || !levelInfo?.levelrank || !levelInfo?.id) reject(new Error("BadRequest"));
+    if(!levelInfo?.levelName || !levelInfo?.levelrank || !levelInfo?.id) return reject(new Error("BadRequest"));
     
     db.query(sql,[levelInfo.levelName,levelInfo.levelrank,levelInfo.id] ,(err, result) => {
       if (err) {
