@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { useRef } from "react";
 
 import axios from "../../../api/axios";
+import Layout from './../Layout/Layout';
 const LOGIN_URL = "/api/auth/login";
 
 function Login() {
@@ -14,7 +15,7 @@ function Login() {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/home"  //you need to specify here dashboard 
+  const from = location.state?.from || "/navigation"  //you need to specify here dashboard 
 
   const emailRef = useRef();
   const errRef = useRef();
@@ -46,13 +47,13 @@ function Login() {
           //   withCredentials: true,
         }
       );
-      console.log(JSON.stringify(response?.data));
-      const accessToken = response?.data?.accessToken;
-      const role = response?.data?.role;    //5000 for registered customer
-      setAuth({ user:email, role:5000, accessToken }); //you need to customise here
-      setEmail("");
-      setPwd("");
-
+      // console.log(JSON.stringify(response?.data));
+      // const accessToken = response?.data?.accessToken;
+      // const role = response?.data?.role;    //5000 for registered customer
+      // setAuth({ user:email, role:5000, accessToken }); //you need to customise here
+      localStorage.setItem("AccessToken", response?.data?.accessToken);
+      // setEmail("");
+      // setPwd("");
       navigate(from, { replace: true });
     } catch (err) {
       if (!err?.response) {
@@ -70,6 +71,7 @@ function Login() {
 
   return (
     <div className=" logincontainer">
+      <Layout/>
       <div className="mt-5 d-flex justify-content-center h-100">
         <div className="logincard">
           <div className="logincard-header">
@@ -113,7 +115,7 @@ function Login() {
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
-              <div className="input-group form-group">
+              <div className="input-group form-group mt-2">
                 <div className="input-group-prepend">
                   <span className="input-group-text">
                     <i className="fas fa-key"></i>

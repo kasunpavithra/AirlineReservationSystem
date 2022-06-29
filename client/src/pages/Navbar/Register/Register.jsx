@@ -11,6 +11,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useRef } from "react";
 import { useEffect } from "react";
 import axios from "../../../api/axios";
+import Layout from "../Layout/Layout";
 
 const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 const PWD_REGEX =
@@ -149,6 +150,7 @@ const Register = () => {
 
   return (
     <>
+    <Layout/>
       {success ? (
         <section>
           <h1>Success!</h1>
