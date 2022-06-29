@@ -1,9 +1,9 @@
 const db = require("../db/db");
 
-const addAirCraftType = (data) => {
+const addClass = (data) => {
     return new Promise((resolve, reject) => {
-      var sql = "INSERT INTO aircrafttype (aircraftTypeID, name, description, image, status) VALUES (DEFAULT, ?,?,?, 1);"
-      const valueSet = [data.name, data.description, data.image]
+      var sql = "INSERT INTO class (classID , name, status) VALUES (DEFAULT, ?, 1);"
+      const valueSet = [data.name]
       db.query(sql, valueSet, (err, result) => {
         if (err) {
           return reject(err)
@@ -14,9 +14,9 @@ const addAirCraftType = (data) => {
     })
   };
   
-  const deleteAirCraftType = (deleteId) => {
+  const deleteClass = (deleteId) => {
     return new Promise((resolve, reject) => {
-      var sql = "UPDATE aircrafttype SET status=0 WHERE aircraftTypeID=?;"
+      var sql = "UPDATE class SET status=0 WHERE classID=?;"
       const valueSet = [deleteId]
       db.query(sql, valueSet, (err, result) => {
         if (err) {
@@ -28,10 +28,10 @@ const addAirCraftType = (data) => {
     })
   };
   
-  const updateAirCraftType = (updateId, aircraftTypeData) => {
+  const updateClass = (updateId, classData) => {
     return new Promise((resolve, reject) => {
-      var sql = "UPDATE aircrafttype SET name=?, description=?, image=?, status=? WHERE aircraftTypeID=?;"
-      const valueSet = [aircraftTypeData.name, aircraftTypeData.description, aircraftTypeData.image, aircraftTypeData.status, updateId]
+      var sql = "UPDATE class SET name=?, status=? WHERE classID=?;"
+      const valueSet = [classData.name, classData.status, updateId]
       db.query(sql, valueSet, (err, result) => {
         if (err) {
           return reject(err)
@@ -43,7 +43,7 @@ const addAirCraftType = (data) => {
   };
 
 module.exports = {
-    addAirCraftType,
-    deleteAirCraftType,
-    updateAirCraftType
+    addClass,
+    deleteClass,
+    updateClass
 }

@@ -19,18 +19,18 @@ const addAirCraftType = async (req, res) => {
         })
 };
 
-const deleteAirCraft = async (req, res) => {
+const deleteAirCraftType = async (req, res) => {
     const deleteId = req.params.id
-    await airCraftTypeModel.deleteAirCraft(deleteId)
+    await airCraftTypeModel.deleteAirCraftType(deleteId)
         .then(result => {
-            console.log("Aircraft deleted!")
+            console.log("AircraftType deleted!")
             res.json({
                 success: true,
                 result
             })
         })
         .catch(err => {
-            console.log("ERROR WHEN DELETING AN AIRCRAFT: " + err);
+            console.log("ERROR WHEN DELETING AN AIRCRAFTTYPE: " + err);
             res.json({
                 success: false,
                 err
@@ -38,19 +38,19 @@ const deleteAirCraft = async (req, res) => {
         })
 };
 
-const updateAirCraft = async (req, res) => {
+const updateAirCraftType = async (req, res) => {
     const updateId = req.params.id
-    const aircraftData = req.body
-    await airCraftTypeModel.updateAirCraft(updateId, aircraftData)
+    const aircraftTypeData = req.body
+    await airCraftTypeModel.updateAirCraftType(updateId, aircraftTypeData)
         .then(result => {
-            console.log("Aircraft updated!")
+            console.log("AircraftType updated!")
             res.json({
                 success: true,
                 result
             })
         })
         .catch(err => {
-            console.log("ERROR WHEN UPDATING AN AIRCRAFT: " + err);
+            console.log("ERROR WHEN UPDATING AN AIRCRAFTTYPE: " + err);
             res.json({
                 success: false,
                 err
@@ -59,5 +59,7 @@ const updateAirCraft = async (req, res) => {
 };
 
 module.exports = {
-    addAirCraftType
+    addAirCraftType,
+    deleteAirCraftType,
+    updateAirCraftType
 }
