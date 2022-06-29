@@ -150,7 +150,7 @@ const Register = () => {
 
   return (
     <>
-    <Layout/>
+    <Layout content={'register'}/>
       {success ? (
         <section>
           <h1>Success!</h1>

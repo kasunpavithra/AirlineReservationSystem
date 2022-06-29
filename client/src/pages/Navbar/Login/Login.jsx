@@ -71,7 +71,7 @@ function Login() {
 
   return (
     <div className=" logincontainer">
-      <Layout/>
+      <Layout content={'login'}/>
       <div className="mt-5 d-flex justify-content-center h-100">
         <div className="logincard">
           <div className="logincard-header">

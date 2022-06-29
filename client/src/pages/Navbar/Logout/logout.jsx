@@ -12,11 +12,11 @@ const Logout=()=>{
       // setLoader(true);
       // const response = await AuthServices.logout();
       localStorage.clear();
-      window.location.href="/login";
+      window.location.href="/";
 
     } catch (error) {
       localStorage.clear();
-      window.location.href="/login";
+      window.location.href="/";
       
     }
     // setLoader(false); 
