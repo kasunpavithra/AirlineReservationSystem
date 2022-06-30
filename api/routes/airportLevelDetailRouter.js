@@ -1,5 +1,5 @@
 const router  = require('express').Router();
-const airportInfoController = require('../controllers/airportInfoController')
+const airportInfoController = require('../controllers/airportInfoController');
 
 router.post("/addAirportInfo",airportInfoController.addAirportInfo);
 router.get("/getAirportInfoByID/:id",airportInfoController.getAirportInfoByID);
