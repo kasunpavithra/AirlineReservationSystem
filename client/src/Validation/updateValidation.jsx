@@ -3,13 +3,13 @@ import Joi from 'joi';
 const ValidateUpdate = (data) => {
     const UpdateValidationSchema = Joi.object({
 
-        'First Name': Joi.string().regex(/^[A-Z][a-z0-9_-]{2,}$/).messages({ "string.pattern.base": "First letter must be a Capital" }).min(3).max(15),
-        'Last Name': Joi.string().regex(/^[A-Z][a-z0-9_-]{2,}$/).messages({ "string.pattern.base": "First letter must be a Capital" }).min(3).max(20).required(),
+        'First Name': Joi.string().required().regex(/^[a-z ,.'-]+$/i).messages({"string.empty": "Field should not be empty!" }),
+        'Last Name': Joi.string().required().regex(/^[a-z ,.'-]+$/i).messages({"string.empty": "Field should not be empty!","string.required": "Field is required!"}),
        // 'NIC': Joi.string().alphanum().regex(/^([0-9]{9}[X|V]|[0-9]{12})$/).messages({ "string.pattern.base": "NIC number must end with V and must have at least 10 characters" }).min(10).max(20).required(),
-        'Gender':Joi.string().required(),
-        'Contact Number': Joi.string().regex(/^(?:0|(?:\+94))[0-9]{9}$/).messages({ "string.pattern.base": "Contact number must start with 0 or +94 and must have 10 digits" }).length(10).required(),
+        'Gender':Joi.required(),
+        'Contact Number': Joi.string().regex( /^(?:(?:\+|0{0,2})91(\s*[\ -]\s*)?|[0]?)?[456789]\d{9}|(\d[ -]?){9}\d$/).messages({ "string.pattern.base": "Contact number must start with 0 or +94 and must have 10 digits" }).length(10).required(),
         
-        'Email': Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }),
+        'Address': Joi.string().required(),
         'Birthday': Joi.date().max('01-01-2005').messages({ 'date.max': `Age must be 18+;"Birthday" must be before or equal to "01-01-2005` }).required()
 
     })
