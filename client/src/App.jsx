@@ -105,14 +105,17 @@ function App() {
 
               {/* Manager Routings */}
               <Route exact path="/manager/*" element={<RequireAuth allowedRoles={[ROLES.Manager]} ><ManagerDashboard /></RequireAuth>} />
-              <Route exact path="/userbookings" element={<RequireAuth allowedRoles={[ROLES.RegisteredUser]} ><ViewBookings /></RequireAuth>} />
+             
 
-              {/* User routes */}
-              <Route exact path="/dashboard" element={<Dashboard />} />
+              {/*RegisteredUser routes */}
+          
               <Route exact path="/update" element={<RequireAuth allowedRoles={[ROLES.RegisteredUser]} ><Update /></RequireAuth>} />
-              <Route exact path="/getFlight" element={<GetFlight />} />
+              <Route exact path="/userbookings" element={<RequireAuth allowedRoles={[ROLES.RegisteredUser]} ><ViewBookings /></RequireAuth>} />
+             
 
-              {/* No auth */}
+              {/*Public routes */}
+              <Route exact path="/dashboard" element={<Dashboard />} />
+              <Route exact path="/getFlight" element={<GetFlight />} />
               <Route exact path="/register" element={<Register />} />
               <Route exact path="/bookSeat" element={<BookSeat />} />
             {/* </Route>
