@@ -10,7 +10,7 @@ import axios from "../../../api/axios";
 import Layout from './../Layout/Layout';
 const LOGIN_URL = "/api/auth/login";
 
-function Login() {
+function Login(prop) {
   const { setAuth } = useAuth();
 
   const navigate = useNavigate();
@@ -34,18 +34,46 @@ function Login() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    console.log('hi')
+    var details={}
+    if(prop.user=="authorized"){
+      details= {
+        email: email,
+        password: pwd,
+        isAuthorizedUser:true
+      
+      }
+    }
+    else 
+    if(prop.user=="public"){
+       details= {
+        email: email,
+        password: pwd, 
+      }
+    }
 
     try {
       const response = await axios.post(
+        
+        // prop.user=="authorized"?
         LOGIN_URL,
-        {
-          email: email,
-          password: pwd,
-        },
+        details,
         {
           headers: { "Content-Type": "application/json" },
           //   withCredentials: true,
         }
+      // :
+      // (LOGIN_URL,
+      // {
+      //   email: email,
+      //   password: pwd,
+       
+      // },
+      // {
+      //   headers: { "Content-Type": "application/json" },
+      //   //   withCredentials: true,
+      // })
+
       );
       // console.log(JSON.stringify(response?.data));
       // const accessToken = response?.data?.accessToken;
@@ -71,7 +99,7 @@ function Login() {
 
   return (
     <div className=" logincontainer">
-      <Layout content={'login'}/>
+      <Layout content={'login'} user={prop.user}/>
       <div className="mt-5 d-flex justify-content-center h-100">
         <div className="logincard">
           <div className="logincard-header">

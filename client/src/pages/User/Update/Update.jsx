@@ -10,6 +10,9 @@ import Validation  from '../../../Validation/updateValidation';
 import Messages from "../../../helpers/Messages";
 import UserServices from '../../../../services/UserServices';
 import Layout from './../../Navbar/Layout/Layout';
+import { useEffect } from 'react';
+import jwtDecode from "jwt-decode";
+
 
 const  Update =() => {
     const formValues={
@@ -20,13 +23,55 @@ const  Update =() => {
         'Email' :'',
         'Birthday' :''
     }
-    const [state,setState]=React.useState(formValues);
+    var [state,setState]=React.useState(formValues);
     const [errordata,setError]=React.useState(formValues);
     const [img, setImg] = React.useState();
     const [imgname, setImgName] = React.useState("");
     const [img_err, setImgErr] = React.useState("");
+    const[imagepath,setImagePath] = React.useState('');
     const navigate = useNavigate();
-        
+
+
+    useEffect(() => {
+        getCustomerDetails();
+      }, []);
+
+      const getCustomerDetails = async () => {
+        try {
+        //   const genderType = await ExaminerServices.getgendertypes();
+        //   // console.log(genderType.data.data);
+        //   setgenderTypes(genderType.data.data);
+    
+        try{
+             var user=jwtDecode(localStorage.getItem("AccessToken"))
+           }
+          
+
+        catch(err){
+            user=null
+        }
+        const getCustomer = await UserServices.getcustomer(user.userInfo.id)
+        console.log( getCustomer.data.result[0])
+          // console.log("patient",getPatient);
+          state = {
+
+            "First Name":getCustomer.data.result[0].firstname,
+            "Last Name": getCustomer.data.result[0].lastname,
+            "Address":getCustomer.data.result[0].address,
+            "Contact Number": getCustomer.data.result[0].phoneNumber,
+            "Birthday": getCustomer.data.result[0].birthday.split("T")[0],
+            "Gender":getCustomer.data.result[0].gender,
+            "userID":user.userInfo.id 
+          };
+          console.log(state)
+          setState(state);
+          setImagePath( getCustomer.data.result[0].image)
+    
+
+          // console.log("state",state);
+          
+        } catch (error) {}
+      };
     
     const handleUser=(event)=>{
         setState({
@@ -35,8 +80,9 @@ const  Update =() => {
     }
     const handleSelect=(event)=>{
         console.log(event);
+        console.log(parseInt(event,10))
         setState({
-            ...state,'Gender' : event})
+            ...state,'Gender' : parseInt(event,10)})
     }
    
     const fileValidation = () => {
@@ -47,13 +93,19 @@ const  Update =() => {
           if (fileInput.files && fileInput.files[0]) {
             var reader = new FileReader();
             reader.onload = function (e) {
-              document.getElementById("imagePreview").innerHTML =
-                '<img width="200" height="200" src="' + e.target.result + '"/>';
+                console.log(e.target.result)
+       
+            document.getElementById("imagePreview").innerHTML = '<img width="200" height="200" src="'+ e.target.result+'"/>';
             //   setImg(reader.result.replace("data:", "").replace(/^.+,/, ""));
+            console.log(fileInput.files[0])
+            console.log(fileInput.files[0].name)
             setImg(fileInput.files[0]);
             setImgName(fileInput.files[0].name);
             };
+    
+              
             reader.readAsDataURL(fileInput.files[0]);
+           
           }
         }
       };
@@ -64,8 +116,8 @@ const  Update =() => {
         const {value,error}=Validation.ValidateUpdate(state)
         console.log(error);
         console.log(state);
-        if (error || !document.getElementById("file").value) {
-
+        if (error) {
+            console.log("error",error)
             if(error){
                 const errors={}
                 error.details.map(item => {
@@ -74,12 +126,11 @@ const  Update =() => {
                 setError(errors);
             
             }
-            if (!document.getElementById("file").value) {
-                setImgErr("Profile photo is required");
-              }
             else{
-            setImgErr("");
+                setError({})
             }
+           
+            
            
             
         } 
@@ -90,8 +141,12 @@ const  Update =() => {
         //         console.log(error.message);
         //     }
         // } 
+        if (!document.getElementById("file").value  && !imagepath) {
+            setImgErr("Profile photo is required");
+          }
         else {
         setImgErr('')
+        setError({})
         const options={
             labels:{
                 confirmable:"Confirm",
@@ -103,34 +158,42 @@ const  Update =() => {
                 // setLoader(true);
                 try {
                     // const test_id = location.state.test_id;
+                    console.log('heeee')
+                    console.log(img)
+       
                     const formData = new FormData();
                     formData.append("firstname", state['First Name']);
                     formData.append("lastname",state['Last Name']);
                     formData.append("gender", state['Gender']);
                     formData.append("contactnumber", state['Contact Number']);
-                    formData.append("email", state['Email']);
-                    formData.append("userID", 312);
+                    formData.append("address", state['Address']);
+                    formData.append("userID",state ['userID']);
                     formData.append("birthday", state['Birthday']);
                     formData.append("Image", img);
                     formData.append("ImageName", imgname);
                  
+                    console.log('geee')
                     const response = await UserServices.update(formData);
+                    console.log(response);
                    
-                    // if (response.status === 200) {
-                    // Messages.SuccessMessage("User updated successfully");
-                    setTimeout(() => {
-                        // setLoader(false);
-                    }, 200);
-                    // navigate(`/test-records/`);
+                    if (response.status === 200) {
+                    Messages.SuccessMessage("Updated successfully");
+                    navigate(`/dashboard`);
+
+                    // setTimeout(() => {
+                    //     // setLoader(false);
+                    // }, 200);
+                    }
+                    
                     
                 } catch (error) {
-                    // console.log(error);
+                    console.log(error);
                     Messages.ErrorMessage({
                     error: error,
-                    custom_message: `Test Failed`,
+                    custom_message: `Update fail`,
                     });
                     // setLoader(false)
-                    // navigate(0);
+                    navigate(0);
                 }
             }
         }
@@ -139,7 +202,7 @@ const  Update =() => {
     }
   return (
     <div>
-        <Layout/>
+        <Layout content='update'/>
     <div className=' col-xl-5 pt-4 mx-auto form-container'>
         
         <h1 className='fs-1 text-primary mb-3'>Update Account </h1>
@@ -148,9 +211,10 @@ const  Update =() => {
             <div className="preview" id="imagePreview">
                     <img width="200"
                         height="200"
-                        src="https://i.ibb.co/Q68tPz8/No-Preview.png"
+                        src= {imagepath? imagepath:"https://i.ibb.co/Q68tPz8/No-Preview.png"}
                         alt=""
                     />
+                    
                     </div>
                     <br></br>
                 <Row>   
@@ -181,7 +245,8 @@ const  Update =() => {
                 <Form.Label style={{"font-family":"FontAwesome"}}  column sm={4}>First Name</Form.Label>
                 <Col sm={7} >
                 
-                <Form.Control style={{"font-family":"FontAwesome"}}  type="text" name='First Name' placeholder='&#xf007; First Name' onChange={handleUser} />
+               
+                <Form.Control style={{"font-family":"FontAwesome"}}  type="text" name='First Name'  value={state["First Name"]}   placeholder='&#xf007; First Name' onChange={handleUser} />
                 </Col>
                 <Row>
                     <Col>
@@ -197,7 +262,7 @@ const  Update =() => {
             <Form.Group as={Row} className='fw-bold col-xl-12 mb-3 mx-auto' controlId='Last Name'>
                  <Form.Label style={{"font-family":"FontAwesome"}}   column sm={4} >Last Name </Form.Label>
                  <Col sm={7}>
-                <Form.Control style={{"font-family":"FontAwesome"}}  type="text" name='Last Name' placeholder='&#xf234; Last Name' onChange={handleUser}/>
+                <Form.Control style={{"font-family":"FontAwesome"}}  type="text" name='Last Name'  value={state["Last Name"]} placeholder='&#xf234; Last Name' onChange={handleUser}/>
                 </Col>
                 <Row>
                     <Col>
@@ -209,16 +274,16 @@ const  Update =() => {
                 
             </Form.Group>
 
-            <Form.Group as={Row} className='fw-bold col-xl-12 mb-3 mx-auto' controlId='Email'>
-               <Form.Label style={{"font-family":"FontAwesome"}}  column sm={4} >Email</Form.Label>
+            <Form.Group as={Row} className='fw-bold col-xl-12 mb-3 mx-auto' controlId='Address'>
+               <Form.Label style={{"font-family":"FontAwesome"}}  column sm={4} >Address</Form.Label>
                <Col sm={7}>
-               <Form.Control style={{"font-family":"FontAwesome"}}   type="text" name='Email' placeholder='&#xf0e0; Email' onChange={handleUser}/>
+               <Form.Control style={{"font-family":"FontAwesome"}}   type="text" name='Address'  value={state["Address"]} placeholder='&#xf0e0; Address' onChange={handleUser}/>
                </Col>
                <Row>
                     <Col>
                     </Col>
                     <Col sm={8}>
-                    {errordata.Email !== '' && <p className="error">{errordata.Email}</p>}
+                    {errordata.Address !== '' && <p className="error">{errordata.Address}</p>}
                     </Col>
                 </Row>
                
@@ -255,7 +320,7 @@ const  Update =() => {
             <Form.Group as={Row} className='fw-bold col-xl-12 mb-3 mx-auto' controlId='Contact Number'>
                 <Form.Label style={{"font-family":"FontAwesome"}}   column sm={4}>Contact Number</Form.Label>
                 <Col sm={7}>
-                <Form.Control style={{"font-family":"FontAwesome"}}  type="text" name='Contact Number' placeholder='&#xf095; Contact Number' onChange={handleUser}/>
+                <Form.Control style={{"font-family":"FontAwesome"}}  type="text" name='Contact Number'  value={state["Contact Number"]}  placeholder='&#xf095; Contact Number' onChange={handleUser}/>
                 </Col>
                 <Row>
                     <Col>
@@ -271,7 +336,7 @@ const  Update =() => {
            <Form.Group as={Row} className='fw-bold col-xl-12 mb-3 mx-auto' controlId='Birthday'>
                <Form.Label style={{"font-family":"FontAwesome"}}  column sm={4} >Birthday</Form.Label>
                <Col sm={7}>
-               <Form.Control style={{"font-family":"FontAwesome"}}  type="date" name='Birthday' placeholder='&#xf1fd; Birthday' onChange={handleUser}/>
+               <Form.Control style={{"font-family":"FontAwesome"}}  type="date" name='Birthday'  value={state["Birthday"]}  placeholder='&#xf1fd; Birthday' onChange={handleUser}/>
                </Col>
                <Row>
                     <Col>

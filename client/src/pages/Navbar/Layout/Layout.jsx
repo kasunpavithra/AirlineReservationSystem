@@ -35,12 +35,15 @@ const Layout = (props) => {
                 user?.userInfo?.role==5003 && (<li><b><a href="/manager">Dashboard </a></b></li>)
               }
                {
-                (user?.userInfo?.role!=5002 || user?.userInfo?.role!=5003)  && (<li><b><a href="/dashboard">Dashboard </a></b></li>)
+                (user?.userInfo?.role!=5002  && user?.userInfo?.role!=5003)  && (<li><b><a href="/dashboard">Dashboard </a></b></li>)
               }
-              {((props.content!='login'  && !user)&& (<li><b><a href="/login">Login</a></b></li>))}
+              {(((props.content!='login'|| props.user=='authorized')  && !user)&& (<li><b><a href="/login">CustomerLogin</a></b></li>))}
+              {(((props.content!='login'|| props.user=='public')  && !user)&& (<li><b><a href="/authorizelogin">AuthorizeLogin</a></b></li>))}
               
               {((props.content!='register' && !user)) && (<li><b><a href="/register">Register </a></b></li>)}
-              
+              {(user?.userInfo?.role==5000 && props.content!='update') && (
+              <li><b><a href="/update">Update </a></b></li>
+              )}
               {/* <li><b><a href="/admin">Admin </a></b></li> */}
               {user && (
               <li><b><a href="/logout">Logout </a></b></li>

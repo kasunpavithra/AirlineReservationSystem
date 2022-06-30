@@ -12,7 +12,7 @@ import AdminDashboard from "./pages/Admin/AdminDashboard";
 import BookSeat from "./pages/User/BookSeat/BookSeat";
 import ManagerDashboard from "./pages/Manager/ManagerDashboard";
 import { ToastContainer } from "react-toastify";
-// import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.css';
 import Dashboard from "./pages/User/Dashboard/Dashboard";
 import GetFlight from "./pages/User/GetFlight/GetFlight";
 import Landing from "./pages/LandingPage/Landing";
@@ -23,7 +23,7 @@ import Logout from "./pages/Navbar/Logout/logout";
 
 const ROLES = {
   RegisteredUser: 5000,
-  Guest: 5001,
+  // Guest: 5001,
   Admin: 5002,
   Manager: 5003,
 };
@@ -89,9 +89,11 @@ function App() {
               /> */}
 
                {/* NavigationBar routings */}
+               
               <Route exact path="/" element={<Landing />} />
               <Route exact path="/navigation" element={<RequireAuth allowedRoles={[ROLES.RegisteredUser,ROLES.Manager,ROLES.Admin]} ><Navigation/></RequireAuth>} />
-              <Route exact path="/login" element={<Login />} />
+              <Route exact path="/login" element={<Login user='public'/>} />
+              <Route exact path="/authorizelogin" element={<Login user='authorized' />} />
               <Route exact path="/logout" element={<Logout />} />
              
               {/* Prohibited routings */}
@@ -99,11 +101,11 @@ function App() {
               <Route exact path="/unauthorized" element={<Unauthorized />} />
 
               {/* Admin Routings */}
-              <Route exact path="/admin/*" element={<AdminDashboard />} />
+              <Route exact path="/admin/*" element={<RequireAuth allowedRoles={[ROLES.Admin]} ><AdminDashboard /></RequireAuth>} />
 
               {/* Manager Routings */}
-              <Route exact path="/manager/*" element={<ManagerDashboard />} />
-              <Route exact path="/userbookings" element={<RequireAuth allowedRoles={[ROLES.Manager]} ><ViewBookings /></RequireAuth>} />
+              <Route exact path="/manager/*" element={<RequireAuth allowedRoles={[ROLES.Manager]} ><ManagerDashboard /></RequireAuth>} />
+              <Route exact path="/userbookings" element={<RequireAuth allowedRoles={[ROLES.RegisteredUser]} ><ViewBookings /></RequireAuth>} />
 
               {/* User routes */}
               <Route exact path="/dashboard" element={<Dashboard />} />
