@@ -10,7 +10,7 @@ const get_all_customers = async (req, res) => {
     })
     .catch(err => {
         console.log("ERROR WHEN FETCHING ALL CUSTOMERS: "+err);
-        res.json({
+        res.status(500).json({
             success: false,
             err
         })
@@ -27,7 +27,7 @@ const get_only_active_customers = async (req, res) => {
     })
     .catch(err => {
         console.log("ERROR WHEN FETCHING ONLY-ACTIVE CUSTOMERS: "+err);
-        res.json({
+        res.status(500).json({
             success: false,
             err
         })
@@ -44,7 +44,7 @@ const get_only_deleted_customers = async (req, res) => {
     })
     .catch(err => {
         console.log("ERROR WHEN FETCHING ONLY-DELETED CUSTOMERS: "+err);
-        res.json({
+        res.status(500).json({
             success: false,
             err
         })
@@ -63,7 +63,7 @@ const delete_customers_by_id = async (req, res) => {
     })
     .catch(err => {
         console.log("ERROR WHEN DELETING A CUSTOMER BY ID: "+err);
-        res.json({
+        res.status(500).json({
             success: false,
             err
         })
@@ -82,7 +82,7 @@ const update_customer = async (req, res) => {
     })
     .catch(err => {
         console.log("ERROR WHEN UPDATING A CUSTOMER: "+err);
-        res.json({
+        res.status(500).json({
             success: false,
             err
         })
@@ -103,7 +103,7 @@ const update_customer_by_customer= async (req, res) => {
     })
     .catch(err => {
         console.log("ERROR WHEN UPDATING A CUSTOMER: "+err);
-        res.json({
+        res.status(500).json({
             success: false,
             err
         })
@@ -122,7 +122,7 @@ const get_customer_by_id = async (req, res) => {
     })
     .catch(err => {
         console.log("ERROR WHEN FETCHING THE CUSTOMERS BY ID: "+err);
-        res.json({
+        res.status(500).json({
             success: false,
             err
         })
@@ -141,7 +141,7 @@ const register_customer = async (req, res) => {
     })
     .catch(err => {
         console.log("ERROR WHEN ADDING A CUSTOMER: "+err);
-        res.json({
+        res.status(500).json({
             success: false,
             err
         })
@@ -158,7 +158,7 @@ const get_total_registered_customers = async (req, res) => {
     })
     .catch(err => {
         console.log("ERROR WHEN GETTING TOTAL CUSTOMERS: "+err);
-        res.json({
+        res.status(500).json({
             success: false,
             err
         })
