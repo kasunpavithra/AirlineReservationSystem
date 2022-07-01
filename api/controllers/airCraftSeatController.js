@@ -12,7 +12,7 @@ const addAirCraftSeat = async (req, res) => {
         })
         .catch(err => {
             console.log("ERROR WHEN ADDING AN AIRCRAFTSeat: " + err);
-            res.json({
+            res.status(500).json({
                 success: false,
                 err
             })
@@ -31,7 +31,7 @@ const deleteAirCraftSeat = async (req, res) => {
         })
         .catch(err => {
             console.log("ERROR WHEN DELETING AN AIRCRAFTSeat: " + err);
-            res.json({
+            res.status(500).json({
                 success: false,
                 err
             })
@@ -51,7 +51,7 @@ const updateAirCraftSeat = async (req, res) => {
         })
         .catch(err => {
             console.log("ERROR WHEN UPDATING AN AIRCRAFTSeat: " + err);
-            res.json({
+            res.status(500).json({
                 success: false,
                 err
             })

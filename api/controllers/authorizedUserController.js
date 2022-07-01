@@ -9,7 +9,7 @@ const get_all_authorized_users = async (req, res) => {
         })
     })
     .catch(err => {
-        res.json({
+        res.status(500).json({
             success: false,
             err
         })
@@ -25,7 +25,7 @@ const get_only_deleted_authorized_users = async (req, res) => {
         })
     })
     .catch(err => {
-        res.json({
+        res.status(500).json({
             success: false,
             err
         })
@@ -41,7 +41,7 @@ const get_only_active_authorized_users = async (req, res) => {
         })
     })
     .catch(err => {
-        res.json({
+        res.status(500).json({
             success: false,
             err
         })
@@ -58,7 +58,7 @@ const get_authorized_user = async (req, res) => {
         })
     })
     .catch(err => {
-        res.json({
+        res.status(500).json({
             success: false,
             err
         })
@@ -75,7 +75,7 @@ const delete_authorized_users_by_id = async (req, res) => {
         })
     })
     .catch(err => {
-        res.json({
+        res.status(500).json({
             success: false,
             err
         })
@@ -94,7 +94,7 @@ const update_authorized_user = async (req, res) => {
     })
     .catch(err => {
         console.log("ERROR WHEN UPDATING AN AUTHORIZED USER: "+err);
-        res.json({
+        res.status(500).json({
             success: false,
             err
         })
@@ -113,7 +113,7 @@ const register_authorized_users = async (req, res) => {
     })
     .catch(err => {
         console.log("ERROR WHEN UPDATING AN AUTHORIZED USER: "+err);
-        res.json({
+        res.status(500).json({
             success: false,
             err
         })
@@ -130,7 +130,7 @@ const get_total_authorized_users = async (req, res) => {
     })
     .catch(err => {
         console.log("ERROR WHEN GETTING TOTAL AUTHORIZED USERS: "+err);
-        res.json({
+        res.status(500).json({
             success: false,
             err
         })

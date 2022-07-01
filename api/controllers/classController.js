@@ -12,7 +12,7 @@ const addClass = async (req, res) => {
         })
         .catch(err => {
             console.log("ERROR WHEN ADDING A class: " + err);
-            res.json({
+            res.status(500).json({
                 success: false,
                 err
             })
@@ -31,7 +31,7 @@ const deleteClass = async (req, res) => {
         })
         .catch(err => {
             console.log("ERROR WHEN DELETING A class: " + err);
-            res.json({
+            res.status(500).json({
                 success: false,
                 err
             })
@@ -51,7 +51,7 @@ const updateClass = async (req, res) => {
         })
         .catch(err => {
             console.log("ERROR WHEN UPDATING A class: " + err);
-            res.json({
+            res.status(500).json({
                 success: false,
                 err
             })

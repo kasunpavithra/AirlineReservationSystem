@@ -39,14 +39,14 @@ const addAirCraft = async (req, res) => {
   await airCraftModel.addAirCraft(airCraftData)
     .then(result => {
       console.log("Aircraft added!")
-      res.json({
+      res.status(201).json({
         success: true,
         result
       })
     })
     .catch(err => {
       console.log("ERROR WHEN ADDING AN AIRCRAFT: " + err);
-      res.json({
+      res.status(500).json({
         success: false,
         err
       })
@@ -65,7 +65,7 @@ const deleteAirCraft = async (req, res) => {
     })
     .catch(err => {
       console.log("ERROR WHEN DELETING AN AIRCRAFT: " + err);
-      res.json({
+      res.status(500).json({
         success: false,
         err
       })
@@ -85,7 +85,7 @@ const updateAirCraft = async (req, res) => {
     })
     .catch(err => {
       console.log("ERROR WHEN UPDATING AN AIRCRAFT: " + err);
-      res.json({
+      res.status(500).json({
         success: false,
         err
       })
