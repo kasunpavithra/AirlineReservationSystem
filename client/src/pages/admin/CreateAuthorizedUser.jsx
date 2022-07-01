@@ -20,8 +20,6 @@ const CreateAuthorizedUser = () => {
         e.preventDefault()
 
         //validation
-        if (type === null) document.getElementById("invalid-type").innerHTML = "Please select a type"
-
         if (firstname.length > 255 || lastname.length > 255 || email.length > 255) {
             if (firstname.length > 255) {
                 document.getElementById("invalid-firstname").innerHTML = "first name must not exceed 255 characters"
@@ -31,6 +29,9 @@ const CreateAuthorizedUser = () => {
             }
             if (email.length > 255) {
                 document.getElementById("invalid-email").innerHTML = "email must not exceed 255 characters"
+            }
+            if (type === null) {
+                document.getElementById("invalid-type").innerHTML = "Please select a type"
             }
         } else {
             if (password !== confirmPassword) {
@@ -65,7 +66,7 @@ const CreateAuthorizedUser = () => {
     return (
         <>
             <br />
-            <h2>Create Authorized User </h2>
+            <h2 className="add-margin-top">Create Authorized User </h2>
             {error &&
                 <div className="invalid-div">
                     ERROR OCCURED: {error}
@@ -111,10 +112,10 @@ const CreateAuthorizedUser = () => {
 
                 <div className="mb-3 mt-3">
                     {/* <label htmlFor="type">Select type:</label> */}
-                    <select className="form-select" name="type" id="type" aria-label="Default select example" 
-                    defaultValue={2}
-                    onClick={(e) => settype(e.target.value)} required>
-                        <option disabled value="2">Select type:</option>
+                    <select className="form-select" name="type" id="type" aria-label="Default select example"
+                        defaultValue={2}
+                        onClick={(e) => settype(e.target.value)} required>
+                        <option disabled >Select type:</option>
                         <option value="1">Manager</option>
                         <option value="0">Admin</option>
                     </select>
