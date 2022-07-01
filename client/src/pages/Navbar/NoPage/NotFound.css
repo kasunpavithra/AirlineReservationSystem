@@ -1,0 +1,16 @@
+.notfound_header {
+    color: #1376BD;
+    text-align: center;
+    margin-top:80px;
+}
+
+.image {
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+}
+
+.back_button {
+    margin-top: 5px;
+    text-align: center;
+}

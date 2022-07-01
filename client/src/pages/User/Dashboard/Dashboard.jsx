@@ -9,6 +9,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import Spinner from "react-bootstrap/Spinner";
 import { useNavigate } from "react-router-dom";
 import { Container, Row, Col, Button } from "react-bootstrap";
+import Layout from "../../Navbar/Layout/Layout";
 function Dashboard() {
   const [airRoute, setAirRoutes] = useState({ routeDat: [] });
 
@@ -120,6 +121,7 @@ function Dashboard() {
   return (
     <>
       <div>
+        <Layout/>
         <Container>
           <Row
             // style={{ margin: 10, justifyContent: "center" }}

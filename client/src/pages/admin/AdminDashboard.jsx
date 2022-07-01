@@ -8,11 +8,13 @@ import UpdateRegisteredCustomer from "./UpdateRegisteredCustomer";
 import UpdateAuthorizedUser from "./UpdateAuthorizedUser";
 import AdminDashboardContent from "./AdminDashboardContent";
 import './admin.css'
+import Layout from "../Navbar/Layout/Layout";
 
 const AdminDashboard = () => {
     return (
         <>
-            <AdminNavbar />
+            {/* <AdminNavbar /> */}
+            <Layout/>
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-sm-4 col-lg-3 admin-panel">

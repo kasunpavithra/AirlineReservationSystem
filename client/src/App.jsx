@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./pages/Navbar/Layout/Layout";
 import Home from "./pages/Navbar/Home/Home";
 import Contact from "./pages/Navbar/Contact/Contact";
-import NoPage from "./pages/Navbar/NoPage/NoPage";
+import NotFound from "./pages/Navbar/NoPage/NoPage";
 import Login from "./pages/Navbar/Login/Login";
 import Register from "./pages/Navbar/Register/Register";
 import Update from "./pages/User/Update/Update";
@@ -12,16 +12,18 @@ import AdminDashboard from "./pages/Admin/AdminDashboard";
 import BookSeat from "./pages/User/BookSeat/BookSeat";
 import ManagerDashboard from "./pages/Manager/ManagerDashboard";
 import { ToastContainer } from "react-toastify";
-// import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.css';
 import Dashboard from "./pages/User/Dashboard/Dashboard";
 import GetFlight from "./pages/User/GetFlight/GetFlight";
 import Landing from "./pages/LandingPage/Landing";
 import ViewBookings from "./pages/User/ViewBookings/ViewBookings";
 import Unauthorized from "./components/Unauthorized/Unauthorized";
+import Navigation from './pages/Navigation/Navigation';
+import Logout from "./pages/Navbar/Logout/logout";
 
 const ROLES = {
   RegisteredUser: 5000,
-  Guest: 5001,
+  // Guest: 5001,
   Admin: 5002,
   Manager: 5003,
 };
@@ -62,12 +64,10 @@ function App() {
         <BrowserRouter>
           <Routes>
             {/* Layout Router paths */}
-            <Route path="/" element={<Layout />}>
+            {/* <Route path="/" element={<Layout />}> */}
               {/* Auth required routes*/}
-
-              <Route index element={<Home />} />
-              <Route exact path="/dashboard" element={<Dashboard />} />
-              <Route exact path="/getFlight" element={<GetFlight />} />
+{/* 
+              <Route index element={<Home />} /> */}
 
               {/* <Route
                 exact
@@ -88,22 +88,38 @@ function App() {
                 }
               /> */}
 
-              <Route exact path="*" element={<NoPage />} />
-              <Route exact path="/register" element={<Register />} />
-              {/* User routes */}
-              <Route exact path="/update" element={<Update />} />
-              <Route exact path="/bookSeat" element={<BookSeat />} />
-              <Route exact path="/manager/*" element={<ManagerDashboard />} />
-              <Route exact path="/login" element={<Login />} />
+               {/* NavigationBar routings */}
+               
+              <Route exact path="/" element={<Landing />} />
+              <Route exact path="/navigation" element={<RequireAuth allowedRoles={[ROLES.RegisteredUser,ROLES.Manager,ROLES.Admin]} ><Navigation/></RequireAuth>} />
+              <Route exact path="/login" element={<Login user='public'/>} />
+              <Route exact path="/authorizelogin" element={<Login user='authorized' />} />
+              <Route exact path="/logout" element={<Logout />} />
+             
+              {/* Prohibited routings */}
+              <Route exact path="*" element={<NotFound />} />
               <Route exact path="/unauthorized" element={<Unauthorized />} />
 
-              {/* User routes */}
+              {/* Admin Routings */}
+              <Route exact path="/admin/*" element={<RequireAuth allowedRoles={[ROLES.Admin]} ><AdminDashboard /></RequireAuth>} />
 
-              <Route exact path="/userbookings" element={<ViewBookings />} />
-            </Route>
-            {/* Other routes */}
-            <Route exact path="/admin/*" element={<AdminDashboard />} />
-            <Route exact path="/landing" element={<Landing />} />
+              {/* Manager Routings */}
+              <Route exact path="/manager/*" element={<RequireAuth allowedRoles={[ROLES.Manager]} ><ManagerDashboard /></RequireAuth>} />
+             
+
+              {/*RegisteredUser routes */}
+          
+              <Route exact path="/update" element={<RequireAuth allowedRoles={[ROLES.RegisteredUser]} ><Update /></RequireAuth>} />
+              <Route exact path="/userbookings" element={<RequireAuth allowedRoles={[ROLES.RegisteredUser]} ><ViewBookings /></RequireAuth>} />
+             
+
+              {/*Public routes */}
+              <Route exact path="/dashboard" element={<Dashboard />} />
+              <Route exact path="/getFlight" element={<GetFlight />} />
+              <Route exact path="/register" element={<Register />} />
+              <Route exact path="/bookSeat" element={<BookSeat />} />
+            {/* </Route>
+           */}
 
             {/* {localStorage.getItem("token") ? (
             <Route exact path="blogs" element={<Blogs />} />

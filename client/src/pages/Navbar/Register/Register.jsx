@@ -4,13 +4,14 @@ import {
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+import Messages from "../../../helpers/Messages";
 import "./registerStyle.css";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useRef } from "react";
 import { useEffect } from "react";
 import axios from "../../../api/axios";
+import Layout from "../Layout/Layout";
 
 const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 const PWD_REGEX =
@@ -18,7 +19,7 @@ const PWD_REGEX =
 
 const NAME_REGEX = /^[a-z ,.'-]+$/i;
 const MOBILE_REGEX =
-  /^(?:(?:\+|0{0,2})91(\s*[\ -]\s*)?|[0]?)?[456789]\d{9}|(\d[ -]?){10}\d$/;
+  /^(?:(?:\+|0{0,2})91(\s*[\ -]\s*)?|[0]?)?[456789]\d{8}|(\d[ -]?){9}\d$/;
 
 const REGISTER_URL = "/api/register";
 
@@ -65,7 +66,7 @@ const Register = () => {
   const [genderFocus, setGenderFocus] = useState(false);
 
   const [errMsg, setErrMsg] = useState("");
-  const [success, setSuccess] = useState(false);
+  const [success,   setSuccess] = useState(false);
 
   useEffect(() => {
     nameRef.current.focus();
@@ -131,10 +132,16 @@ const Register = () => {
           headers: { "Content-Type": "application/json" },
         }
       );
-      console.log(response.data);
+      console.log(response);
       console.log(response.accessToken);
       console.log(JSON.stringify(response));
       setSuccess(true);
+      if (response.status === 201) {
+        Messages.SuccessMessage("Registered successfully");
+        Messages.SuccessMessage("Please Login");
+      
+      navigate('/login')
+      }
     } catch (err) {
       if (!err?.response) {
         setErrMsg("No server responce");
@@ -144,11 +151,19 @@ const Register = () => {
         setErrMsg("Registration error");
       }
       errRef.current.focus();
+
+      Messages.ErrorMessage({
+      error: err,
+      custom_message: `Registration fail`,
+      });
+      // setLoader(false)
+      navigate(0);
     }
   };
 
   return (
     <>
+    <Layout content={'register'}/>
       {success ? (
         <section>
           <h1>Success!</h1>

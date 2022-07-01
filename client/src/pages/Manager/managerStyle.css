@@ -6,6 +6,28 @@
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
 }
+
+
+#startDate1::-webkit-datetime-edit-month-field { color: Green; }
+#startDate1::-webkit-datetime-edit-day-field { color: Green; }
+#startDate1::-webkit-datetime-edit-year-field { color: Green; }
+#startDate1::-webkit-datetime-edit-text { color: Green; padding: 0 0.3em; }
+
+#endDate1::-webkit-datetime-edit-month-field { color: Green; }
+#endDate1::-webkit-datetime-edit-day-field { color: Green; }
+#endDate1::-webkit-datetime-edit-year-field { color: Green; }
+#endDate1::-webkit-datetime-edit-text { color: Green; padding: 0 0.3em; }
+
+#startDate2::-webkit-datetime-edit-month-field { color: rgb(251,177,23); }
+#startDate2::-webkit-datetime-edit-day-field { color: rgb(251,177,23); }
+#startDate2::-webkit-datetime-edit-year-field { color: rgb(251,177,23); }
+#startDate2::-webkit-datetime-edit-text { color: rgb(251,177,23); padding: 0 0.3em; }
+
+#endDate2::-webkit-datetime-edit-month-field { color: rgb(251,177,23); }
+#endDate2::-webkit-datetime-edit-day-field { color: rgb(251,177,23); }
+#endDate2::-webkit-datetime-edit-year-field { color: rgb(251,177,23); }
+#endDate2::-webkit-datetime-edit-text { color: rgb(251,177,23); padding: 0 0.3em; }
+
 .sidebar{
   position: fixed;
   height: 100%;
@@ -35,7 +57,7 @@
   color: #fff;
   font-size: 30px;
   font-weight: 500;
-  margin-top: 60px;
+  margin-top: 80px;
   margin-left:50px;
 }
 .sidebar .nav-links{
@@ -96,13 +118,13 @@
 .home-section nav{
   /* display: flex; */
   justify-content: space-between;
-  height: 80px;
+  height: 70px;
   background: #fff;
   /* display: flex; */
   align-items: center;
   position: -webkit-sticky;
   position: sticky;
-  top:77px;
+  top:65px;
 
   /* width: calc(100% - 240px); */
   width: 100%;
@@ -263,6 +285,10 @@ nav .profile-details i{
    color: #e05260;
    background: #f7d4d7;
  }
+ .home-content .box .cart.five{
+  color: #48d2e1;
+  background: #add8e6;
+}
 .home-content .total-order{
   font-size: 20px;
   font-weight: 500;
@@ -450,4 +476,5 @@ nav .profile-details i{
     left: 60px;
     width: calc(100% - 60px);
   }
+  
 }

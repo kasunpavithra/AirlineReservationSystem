@@ -11,6 +11,7 @@ import { useLayoutEffect } from "react";
 import { Button } from "react-bootstrap";
 import { ArrowRight, ArrowUpRightCircle } from "react-bootstrap-icons";
 import { IoLocation } from "react-icons/io5";
+import Layout from "../../Navbar/Layout/Layout";
 function GetFlight() {
   const [airPort, setAirPort] = useState({ routes: [] });
   // const [dob, setdob] = useState("");
@@ -115,10 +116,14 @@ function GetFlight() {
   };
 
   return (
-    <div className="bodyD">
-      <div className="upper">
-        <Form onSubmit={submitForm}>
-          <div className="container">
+    <>
+    
+    <div className="body">
+      {/* <Layout/>
+      */}
+      <div className="upper ">
+        <Form className='container4' onSubmit={submitForm}>
+          <div className="container4 mt-5">
             <div className="row mt-3">
               <div className="col d-flex align-items-center justify-content-center">
                 <label htmlFor="departure">From </label>
@@ -242,6 +247,7 @@ function GetFlight() {
         )}
       </div>
     </div>
+    </>
   );
 }
 
