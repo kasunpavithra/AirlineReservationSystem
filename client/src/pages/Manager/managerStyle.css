@@ -7,7 +7,7 @@
   font-family: 'Poppins', sans-serif;
 }
 
-/* 
+
 #startDate1::-webkit-datetime-edit-month-field { color: Green; }
 #startDate1::-webkit-datetime-edit-day-field { color: Green; }
 #startDate1::-webkit-datetime-edit-year-field { color: Green; }
@@ -26,7 +26,7 @@
 #endDate2::-webkit-datetime-edit-month-field { color: rgb(251,177,23); }
 #endDate2::-webkit-datetime-edit-day-field { color: rgb(251,177,23); }
 #endDate2::-webkit-datetime-edit-year-field { color: rgb(251,177,23); }
-#endDate2::-webkit-datetime-edit-text { color: rgb(251,177,23); padding: 0 0.3em; } */
+#endDate2::-webkit-datetime-edit-text { color: rgb(251,177,23); padding: 0 0.3em; } 
 
 .sidebar{
   position: fixed;
