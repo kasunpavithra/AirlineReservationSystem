@@ -105,6 +105,9 @@ function App() {
               <Route exact path="/manager/*" element={<ManagerDashboard />} />
               <Route exact path="/userbookings" element={<RequireAuth allowedRoles={[ROLES.Manager]} ><ViewBookings /></RequireAuth>} />
 
+              <Route path="/reguserbookings" element={<ViewBookings apiurl="http://localhost:3001/api/bookings/getRegUserBooking/1"/>} />
+              <Route path="/guestuserbookings" element={<ViewBookings apiurl="http://localhost:3001/api/bookings/getGuestUserBooking/1"/>} />
+
               {/* User routes */}
               <Route exact path="/dashboard" element={<RequireAuth allowedRoles={[ROLES.RegisteredUser]} ><Dashboard /></RequireAuth>} />
               <Route exact path="/update" element={<RequireAuth allowedRoles={[ROLES.RegisteredUser]} ><Update /></RequireAuth>} />
