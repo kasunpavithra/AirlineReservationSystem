@@ -237,6 +237,15 @@ function Dashboard() {
           >
             Book Your Flight
           </Button>
+          &nbsp;&nbsp;
+
+          <Button
+            onClick={() => {
+              navigate("/reguserbookings");
+            }}
+          >
+           View My Bookings
+          </Button>
         </Container>
       </div>
     </>

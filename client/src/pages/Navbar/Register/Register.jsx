@@ -4,7 +4,7 @@ import {
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Messages from "../../../helpers/Messages";
+import Messages from "../../LandingPage/Messages";
 import "./registerStyle.css";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";

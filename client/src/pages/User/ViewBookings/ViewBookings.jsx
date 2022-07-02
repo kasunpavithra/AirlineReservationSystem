@@ -1,17 +1,32 @@
 import { useEffect, useState } from "react";
 import "./viewbookings.css"
+import jwtDecode from "jwt-decode";
+import Layout from "../../Navbar/Layout/Layout";
 //apiurl for guestUser= "/api/bookings/getGuestUserBooking/:id"
 //apiurl for RegistertUser= "http://localhost:3001/api/bookings/getRegUserBooking/1"
-const ViewBookings = (props) => {
+const ViewBookings = (prop) => {
     const [data, setData] = useState(null)
     const [isPending, setIsPending] = useState(true)
     const [error, setError] = useState(null)
     var v = 0;
 
+
+
+
     useEffect(() => {
         //const abortCont = new AbortController();
+        try{
+            var user=jwtDecode(localStorage.getItem("AccessToken"))
+            console.log(user)
+           }
+          
 
-        fetch(props.apiurl)
+        catch(err){
+            user=null
+        }
+        const url=prop.user=='reg'? `http://localhost:3001/api/bookings/getRegUserBooking/${user.userInfo.id}` :`http://localhost:3001/api/bookings/getGuestUserBooking/${user.userInfo.id}`
+
+        fetch(url)
             .then(res => {
                 if (!res.ok) throw Error("Could not fetch the data for that resource")
                 return res.json()
@@ -35,7 +50,9 @@ const ViewBookings = (props) => {
     }, [])
 
     return (
+        <><div><Layout/></div>
         <div className="vbody" style={{  height: '753.6px' }}>
+            
 
             <div class=" container-fluid p-5  " style={{ backgroundColor: "#351b63", position: 'fixed' }}><h2 style={{ color: 'white' }}>All bookings</h2></div>
 
@@ -66,7 +83,7 @@ const ViewBookings = (props) => {
                                     <td className="viewbookingstd vtd">{user.bookingID}</td>
                                     <td className="viewbookingstd vtd">{user.flightID}</td>
                                     <td className="viewbookingstd vtd">{user.paymentStatus}</td>
-                                    <td className="viewbookingstd vtd">{user.bookingTimeDate}</td>
+                                    <td className="viewbookingstd vtd">{new Date(user.bookingTimeDate).toLocaleString()}</td>
                                     <td className="viewbookingstd vtd">{user.classID}</td>
                                     <td className="viewbookingstd vtd">{user.airCraftseatID}</td>
                                     <td className="viewbookingstd vtd">{user.discountID}</td>
@@ -87,6 +104,7 @@ const ViewBookings = (props) => {
             }
 
         </div>
+        </>
     );
 }
 

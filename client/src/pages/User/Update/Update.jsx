@@ -7,7 +7,7 @@ import { useNavigate} from "react-router-dom";
 import { Row,Col, Dropdown,DropdownButton} from 'react-bootstrap';
 //import UserServices from '../../services/API/UserServices';
 import Validation  from '../../../Validation/updateValidation';
-import Messages from "../../../helpers/Messages";
+import Messages from "../../LandingPage/Messages";
 import UserServices from '../../../../services/UserServices';
 import Layout from './../../Navbar/Layout/Layout';
 import { useEffect } from 'react';
