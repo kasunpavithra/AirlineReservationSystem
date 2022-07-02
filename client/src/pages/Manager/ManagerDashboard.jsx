@@ -28,7 +28,9 @@ const ManagerDashboard = () => {
   const [bookingDates,setBookingDates]=useState('');
   const [flightPassengers,setFlightPassengers]=useState('');
   const [allPassengers,setAllPassengers]=useState('');
-
+  const [allBookings,setAllBookings]=useState('');
+ 
+  const [allPastFlights,setAllPastFlights]=useState('');
   const [FlightNumbers,setflightNumbers]=useState([]);
   const [Destinations,setDestinationNames]=useState([]);
   const [passengerTypes,setPassengerTypes]=useState([]);
@@ -153,7 +155,7 @@ const ManagerDashboard = () => {
   const handleSubmitAllPassengers=async(e)=>{
     e.preventDefault();
  
-    var state={'Destination Id':destinationId?.id,'Start Date':destinationDates['startDate'],'End Date':destinationDates['endDate']}
+    var state={'Destination Id':destinationId?.id,'Start Date':destinationDates['startDate1'],'End Date':destinationDates['endDate1']}
     console.log(state);
     const {value,error}=managerValidation.ValidateAllPassengers(state)
     if (error) {
@@ -171,16 +173,19 @@ const ManagerDashboard = () => {
         try {
           // const patient_id = params.patient_id;
           
-          // console.log("State:", state);
-          console.log("hello")
-          const startDate=new Date(destinationDates['startDate']);
-          const endDate=new Date(destinationDates['endDate']);
+    
+
+          const startDate=new Date(destinationDates['startDate1']);
+          const endDate=new Date(destinationDates['endDate1']);
 
           startDate.setUTCHours(0, 0, 0);
           endDate.setUTCHours(23, 59, 59)
         
-          
-          state={'Destination Id':destinationId,'Start Date':startDate.toISOString(),'End Date':endDate.toISOString()}
+
+
+        
+          state={'Destination Id':destinationId?.id,'Start Date':startDate.toISOString(),'End Date':endDate.toISOString()}
+         
           const response = await ManagerServices.getDateDestinationPassengers(state)
 
           console.log(response);
@@ -208,7 +213,7 @@ const ManagerDashboard = () => {
   const handleSubmitAllBookings=async(e)=>{
     e.preventDefault();
  
-    var state={'Class Id':classId?.id,'Age Type':ageTypeForBookings.value,'Start Date':bookingDates['startDate'],'End Date':bookingDates['endDate']}
+    var state={'Class Id':classId?.id,'Age Type':ageTypeForBookings.value,'Start Date':bookingDates['startDate2'],'End Date':bookingDates['endDate2']}
   
     const {value,error}=managerValidation.ValidateAllBookings(state)
     if (error) {
@@ -229,18 +234,19 @@ const ManagerDashboard = () => {
           
           // console.log("State:", state);
       
-          const startDate=new Date(bookingDates['startDate']);
-          const endDate=new Date(bookingDates['endDate']);
+          const startDate=new Date(bookingDates['startDate2']);
+          const endDate=new Date(bookingDates['endDate2']);
 
           startDate.setUTCHours(0, 0, 0);
           endDate.setUTCHours(23, 59, 59)
         
           
-          state={'Class Id':classId,'Age Type':ageTypeForBookings.value,'Start Date':startDate.toISOString(),'End Date':endDate.toISOString()}
+          state={'Class Id':classId?.id,'Age Type':ageTypeForBookings.value,'Start Date':startDate.toISOString(),'End Date':endDate.toISOString()}
           
           const response = await ManagerServices.getAllBookings(state)
       
           console.log(response);
+          setAllBookings(response.data.result[0].passengers)
           // setAllPassengers(response.data.result[0].passengers)
           // console.log(response.data.result[0])
           // setPassengers(response.data.result[0].passengers)
@@ -352,6 +358,8 @@ const ManagerDashboard = () => {
           const response = await ManagerServices.getPastFlights(state)
       
           console.log(response);
+          setAllPastFlights(response.data.result[0])
+          console.log(allPastFlights)
           // setAllPassengers(response.data.result[0].passengers)
           // console.log(response.data.result[0])
           // setPassengers(response.data.result[0].passengers)
@@ -704,7 +712,7 @@ const ManagerDashboard = () => {
                   <span class="text">Up from yesterday</span>
                 </div>
               </div>
-              <div class="number mr-4 mt-5">0</div>
+              <div class="number mr-4 mt-5">{allBookings? allBookings:0}</div>
             </div>
 
 
@@ -834,7 +842,7 @@ const ManagerDashboard = () => {
                   <span class="text">Down From Today</span>
                 </div>
               </div>
-              <div class="mr-5 number">11</div>
+              <div class="mr-5 number">{allPastFlights?allPastFlights.passengers:0}</div>
             </div>
           </div>
 
@@ -885,68 +893,67 @@ const ManagerDashboard = () => {
                     </tbody> */}
               </table>
             </div>
-            <div class="top-sales box">
+            {/* <div class="top-sales box">
               <div class="title">Top Seling Product</div>
               <ul class="top-sales-details">
                 <li>
                   <a href="#">
-                    {/* <!--<img src="images/sunglasses.jpg" alt="">--> */}
+        
                     <span class="product">Vuitton Sunglasses</span>
                   </a>
                   <span class="price">$1107</span>
                 </li>
                 <li>
                   <a href="#">
-                    {/* <!--<img src="images/jeans.jpg" alt="">--> */}
+           
                     <span class="product">Hourglass Jeans </span>
                   </a>
                   <span class="price">$1567</span>
                 </li>
                 <li>
                   <a href="#">
-                    {/* <!-- <img src="images/nike.jpg" alt="">--> */}
+            
                     <span class="product">Nike Sport Shoe</span>
                   </a>
                   <span class="price">$1234</span>
                 </li>
                 <li>
                   <a href="#">
-                    {/* <!--<img src="images/scarves.jpg" alt="">--> */}
+          
                     <span class="product">Hermes Silk Scarves.</span>
                   </a>
                   <span class="price">$2312</span>
                 </li>
                 <li>
                   <a href="#">
-                    {/* <!--<img src="images/blueBag.jpg" alt="">--> */}
+        
                     <span class="product">Succi Ladies Bag</span>
                   </a>
                   <span class="price">$1456</span>
                 </li>
                 <li>
                   <a href="#">
-                    {/* <!--<img src="images/bag.jpg" alt="">--> */}
+             
                     <span class="product">Gucci Womens's Bags</span>
                   </a>
                   <span class="price">$2345</span>
                 </li>
                 <li>
                   <a href="#">
-                    {/* <!--<img src="images/addidas.jpg" alt="">--> */}
                     <span class="product">Addidas Running Shoe</span>
                   </a>
                   <span class="price">$2345</span>
                 </li>
                 <li>
                   <a href="#">
-                    {/* <!--<img src="images/shirt.jpg" alt="">--> */}
+           
                     <span class="product">Bilack Wear's Shirt</span>
                   </a>
                   <span class="price">$1245</span>
                 </li>
               </ul>
             </div>
-
+ */}
           </div>
 
         </div>
