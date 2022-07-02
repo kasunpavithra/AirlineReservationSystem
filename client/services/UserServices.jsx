@@ -17,7 +17,19 @@ const update = (formData) => {
     });
   };
 
+  const getcustomer = (customerid) => {
+    // console.log(data);
+    console.log('hello')
+    return axios({
+      method: "get",
+      url: APIEndpoint + `/registered-customer/get/${customerid}`,
+      // headers: { Authorization: `Bearer ${token.getAccessToken()}` },
+    });
+  };
+  
+
 
   export default {
-    update
+    update,
+    getcustomer
   }

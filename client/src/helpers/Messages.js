@@ -27,7 +27,6 @@ const ErrorMessage = ({
 }
 
 const SuccessMessage = (message = 'REQUEST SUCCESSFUL',) => {
-
     toast.success(message, {
         position: "top-center",
         autoClose: 5000,

@@ -60,7 +60,7 @@ const CreateRegisteredCustomer = () => {
     return (
         <>
             <br />
-            <h2>Create Registered Customer</h2>
+            <h2 className="add-margin-top">Create Registered Customer</h2>
             {error &&
                 <div className="invalid-div">
                     ERROR OCCURED: {error}
