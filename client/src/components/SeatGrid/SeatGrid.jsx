@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import axios from "../../api/axios";
 import SeatPicker from "react-seat-picker";
+import Swal from "sweetalert2";
 const ADD_BOOKING_URL = "/api/bookings/addBooking";
+
 
 
 export default class SeatGrid extends Component {
@@ -74,7 +76,28 @@ export default class SeatGrid extends Component {
     );
   };
 
+  showErr = ()=>{
+    Swal.fire({  
+      icon: 'error',  
+      title: 'Oops...',  
+      text: 'Seems like someone has booked your seats before! Please try with another seats!',  
+    }).then(()=>{
+      window.location.reload();
+    });
+  }
+
+  showSuccess = ()=>{
+    Swal.fire({
+      icon: 'success',
+      title: 'Success',    
+      text: 'Congratulations! Successfully Booked your seats!',  
+    }).then(()=>{
+      this.props.navigate("/dashboard");
+    });
+  }
+
   conformSeats = async () => {
+    const [errMsg,setErrMsg] = this.props.errHandler;
     try {
       const response = await axios.post(
         ADD_BOOKING_URL,
@@ -91,24 +114,18 @@ export default class SeatGrid extends Component {
         }
       );
       console.log(response);
-      this.props.navigate("/dashboard");
+      this.showSuccess();
       
     } catch (err) {
-      // if (!err?.response) {
-      //   setErrMsg("No server responce");
-      // } else if (err.response?.status === 403) {
-      //   setErrMsg("Email has already registered!");
-      // } else {
-      //   setErrMsg("Registration error");
-      // }
-      // errRef.current.focus();
-
-      // Messages.ErrorMessage({
-      //   error: err,
-      //   custom_message: `Registration fail`,
-      // });
-      // // setLoader(false)
-      // navigate(0);
+      if (!err?.response) {
+        setErrMsg("No server responce");
+      } else if (err.response?.status === 500 && err.response.data.tryAgain) {
+        this.showErr();
+      } else if(err.response?.status===500){
+        setErrMsg("Server Error");
+      }else{
+        setErrMsg("Something went wrong!")
+      }
     }
   };
 

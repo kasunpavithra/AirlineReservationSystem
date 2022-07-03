@@ -17,7 +17,7 @@ const getAllFlights = async (req, res) => {
     });
 };
 
-const getAllBookings= async (req, res) => {
+const getAllBookings = async (req, res) => {
   await flightModel
     .getAllBookings(req.params)
     .then((result) => {
@@ -33,9 +33,6 @@ const getAllBookings= async (req, res) => {
       });
     });
 };
-
-
-
 
 const getAllPassengerTypes = async (req, res) => {
   await flightModel
@@ -88,11 +85,7 @@ const getAllAirCraftTypes = async (req, res) => {
     });
 };
 
-
-
-
 const getPassengersByFlightId = async (req, res) => {
-
   await flightModel
     .getPassengersByFlightId(req.params)
     .then((result) => {
@@ -109,10 +102,7 @@ const getPassengersByFlightId = async (req, res) => {
     });
 };
 
-
-
 const getPassengersByDateDestination = async (req, res) => {
-  console.log('dfdf')
   await flightModel
     .getPassengersByDateDestination(req.params)
     .then((result) => {
@@ -130,7 +120,6 @@ const getPassengersByDateDestination = async (req, res) => {
 };
 
 const getRevenue = async (req, res) => {
-
   await flightModel
     .getRevenue(req.params)
     .then((result) => {
@@ -146,11 +135,6 @@ const getRevenue = async (req, res) => {
       });
     });
 };
-
-
-
-
-
 
 const getFlightsById = async (req, res) => {
   await flightModel
@@ -168,7 +152,6 @@ const getFlightsById = async (req, res) => {
       });
     });
 };
-
 
 const getFlightsbyDate = async (req, res) => {
   await flightModel
@@ -220,9 +203,35 @@ const getPastFlights = async (req, res) => {
       });
     });
 };
+const addFlights = async (req, res) => {
+  await flightModel
+    .addFlights(req)
+    .then((result) => {
+      res.json({
+        success: true,
+        result,
+      });
+    })
+    .catch((err) => {
+      res.json({
+        success: false,
+        err,
+      });
+    });
+};
 
-
-
-
-
-module.exports = { getAllFlights, getFlightsbyDate, getFlightsOnwards,getFlightsById,getPassengersByFlightId,getAllDestinations,getPassengersByDateDestination,getAllPassengerTypes,getAllBookings,getAllAirCraftTypes,getRevenue,getPastFlights};
+module.exports = {
+  addFlights,
+  getAllFlights,
+  getFlightsbyDate,
+  getFlightsOnwards,
+  getFlightsById,
+  getPassengersByFlightId,
+  getAllDestinations,
+  getPassengersByDateDestination,
+  getAllPassengerTypes,
+  getAllBookings,
+  getAllAirCraftTypes,
+  getRevenue,
+  getPastFlights,
+};

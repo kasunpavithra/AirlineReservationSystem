@@ -12,7 +12,7 @@ router.get("/allBookings/:ClassId/:AgeType/:StartDate/:EndDate", flightControlle
 router.get("/allAirCraftTypes", flightController.getAllAirCraftTypes)
 router.get("/getRevenue/:AirCraftId", flightController.getRevenue)
 router.get("/getPastFlights/:OriginID/:DestinationID", flightController.getPastFlights)
-
+router.post("/addFlights",flightController.addFlights)
 
 
 
