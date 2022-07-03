@@ -24,6 +24,7 @@ const getAirCraftByRoute = (data) => {
 };
 
 const getAirCraftByFlight = (data) => {
+  
   return new Promise((resolve, reject) => {
     var sql =
       "SELECT * FROM FLIGHT NATURAL JOIN AIRCRAFT,AIRCRAFTTYPE WHERE AIRCRAFT.AIRCRAFTTYPEID=AIRCRAFTTYPE.AIRCRAFTTYPEID AND FLIGHTID=?";
@@ -39,44 +40,57 @@ const getAirCraftByFlight = (data) => {
 
 const addAirCraft = (data) => {
   return new Promise((resolve, reject) => {
-    var sql = "INSERT INTO aircraft (aircraftID , aircraftTypeID , EconomySeatCount, BusinessSeatCount, PlanitnumSeatCount, status) VALUES (DEFAULT, ?,?,?,?, 1);"
-    const valueSet = [data.aircraftTypeID, data.EconomySeatCount, data.BusinessSeatCount, data.PlanitnumSeatCount]
+    var sql =
+      "INSERT INTO aircraft (aircraftID , aircraftTypeID , EconomySeatCount, BusinessSeatCount, PlanitnumSeatCount, status) VALUES (DEFAULT, ?,?,?,?, 1);";
+    const valueSet = [
+      data.aircraftTypeID,
+      data.EconomySeatCount,
+      data.BusinessSeatCount,
+      data.PlanitnumSeatCount,
+    ];
     db.query(sql, valueSet, (err, result) => {
       if (err) {
-        return reject(err)
+        return reject(err);
       } else {
         return resolve(result);
       }
-    })
-  })
+    });
+  });
 };
 
 const deleteAirCraft = (deleteId) => {
   return new Promise((resolve, reject) => {
-    var sql = "UPDATE aircraft SET status=0 WHERE aircraftID=?;"
-    const valueSet = [deleteId]
+    var sql = "UPDATE aircraft SET status=0 WHERE aircraftID=?;";
+    const valueSet = [deleteId];
     db.query(sql, valueSet, (err, result) => {
       if (err) {
-        return reject(err)
+        return reject(err);
       } else {
         return resolve(result);
       }
-    })
-  })
+    });
+  });
 };
 
 const updateAirCraft = (updateId, aircraftData) => {
   return new Promise((resolve, reject) => {
-    var sql = "UPDATE aircraft SET aircraftTypeID=?, EconomySeatCount=?, BusinessSeatCount=?, PlanitnumSeatCount=? WHERE aircraftID=?;"
-    const valueSet = [aircraftData.aircraftTypeID, aircraftData.EconomySeatCount, aircraftData.BusinessSeatCount, aircraftData.PlanitnumSeatCount, updateId]
+    var sql =
+      "UPDATE aircraft SET aircraftTypeID=?, EconomySeatCount=?, BusinessSeatCount=?, PlanitnumSeatCount=? WHERE aircraftID=?;";
+    const valueSet = [
+      aircraftData.aircraftTypeID,
+      aircraftData.EconomySeatCount,
+      aircraftData.BusinessSeatCount,
+      aircraftData.PlanitnumSeatCount,
+      updateId,
+    ];
     db.query(sql, valueSet, (err, result) => {
       if (err) {
-        return reject(err)
+        return reject(err);
       } else {
         return resolve(result);
       }
-    })
-  })
+    });
+  });
 };
 
 module.exports = {
@@ -84,5 +98,5 @@ module.exports = {
   getAirCraftByFlight,
   addAirCraft,
   deleteAirCraft,
-  updateAirCraft
+  updateAirCraft,
 };

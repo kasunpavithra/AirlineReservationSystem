@@ -20,7 +20,7 @@ import ViewBookings from "./pages/User/ViewBookings/ViewBookings";
 import Unauthorized from "./components/Unauthorized/Unauthorized";
 import Navigation from './pages/Navigation/Navigation';
 import Logout from "./pages/Navbar/Logout/logout";
-
+import CreateStaticSchedule from "./pages/Manager/CreateStaticSchedule";
 const ROLES = {
   RegisteredUser: 5000,
   // Guest: 5001,
@@ -65,11 +65,11 @@ function App() {
           <Routes>
             {/* Layout Router paths */}
             {/* <Route path="/" element={<Layout />}> */}
-              {/* Auth required routes*/}
-{/* 
+            {/* Auth required routes*/}
+            {/* 
               <Route index element={<Home />} /> */}
 
-              {/* <Route
+            {/* <Route
                 exact
                 path="contact"
                 element={
@@ -124,7 +124,7 @@ function App() {
               <Route exact path="/register" element={<Register />} />
               <Route exact path="/bookSeat" element={<BookSeat />} />
             {/* </Route>
-           */}
+             */}
 
             {/* {localStorage.getItem("token") ? (
             <Route exact path="blogs" element={<Blogs />} />

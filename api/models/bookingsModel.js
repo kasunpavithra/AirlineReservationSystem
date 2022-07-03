@@ -1,5 +1,5 @@
-const { json } = require('express');
-const db = require('../db/db');
+const { json } = require("express");
+const db = require("../db/db");
 //const bookinglist = [{id:1,name:'vinul'},{id:2, name:'Sachin'}];
 // function getBooking(id,result){
 //     // const booking = bookinglist.find(c=> c.id==id);
@@ -17,30 +17,50 @@ const db = require('../db/db');
 // }
 
 const getRegisteredBooking = (id) => {
-    return new Promise((resolve, reject) => {
-        let sql = "select * from booking where registeredUserID =?";
-        db.query(sql, id, (err, result) => {
-            if (err) {
-                return reject(err);
-            } else {
-                return resolve(result);
-            }
-        })
-    })
-}
+  return new Promise((resolve, reject) => {
+    let sql = "select * from booking where registeredUserID =?";
+    db.query(sql, id, (err, result) => {
+      if (err) {
+        return reject(err);
+      } else {
+        return resolve(result);
+      }
+    });
+  });
+};
 
 const getGuestBooking = (id) => {
-    return new Promise((resolve, reject) => {
-        let sql = "select * from booking where guestUserID =?";
-        db.query(sql, id, (err, result) => {
-            if (err) {
-                return reject(err);
-            } else {
-                return resolve(result);
-            }
-        })
-    })
-}
+  return new Promise((resolve, reject) => {
+    let sql = "select * from booking where guestUserID =?";
+    db.query(sql, id, (err, result) => {
+      if (err) {
+        return reject(err);
+      } else {
+        return resolve(result);
+      }
+    });
+  });
+};
+
+
+const cancelBooking = (req) => {
+  const bookingID = req.body.bookingID;
+
+  if (!bookingID) return res.sendStatus(400);
+  return new Promise((resolve, reject) => {
+    let sql = "update booking set status=1 where bookingID=?";
+    db.query(sql, bookingID, (err, result) => {
+      if (err) {
+        return reject(err);
+      } else {
+        return resolve(result);
+      }
+    });
+  });
+};
+
+
+  
 
 
 const getBookedseatsByFlight = (flightID) => {
@@ -108,4 +128,5 @@ const addBooking = (bookingInfo) => {
     });
 };
 
-module.exports = { getRegisteredBooking, getGuestBooking, getBookedseatsByFlight, addBooking };
+module.exports = { getRegisteredBooking, getGuestBooking, getBookedseatsByFlight, addBooking,cancelBooking };
+
