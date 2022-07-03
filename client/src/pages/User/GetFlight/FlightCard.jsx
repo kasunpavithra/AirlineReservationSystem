@@ -6,14 +6,14 @@ import { Button, Container, Row, Col, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router";
 import "./bookingCard.css";
 function FlightCard(props) {
-  const [airCraft, setAirCraft] = useState(null);
+  const [airCraft, setAirCraft] = useState({});
   const [airCraftName, setAirCraftName] = useState("");
   const [airPortsList, setAirPorts] = useState(null);
   const [originName, setOriginName] = useState("");
   const [destinationName, setDestinationName] = useState("");
   const [classDetails, setClassDetails] = useState({});
   const [show, setShow] = useState(false);
-
+  const [classIDs, setClassIDs] = useState({});
   const [adultCount, setAdultCount] = useState("0");
   const [childCount, setChildCount] = useState("0");
   const [category, setCategory] = useState(null);
@@ -56,15 +56,19 @@ function FlightCard(props) {
       const { data } = await axios.get(
         "http://localhost:3001/api/routes/routePrice/" + props.props.RouteID
       );
-      data.result.forEach((obj) =>
-        setClassDetails((values) => ({ ...values, [obj.name]: obj.Price }))
-      );
-    };
+      data.result.forEach((obj) => {
+        setClassDetails((values) => ({ ...values, [obj.name]: obj.Price }));
+        setClassIDs((values) => ({ ...values, [obj.classID]: obj.classID }));
+      });
+      
 
+    };
+    console.log(classDetails);
+    console.log(classIDs)
     getAirCraftByFlight();
     airPorts();
     routeDetail();
-    console.log(props.props);
+    // console.log(props.props);
   }, [props]);
 
   const handleBooking = (e) => {
@@ -92,6 +96,8 @@ function FlightCard(props) {
       {JSON.stringify(airPortsList)} */}
       {/* {console.log(classDetails)} */}
       {/* {JSON.stringify(classDetails)} */}
+      {console.log(classIDs)}
+      {console.log(airCraft)}
       {props.f1(originName)}
       {props.f2(destinationName)}
       <div className="card">
