@@ -27,6 +27,8 @@
         "react-seat-picker": "^1.5.3",
         "react-toastify": "^8.2.0",
         "react-tooltip": "^4.2.21",
+        "sweetalert2": "^11.4.19",
+        "sweetalert2-react-content": "^5.0.1",
         "web-vitals": "^2.1.4"
     },
     "scripts": {
