@@ -1,5 +1,21 @@
 const airCraftModel = require("../models/airCraftModel");
 
+const getAllAirCrafts = async (req, res) => {
+  await airCraftModel
+    .getAllAirCrafts()
+    .then((result) => {
+      res.json({
+        success: true,
+        result,
+      });
+    })
+    .catch((err) => {
+      res.json({
+        success: false,
+        err,
+      });
+    });
+};
 const getAirCraftByRoute = async (req, res) => {
   await airCraftModel
     .getAirCraftByRoute(req.query)
@@ -18,7 +34,6 @@ const getAirCraftByRoute = async (req, res) => {
 };
 
 const getAirCraftByFlight = async (req, res) => {
-  
   await airCraftModel
     .getAirCraftByFlight(req.query)
     .then((result) => {
@@ -102,4 +117,5 @@ module.exports = {
   addAirCraft,
   deleteAirCraft,
   updateAirCraft,
+  getAllAirCrafts,
 };
