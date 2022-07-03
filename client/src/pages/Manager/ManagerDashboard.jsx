@@ -16,6 +16,8 @@ const ManagerDashboard = () => {
   const [destinationId,setDestinationId] = useState();
   const [aircrafttypes,setaircraftTypes] = useState();
   const [aircrafttypeID, setaircraftTypeID] = useState();
+  const [revenue, setRevenue] = useState();
+  
 
   const [pastFlightsDestinationId, setPastFlightsDestinationId] = useState();
   const [pastFlightsOriginId, setPastFlightsOriginId] = useState();
@@ -135,7 +137,11 @@ const ManagerDashboard = () => {
           const response = await ManagerServices.getFlightNumberPassengers(state)
           // console.log(response);
           console.log(response)
-          setFlightPassengers(response.data.result[0].passengers)
+          setAllBookings();
+          setRevenue()
+          setAllPastFlights()
+          setAllPassengers()
+          setFlightPassengers(response.data.result[0])
           // if (response.status === 200) {            
         //   //   Messages.SuccessMessage("Patient Updated Successfully");
         // }
@@ -189,6 +195,10 @@ const ManagerDashboard = () => {
           const response = await ManagerServices.getDateDestinationPassengers(state)
 
           console.log(response);
+          setAllBookings();
+          setFlightPassengers()
+          setRevenue()
+          setAllPastFlights()
           setAllPassengers(response.data.result[0].passengers)
           // console.log(response.data.result[0])
           // setPassengers(response.data.result[0].passengers)
@@ -246,7 +256,11 @@ const ManagerDashboard = () => {
           const response = await ManagerServices.getAllBookings(state)
       
           console.log(response);
-          setAllBookings(response.data.result[0].passengers)
+          setFlightPassengers()
+          setRevenue()
+          setAllPastFlights()
+          setAllPassengers()
+          setAllBookings(response.data.result[0])
           // setAllPassengers(response.data.result[0].passengers)
           // console.log(response.data.result[0])
           // setPassengers(response.data.result[0].passengers)
@@ -298,6 +312,11 @@ const ManagerDashboard = () => {
           // state={'Class Id':classId,'Age Type':ageTypeForBookings.value,'Start Date':startDate.toISOString(),'End Date':endDate.toISOString()}
           
           const response = await ManagerServices.getRevenue(state)
+          setAllBookings();
+          setFlightPassengers()
+          setAllPastFlights()
+          setAllPassengers()
+          setRevenue(response.data.result[0].total)
       
           console.log(response);
           // setAllPassengers(response.data.result[0].passengers)
@@ -358,7 +377,11 @@ const ManagerDashboard = () => {
           const response = await ManagerServices.getPastFlights(state)
       
           console.log(response);
-          setAllPastFlights(response.data.result[0])
+          setAllBookings();
+          setFlightPassengers()
+          setRevenue()
+          setAllPassengers()
+          setAllPastFlights(response.data.result)
           console.log(allPastFlights)
           // setAllPassengers(response.data.result[0].passengers)
           // console.log(response.data.result[0])
@@ -383,7 +406,7 @@ const ManagerDashboard = () => {
   return (
     <>
     <Layout/>
-      <div class="sidebar">
+      {/* <div class="sidebar">
         <div class="ml-4 logo-details mt-3">
           <span class=" logo_name">B Airways</span>
         </div>
@@ -450,7 +473,7 @@ const ManagerDashboard = () => {
             </a>
           </li>
         </ul>
-      </div>
+      </div> */}
 
 
 
@@ -555,7 +578,7 @@ const ManagerDashboard = () => {
                   <span class="text">Up from yesterday</span>
                 </div>
               </div>
-              <div className=" number mr-5"> {flightPassengers? flightPassengers:'0'} </div>
+              <div className=" number mr-5"> {flightPassengers? flightPassengers.Total:'NULL'} </div>
             </div>
            
 
@@ -620,7 +643,7 @@ const ManagerDashboard = () => {
                 </div>
               </div>
               
-              <div class="number  mt-5">{allPassengers? allPassengers:'0'}</div>
+              <div class="number  mt-5">{allPassengers? allPassengers:'NULL'}</div>
             </div>
 
 
@@ -712,7 +735,7 @@ const ManagerDashboard = () => {
                   <span class="text">Up from yesterday</span>
                 </div>
               </div>
-              <div class="number mr-4 mt-5">{allBookings? allBookings:0}</div>
+              <div class="number mr-4 mt-5">{allBookings? allBookings.Total:'NULL'}</div>
             </div>
 
 
@@ -766,7 +789,7 @@ const ManagerDashboard = () => {
                   <span class="text">Down From Today</span>
                 </div>
               </div>
-              <div class="number">11,086</div>
+              <div class="number">{revenue? `Rs ${revenue}` :`Rs 0`}</div>
             </div>
 
 
@@ -842,7 +865,8 @@ const ManagerDashboard = () => {
                   <span class="text">Down From Today</span>
                 </div>
               </div>
-              <div class="mr-5 number">{allPastFlights?allPastFlights.passengers:0}</div>
+
+              <div class="mr-5 number"></div>
             </div>
           </div>
 
@@ -850,111 +874,91 @@ const ManagerDashboard = () => {
 
 
 
-
+          {flightPassengers &&
           <div class="sales-boxes">
             <div class="recent-sales box">
               <table className="table table-hover">
                 <thead>
                   <tr>
-                    <th>FlightID</th>
-                    <th>Flight name</th>
-                    <th>State</th>
-                    <th>Email</th>
+                    <th>Registered user count</th>
+                    <th>Guest user count</th>
+                    <th>Total</th>
+                    {/* <th>Email</th>
                     <th>Type</th>
-                    <th>Passenger Count</th>
+                    <th>Passenger Count</th> */}
                     <th></th>
                     <th></th>
                   </tr>
                 </thead>
-                {/* <tbody> */}
-                {/* {data.result.map(authorizedUser => (
-                            <tr key={authorizedUser.userID} className={authorizedUser.status === 0 ? "table-danger" : ""} >
-                                <td>{authorizedUser.userID}</td>
-                                <td>{authorizedUser.firstname}</td>
-                                <td>{authorizedUser.lastname}</td>
-                                <td>{authorizedUser.email}</td>
-                                <td>{authorizedUser.type === 1 ? "Manager" : "Admin"}</td>
-                                <td>{authorizedUser.status === 1 ? "Active" : "Deleted"}</td>
+                <tr>
+                  <td>{flightPassengers?.Registercount}</td>
+                  <td>{flightPassengers?.Guestcount}</td>
+                  <td>{flightPassengers?.Total}</td>
 
-                                {!!authorizedUser.status &&
-                                    <>
-                                        <td><a className="btn btn-danger" onClick={() => handleDelete(authorizedUser.userID)}>Delete</a></td>
-                                        <td><a className="btn btn-info" onClick={() => handleEdit(authorizedUser.userID)}>Edit</a></td>
-                                    </>
-                                }
-                                {!authorizedUser.status &&
-                                    <>
-                                        <td></td>
-                                        <td></td>
-                                    </>
-                                }
-                            </tr>
-                        ))}
-                    </tbody> */}
+                </tr>
               </table>
             </div>
-            {/* <div class="top-sales box">
-              <div class="title">Top Seling Product</div>
-              <ul class="top-sales-details">
-                <li>
-                  <a href="#">
-        
-                    <span class="product">Vuitton Sunglasses</span>
-                  </a>
-                  <span class="price">$1107</span>
-                </li>
-                <li>
-                  <a href="#">
-           
-                    <span class="product">Hourglass Jeans </span>
-                  </a>
-                  <span class="price">$1567</span>
-                </li>
-                <li>
-                  <a href="#">
-            
-                    <span class="product">Nike Sport Shoe</span>
-                  </a>
-                  <span class="price">$1234</span>
-                </li>
-                <li>
-                  <a href="#">
-          
-                    <span class="product">Hermes Silk Scarves.</span>
-                  </a>
-                  <span class="price">$2312</span>
-                </li>
-                <li>
-                  <a href="#">
-        
-                    <span class="product">Succi Ladies Bag</span>
-                  </a>
-                  <span class="price">$1456</span>
-                </li>
-                <li>
-                  <a href="#">
+          </div>}
+          {allBookings &&
+           <div class="sales-boxes">
+           <div class="recent-sales box">
+             <table className="table table-hover">
+               <thead>
+                 <tr>
+                   <th>Registered user count</th>
+                   <th>Guest user count</th>
+                   <th>Total</th>
+                   {/* <th>Email</th>
+                   <th>Type</th>
+                   <th>Passenger Count</th> */}
+                   <th></th>
+                   <th></th>
+                 </tr>
+               </thead>
+               <tr>
+                 <td>{allBookings?.Registercount}</td>
+                 <td>{allBookings?.Guestcount}</td>
+                 <td>{allBookings?.Total}</td>
+
+               </tr>
+             </table>
+           </div>
+         </div>
+          }
+           {allPastFlights &&
+           <div class="sales-boxes">
+           <div class="recent-sales box">
+             <table className="table table-hover">
+               <thead>
+                 <tr>
+                 <th>Flight Id</th>
+                   <th>Registered user count</th>
+                   <th>Guest user count</th>
+                   <th>Total</th>
+                   {/* <th>Email</th>
+                   <th>Type</th>
+                   <th>Passenger Count</th> */}
+                   <th></th>
+                   <th></th>
+                 </tr>
+               </thead>
+               {allPastFlights?.map(row=>(
+                  <tr>
+                  <td>{row?.Flightid}</td>
+                  <td>{row?.Registeredcount}</td>
+                  <td>{row?.Guestcount}</td>
+                  <td >{row?.Total}</td>
+                </tr>
+               ))
+
+               }
              
-                    <span class="product">Gucci Womens's Bags</span>
-                  </a>
-                  <span class="price">$2345</span>
-                </li>
-                <li>
-                  <a href="#">
-                    <span class="product">Addidas Running Shoe</span>
-                  </a>
-                  <span class="price">$2345</span>
-                </li>
-                <li>
-                  <a href="#">
-           
-                    <span class="product">Bilack Wear's Shirt</span>
-                  </a>
-                  <span class="price">$1245</span>
-                </li>
-              </ul>
-            </div>
- */}
-          </div>
+             </table>
+           </div>
+         </div>
+          }
+          
+          
 
         </div>
       </section>
