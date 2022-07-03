@@ -19,7 +19,7 @@ const getAllFlights = async (req, res) => {
 
 const getAllBookings = async (req, res) => {
   await flightModel
-    .getAllBookings()
+    .getAllBookings(req.params)
     .then((result) => {
       res.json({
         success: true,

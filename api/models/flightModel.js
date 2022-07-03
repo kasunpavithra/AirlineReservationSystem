@@ -113,12 +113,14 @@ const getFlightsById = (params) => {
 };
 
 const getPassengersByDateDestination = (params) => {
+  console.log('params',params)
   return new Promise((resolve, reject) => {
     var sql =
-      "SELECT count(*) as passengers FROM `booking` where status=0 and flightID in (  select flightID from (Select flightID from flighttime group by flightID having max(dispatchTime)  between ? and ?) as dispatchdate  where flightID in  (SELECT flightID FROM `flight` join `route` using(RouteID)  where DestinationID=?));";
-    const valueSet = [params.StartDate, params.EndDate, params.Destination];
-    console.log(valueSet);
-    db.query(sql, valueSet, (err, result) => {
+    "SELECT count(*) as passengers FROM `booking` where status=1 and flightID in ( select flightID from flighttime where endTimeDate is null and dispatchTime between ? and ?) and flightID in  (SELECT flightID FROM `flight` join `route` using(RouteID)  where DestinationID=?)"
+    // "SELECT count(*) as passengers FROM `booking` where status=1 and flightID in (  select flightID from (Select flightID from flighttime group by flightID having max(dispatchTime)  between ? and ?) as dispatchdate  where flightID in  (SELECT flightID FROM `flight` join `route` using(RouteID)  where DestinationID=?));"
+    const valueSet=[params.StartDate,params.EndDate,params.Destination]
+    console.log(valueSet)
+    db.query(sql,valueSet, (err, result) => {
       if (err) {
         return reject(err);
       } else {
@@ -130,17 +132,16 @@ const getPassengersByDateDestination = (params) => {
 };
 
 const getAllBookings = (params) => {
+  console.log('haa')
+  console.log(params)
   return new Promise((resolve, reject) => {
     var sql =
-      "SELECT count(*) as passengers FROM `booking` where classID=? and under18=? and flightID in (  select flightID from (Select flightID from flighttime group by flightID having max(dispatchTime)  between ? and ?) as dispatchdate;";
-    const valueSet = [
-      params.ClassId,
-      params.AgeType,
-      params.StartDate,
-      params.EndDate,
-    ];
-    console.log(valueSet);
-    db.query(sql, valueSet, (err, result) => {
+    // "SELECT count(*) as passengers FROM `booking` where classID=? and under18=? and flightID in (  select flightID from (Select flightID from flighttime group by flightID having max(dispatchTime)  between ? and ?) as dispatchdate;"
+      
+    "SELECT count(*) as passengers  FROM `booking` where classID=? and under18=? and flightID in ( select flightID from flighttime where endTimeDate is null and dispatchTime between ? and ?)"
+    const valueSet=[params.ClassId,params.AgeType,params.StartDate,params.EndDate]
+    console.log(valueSet)
+    db.query(sql,valueSet, (err, result) => {
       if (err) {
         return reject(err);
       } else {
@@ -155,9 +156,9 @@ const getPassengersByFlightId = (params) => {
   console.log(params);
   return new Promise((resolve, reject) => {
     var sql =
-      "SELECT count(*) as passengers FROM `booking` where flightID=? and under18=? and status=0;";
-    const valueSet = [params.FlightNo, params.AgeType];
-    db.query(sql, valueSet, (err, result) => {
+      "SELECT count(*) as passengers FROM `booking` where flightID=? and under18=? and status=1 and paymentStatus=1;";
+    const valueSet=[params.FlightNo,params.AgeType]
+    db.query(sql,valueSet, (err, result) => {
       if (err) {
         return reject(err);
       } else {
@@ -172,9 +173,10 @@ const getRevenue = (params) => {
   console.log(params);
   return new Promise((resolve, reject) => {
     var sql =
-      "SELECT count(*) as passengers FROM `booking` where flightID=? and under18=? and status=0;";
-    const valueSet = [params.AirCraftId];
-    db.query(sql, valueSet, (err, result) => {
+      "SELECT count(*) as passengers FROM `booking` where flightID=? and under18=? and status=1;";
+      // select * from aircrafttype join aircraft using(aircraftTypeID) join flight  using (aircraftID) where aircraftTypeID=1
+    const valueSet=[params.AirCraftId]
+    db.query(sql,valueSet, (err, result) => {
       if (err) {
         return reject(err);
       } else {
@@ -189,7 +191,8 @@ const getPastFlights = (params) => {
   console.log(params);
   return new Promise((resolve, reject) => {
     var sql =
-      "select flightID,count(*) as passengers from booking where flightID in(select flightID from flight where RouteID=(Select RouteID from route where OriginID=? and DestinationID=?))";
+   
+    "select *  from booking where flightID in(select flightID from flight where RouteID=(Select RouteID from route where OriginID=? and DestinationID=?))"
 
     const valueSet = [params.OriginID, params.DestinationID];
     db.query(sql, valueSet, (err, result) => {

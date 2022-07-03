@@ -241,9 +241,9 @@ function FlightCard(props) {
                             <option value="" disabled="" selected="">
                               Category
                             </option>
-                            <option value="1">Economy</option>
+                            <option value="3">Economy</option>
                             <option value="2">Business</option>
-                            <option value="3">Planinum</option>
+                            <option value="1">Planinum</option>
                           </select>
                         </div>
                         <div class="col-sm-12">

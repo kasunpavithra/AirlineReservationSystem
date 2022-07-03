@@ -88,88 +88,41 @@ function App() {
                 }
               /> */}
 
-            {/* NavigationBar routings */}
-            <Route
-              exact
-              path="/createStaticScheduler"
-              element={<CreateStaticSchedule />}
-            />
-            <Route exact path="/" element={<Landing />} />
-            <Route
-              exact
-              path="/navigation"
-              element={
-                <RequireAuth
-                  allowedRoles={[
-                    ROLES.RegisteredUser,
-                    ROLES.Manager,
-                    ROLES.Admin,
-                  ]}
-                >
-                  <Navigation />
-                </RequireAuth>
-              }
-            />
-            <Route exact path="/login" element={<Login user="public" />} />
-            <Route
-              exact
-              path="/authorizelogin"
-              element={<Login user="authorized" />}
-            />
-            <Route exact path="/logout" element={<Logout />} />
+               {/* NavigationBar routings */}
+               
+              <Route exact path="/" element={<Landing />} />
+              <Route exact path="/navigation" element={<RequireAuth allowedRoles={[ROLES.RegisteredUser,ROLES.Manager,ROLES.Admin]} ><Navigation/></RequireAuth>} />
+              <Route exact path="/login" element={<Login user='public'/>} />
+              <Route exact path="/authorizelogin" element={<Login user='authorized' />} />
+              <Route exact path="/logout" element={<Logout />} />
+             
+              {/* Prohibited routings */}
+              <Route exact path="*" element={<NotFound />} />
+              <Route exact path="/unauthorized" element={<Unauthorized />} />
 
-            {/* Prohibited routings */}
-            <Route exact path="*" element={<NotFound />} />
-            <Route exact path="/unauthorized" element={<Unauthorized />} />
+              {/* Admin Routings */}
+              <Route exact path="/admin/*" element={<RequireAuth allowedRoles={[ROLES.Admin]} ><AdminDashboard /></RequireAuth>} />
 
-            {/* Admin Routings */}
-            <Route
-              exact
-              path="/admin/*"
-              element={
-                <RequireAuth allowedRoles={[ROLES.Admin]}>
-                  <AdminDashboard />
-                </RequireAuth>
-              }
-            />
+              {/* Manager Routings */}
+              <Route exact path="/manager/*" element={<RequireAuth allowedRoles={[ROLES.Manager]} ><ManagerDashboard /></RequireAuth>} />
+             
 
-            {/* Manager Routings */}
-            <Route
-              exact
-              path="/manager/*"
-              element={
-                <RequireAuth allowedRoles={[ROLES.Manager]}>
-                  <ManagerDashboard />
-                </RequireAuth>
-              }
-            />
+              <Route path="/reguserbookings" element={<RequireAuth allowedRoles={[ROLES.RegisteredUser]} ><ViewBookings user='reg'/></RequireAuth>} />
+              <Route path="/guestuserbookings" element={<ViewBookings user='guest' />} />
 
-            {/*RegisteredUser routes */}
+              {/* User routes */}
+              <Route exact path="/dashboard" element={<Dashboard />} />
+              {/*RegisteredUser routes */}
+          
+              <Route exact path="/update" element={<RequireAuth allowedRoles={[ROLES.RegisteredUser]} ><Update /></RequireAuth>} />
+              
+             
 
-            <Route
-              exact
-              path="/update"
-              element={
-                <RequireAuth allowedRoles={[ROLES.RegisteredUser]}>
-                  <Update />
-                </RequireAuth>
-              }
-            />
-            <Route
-              exact
-              path="/userbookings"
-              element={
-                <RequireAuth allowedRoles={[ROLES.RegisteredUser]}>
-                  <ViewBookings />
-                </RequireAuth>
-              }
-            />
-
-            {/*Public routes */}
-            <Route exact path="/dashboard" element={<Dashboard />} />
-            <Route exact path="/getFlight" element={<GetFlight />} />
-            <Route exact path="/register" element={<Register />} />
-            <Route exact path="/bookSeat" element={<BookSeat />} />
+              {/*Public routes */}
+              <Route exact path="/dashboard" element={<Dashboard />} />
+              <Route exact path="/getFlight" element={<GetFlight />} />
+              <Route exact path="/register" element={<Register />} />
+              <Route exact path="/bookSeat" element={<BookSeat />} />
             {/* </Route>
              */}
 
