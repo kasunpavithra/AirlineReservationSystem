@@ -5,17 +5,20 @@ import axios from "../../../api/axios";
 import { useState } from "react";
 import jwtDecode from "jwt-decode";
 import { useNavigate } from "react-router";
+import "./style.css";
+import { useRef } from "react";
 
 const GET_BOOKED_SEATS_URL = "/api/bookings/getBookedseatsByFlight/";
 const GET_ALL_SEATS_URL = "/api/airCraftSeat/getSeatsByflightID/";
 
-
 const BookSeat = () => {
-  const navigate  = useNavigate();
+  const navigate = useNavigate();
   const location = useLocation();
   const [rows, setRows] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [err, setErr] = useState(false);
+  const [errMsg, setErrMsg] = useState('');
+
+  const errRef = useRef();
 
   try {
     var registeredUserID = jwtDecode(localStorage.getItem("AccessToken"))
@@ -27,26 +30,31 @@ const BookSeat = () => {
 
   useEffect(() => {
     const getAllSeats = async () => {
-      await axios.get(GET_ALL_SEATS_URL + location.state.flightID).then(async (result1) => {
-        await axios.get(GET_BOOKED_SEATS_URL + location.state.flightID).then((result2) => {
-          const allseats = result1.data.result;
-          const bookedSeats = result2.data.result;
-          console.log(allseats);
-          const rowData = [];
-          allseats.forEach((element) => {
-            const obj = {};
-            obj.id = element?.airCraftseatID;
-            if (bookedSeats.includes(element.airCraftseatID))
-              obj.isReserved = true;
-            if(element.classID!=parseInt(location.state.category)) obj.isReserved = true;
-            obj.number = element?.xCord;
-            if (rowData[element.yCord]) rowData[element.yCord].push(obj);
-            else rowData[element.yCord] = [obj];
-          });
-          setRows(rowData);
-          setLoading(false);
+      await axios
+        .get(GET_ALL_SEATS_URL + location.state.flightID)
+        .then(async (result1) => {
+          await axios
+            .get(GET_BOOKED_SEATS_URL + location.state.flightID)
+            .then((result2) => {
+              const allseats = result1.data.result;
+              const bookedSeats = result2.data.result;
+              console.log(allseats);
+              const rowData = [];
+              allseats.forEach((element) => {
+                const obj = {};
+                obj.id = element?.airCraftseatID;
+                if (bookedSeats.includes(element.airCraftseatID))
+                  obj.isReserved = true;
+                if (element.classID != parseInt(location.state.category))
+                  obj.isReserved = true;
+                obj.number = element?.xCord;
+                if (rowData[element.yCord]) rowData[element.yCord].push(obj);
+                else rowData[element.yCord] = [obj];
+              });
+              setRows(rowData);
+              setLoading(false);
+            });
         });
-      });
     };
 
     getAllSeats();
@@ -54,6 +62,13 @@ const BookSeat = () => {
 
   return (
     <>
+      <p
+        ref={errRef}
+        className={errMsg ? "errmsg" : "offscreen"}
+        aria-live="assertive"
+      >
+        {errMsg}
+      </p>
       {loading && <p>Loading...</p>}
       {rows && registeredUserID && (
         <SeatGrid
@@ -66,6 +81,7 @@ const BookSeat = () => {
           guestUserID={guestUserID}
           classID={location.state.category}
           navigate={navigate}
+          errHandler ={[errMsg,setErrMsg]}
         />
       )}
     </>

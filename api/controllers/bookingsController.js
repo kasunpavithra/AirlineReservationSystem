@@ -69,6 +69,10 @@ const addBooking = async (req, res) => {
               success: false,
               err,
           });
+          if(err?.message ==="ErrorWhileBookingSeats") return res.status(500).json({
+            success:false,
+            tryAgain:true
+          })
           res.status(500).json({        //500 for server err
               success: false,
               err,
