@@ -1,5 +1,6 @@
 import SeatGrid from "../../../components/SeatGrid/SeatGrid";
 import { useLocation } from "react-router";
+
 import { useEffect } from "react";
 import axios from "../../../api/axios";
 import { useState } from "react";
@@ -60,6 +61,8 @@ const BookSeat = () => {
     getAllSeats();
   }, []);
 
+
+
   return (
     <>
       <p
@@ -84,6 +87,7 @@ const BookSeat = () => {
           errHandler ={[errMsg,setErrMsg]}
         />
       )}
+
     </>
   );
 };

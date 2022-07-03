@@ -19,14 +19,19 @@ export const RequireAuth = ({ children, allowedRoles }) => {
   // console.log
   console.log(user?.userInfo?.role)
   console.log(allowedRoles)
-  console.log('path',location.pathname)
-
+  console.log('path',location)
+  console.log('kfdsfd',location.pathname.split("/")[1]
+  )
+  
   return allowedRoles?.find((role) => user?.userInfo?.role==role) ? (
     children
   ) : user ? (
     <Navigate to="/unauthorized" state={{ from: location.pathname }} replace />
   ) : (
-    <Navigate to="/login" state={{ from: location.pathname }} replace />
+  
+    location.pathname.split("/")[1]=='admin' || location.pathname.split("/")[1]=='manager'  ?
+    <Navigate to="/authorizelogin" state={{ from: location.pathname }} replace /> :<Navigate to="/login" state={{ from: location.pathname }} replace /> 
+    
   );
 };
 

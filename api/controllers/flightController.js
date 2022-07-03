@@ -19,7 +19,7 @@ const getAllFlights = async (req, res) => {
 
 const getAllBookings= async (req, res) => {
   await flightModel
-    .getAllBookings()
+    .getAllBookings(req.params)
     .then((result) => {
       res.json({
         success: true,
@@ -112,7 +112,7 @@ const getPassengersByFlightId = async (req, res) => {
 
 
 const getPassengersByDateDestination = async (req, res) => {
-
+  console.log('dfdf')
   await flightModel
     .getPassengersByDateDestination(req.params)
     .then((result) => {

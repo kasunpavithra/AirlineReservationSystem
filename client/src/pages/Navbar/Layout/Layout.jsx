@@ -14,7 +14,6 @@ const Layout = (props) => {
    catch(err){
      var user=null
    }
-   console.log(user)
   return (
     <div class='fixed-top row' >
       {/* <Navbar className="fixed-top bg-light NAV  " > */}
