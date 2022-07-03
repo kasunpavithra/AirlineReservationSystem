@@ -8,9 +8,7 @@ import { useNavigate } from "react-router";
 
 const GET_BOOKED_SEATS_URL = "/api/bookings/getBookedseatsByFlight/";
 const GET_ALL_SEATS_URL = "/api/airCraftSeat/getSeatsByflightID/";
-//hard coded values
-const flightID = 1;
-const maxSeats = 2;
+
 
 const BookSeat = () => {
   const navigate  = useNavigate();
@@ -29,8 +27,8 @@ const BookSeat = () => {
 
   useEffect(() => {
     const getAllSeats = async () => {
-      await axios.get(GET_ALL_SEATS_URL + flightID).then(async (result1) => {
-        await axios.get(GET_BOOKED_SEATS_URL + flightID).then((result2) => {
+      await axios.get(GET_ALL_SEATS_URL + location.state.flightID).then(async (result1) => {
+        await axios.get(GET_BOOKED_SEATS_URL + location.state.flightID).then((result2) => {
           const allseats = result1.data.result;
           const bookedSeats = result2.data.result;
           console.log(allseats);
@@ -56,13 +54,6 @@ const BookSeat = () => {
 
   return (
     <>
-      {/* Child Count is : {location.state.childCount}
-      Adult count is : {location.state.adultCount}
-      Flight ID :{location.state.flightID}
-      Category is : {location.state.category}
-      AirCraft ID: {location.state.aircraftID} */}
-      <h1>{location.state.category}</h1>
-      <h1>{location.state.adultCount}</h1>
       {loading && <p>Loading...</p>}
       {rows && registeredUserID && (
         <SeatGrid
