@@ -117,10 +117,10 @@ function GetFlight() {
 
   return (
     <>
-    
-    <div className="body">
-      {/* <Layout/>
-      */}
+    <Layout/>
+     
+    <div className="body" style={{'margin-top':100}}>
+      
       <div className="upper ">
         <Form className='container4' onSubmit={submitForm}>
           <div className="container4 mt-5">

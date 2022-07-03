@@ -1,5 +1,6 @@
 import SeatGrid from "../../../components/SeatGrid/SeatGrid";
 import { useLocation } from "react-router";
+
 import { useEffect } from "react";
 import axios from "../../../api/axios";
 import { useState } from "react";
@@ -8,6 +9,7 @@ import { useNavigate } from "react-router";
 
 const GET_BOOKED_SEATS_URL = "/api/bookings/getBookedseatsByFlight/";
 const GET_ALL_SEATS_URL = "/api/airCraftSeat/getSeatsByflightID/";
+
 
 
 const BookSeat = () => {
@@ -52,6 +54,8 @@ const BookSeat = () => {
     getAllSeats();
   }, []);
 
+
+
   return (
     <>
       {loading && <p>Loading...</p>}
@@ -68,6 +72,7 @@ const BookSeat = () => {
           navigate={navigate}
         />
       )}
+
     </>
   );
 };

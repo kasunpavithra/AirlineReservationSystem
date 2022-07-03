@@ -34,6 +34,7 @@ const getPassengerTypes = () => {
   
 
   const getDateDestinationPassengers = (Data) => {
+    console.log('hi')
     return axios({
       method: "get",
       url: APIEndpoint + `/flights/allDateDestinationPassengers/${Data['Destination Id']}/${Data['Start Date']}/${Data['End Date']}`,

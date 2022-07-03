@@ -82,6 +82,7 @@ function Login(prop) {
       localStorage.setItem("AccessToken", response?.data?.accessToken);
       // setEmail("");
       // setPwd("");
+      console.log(location)
       navigate(from, { replace: true });
     } catch (err) {
       if (!err?.response) {
