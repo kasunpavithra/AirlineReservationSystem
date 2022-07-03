@@ -58,8 +58,26 @@ const updateAirCraftSeat = async (req, res) => {
         })
 };
 
+const getSeatsByflightID = async (req, res) => {
+    await airCraftSeatModel
+        .getSeatsByflightID(parseInt(req.params.id))
+        .then((result) => {
+            res.json({
+                success: true,
+                result,
+            });
+        })
+        .catch((err) => {
+            res.status(500).json({        //500 for server err
+                success: false,
+                err,
+            });
+        });
+  };
+
 module.exports = {
     addAirCraftSeat,
     deleteAirCraftSeat,
-    updateAirCraftSeat
+    updateAirCraftSeat,
+    getSeatsByflightID
 }

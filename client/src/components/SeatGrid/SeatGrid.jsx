@@ -1,81 +1,146 @@
-import React, {Component} from 'react'
+import React, { Component } from "react";
+import axios from "../../api/axios";
+import SeatPicker from "react-seat-picker";
+const ADD_BOOKING_URL = "/api/bookings/addBooking";
 
-import SeatPicker from 'react-seat-picker'
 
 export default class SeatGrid extends Component {
   state = {
-    loading: false
-  }
+    loading: false,
+    seletedSeats: [],
+  };
 
   addSeatCallback = ({ row, number, id }, addCb) => {
-    this.setState({
-      loading: true
-    }, async () => {
-      await new Promise(resolve => setTimeout(resolve, 1500))
-      console.log(`Added seat ${number}, row ${row}, id ${id}`)
-      const newTooltip = `tooltip for id-${id} added by callback`
-      addCb(row, number, id, newTooltip)
-      this.setState({ loading: false })
-    })
-  }
-
-  addSeatCallbackContinuousCase = ({ row, number, id }, addCb, params, removeCb) => {
-    this.setState({
-      loading: true
-    }, async () => {
-      if (removeCb) {
-        await new Promise(resolve => setTimeout(resolve, 750))
-        console.log(`Removed seat ${params.number}, row ${params.row}, id ${params.id}`)
-        removeCb(params.row, params.number)
+    this.setState(
+      {
+        seletedSeats: [...this.state.seletedSeats, id],
+        loading: true,
+      },
+      () => {
+        console.log(`Added seat ${number}, row ${row}, id ${id}`);
+        const newTooltip = `selected by you`;
+        console.log(this.state.seletedSeats);
+        addCb(row, number, id, newTooltip);
+        this.setState({ ...this.state, loading: false });
       }
-      await new Promise(resolve => setTimeout(resolve, 750))
-      console.log(`Added seat ${number}, row ${row}, id ${id}`)
-      const newTooltip = `tooltip for id-${id} added by callback`
-      addCb(row, number, id, newTooltip)
-      this.setState({ loading: false })
-    })
-  }
+    );
+  };
+
+  addSeatCallbackContinuousCase = (
+    { row, number, id },
+    addCb,
+    params,
+    removeCb
+  ) => {
+    this.setState(
+      {
+        ...this.state,
+        loading: true,
+      },
+      async () => {
+        if (removeCb) {
+          await new Promise((resolve) => setTimeout(resolve, 750));
+          console.log(
+            `Removed seat ${params.number}, row ${params.row}, id ${params.id}`
+          );
+          removeCb(params.row, params.number);
+        }
+        await new Promise((resolve) => setTimeout(resolve, 750));
+        console.log(`Added seat ${number}, row ${row}, id ${id}`);
+
+        const newTooltip = `tooltip for id-${id} added by callback`;
+        addCb(row, number, id, newTooltip);
+        this.setState({ ...this.state, loading: false });
+      }
+    );
+  };
 
   removeSeatCallback = ({ row, number, id }, removeCb) => {
-    this.setState({
-      loading: true
-    }, async () => {
-      await new Promise(resolve => setTimeout(resolve, 1500))
-      console.log(`Removed seat ${number}, row ${row}, id ${id}`)
-      // A value of null will reset the tooltip to the original while '' will hide the tooltip
-      const newTooltip = ['A', 'B', 'C'].includes(row) ? null : ''
-      removeCb(row, number, newTooltip)
-      this.setState({ loading: false })
-    })
-  }
+    const oldarr = [...this.state.seletedSeats];
+    oldarr.splice(this.state.seletedSeats.indexOf(id), 1);
+    this.setState(
+      {
+        seletedSeats: oldarr,
+        loading: true,
+      },
+      () => {
+        console.log(`Removed seat ${number}, row ${row}, id ${id}`);
+        // A value of null will reset the tooltip to the original while '' will hide the tooltip
+        const newTooltip = ["A", "B", "C"].includes(row) ? null : "";
+        console.log(this.state.seletedSeats);
+        removeCb(row, number, newTooltip);
+        this.setState({ ...this.state, loading: false });
+      }
+    );
+  };
+
+  conformSeats = async () => {
+    try {
+      const response = await axios.post(
+        ADD_BOOKING_URL,
+        {
+          registeredUserID:this.props.registeredUserID,
+          guestUserID:this.props.guestUserID,
+          flightID:this.props.flightID,
+          classID:this.props.classID,
+          under18:parseInt(this.props.childCount),
+          airCraftseatIDList:this.state.seletedSeats
+        },
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      console.log(response);
+      this.props.navigate("/dashboard");
+      
+    } catch (err) {
+      // if (!err?.response) {
+      //   setErrMsg("No server responce");
+      // } else if (err.response?.status === 403) {
+      //   setErrMsg("Email has already registered!");
+      // } else {
+      //   setErrMsg("Registration error");
+      // }
+      // errRef.current.focus();
+
+      // Messages.ErrorMessage({
+      //   error: err,
+      //   custom_message: `Registration fail`,
+      // });
+      // // setLoader(false)
+      // navigate(0);
+    }
+  };
 
   render() {
-    const rows = [
-      [{id: 1, number: 1, isSelected: true, tooltip: 'Reserved by you'}, {id: 2, number: 2, tooltip: 'Cost: 15$'}, null, {id: 3, number: '3', isReserved: true, orientation: 'east', tooltip: 'Reserved by Rogger'}, {id: 4, number: '4', orientation: 'west'}, null, {id: 5, number: 5}, {id: 6, number: 6}],
-      [{id: 7, number: 1, isReserved: true, tooltip: 'Reserved by Matthias Nadler'}, {id: 8, number: 2, isReserved: true}, null, {id: 9, number: '3', isReserved: true, orientation: 'east'}, {id: 10, number: '4', orientation: 'west'}, null, {id: 11, number: 5}, {id: 12, number: 6}],
-      [{id: 13, number: 1}, {id: 14, number: 2}, null, {id: 15, number: 3, isReserved: true, orientation: 'east'}, {id: 16, number: '4', orientation: 'west'}, null, {id: 17, number: 5}, {id: 18, number: 6}],
-      [{id: 19, number: 1, tooltip: 'Cost: 25$'}, {id: 20, number: 2}, null, {id: 21, number: 3, orientation: 'east'}, {id: 22, number: '4', orientation: 'west'}, null, {id: 23, number: 5}, {id: 24, number: 6}],
-      [{id: 25, number: 1, isReserved: true}, {id: 26, number: 2, orientation: 'east'}, null, {id: 27, number: '3', isReserved: true}, {id: 28, number: '4', orientation: 'west'}, null,{id: 29, number: 5, tooltip: 'Cost: 11$'}, {id: 30, number: 6, isReserved: true}]
-    ]
-    const {loading} = this.state
+    const rows = this.props.rows;
+    const { loading } = this.state;
     return (
       <div>
         <h1>Seat Picker</h1>
-        <div style={{marginTop: '100px'}}>
+        <div style={{ marginTop: "100px" }}>
           <SeatPicker
             addSeatCallback={this.addSeatCallback}
             removeSeatCallback={this.removeSeatCallback}
             rows={rows}
-            maxReservableSeats={3}
+            maxReservableSeats={parseInt(this.props.childCount)+ parseInt(this.props.adultCount)}
             alpha
             visible
             selectedByDefault
             loading={loading}
-            tooltipProps={{multiline: true}}
+            tooltipProps={{ multiline: true }}
           />
         </div>
+        <br />
+        <button
+          onClick={this.conformSeats}
+          disabled={
+            (this.state.seletedSeats.length < (parseInt(this.props.childCount)+ parseInt(this.props.adultCount))) ? true : false
+          }
+        >
+          Conform
+        </button>
       </div>
-    )
+    );
   }
-
 }
