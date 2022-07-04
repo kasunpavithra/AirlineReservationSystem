@@ -5,6 +5,7 @@ import "./flightCard.css";
 import { Button, Container, Row, Col, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router";
 import "./bookingCard.css";
+import Guestpopup from './Guestpopup';
 function FlightCard(props) {
   const [airCraft, setAirCraft] = useState({});
   const [airCraftName, setAirCraftName] = useState("");
@@ -76,7 +77,7 @@ function FlightCard(props) {
     if (childCount === "0" && adultCount === "0") {
       window.alert("Please add Passenger Count!!!");
     } else {
-      navigate("/bookSeat", {
+      const data={
         state: {
           childCount: childCount,
           adultCount: adultCount,
@@ -84,7 +85,12 @@ function FlightCard(props) {
           category: category,
           aircraftID: props.props.aircraftID,
         },
-      });
+      }
+      if(localStorage.getItem("AccessToken"))
+        navigate("/bookSeat", data);
+      else{
+       navigate('/guestForm',data)
+      }
     }
   };
 

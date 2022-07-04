@@ -48,7 +48,7 @@ const cancelBooking = (req) => {
 
   if (!bookingID) return res.sendStatus(400);
   return new Promise((resolve, reject) => {
-    let sql = "update booking set status=1 where bookingID=?";
+    let sql = "update booking set status=2 where bookingID=?";
     db.query(sql, bookingID, (err, result) => {
       if (err) {
         return reject(err);

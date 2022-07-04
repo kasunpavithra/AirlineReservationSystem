@@ -302,7 +302,7 @@ const  Update =() => {
                <Col sm={1}>
                 <DropdownButton bsPrefix='button1' id="dropdown-basic-button"   title={state.Gender =='' ? 'Gender' : state.Gender =='1'? 'Male':'Female'} onSelect={handleSelect}>
                         <Dropdown.Item eventKey='1'>Male</Dropdown.Item>
-                        <Dropdown.Item eventKey='2'>Female</Dropdown.Item>
+                        <Dropdown.Item eventKey='0'>Female</Dropdown.Item>
                 </DropdownButton>
                 </Col>
                 <Row >

@@ -21,6 +21,7 @@ import Unauthorized from "./components/Unauthorized/Unauthorized";
 import Navigation from './pages/Navigation/Navigation';
 import Logout from "./pages/Navbar/Logout/logout";
 import CreateStaticSchedule from "./pages/Manager/CreateStaticSchedule";
+import Guestpopup from './pages/User/GetFlight/Guestpopup';
 const ROLES = {
   RegisteredUser: 5000,
   // Guest: 5001,
@@ -125,6 +126,7 @@ function App() {
             <Route exact path="/getFlight" element={<GetFlight />} />
             <Route exact path="/register" element={<Register />} />
             <Route exact path="/bookSeat" element={<BookSeat />} />
+            <Route exact path="/guestForm" element={<Guestpopup />} />
             {/* </Route>
              */}
 
