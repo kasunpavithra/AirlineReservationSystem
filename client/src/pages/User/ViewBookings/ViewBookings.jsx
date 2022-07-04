@@ -25,7 +25,7 @@ const ViewBookings = (prop) => {
             user=null
         }
         const url=prop.user=='reg'? `http://localhost:3001/api/bookings/getRegUserBooking/${user.userInfo.id}` :`http://localhost:3001/api/bookings/getGuestUserBooking/${user.userInfo.id}`
-
+        
         fetch(url)
             .then(res => {
                 if (!res.ok) throw Error("Could not fetch the data for that resource")
@@ -51,10 +51,10 @@ const ViewBookings = (prop) => {
 
     return (
         <><div><Layout/></div>
-        <div className="vbody" style={{  height: '753.6px' }}>
+        <div className="vbody" style={{  height:'753.6px' }}>
             
 
-            <div class=" container-fluid p-5  " style={{ backgroundColor: "#351b63", position: 'fixed' }}><h2 style={{ color: 'white' }}>All bookings</h2></div>
+            <div class=" container-fluid p-5" style={{height:'15%', backgroundColor: "#351b63", position: 'fixed' }}><h2 style={{ color: 'white'}}>All bookings</h2></div>
 
             <br />
             {isPending && <p> Loading... </p>}
@@ -71,23 +71,23 @@ const ViewBookings = (prop) => {
                             <th className="viewbookingsth">Class ID</th>
                             <th className="viewbookingsth">Aircraft Seat ID</th>
                             <th className="viewbookingsth">Discount ID</th>
+                            <th className="viewbookingsth">Flight Status</th>
                         </tr>
                     </thead>
 
                     <tbody>
                         {data.result.map(user => {
-                            if (user.status === 1) {
-                                console.log("Athulata ava")
+                            if ((user.status === 1)||(user.status===0)) {
                                 v += 1;
                                 return (<tr   className="vtr" key={user.bookingID}>
                                     <td className="viewbookingstd vtd">{user.bookingID}</td>
                                     <td className="viewbookingstd vtd">{user.flightID}</td>
-                                    <td className="viewbookingstd vtd">{user.paymentStatus}</td>
+                                    {(user.paymentStatus==1 && <td className="viewbookingstd vtd">Payed</td>)|| (user.paymentStatus==0 && <td className="viewbookingstd vtd">Not Payed</td>)}
                                     <td className="viewbookingstd vtd">{new Date(user.bookingTimeDate).toLocaleString()}</td>
-                                    <td className="viewbookingstd vtd">{user.classID}</td>
+                                    <td className="viewbookingstd vtd">{user.name}</td>
                                     <td className="viewbookingstd vtd">{user.airCraftseatID}</td>
-                                    <td className="viewbookingstd vtd">{user.discountID}</td>
-
+                                    <td className="viewbookingstd vtd">{user.amount}</td>
+                                    {(user.status==0 && <td className="viewbookingstd vtd" style={{ color: 'red' }}>Cancelled</td>)||(user.status==1 && <td className="viewbookingstd vtd">Booked</td>)}
                                 </tr>);
                             }
                         })}
