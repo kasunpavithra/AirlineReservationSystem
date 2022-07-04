@@ -22,8 +22,11 @@ const BookSeat = () => {
   const errRef = useRef();
 
   try {
-    var registeredUserID = jwtDecode(localStorage.getItem("AccessToken"))
+    if(localStorage.getItem("AccessToken")){
+      var registeredUserID = jwtDecode(localStorage.getItem("AccessToken"))
       .userInfo.id;
+    }
+    
     var guestUserID = null;
   } catch (err) {
     throw err;
