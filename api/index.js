@@ -17,6 +17,7 @@ const authROuter = require("./routes/auth");
 const levelRouter = require("./routes/levelRouter");
 const airportInfoRouter = require("./routes/airportLevelDetailRouter");
 const classPriceRouter = require('./routes/classPriceRouter');
+const staticFlightRoute = require("./routes/staticFlightRoute");
 const dotenv = require("dotenv");
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
@@ -53,7 +54,7 @@ app.use("/api/airCraftType", airCraftTypeRoutes)
 app.use("/api/airCraftSeat", airCraftSeatRoutes)
 app.use("/api/class", classRoutes)
 app.use("/api/userPhone", userPhoneRoutes)
-
+app.use("/api/staticFlight", staticFlightRoute);
 
 const PORT = process.env.PORT || 3001;
 app.listen(3001,()=>{
