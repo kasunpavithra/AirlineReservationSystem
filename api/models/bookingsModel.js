@@ -18,7 +18,7 @@ const db = require("../db/db");
 
 const getRegisteredBooking = (id) => {
   return new Promise((resolve, reject) => {
-    let sql = "select * from booking where registeredUserID =?";
+    let sql = "select * from ((booking LEFT JOIN class ON booking.classID=class.classID) LEFT JOIN  discount ON booking.discountID = discount.discountID)  where booking.registeredUserID =?";
     db.query(sql, id, (err, result) => {
       if (err) {
         return reject(err);

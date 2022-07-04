@@ -111,6 +111,7 @@ function App() {
 
             <Route path="/reguserbookings" element={<RequireAuth allowedRoles={[ROLES.RegisteredUser]} ><ViewBookings user='reg' /></RequireAuth>} />
             <Route path="/guestuserbookings" element={<ViewBookings user='guest' />} />
+            
 
             {/* User routes */}
             <Route exact path="/dashboard" element={<Dashboard />} />
