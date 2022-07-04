@@ -8,6 +8,7 @@ const airWayRoutesRouter = require("./routes/airWayRoutesRouter");
 const airportRouter = require("./routes/airportRouter");
 const flightRoutes = require("./routes/flightRoutes");
 const airCraftRoute = require("./routes/airCraftRoutes");
+const guest=require("./routes/guestRoutes")
 const airCraftTypeRoutes = require("./routes/airCraftTypeRoutes")
 const airCraftSeatRoutes = require("./routes/airCraftSeatRoutes")
 const classRoutes = require("./routes/classRoutes")
@@ -46,7 +47,7 @@ app.use("/api/classPrice", classPriceRouter);
 
 app.use("/api/flights", flightRoutes);
 app.use("/api/airCraft",airCraftRoute);
-
+app.use("/api/guest",guest);
 app.use("/api/level",levelRouter);
 app.use("/api/airCraftType", airCraftTypeRoutes)
 app.use("/api/airCraftSeat", airCraftSeatRoutes)

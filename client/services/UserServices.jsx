@@ -17,6 +17,23 @@ const update = (formData) => {
     });
   };
 
+  
+const createGuest = (formData) => {
+  // console.log(data);
+  console.log('hello')
+  return axios({
+    method: "post",
+    url: APIEndpoint + '/guest/create',
+    data:formData,
+    // headers: { 'content-type': 'multipart/form-data'}
+
+  //   },
+  //   headers: {Authorization: `Bearer ${token.getAccessToken()}`}
+  });
+};
+
+
+
   const getcustomer = (customerid) => {
     // console.log(data);
     console.log('hello')
@@ -31,5 +48,6 @@ const update = (formData) => {
 
   export default {
     update,
-    getcustomer
+    getcustomer,
+    createGuest
   }

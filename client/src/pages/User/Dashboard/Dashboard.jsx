@@ -125,7 +125,7 @@ function Dashboard() {
         <Container>
           <Row
             // style={{ margin: 10, justifyContent: "center" }}
-            className="Dashboard"
+            className="Dashboard" style={{marginTop:105}}
           >
             <Col>
               <form onSubmit={handleSubmit}>
