@@ -77,19 +77,22 @@ function FlightCard(props) {
     if (childCount === "0" && adultCount === "0") {
       window.alert("Please add Passenger Count!!!");
     } else {
-      const data={
-        state: {
-          childCount: childCount,
+      if(localStorage.getItem("AccessToken"))
+        navigate("/bookSeat",{state: 
+          {childCount: childCount,
           adultCount: adultCount,
           flightID: props.props.flightID,
           category: category,
-          aircraftID: props.props.aircraftID,
-        },
-      }
-      if(localStorage.getItem("AccessToken"))
-        navigate("/bookSeat", data);
+          aircraftID: props.props.aircraftID}
+    });
       else{
-       navigate('/guestForm',data)
+       navigate('/guestForm',{state: 
+        {childCount: childCount,
+        adultCount: adultCount,
+        flightID: props.props.flightID,
+        category: category,
+        aircraftID: props.props.aircraftID}
+      })
       }
     }
   };

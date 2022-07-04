@@ -54,7 +54,7 @@ const imageValidation = (fileInput) => {
 const guestLogin = (data) => {
     const UpdateValidationSchema = Joi.object({
 
-        'Refno': Joi.string().required().messages({"string.empty": "Reference Number should not be empty!" }),
+        'Refno': Joi.string().required().messages({"string.empty": "Enter Reference number" }),
         'Email': Joi.string().regex( /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/).required().messages({"string.pattern.base": "Incorrect Email address!" }),
        
     })

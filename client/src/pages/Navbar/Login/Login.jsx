@@ -40,13 +40,6 @@ function Login(prop) {
   useEffect(() => {
     setErrMsg("");
   }, [email, pwd]);
-  if(from!="/navigation"){
-    Messages.ErrorMessage({
-      error: '',
-      custom_message: `Login please`,
-      });
-
-  }
 
   const handleGuest =async(event)=>{
     event.preventDefault();
@@ -81,7 +74,7 @@ function Login(prop) {
                
                 if (response.status === 200 && response.data.result.length===1) {
                 Messages.SuccessMessage("Success");
-                navigate(`/guestuserbookings`,response.data.result[0]);
+                navigate(`/guestuserbookings`,{state:response?.data?.result[0]});
 
                 // setTimeout(() => {
                 //     // setLoader(false);
@@ -205,7 +198,7 @@ function Login(prop) {
               <div className="input-group form-group">
                 <div className="input-group-prepend">
                   <span className="input-group-text">
-                    <i className="fas fa-user"></i>
+                    <i className="fas fa-user" style={{color:'red'}}></i>
                   </span>
                 </div>
                 <input
@@ -219,11 +212,12 @@ function Login(prop) {
                   required
                   onChange={(e) => setEmail(e.target.value)}
                 />
+                
               </div>
               <div className="input-group form-group mt-2">
                 <div className="input-group-prepend">
                   <span className="input-group-text">
-                    <i className="fas fa-key"></i>
+                    <i className="fas fa-key" style={{color:'red'}}></i>
                   </span>
                 </div>
                 <input
@@ -269,7 +263,10 @@ function Login(prop) {
                     {/* <div class="col-3">
 
                     </div> */}
+                    <br></br>
+                   
                   </div>
+                  {errors['Email'] !== '' && <p className="error">{errors['Email']}</p>}
                 </div>
               </div>
               <div class="row d-flex justify-content-center loginlinks mt-2">
@@ -280,6 +277,7 @@ function Login(prop) {
                       <button class="btn btn-success" type="submit">Submit</button>
                     </span>	
                   </div>
+                  {errors['Refno'] !== '' && <p className="error ml-2">{errors['Refno']}</p>}
                 </div>
               </div>
               </div>

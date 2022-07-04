@@ -18,10 +18,11 @@ align-content: center;
 }
 
 .logincard{
-height: 480px;
+padding-top:20px;
+height:520px;
 margin-top: auto;
 margin-bottom: auto;
-width: 440px;
+width: 480px;
 background-color: rgb(1, 1, 19) !important;
 border-radius: 20px;
 }

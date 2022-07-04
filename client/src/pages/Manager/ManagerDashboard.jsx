@@ -482,7 +482,13 @@ const ManagerDashboard = () => {
           <div class="sidebar-button">
             <i class="bx bx-menu sidebarBtn mt-4" onClick={handleSideBar}></i>
             <span class="dashboard mt-4 ">Manager</span>
+            <span class="box mt-3" style={{'margin-left':1100}}>
+              <div class="right-side">
+               <Button > <div class="box-topic" style={{fontSize:20}}>Static schedule</div></Button>
+              </div>
+            </span>
           </div>
+      
           {/* <div class="search-box">
             <input type="text" placeholder="Search..." />
             <i class="bx bx-search"></i>
@@ -868,7 +874,12 @@ const ManagerDashboard = () => {
 
               <div class="mr-5 number"></div>
             </div>
+
+         
           </div>
+          
+
+          
 
 
 
