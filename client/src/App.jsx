@@ -22,6 +22,7 @@ import Navigation from './pages/Navigation/Navigation';
 import Logout from "./pages/Navbar/Logout/logout";
 import CreateStaticSchedule from "./pages/Manager/CreateStaticSchedule";
 import Guestpopup from './pages/User/GetFlight/Guestpopup';
+
 const ROLES = {
   RegisteredUser: 5000,
   // Guest: 5001,
@@ -108,20 +109,17 @@ function App() {
             {/* Manager Routings */}
             <Route exact path="/manager/*" element={<RequireAuth allowedRoles={[ROLES.Manager]} ><ManagerDashboard /></RequireAuth>} />
 
-
-            <Route path="/reguserbookings" element={<RequireAuth allowedRoles={[ROLES.RegisteredUser]} ><ViewBookings user='reg' /></RequireAuth>} />
+              {/* GuestUsers routings */}
             <Route path="/guestuserbookings" element={<ViewBookings user='guest' />} />
             
-
-            {/* User routes */}
-            <Route exact path="/dashboard" element={<Dashboard />} />
-            {/*RegisteredUser routes */}
-
+           
+            {/*RegisteredUser routings */}
             <Route exact path="/update" element={<RequireAuth allowedRoles={[ROLES.RegisteredUser]} ><Update /></RequireAuth>} />
+            <Route path="/reguserbookings" element={<RequireAuth allowedRoles={[ROLES.RegisteredUser]} ><ViewBookings user='reg' /></RequireAuth>} />
 
 
 
-            {/*Public routes */}
+            {/*Public routings */}
             <Route exact path="/dashboard" element={<Dashboard />} />
             <Route exact path="/getFlight" element={<GetFlight />} />
             <Route exact path="/register" element={<Register />} />

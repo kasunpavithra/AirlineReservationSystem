@@ -5,10 +5,14 @@ import { useNavigate, Link,useLocation} from "react-router-dom";
 import { useAuth } from "../../../utils/auth";
 import { useEffect } from "react";
 import { useRef } from "react";
+import Messages from "../../LandingPage/Messages";
 
 import axios from "../../../api/axios";
 import Layout from './../Layout/Layout';
+import Validation from "../../../Validation/updateValidation";
+import UserServices from "../../../../services/UserServices";
 const LOGIN_URL = "/api/auth/login";
+
 
 function Login(prop) {
   const { setAuth } = useAuth();
@@ -22,7 +26,12 @@ function Login(prop) {
 
   const [email, setEmail] = useState("");
   const [pwd, setPwd] = useState("");
+  const [guestemail, setGuestEmail] = useState("");
+  const [guestid, setGuestID] = useState("");
   const [errMsg, setErrMsg] = useState("");
+  const [errors, setError] = useState("");
+ 
+ 
 
   useEffect(() => {
     emailRef.current.focus();
@@ -31,6 +40,62 @@ function Login(prop) {
   useEffect(() => {
     setErrMsg("");
   }, [email, pwd]);
+
+  const handleGuest =async(event)=>{
+    event.preventDefault();
+    const state={ 'Email':guestemail, 'Refno':guestid}
+    const {value,error}=Validation.guestLogin(state)
+    console.log(error);
+    if (error) {
+        console.log("error",error)
+        if(error){
+            const errors={}
+            error.details.map(item => {
+                errors[item.path[0]] = item.message;
+            });
+            setError(errors);
+        
+        }
+        else{
+            setError({})
+        }
+   
+    } 
+    else{
+
+            try {
+
+                // const formData = new FormData();
+                // formData.append("firstname", state['First Name']);
+                // formData.append("lastname",state['Last Name']);
+
+                const response = await UserServices.guestLogin(state)
+                console.log(response);
+               
+                if (response.status === 200 && response.data.result.length===1) {
+                Messages.SuccessMessage("Success");
+                navigate(`/guestuserbookings`,{state:response?.data?.result[0]});
+
+                // setTimeout(() => {
+                //     // setLoader(false);
+                // }, 200);
+                }
+                
+                
+                
+            } catch (error) {
+                console.log(error);
+                Messages.ErrorMessage({
+                error: error,
+                custom_message: `Update fail`,
+                });
+                // setLoader(false)
+                navigate(0);
+            }
+        }
+    
+    
+  }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -80,8 +145,12 @@ function Login(prop) {
       // const role = response?.data?.role;    //5000 for registered customer
       // setAuth({ user:email, role:5000, accessToken }); //you need to customise here
       localStorage.setItem("AccessToken", response?.data?.accessToken);
+     
       // setEmail("");
       // setPwd("");
+      if(response.status===200){
+        Messages.SuccessMessage('Login Success')
+      }
       console.log(location)
       navigate(from, { replace: true });
     } catch (err) {
@@ -129,7 +198,7 @@ function Login(prop) {
               <div className="input-group form-group">
                 <div className="input-group-prepend">
                   <span className="input-group-text">
-                    <i className="fas fa-user"></i>
+                    <i className="fas fa-user" style={{color:'red'}}></i>
                   </span>
                 </div>
                 <input
@@ -143,11 +212,12 @@ function Login(prop) {
                   required
                   onChange={(e) => setEmail(e.target.value)}
                 />
+                
               </div>
               <div className="input-group form-group mt-2">
                 <div className="input-group-prepend">
                   <span className="input-group-text">
-                    <i className="fas fa-key"></i>
+                    <i className="fas fa-key" style={{color:'red'}}></i>
                   </span>
                 </div>
                 <input
@@ -161,11 +231,11 @@ function Login(prop) {
                   onChange={(e) => setPwd(e.target.value)}
                 />
               </div>
-              <div className="row align-items-center loginremember">
+              {/* <div className="row align-items-center loginremember">
                 <input type="checkbox" />
                 Remember Me
-              </div>
-              <div className="form-group">
+              </div> */}
+              <div className="form-group mt-4">
                 <input
                   type="submit"
                   value="Login"
@@ -175,12 +245,49 @@ function Login(prop) {
             </form>
           </div>
           <div className="card-footer">
-            <div className="d-flex justify-content-center loginlinks">
-              Don't have an account?<Link to="/register">Sign Up</Link>
+            {/* <div className="d-flex justify-content-center loginlinks">
+              Don't have an account?
+            </div> */}
+            <div className="d-flex justify-content-center loginlinks mt-2" style={{color:'red'}}>
+              Have done any bookings as a guest?
             </div>
-            <div className="d-flex justify-content-center">
+            <form onSubmit={handleGuest} className="d-flex justify-content-center loginlinks mr-5">
+              <div class='row'>
+              <div class="row d-flex justify-content-center loginlinks ">
+                <div class="col-lg-10  col-lg-offset-3">
+                  <div class="input-group">
+                    <input type="text"   onChange={(e) => setGuestEmail(e.target.value)} class="form-control" size="300" name="Ref_no" placeholder="Enter Email"/> 
+                    {/* <span class="input-group-btn">
+                      <button class="btn btn-success" type="submit">Submit</button>
+                    </span>	 */}
+                    {/* <div class="col-3">
+
+                    </div> */}
+                    <br></br>
+                   
+                  </div>
+                  {errors['Email'] !== '' && <p className="error">{errors['Email']}</p>}
+                </div>
+              </div>
+              <div class="row d-flex justify-content-center loginlinks mt-2">
+                <div class="col-lg-10 col-lg-offset-3">
+                  <div class="input-group ">
+                    <input type="text" onChange={(e) => setGuestID(e.target.value)}  class="form-control" size="300" name="Ref_no" placeholder="Enter Reference Number"/> 
+                    <span class="input-group-btn">
+                      <button class="btn btn-success" type="submit">Submit</button>
+                    </span>	
+                  </div>
+                  {errors['Refno'] !== '' && <p className="error ml-2">{errors['Refno']}</p>}
+                </div>
+              </div>
+              </div>
+        
+              
+              
+          </form>
+            {/* <div className="d-flex justify-content-center">
               <a href="#">Forgot your password?</a>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

@@ -25,9 +25,22 @@ const Guestpopup=(prop)=>{
     'Email' :'',
     'Birthday' :''
 }
+const navigate = useNavigate();
+console.log(Object.keys(prop).length==0)
+React.useEffect(()=>{
+    if(Object.keys(prop).length==0){
+        console.log('fdfsdf')
+        navigate('/login')
+    }
+
+},[])
+    
+
+
+console.log('dfsdff')
 var [state,setState]=React.useState(formValues);
 const [errordata,setError]=React.useState(formValues);
-const navigate = useNavigate();
+
 const handleUser=(event)=>{
     setState({
         ...state,
@@ -99,9 +112,9 @@ const handleSubmit=async(event)=>{
   return (
     <div>
     <Layout/>
-      <div className=' col-xl-5 pt-4 mx-auto form-container'>
+      <div className=' col-xl-5 pt-4  mx-auto form-container' style={{marginTop:150}}>
     
-    <h1 className='fs-1 text-primary mb-3'>Booking Details </h1>
+    <h1 className='fs-1 text-primary mb-5'>Booking Details </h1>
      <Form onSubmit={handleSubmit} >
         <Form.Group as={Row} className='fw-bold col-xl-12 mb-3 mx-auto' controlId='First Name'>
             <Form.Label style={{"font-family":"FontAwesome"}}  column sm={4}>First Name</Form.Label>
