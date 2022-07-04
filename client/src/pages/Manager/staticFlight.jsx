@@ -122,6 +122,7 @@ function StaticFlight(props) {
               </Form.Select>
             </div>
           </Col>
+          
         </div>
       </div>
       {/* <Button type="submit">Create Schedule</Button> */}
