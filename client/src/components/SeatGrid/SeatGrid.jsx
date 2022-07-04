@@ -92,7 +92,7 @@ export default class SeatGrid extends Component {
       title: 'Success',    
       text: 'Congratulations! Successfully Booked your seats!',  
     }).then(()=>{
-      this.props.navigate("/dashboard");
+      this.props.navigate("/dashboard",{ replace: true });
     });
   }
 
