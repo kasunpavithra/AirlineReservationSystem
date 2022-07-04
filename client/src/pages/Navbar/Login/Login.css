@@ -18,7 +18,7 @@ align-content: center;
 }
 
 .logincard{
-height: 450px;
+height: 480px;
 margin-top: auto;
 margin-bottom: auto;
 width: 440px;
@@ -98,7 +98,7 @@ color: white;
 }
 
 .loginlinks a{
-margin-left: 4px;
+margin-left: 20px;
 }
 
 

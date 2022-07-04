@@ -51,8 +51,21 @@ const imageValidation = (fileInput) => {
     return true;
 };
 
+const guestLogin = (data) => {
+    const UpdateValidationSchema = Joi.object({
+
+        'Refno': Joi.string().required().messages({"string.empty": "Reference Number should not be empty!" }),
+        'Email': Joi.string().regex( /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/).required().messages({"string.pattern.base": "Incorrect Email address!" }),
+       
+    })
+    const { error, value } = UpdateValidationSchema.validate(data, { abortEarly: false });
+    return { value, error };
+
+}
+
 export default {
     ValidateUpdate,
     imageValidation,
     ValidateGuest,
+    guestLogin
 }
