@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./pages/Navbar/Layout/Layout";
 import Home from "./pages/Navbar/Home/Home";
-import Contact from "./pages/Navbar/Contact/Contact";
+import Contact from "./pages/contact/Contact";
 import NotFound from "./pages/Navbar/NoPage/NoPage";
 import Login from "./pages/Navbar/Login/Login";
 import Register from "./pages/Navbar/Register/Register";
@@ -95,6 +95,7 @@ function App() {
             <Route exact path="/" element={<Landing />} />
             <Route exact path="/navigation" element={<RequireAuth allowedRoles={[ROLES.RegisteredUser, ROLES.Manager, ROLES.Admin]} ><Navigation /></RequireAuth>} />
             <Route exact path="/login" element={<Login user='public' />} />
+            <Route exact path="/contact" element={<Contact/>} />
             <Route exact path="/authorizelogin" element={<Login user='authorized' />} />
             <Route exact path="/logout" element={<Logout />} />
             <Route exact path="/createStaticScheduler" element={<CreateStaticSchedule />} />
