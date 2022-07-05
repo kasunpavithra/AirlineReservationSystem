@@ -2,57 +2,92 @@ const { json } = require("express");
 const db = require("../db/db");
 
 const addFlights = (grpOfFlights) => {
-  console.log(grpOfFlights);
-  var isSuccess = true;
   return new Promise((resolve, reject) => {
     db.beginTransaction((err) => {
       if (err) {
-        return Outerreject(err);
+        return reject(err);
       }
       let sql1 =
         "INSERT INTO STATICFLIGHT(AIRCRAFTID,ROUTEID,DISPATCHTIME,STATUS) VALUES(?,?,?,?)";
-      for (let index = 0; index < grpOfFlights.length; index++) {
-        const element = grpOfFlights[index];
-        console.log(element);
-        async function addFlightFunc(flight) {
-          await new Promise((InResolve, InReject) => {
-            db.query(sql1, flight, (err, result) => {
-              if (err) {
-                return InReject(false);
-              } else if (index === grpOfFlights.length - 1) {
-                db.commit((err) => {
-                  if (err) {
-                    return InReject(false);
-                  } else {
-                    return resolve("Flights Added Successfully");
-                  }
-                });
-              } else {
-                return InResolve(" a static Flight added successfully");
-              }
-              console.log(result);
-            });
-          })
+      db.query("DELETE FROM STATICFLIGHT", (err, res) => {
+        if (err) {
+          return reject("serverError");
+        } else {
+          console.log("Deleted!!");
 
-            .then((result) => {
-              console.log("Added");
-            })
-            .catch((err) => {
-              db.rollback();
-              console.log("Rolled Back");
-              isSuccess = false;
-              return reject(true);
-            });
+          addFlightToDB();
         }
-        addFlightFunc(element);
-        if (!isSuccess) {
-          break;
+      });
+      const AddRecord = (flight) =>
+        new Promise((resolve, reject) => {
+          if (
+            !flight["aircraftID"] ||
+            !flight["RouteID"] ||
+            !flight["dispatchTime"] ||
+            !flight["status"]
+          ) {
+            return reject("BadRequest");
+          }
+          db.query(
+            sql1,
+            [
+              flight["aircraftID"],
+              flight["RouteID"],
+              flight["dispatchTime"],
+              flight["status"],
+            ],
+            (err, result) => {
+              if (err) {
+                return reject("BadRequest");
+              } else {
+                console.log(flight);
+                return resolve(true);
+              }
+            }
+          );
+        })
+          .then((res) => {
+            console.log("Inside Res");
+            return true;
+          })
+          .catch((err) => {
+            db.rollback();
+            console.log(JSON.stringify(flight), "Rolled back");
+            if (err === "BadRequest") {
+              return err;
+            } else {
+              return "serverError";
+            }
+          });
+
+      const addFlightToDB = async () => {
+        for (let flg of grpOfFlights) {
+          var isAdded = await AddRecord(flg);
+          console.log("Here ", isAdded);
+          switch (isAdded) {
+            case "serverError":
+              return reject("serverError");
+
+            case "BadRequest":
+              return reject("BadRequest");
+
+            default:
+              continue;
+          }
         }
-      }
+        if (isAdded) {
+          db.commit((err) => {
+            if (err) {
+              console.log("Error while commiting");
+              return reject(false);
+            } else {
+              console.log("Commited Successfully");
+              return resolve(true);
+            }
+          });
+        }
+      };
     });
-    if (!isSuccess) {
-      reject(false);
-    }
   });
 };
 module.exports = {
