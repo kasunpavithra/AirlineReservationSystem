@@ -21,7 +21,7 @@ img {
 .about_header {
     color: #1376BD;
     text-align: center;
-    margin-top:100px;
+    margin-top: 100px;
 }
 
 .des {
@@ -36,4 +36,13 @@ img {
     vertical-align: middle;
     align-items: center;
     font-size: larger;
+}
+
+.margin-top {
+    margin-top: 120px;
+}
+
+.contact-img {
+    width: 100%;
+    height: auto;
 }
