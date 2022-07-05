@@ -48,7 +48,7 @@ function StaticFlight(props) {
                 type="text"
                 name="departure"
                 value={route.origin_name}
-                placeholder="&#xf007; Departure"
+                placeholder="&#xf007;  Departure"
                 readOnly
               />
             </div>
