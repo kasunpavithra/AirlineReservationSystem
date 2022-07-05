@@ -26,7 +26,7 @@ const Layout = (props) => {
         
             <ul>
               <li><b><a href="/">Home </a></b></li>
-              <li><b><a href="/contact">Contact </a></b></li>
+              <li><b><a href="/contact">About-us </a></b></li>
               {
                 user?.userInfo?.role==5002 && (<li><b><a href="/admin">Dashboard </a></b></li>)
               }
