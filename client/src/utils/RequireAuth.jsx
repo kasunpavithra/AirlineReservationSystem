@@ -2,6 +2,7 @@ import { useAuth } from "./auth";
 import { useState } from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 
+
 import jwtDecode from "jwt-decode";
 import { allow } from "joi";
 
@@ -30,7 +31,8 @@ export const RequireAuth = ({ children, allowedRoles }) => {
   ) : (
   
     location.pathname.split("/")[1]=='admin' || location.pathname.split("/")[1]=='manager'  ?
-    <Navigate to="/authorizelogin" state={{ from: location.pathname }} replace /> :<Navigate to="/login" state={{ from: location.pathname }} replace /> 
+    <Navigate to="/authorizelogin" state={{ from: location.pathname }} replace />:<Navigate to="/login" state={{ from: location.pathname }} replace /> 
+
     
   );
 };

@@ -5,18 +5,30 @@ import Layout from "../../Navbar/Layout/Layout";
 import axios from "axios";
 import Button from 'react-bootstrap/Button';
 // import axios from "../../../api/axios";
+import { useLocation } from "react-router";
+import { useNavigate } from 'react-router-dom';
 //apiurl for guestUser= "/api/bookings/getGuestUserBooking/:id"
 //apiurl for RegistertUser= "http://localhost:3001/api/bookings/getRegUserBooking/1"
 const ViewBookings = (prop) => {
     const [data, setData] = useState(null)
+    const navigate=useNavigate();
     const [isPending, setIsPending] = useState(true)
     const [error, setError] = useState(null)
     // const [showStatus, setShowStatus] = useState([])
     var v = 0;
+    const location = useLocation();
 
 
+    console.log(location.state)
+    console.log( !localStorage.getItem("AccessToken"))
+   
+    if(!location.state && !localStorage.getItem("AccessToken")){
+        console.log('fdfsdfd')
+        navigate('/login')
+    }
 
     useEffect(() => {
+      
         //const abortCont = new AbortController();
         try {
             var user = jwtDecode(localStorage.getItem("AccessToken"))
@@ -28,6 +40,8 @@ const ViewBookings = (prop) => {
             user = null
         }
         const url=prop.user=='reg'? `http://localhost:3001/api/bookings/getRegUserBooking/${user.userInfo.id}` :`http://localhost:3001/api/bookings/getGuestUserBooking/${user.userInfo.id}`
+
+       
         
         fetch(url)
             .then(res => {

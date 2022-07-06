@@ -4,15 +4,19 @@ import axios from "axios";
 import StaticFlight from "./staticFlight";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { IoLocation } from "react-icons/io5";
+import swal from "sweetalert";
+import { useNavigate } from "react-router-dom";
+import Spinner from "react-bootstrap/Spinner";
 
 function CreateStaticSchedule() {
   const [routes, setRoutes] = useState({});
   const [flight, setFlight] = useState([{}]);
   const [org, setOrg] = useState({ val: [] });
   const [des, setDes] = useState({ val: [] });
-
+  const navigate = useNavigate();
   const [airPort, setAirPort] = useState({ routes: [] });
   const [airCraft, setAirCraft] = useState({ airCrafts: [] });
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     const fetchAirCrafts = async () => {
       const { data } = await axios("http://localhost:3001/api/aircraft/all");
@@ -75,6 +79,9 @@ function CreateStaticSchedule() {
     // console.log(routes);
 
     let grpOfFlights = [];
+
+    var isSuccess = true;
+
     Object.entries(routes).forEach((obj) => {
       let objectOfFlight = {
         aircraftID: obj[1].airCraftID,
@@ -84,7 +91,7 @@ function CreateStaticSchedule() {
       };
       grpOfFlights.push(objectOfFlight);
     });
-    var isSuccess = true;
+
     for (let index = 0; index < flight.length; index++) {
       const element = flight[index];
       console.log(element);
@@ -95,6 +102,7 @@ function CreateStaticSchedule() {
       console.log(routeID);
 
       if (routeID !== undefined) {
+        // console.log(new Tim);
         let objectOfFlight = {
           aircraftID: element.aircraft,
           RouteID: routeID,
@@ -104,14 +112,14 @@ function CreateStaticSchedule() {
         grpOfFlights.push(objectOfFlight);
       } else {
         isSuccess = false;
-        if (window.confirm("No Route Found ! Want to Re-load ? ")) {
-          window.location.reload();
-        }
+        swal("Check Again?", "Route has been added wrong", "info");
         break;
       }
     }
+
     if (isSuccess) {
       console.log(grpOfFlights);
+      setIsLoading(true);
       axios({
         method: "POST",
         url: "http://localhost:3001/api/staticFlight/addFlights",
@@ -119,11 +127,28 @@ function CreateStaticSchedule() {
       })
         .then(function (response) {
           console.log(response.data.success);
-          window.alert(response.data.result);
+          //   window.alert(response.data.result);
+          swal(
+            "Added Successfully!",
+            "Flight Schedule added succesfully!",
+            "success"
+          ).then((res) => {
+            navigate("/manager");
+          });
         })
         .catch(function (error) {
-          console.log(error);
+          if (error.response.status === 400) {
+            swal({
+              icon: "error",
+              title: "Oops...",
+              text: "Something went wrong!",
+              button: "OK",
+            }).then((res) => {
+              window.location.reload();
+            });
+          }
         });
+      setIsLoading(false);
     }
   };
   const Background =
@@ -134,6 +159,7 @@ function CreateStaticSchedule() {
       <div style={{ textAlign: "center" }}>
         <h1>CREATE STATIC FLIGHT SCHEDULE</h1>
       </div>
+      {isLoading ? <Spinner /> : null}
       <div>
         {/* {JSON.stringify(routes)} */}
         <hr />

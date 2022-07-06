@@ -1,0 +1,48 @@
+.about_card {
+    overflow: hidden;
+    /* margin: 5px; */
+    /* padding: 5px; */
+}
+
+.cont {
+    text-align: center;
+}
+
+img {
+    max-height: 400px;
+}
+
+.footer {
+    margin-top: 20px;
+    text-align: center;
+    font-weight: normal;
+}
+
+.about_header {
+    color: #1376BD;
+    text-align: center;
+    margin-top: 100px;
+}
+
+.des {
+    /* font-family: Arial, Helvetica, sans-serif; */
+    font-weight: lighter;
+}
+
+.info {
+    margin: 20px;
+    padding: 50px;
+    display: flex;
+    vertical-align: middle;
+    align-items: center;
+    font-size: larger;
+}
+
+.margin-top {
+    margin-top: 120px;
+}
+
+.contact-img {
+    width: 100%;
+    height: auto;
+}

@@ -26,7 +26,7 @@ const Layout = (props) => {
         
             <ul>
               <li><b><a href="/">Home </a></b></li>
-              <li><b><a href="/contact">Contact </a></b></li>
+              <li><b><a href="/contact">About-us </a></b></li>
               {
                 user?.userInfo?.role==5002 && (<li><b><a href="/admin">Dashboard </a></b></li>)
               }
@@ -39,7 +39,7 @@ const Layout = (props) => {
               {(((props.content!='login'|| props.user=='authorized')  && !user)&& (<li><b><a href="/login">CustomerLogin</a></b></li>))}
               {(((props.content!='login'|| props.user=='public')  && !user)&& (<li><b><a href="/authorizelogin">AuthorizeLogin</a></b></li>))}
               
-              {((props.content!='register' && !user)) && (<li><b><a href="/register">Register </a></b></li>)}
+              {((props.content!='register' && !user)) && (<li><b><a href="/register">Sign Up </a></b></li>)}
               {(user?.userInfo?.role==5000 && props.content!='update') && (
               <li><b><a href="/update">Update </a></b></li>
               )}
