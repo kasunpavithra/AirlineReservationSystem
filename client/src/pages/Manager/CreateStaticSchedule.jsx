@@ -7,6 +7,7 @@ import { IoLocation } from "react-icons/io5";
 import swal from "sweetalert";
 import { useNavigate } from "react-router-dom";
 import Spinner from "react-bootstrap/Spinner";
+import Layout from "../Navbar/Layout/Layout";
 
 function CreateStaticSchedule() {
   const [routes, setRoutes] = useState({});
@@ -154,7 +155,8 @@ function CreateStaticSchedule() {
 
   return (
     <div style={{ backgroundImage: `url(${Background})` }}>
-      <div style={{ textAlign: "center" }}>
+      <Layout/>
+      <div style={{ textAlign: "center" ,marginTop:69}}>
         <h1>CREATE STATIC FLIGHT SCHEDULE</h1>
       </div>
       {isLoading ? <Spinner /> : null}

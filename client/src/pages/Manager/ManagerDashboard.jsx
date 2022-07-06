@@ -7,8 +7,10 @@ import "./managerStyle.css";
 import ManagerServices from "../../../services/ManagerServices";
 import managerValidation from "../../Validation/managerValidation";
 import Layout from "../Navbar/Layout/Layout";
+import { useNavigate } from 'react-router';
 
 const ManagerDashboard = () => {
+  const navigate=useNavigate();
   const [ageType, setAgeType] = useState('');
   const [ageTypeForBookings, setAgeTypeForBookings] = useState('');
   
@@ -484,7 +486,7 @@ const ManagerDashboard = () => {
             <span class="dashboard mt-4 ">Manager</span>
             <span class="box mt-3" style={{'margin-left':1100}}>
               <div class="right-side">
-               <Button > <div class="box-topic" style={{fontSize:20}}>Static schedule</div></Button>
+               <Button onClick={()=>{navigate('/createStaticScheduler')}} > <div class="box-topic" style={{fontSize:20}}>Static schedule</div></Button>
               </div>
             </span>
           </div>
