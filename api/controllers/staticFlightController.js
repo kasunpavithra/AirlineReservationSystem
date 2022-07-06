@@ -28,7 +28,23 @@ const addFlights = async (req, res) => {
           });
     });
 };
-
+const getRouteData = async (req, res) => {
+  await staticFlightModel
+    .getRouteData(req.params.routeID)
+    .then((result) => {
+      res.json({
+        success: true,
+        result,
+      });
+    })
+    .catch((err) => {
+      res.json({
+        success: false,
+        err,
+      });
+    });
+};
 module.exports = {
   addFlights,
+  getRouteData,
 };
