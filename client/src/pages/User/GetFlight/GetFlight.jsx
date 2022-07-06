@@ -15,32 +15,33 @@ import Layout from "../../Navbar/Layout/Layout";
 function GetFlight() {
   const [airPort, setAirPort] = useState({ routes: [] });
   // const [dob, setdob] = useState("");
-  const [departure, setDeparture] = useState("");
-  const [destination, setDestination] = useState("");
+  const [departure, setDeparture] = useState(null);
+  const [destination, setDestination] = useState(null);
   const [flight, setFlight] = useState({});
   const [isSubmitted, setSubmit] = useState(false);
 
   const [startDate, setStartDate] = useState(
-    (
-      new Date().getFullYear() +
-      "-" +
-      (new Date().getMonth().toString().length === 2
+    [
+      new Date().getFullYear(),
+      new Date().getMonth().toString().length === 2
         ? new Date().getMonth() + 1
-        : "0" + (new Date().getMonth() + 1)) +
-      "-" +
-      new Date().getDate()
-    ).toString()
+        : "0" + (new Date().getMonth() + 1),
+      new Date().getDate().toString().length === 2
+        ? new Date().getDate().toString()
+        : "0" + new Date().getDate().toString(),
+    ].join("-")
   );
+  console.log(startDate);
   const [endDate, setEndDate] = useState(
-    (
-      new Date().getFullYear() +
-      "-" +
-      (new Date().getMonth().toString().length === 2
+    [
+      new Date().getFullYear(),
+      new Date().getMonth().toString().length === 2
         ? new Date().getMonth() + 1
-        : "0" + (new Date().getMonth() + 1)) +
-      "-" +
-      new Date().getDate()
-    ).toString()
+        : "0" + (new Date().getMonth() + 1),
+      new Date().getDate().toString().length === 2
+        ? new Date().getDate().toString()
+        : "0" + new Date().getDate().toString(),
+    ].join("-")
   );
 
   useLayoutEffect(() => {
@@ -58,6 +59,9 @@ function GetFlight() {
 
   const submitForm = async (event) => {
     event.preventDefault();
+    console.log(
+      departure + " " + destination + " " + startDate + " " + endDate
+    );
     const year = new Date().toLocaleDateString().split("/")[2];
     const month = new Date().toLocaleDateString().split("/")[0];
     const date = new Date().toLocaleDateString().split("/")[1];
@@ -94,20 +98,55 @@ function GetFlight() {
     setFlight({});
     const date1 = new Date(startDate);
     const date2 = new Date(endDate);
-    date1.setUTCHours(0, 0, 0);
-    date2.setUTCHours(23, 59, 59);
+
+    // date1.setUTCHours(0, 0, 0);
+    // date2.setUTCHours(23, 59, 59);
+
+    // console.log(new Date("7/16/2022") <= new Date("7/7/2022"));
+    // console.log(date2.toLocaleDateString());
+
     const makeFlight = async () => {
-      data.result.map((obj) =>
-        !obj.updated &&
-        date1.getTime() <= new Date(obj.dispatchTime).getTime() &&
-        new Date(obj.dispatchTime).getTime() <= date2.getTime()
-          ? setFlight((values) => ({ ...values, [obj.flightTimeID]: obj }))
-          : null
+      data.result.map(
+        (obj) =>
+          !obj.updated &&
+          new Date(date1.toLocaleDateString().toString()) <=
+            new Date(
+              new Date(obj.dispatchTime).toLocaleDateString().toString()
+            ) &&
+          new Date(
+            new Date(obj.dispatchTime).toLocaleDateString().toString()
+          ) <= new Date(date2.toLocaleDateString().toString())
+            ? setFlight((values) => ({ ...values, [obj.flightTimeID]: obj }))
+            : null
+        // date1.toLocaleDateString().toString() <=
+        //   new Date(obj.dispatchTime).toISOString() &&
+        // new Date(obj.dispatchTime).toISOString() <=
+        //   new Date(date2).toISOString()
       );
+      // data.result.map((obj) => {
+      //   if (!obj.updated) {
+      //     console.log(
+      //       "Here ",
+      //       new Date(obj.dispatchTime).toLocaleDateString().toString(),
+      //       date1.toLocaleDateString().toString(),
+      //       date2.toLocaleDateString().toString()
+      //     );
+      //     console.log(
+      //       new Date(date1.toLocaleDateString().toString()) <=
+      //         new Date(
+      //           new Date(obj.dispatchTime).toLocaleDateString().toString()
+      //         ),
+      //       new Date(
+      //         new Date(obj.dispatchTime).toLocaleDateString().toString()
+      //       ) <= new Date(date2.toLocaleDateString().toString())
+      //     );
+      //   }
+      // });
     };
     await makeFlight();
-
-    console.log(flight);
+    console.log(flight)
+    // console.log(new Date(flight[2].dispatchTime).toLocaleDateString());
+    // console.log(new Date(flight[5].dispatchTime).toLocaleDateString());
     setSubmit(false);
 
     if (flight !== {}) {
@@ -117,136 +156,136 @@ function GetFlight() {
 
   return (
     <>
-    <Layout/>
-     
-    <div className="body" style={{'margin-top':100}}>
-      
-      <div className="upper ">
-        <Form className='container4' onSubmit={submitForm}>
-          <div className="container4 mt-5">
-            <div className="row mt-3">
-              <div className="col d-flex align-items-center justify-content-center">
-                <label htmlFor="departure">From </label>
-                <IoLocation size={30} />
-                <Form.Select
-                  aria-label="Default select example"
-                  name="departure"
-                  onChange={(e) => {
-                    const selectedIndex = e.target.options.selectedIndex;
-                    setDeparture(
-                      e.target.options[selectedIndex].getAttribute("data-key")
-                    );
-                  }}
-                >
-                  <option>Select the departure</option>
-                  {airPort.routes.map((airPort) => (
-                    <option
-                      key={airPort.airport_id}
-                      data-key={airPort.airport_id}
-                    >
-                      {airPort.name}
-                    </option>
-                  ))}
-                </Form.Select>
-              </div>
-              <div className="col d-flex align-items-center justify-content-center">
-                <label htmlFor="destination">To </label>
-                <IoLocation size={30} />
-                <Form.Select
-                  aria-label="Default select example"
-                  name="destination"
-                  onChange={(e) => {
-                    const selectedIndex = e.target.options.selectedIndex;
-                    setDestination(
-                      e.target.options[selectedIndex].getAttribute("data-key")
-                    );
-                  }}
-                >
-                  <option> Select the destination</option>
-                  {airPort.routes.map((airPort) => (
-                    <option
-                      key={airPort.airport_id}
-                      data-key={airPort.airport_id}
-                    >
-                      {airPort.name}
-                    </option>
-                  ))}
-                </Form.Select>
-              </div>
-            </div>
-          </div>
-        </Form>
+      <Layout />
 
-        <Form onSubmit={submitForm}>
-          <div className="container">
-            <div className="row mt-3">
-              <div className="col">
-                <label htmlFor="startDate">Start Date </label>
-                <Form.Group className="mb-3" controlId="startDate">
-                  <Form.Control
+      <div className="body" style={{ "margin-top": 100 }}>
+        <div className="upper ">
+          <Form className="container4" onSubmit={submitForm}>
+            <div className="container">
+              <div className="row mt-3">
+                <div className="col d-flex align-items-center justify-content-center">
+                  <label htmlFor="departure">From </label>
+                  <IoLocation size={30} />
+                  <Form.Select
                     aria-label="Default select example"
-                    className=""
-                    type="date"
-                    value={startDate}
-                    min={(
-                      new Date().getFullYear() +
-                      "-" +
-                      (new Date().getMonth().toString().length === 2
-                        ? new Date().getMonth() + 1
-                        : "0" + (new Date().getMonth() + 1)) +
-                      "-" +
-                      new Date().getDate()
-                    ).toString()}
-                   
+                    name="departure"
                     onChange={(e) => {
-                      setStartDate(e.target.value);
+                      const selectedIndex = e.target.options.selectedIndex;
+                      setDeparture(
+                        e.target.options[selectedIndex].getAttribute("data-key")
+                      );
                     }}
-                  />
-                </Form.Group>
-              </div>
-              <div className="col">
-                <label htmlFor="endDate">End Date </label>
-                <Form.Group className="mb-3" controlId="endDate">
-                  <Form.Control
+                    required
+                  >
+                    <option>Select the departure</option>
+                    {airPort.routes.map((airPort) => (
+                      <option
+                        key={airPort.airport_id}
+                        data-key={airPort.airport_id}
+                        value={airPort.name}
+                      >
+                        {airPort.name}
+                      </option>
+                    ))}
+                  </Form.Select>
+                </div>
+                <div className="col d-flex align-items-center justify-content-center">
+                  <label htmlFor="destination">To </label>
+                  <IoLocation size={30} />
+                  <Form.Select
                     aria-label="Default select example"
-                    type="date"
-                    value={endDate}
-                    min={(
-                      new Date().getFullYear() +
-                      "-" +
-                      (new Date().getMonth().toString().length === 2
-                        ? new Date().getMonth() + 1
-                        : "0" + (new Date().getMonth() + 1)) +
-                      "-" +
-                      new Date().getDate()
-                    ).toString()}
-                   
+                    name="destination"
                     onChange={(e) => {
-                      setEndDate(e.target.value);
-                      console.log(endDate);
+                      const selectedIndex = e.target.options.selectedIndex;
+                      setDestination(
+                        e.target.options[selectedIndex].getAttribute("data-key")
+                      );
                     }}
-                  />
-                </Form.Group>
+                    required
+                  >
+                    <option> Select the destination</option>
+                    {airPort.routes.map((airPort) => (
+                      <option
+                        key={airPort.airport_id}
+                        data-key={airPort.airport_id}
+                        value={airPort.name}
+                      >
+                        {airPort.name}
+                      </option>
+                    ))}
+                  </Form.Select>
+                </div>
               </div>
             </div>
+            <div className="container">
+              <div className="row mt-3">
+                <div className="col">
+                  <label htmlFor="startDate">Start Date </label>
+                  <Form.Group className="mb-3" controlId="startDate">
+                    <Form.Control
+                      aria-label="Default select example"
+                      className=""
+                      type="date"
+                      value={startDate}
+                      min={[
+                        new Date().getFullYear(),
+                        new Date().getMonth().toString().length === 2
+                          ? new Date().getMonth() + 1
+                          : "0" + (new Date().getMonth() + 1),
+                        new Date().getDate().toString().length === 2
+                          ? new Date().getDate().toString()
+                          : "0" + new Date().getDate().toString(),
+                      ].join("-")}
+                      onChange={(e) => {
+                        setStartDate(e.target.value);
+                      }}
+                    />
+                  </Form.Group>
+                </div>
+                <div className="col">
+                  <label htmlFor="endDate">End Date </label>
+                  <Form.Group className="mb-3" controlId="endDate">
+                    <Form.Control
+                      aria-label="Default select example"
+                      type="date"
+                      value={endDate}
+                      min={[
+                        new Date().getFullYear(),
+                        new Date().getMonth().toString().length === 2
+                          ? new Date().getMonth() + 1
+                          : "0" + (new Date().getMonth() + 1),
+                        new Date().getDate().toString().length === 2
+                          ? new Date().getDate().toString()
+                          : "0" + new Date().getDate().toString(),
+                      ].join("-")}
+                      onChange={(e) => {
+                        setEndDate(e.target.value);
+                        console.log(endDate);
+                      }}
+                    />
+                  </Form.Group>
+                </div>
+              </div>
 
-            <div className="row mt-3">
-              <div className="col d-flex align-items-center justify-content-center">
-                <Button type="submit">Search</Button>
-                {/* <button type="submit">Search</button> */}
+              <div className="row mt-3">
+                <div className="col d-flex align-items-center justify-content-center">
+                  <Button type="submit">Search</Button>
+                  {/* <button type="submit">Search</button> */}
+                </div>
               </div>
             </div>
-          </div>
-        </Form>
+          </Form>
+
+          {/* <Form onSubmit={submitForm}></Form> */}
+        </div>
+        <div className="lower">
+          {isSubmitted && Object.keys(flight).length > 0 ? (
+            <FlightList props={flight} />
+          ) : (
+            ""
+          )}
+        </div>
       </div>
-      <div className="lower">
-        {isSubmitted && Object.keys(flight).length > 0 ? (
-          <FlightList props={flight} />
-        ) : (
-          ""
-        )}
-      </div>
-    </div>
     </>
   );
 }
