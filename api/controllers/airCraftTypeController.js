@@ -1,7 +1,8 @@
 const airCraftTypeModel = require("../models/airCraftTypeModel");
 
 const addAirCraftType = async (req, res) => {
-    const airCraftTypeData = req.body
+    var airCraftTypeData=req.body
+    airCraftTypeData={... airCraftTypeData,'Image': req.file}
     await airCraftTypeModel.addAirCraftType(airCraftTypeData)
         .then(result => {
             console.log("AircraftType added!")

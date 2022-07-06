@@ -3,13 +3,13 @@ import { useState, useEffect } from "react";
 
 
 import { Button, ButtonGroup, Card, Form, ToggleButton } from "react-bootstrap";
-import "./managerStyle.css";
-import ManagerServices from "../../../services/ManagerServices";
-import managerValidation from "../../Validation/managerValidation";
-import Layout from "../Navbar/Layout/Layout";
+import "../managerStyle.css";
+import ManagerServices from "../../../../services/ManagerServices";
+import managerValidation from "../../../Validation/managerValidation";
+import Layout from "../../Navbar/Layout/Layout";
 import { useNavigate } from 'react-router';
 
-const ManagerDashboard = () => {
+const ManagerHandleAircrafts = (f) => {
   const navigate=useNavigate();
   const [ageType, setAgeType] = useState('');
   const [ageTypeForBookings, setAgeTypeForBookings] = useState('');
@@ -19,7 +19,8 @@ const ManagerDashboard = () => {
   const [aircrafttypes,setaircraftTypes] = useState();
   const [aircrafttypeID, setaircraftTypeID] = useState();
   const [revenue, setRevenue] = useState();
-  
+  const [AircraftTypeAdd,   setAircraftTypeAdd] = useState(false);
+
 
   const [pastFlightsDestinationId, setPastFlightsDestinationId] = useState();
   const [pastFlightsOriginId, setPastFlightsOriginId] = useState();
@@ -884,7 +885,7 @@ const ManagerDashboard = () => {
                   <Button
                   
       
-                    onClick={navigate('/dfd')}
+                    onClick={setAircraftTypeAdd(true)}
                    
                   >
                     {'Add'}
@@ -1081,4 +1082,4 @@ const ManagerDashboard = () => {
   );
 };
 
-export default ManagerDashboard;
+export default ManagerHandleAircrafts;

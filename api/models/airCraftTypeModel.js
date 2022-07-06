@@ -1,9 +1,12 @@
 const db = require("../db/db");
 
 const addAirCraftType = (data) => {
+  console.log("AAAwa")
+  console.log(data) 
     return new Promise((resolve, reject) => {
+      var imgsrc = '/src/images/' + data.Image.filename
       var sql = "INSERT INTO aircrafttype (aircraftTypeID, name, description, image, status) VALUES (DEFAULT, ?,?,?, 1);"
-      const valueSet = [data.name, data.description, data.image]
+      const valueSet = [data.name, data.description, [imgsrc]]
       db.query(sql, valueSet, (err, result) => {
         if (err) {
           return reject(err)

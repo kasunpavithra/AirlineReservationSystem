@@ -17,6 +17,20 @@ const ValidateUpdate = (data) => {
 
 }
 
+const ValidateAircraftTypeAdd = (data) => {
+    const UpdateValidationSchema = Joi.object({
+
+        'Name': Joi.string().required(),
+        'Description': Joi.string().required()
+    
+
+    })
+    const { error, value } = UpdateValidationSchema.validate(data, { abortEarly: false });
+    return { value, error };
+
+}
+
+
 
 const ValidateGuest = (data) => {
     const UpdateValidationSchema = Joi.object({
@@ -67,5 +81,6 @@ export default {
     ValidateUpdate,
     imageValidation,
     ValidateGuest,
-    guestLogin
+    guestLogin,
+    ValidateAircraftTypeAdd
 }
