@@ -17,22 +17,24 @@ const BookSeat = () => {
   const location = useLocation();
   const [rows, setRows] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [errMsg, setErrMsg] = useState('');
+  const [errMsg, setErrMsg] = useState("");
 
   const errRef = useRef();
 
   try {
-    if(localStorage.getItem("AccessToken")){
-      var registeredUserID = jwtDecode(localStorage.getItem("AccessToken"))
-      .userInfo.id;
+    if (localStorage.getItem("AccessToken")) {
+      var registeredUserID = jwtDecode(localStorage.getItem("AccessToken")).userInfo.id;
+      var guestUserID = null;
+    } else {
+      var registeredUserID = null;
+      var guestUserID =  location.state.guestUserID;
     }
-    
-    var guestUserID = null;
   } catch (err) {
     throw err;
   }
 
   useEffect(() => {
+    console.log("In bookSeat:",location.state);
     const getAllSeats = async () => {
       await axios
         .get(GET_ALL_SEATS_URL + location.state.flightID)
@@ -64,8 +66,6 @@ const BookSeat = () => {
     getAllSeats();
   }, []);
 
-
-
   return (
     <>
       <p
@@ -76,7 +76,7 @@ const BookSeat = () => {
         {errMsg}
       </p>
       {loading && <p>Loading...</p>}
-      {rows && registeredUserID && (
+      {rows && (registeredUserID || guestUserID) && (
         <SeatGrid
           rows={rows}
           childCount={location.state.childCount}
@@ -87,10 +87,9 @@ const BookSeat = () => {
           guestUserID={guestUserID}
           classID={location.state.category}
           navigate={navigate}
-          errHandler ={[errMsg,setErrMsg]}
+          errHandler={[errMsg, setErrMsg]}
         />
       )}
-
     </>
   );
 };
