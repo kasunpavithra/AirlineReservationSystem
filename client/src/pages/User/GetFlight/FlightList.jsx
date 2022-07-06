@@ -23,7 +23,7 @@ function FlightList(props) {
     Object.values(props).map((obj) =>
       Object.values(obj).map((ele) => highlight1.push(new Date(ele.dispatchTime)))
     );
-    setHighlight(highlight1);
+    setHighlight(highlight);
     // setClassDetails({});
   }, [props]);
   return (
