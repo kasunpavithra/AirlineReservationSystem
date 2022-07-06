@@ -23,7 +23,9 @@ import Logout from "./pages/Navbar/Logout/logout";
 import CreateStaticSchedule from "./pages/Manager/CreateStaticSchedule";
 import Guestpopup from './pages/User/GetFlight/Guestpopup';
 import ManagerHandleAircrafts from "./pages/Manager/handling/ManagerHandleAircrafts";
-import Aircraftupdate from './pages/Manager/handling/Aircraftupdate';
+import AddAirCraftType from './pages/Manager/handling/AddAirCraftType';
+import AllAirCraftTypes from './pages/Manager/handling/AllAirCraftTypes';
+
 
 const ROLES = {
   RegisteredUser: 5000,
@@ -112,9 +114,10 @@ function App() {
             <Route exact path="/admin/*" element={<RequireAuth allowedRoles={[ROLES.Admin]} ><AdminDashboard /></RequireAuth>} />
 
             {/* Manager Routings */}
-            <Route exact path="/manager" element={<RequireAuth allowedRoles={[ROLES.Manager]} ><ManagerDashboard /></RequireAuth>} />
+            <Route exact path="/manager/" element={<RequireAuth allowedRoles={[ROLES.Manager]} ><ManagerDashboard /></RequireAuth>} />
             <Route exact path="/manager/handleaircrafts/*" element={<RequireAuth allowedRoles={[ROLES.Manager]} > <ManagerHandleAircrafts/></RequireAuth>} />
-            <Route exact path="/manager/addaircrafttype" element={<RequireAuth allowedRoles={[ROLES.Manager]} ><Aircraftupdate/></RequireAuth>} />
+            <Route exact path="/manager/handleaircrafts/addaircrafttype" element={<RequireAuth allowedRoles={[ROLES.Manager]} ><AddAirCraftType/></RequireAuth>} />
+            {/* <Route exact path="manager/handleaircrafts/all-aircraft-types" element={<AllAirCraftTypes/>} /> */}
 
               {/* GuestUsers routings */}
             <Route path="/guestuserbookings" element={<ViewBookings user='guest' />} />

@@ -3,19 +3,19 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import "../../User/Update/updateStyle.css";
 
-import { useNavigate} from "react-router-dom";
+import { useNavigate,useLocation} from "react-router-dom";
 import { Row,Col, Dropdown,DropdownButton} from 'react-bootstrap';
 //import UserServices from '../../services/API/UserServices';
 import Validation  from '../../../Validation/updateValidation';
 import Messages from "../../LandingPage/Messages";
 import UserServices from '../../../../services/UserServices';
-import Layout from './../../Navbar/Layout/Layout';
+import Layout from '../../Navbar/Layout/Layout'
 import { useEffect } from 'react';
 import jwtDecode from "jwt-decode";
 import AircraftServices from '../../../../services/AircraftServices';
 
 
-const  Aircraftupdate=() => {
+const  AddAirCraftType=() => {
     const formValues={
         'Name':'',
         'Description':'',
@@ -28,6 +28,7 @@ const  Aircraftupdate=() => {
     const [img_err, setImgErr] = React.useState("");
     const[imagepath,setImagePath] = React.useState('');
     const navigate = useNavigate();
+    const location=useLocation();
 
 
     useEffect(() => {
@@ -48,18 +49,20 @@ const  Aircraftupdate=() => {
         // catch(err){
         //     user=null
         // }
-        const getCustomer = await UserServices.getcustomer()
-        console.log( getCustomer.data.result[0])
+        console.log('hi')
+        const getAirCraft = await AircraftServices.getaircraft(location.state)
+        console.log(getAirCraft)
+        // console.log( getCustomer.data.result[0])
           // console.log("patient",getPatient);
           state = {
 
-            "Name":getCustomer.data.result[0].firstname,
-            "Description": getCustomer.data.result[0].lastname,
+            "Name":getAirCraft.data.result[0].name,
+            "Description": getAirCraft.data.result[0].description,
             
           };
-          console.log(state)
+        //   console.log(state)
           setState(state);
-          setImagePath( getCustomer.data.result[0].image)
+          setImagePath( getAirCraft.data.result[0].image)
     
 
           // console.log("state",state);
@@ -158,7 +161,7 @@ const  Aircraftupdate=() => {
                    
                     if (response.status === 200) {
                     Messages.SuccessMessage("Added successfully");
-                    // navigate(`/dashboard`);
+                    navigate(`/manager/handleaircrafts/all-aircraft-types`);
 
                     // setTimeout(() => {
                     //     // setLoader(false);
@@ -265,4 +268,4 @@ const  Aircraftupdate=() => {
 }
 
 
-export default  Aircraftupdate;
+export default  AddAirCraftType;

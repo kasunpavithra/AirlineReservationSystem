@@ -13,9 +13,32 @@ const addaircrafttype = (formData) => {
     //   headers: { Authorization: `Bearer ${token.getAccessToken()}` },
     });
   };
+
+const getallaircrafttypes=()=>{
+  return axios({
+    method: "get",
+    url: APIEndpoint + `/airCraftType/get`,
+  //   headers: { Authorization: `Bearer ${token.getAccessToken()}` },
+  });
+
+}
+
+const getaircraft=(id)=>{
+  return axios({
+    method: "get",
+    url: APIEndpoint + `/airCraftType/get/${id}`,
+  //   headers: { Authorization: `Bearer ${token.getAccessToken()}` },
+  });
+
+}
+
+
+
   
 
   export default{
-    addaircrafttype
+    addaircrafttype,
+    getallaircrafttypes,
+    getaircraft
 }
 

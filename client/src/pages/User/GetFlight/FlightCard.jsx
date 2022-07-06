@@ -86,6 +86,7 @@ function FlightCard(props) {
           aircraftID: props.props.aircraftID}
     });
       else{
+        console.log('hi')
        navigate('/guestForm',{state: 
         {childCount: childCount,
         adultCount: adultCount,

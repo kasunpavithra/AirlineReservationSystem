@@ -20,6 +20,28 @@ const addAirCraftType = async (req, res) => {
         })
 };
 
+const getAllAirCraftTypes = async (req, res) => {
+    // var airCraftTypeData=req.body
+    // airCraftTypeData={... airCraftTypeData,'Image': req.file}
+    await airCraftTypeModel.getAllAirCraftTypes()
+        .then(result => {
+            console.log("AircraftType Getting Successfull!")
+            res.json({
+                success: true,
+                result
+            })
+        })
+        .catch(err => {
+            console.log("ERROR WHEN TAKING ALL AIRCRAFTTYPES: " + err);
+            res.json({
+                success: false,
+                err
+            })
+        })
+};
+
+
+
 const deleteAirCraftType = async (req, res) => {
     const deleteId = req.params.id
     await airCraftTypeModel.deleteAirCraftType(deleteId)
@@ -59,8 +81,31 @@ const updateAirCraftType = async (req, res) => {
         })
 };
 
+
+
+const  getAirCraftType = async (req, res) => {
+    const aircrafttypeId = req.params.id
+    await airCraftTypeModel.getAirCraftType(aircrafttypeId)
+        .then(result => {
+            console.log("AircraftType Reached!")
+            res.json({
+                success: true,
+                result
+            })
+        })
+        .catch(err => {
+            console.log("ERROR WHEN UPDATING AN AIRCRAFTTYPE: " + err);
+            res.json({
+                success: false,
+                err
+            })
+        })
+};
+
 module.exports = {
     addAirCraftType,
     deleteAirCraftType,
-    updateAirCraftType
+    updateAirCraftType,
+    getAllAirCraftTypes,
+    getAirCraftType
 }

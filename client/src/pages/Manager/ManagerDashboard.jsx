@@ -484,12 +484,19 @@ const ManagerDashboard = () => {
           <div class="sidebar-button">
             <i class="bx bx-menu sidebarBtn mt-4" onClick={handleSideBar}></i>
             <span class="dashboard mt-4 ">Manager</span>
-            <span class="box mt-3" style={{'margin-left':1100}}>
+            
+            
+          </div>
+          <div class="box mt-3" style={{'margin-left':1100}}>
               <div class="right-side">
                <Button onClick={()=>{navigate('/createStaticScheduler')}} > <div class="box-topic" style={{fontSize:20}}>Static schedule</div></Button>
               </div>
-            </span>
-          </div>
+            </div>
+          <div class="box mt-3" style={{'margin-left':1100}}>
+              <div class="right-side">
+               <Button onClick={()=>{navigate('/manager/handleaircrafts')}} > <div class="box-topic" style={{fontSize:20}}>Handle aircrafts</div></Button>
+              </div>
+            </div>
       
           {/* <div class="search-box">
             <input type="text" placeholder="Search..." />
@@ -881,14 +888,14 @@ const ManagerDashboard = () => {
                 <div class="box-topic">Aircraft Type</div>
                 {/* <Form onSubmit={handleSubmitPastFlights}> */}
                 <div class="btn-group ml-2 mt-2">
-                  <Button
+                  {/* <Button
                   
       
                     onClick={navigate('/dfd')}
                    
                   >
                     {'Add'}
-                  </Button>
+                  </Button> */}
                  
                   {/* <div class="dropdown-menu">
                   {

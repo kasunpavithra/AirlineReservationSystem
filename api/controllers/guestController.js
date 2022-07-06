@@ -22,6 +22,7 @@ const guestCreate = async (req, res) => {
 };
 
 const guestLogin = async (req, res) => {
+    console.log(req)
     await guestModel
         .guestLogin(req.body)
         .then((result) => {
