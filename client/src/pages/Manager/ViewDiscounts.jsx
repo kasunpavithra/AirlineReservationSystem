@@ -64,7 +64,7 @@ const ViewDiscounts = () => {
                     document.getElementById("discount-invalid-feedback").className = "alert alert-danger"
                 } else {
                     setShow(false)
-                    document. location. reload()
+                    document.location.reload()
                 }
 
             })
@@ -74,7 +74,20 @@ const ViewDiscounts = () => {
     }
 
     const handleDelete = (deleteID) => {
-        console.log("GGGEEEEEE")
+        let text = "Are you sure, you want to delete this discount?";
+        if (confirm(text) == true) {
+            axios.delete("http://localhost:3001/api/discount/delete/" + deleteID)
+                .then(result => {
+                    console.log(result)
+                    document.location.reload()
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+
+        } else {
+            return
+        }
     }
 
     return (
@@ -100,7 +113,6 @@ const ViewDiscounts = () => {
                                     <th>startTimeDate</th>
                                     <th>endTimeDate</th>
                                     <th></th>
-                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -116,7 +128,6 @@ const ViewDiscounts = () => {
                                         {!!discountElement.status &&
                                             <>
                                                 <td><a className="btn btn-danger" onClick={() => handleDelete(discountElement.discountID)}>Delete</a></td>
-                                                <td><a className="btn btn-info" onClick={() => handleEdit(discountElement.discountID)}>Edit</a></td>
                                             </>
                                         }
                                         {!discountElement.status &&

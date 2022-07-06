@@ -2,7 +2,7 @@ const db = require("../db/db");
 
 const getAllDiscounts = () => {
   return new Promise((resolve, reject) => {
-    var sql = "SELECT * FROM discount;"
+    var sql = "SELECT * FROM discount ORDER BY discountID DESC;"
     db.query(sql, (err, result) => {
       if (err) {
         return reject(err)
