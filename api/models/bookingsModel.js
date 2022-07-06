@@ -18,7 +18,7 @@ const db = require("../db/db");
 
 const getRegisteredBooking = (id) => {
   return new Promise((resolve, reject) => {
-    let sql = "select * from ((booking LEFT JOIN class ON booking.classID=class.classID) LEFT JOIN  discount ON booking.discountID = discount.discountID)  where booking.registeredUserID =?";
+    let sql = "select * from ((booking LEFT JOIN class ON booking.classID=class.classID) LEFT JOIN  discount ON booking.discountID = discount.discountID)  where booking.registeredUserID =? ORDER BY booking.bookingID DESC";
     db.query(sql, id, (err, result) => {
       if (err) {
         return reject(err);
@@ -31,7 +31,7 @@ const getRegisteredBooking = (id) => {
 
 const getGuestBooking = (id) => {
   return new Promise((resolve, reject) => {
-    let sql = "select * from booking where guestUserID =?";
+    let sql = "select * from ((booking LEFT JOIN class ON booking.classID=class.classID) LEFT JOIN  discount ON booking.discountID = discount.discountID)  where booking.guestUserID =? ORDER BY booking.bookingID DESC";
     db.query(sql, id, (err, result) => {
       if (err) {
         return reject(err);
@@ -45,7 +45,7 @@ const getGuestBooking = (id) => {
 
 const cancelBooking = (req) => {
   const bookingID = req.body.bookingID;
-
+//   const bookingID = parseInt(req.params.id);
   if (!bookingID) return res.sendStatus(400);
   return new Promise((resolve, reject) => {
     let sql = "update booking set status=2 where bookingID=?";
