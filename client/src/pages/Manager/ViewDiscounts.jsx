@@ -49,7 +49,32 @@ const ViewDiscounts = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        // axios.post("http://localhost:3001/api/discount/add")
+        const discountData = {
+            discountClassType: modalDiscountType,
+            amount: modalDiscountAmount,
+            startTimeDate: startDate,
+            endTimeDate: endDate
+        }
+
+        axios.post("http://localhost:3001/api/discount/add", discountData)
+            .then(result => {
+                console.log(result)
+                if (result.data.errType === "bad_request") {
+                    document.getElementById("discount-invalid-feedback").innerHTML = result.data.errMessage
+                    document.getElementById("discount-invalid-feedback").className = "alert alert-danger"
+                } else {
+                    setShow(false)
+                    document. location. reload()
+                }
+
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+
+    const handleDelete = (deleteID) => {
+        console.log("GGGEEEEEE")
     }
 
     return (
@@ -85,8 +110,6 @@ const ViewDiscounts = () => {
                                         <td>{discountElement.discountClassType === 2 ? "NO_DISCOUNT" : (discountElement.discountClassType === 1 ? "FREQUENT" : "GOLDEN")}</td>
                                         <td>{discountElement.amount}</td>
                                         <td>{discountElement.status}</td>
-                                        {/* <td>{discountElement.type === 1 ? "Manager" : "Admin"}</td>
-                                    <td>{discountElement.status === 1 ? "Active" : "Deleted"}</td> */}
                                         <td>{(discountElement.startTimeDate).split("T")[0] + " " + (discountElement.startTimeDate).split("T")[1].split(".000Z")[0]}</td>
                                         <td>{(discountElement.endTimeDate).split("T")[0] + " " + (discountElement.endTimeDate).split("T")[1].split(".000Z")[0]}</td>
 
@@ -150,12 +173,6 @@ const ViewDiscounts = () => {
                                             className="form-control" placeholder="eg: 0.01 for 1% discount" aria-label="amount" aria-describedby="basic-addon1" />
                                     </div> <br />
 
-                                    {/* <label for="startDate">Starting from: &emsp;</label>
-                                    <input type="date" id="startDate" name="startDate"></input> <br /> <br />
-
-                                    <label for="endDate">To: &emsp;&emsp;&emsp;</label>
-                                    <input type="date" id="endDate" name="endDate"></input>
-                                    <br /> */}
 
                                     <div className="input-group mb-3">
                                         <span className="input-group-text" id="basic-addon1">Starting from</span>
@@ -171,7 +188,10 @@ const ViewDiscounts = () => {
                                             className="form-control" aria-label="endDate" aria-describedby="basic-addon1" />
                                     </div> <br />
 
-                                    <button type="submit" className="btn btn-primary">Add</button>
+                                    <div role="alert" id="discount-invalid-feedback">
+                                    </div>
+
+                                    <button type="submit" className="btn btn-primary">Add</button> <br />
                                 </form>
                             </Modal.Body>
                             <Modal.Footer>

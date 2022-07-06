@@ -30,11 +30,12 @@ const addDiscount = async (req, res) => {
             })
         })
         .catch(err => {
-            if (err === "bad_request") {
-                console.log("BAD REQUEST WHEN ADDING A discount: " + err);
-                res.status(400).json({
+            if (err.type === "bad_request") {
+                console.log("BAD REQUEST WHEN ADDING A discount: " + err.message);
+                res.json({
                     success: false,
-                    err
+                    errType: "bad_request",
+                    errMessage: err.message
                 })
             } else {
                 console.log("ERROR WHEN ADDING A discount: " + err);
@@ -46,7 +47,28 @@ const addDiscount = async (req, res) => {
         })
 };
 
+const deleteDiscount = async (req, res) => {
+    const deleteID = req.params.id
+
+    await discountModel.deleteDiscount(deleteID)
+        .then(result => {
+            console.log("discount added!")
+            res.status(200).json({
+                success: true,
+                result
+            })
+        })
+        .catch(err => {
+            console.log("ERROR WHEN DELETING A discount: " + err);
+            res.status(500).json({
+                success: false,
+                err
+            })
+        })
+};
+
 module.exports = {
     getAllDiscounts,
-    addDiscount
+    addDiscount,
+    deleteDiscount
 }
