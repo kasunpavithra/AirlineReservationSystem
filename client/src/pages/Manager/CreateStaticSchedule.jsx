@@ -82,6 +82,17 @@ function CreateStaticSchedule() {
     let grpOfFlights = [];
 
     var isSuccess = true;
+
+    Object.entries(routes).forEach((obj) => {
+      let objectOfFlight = {
+        aircraftID: obj[1].airCraftID,
+        RouteID: obj[1].routeID,
+        dispatchTime: obj[1].time,
+        status: 1,
+      };
+      grpOfFlights.push(objectOfFlight);
+    });
+
     for (let index = 0; index < flight.length; index++) {
       const element = flight[index];
       console.log(element);
@@ -106,15 +117,6 @@ function CreateStaticSchedule() {
         break;
       }
     }
-    Object.entries(routes).forEach((obj) => {
-      let objectOfFlight = {
-        aircraftID: obj[1].airCraftID,
-        RouteID: obj[1].routeID,
-        dispatchTime: obj[1].time,
-        status: 1,
-      };
-      grpOfFlights.push(objectOfFlight);
-    });
 
     if (isSuccess) {
       console.log(grpOfFlights);

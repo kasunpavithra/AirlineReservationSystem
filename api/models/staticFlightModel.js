@@ -63,6 +63,7 @@ const addFlights = (grpOfFlights) => {
       const addFlightToDB = async () => {
         for (let flg of grpOfFlights) {
           var isAdded = await AddRecord(flg);
+          
           console.log("Here ", isAdded);
           switch (isAdded) {
             case "serverError":
@@ -90,6 +91,21 @@ const addFlights = (grpOfFlights) => {
     });
   });
 };
+
+const getRouteData = (data) => {
+  return new Promise((resolve, reject) => {
+    const sql = "select * from staticflight where routeID=? LIMIT 1";
+    db.query(sql, data, (err, result) => {
+      if (err) {
+        return reject(err);
+      } else {
+        return resolve(result);
+      }
+    });
+  });
+};
+
 module.exports = {
   addFlights,
+  getRouteData,
 };
