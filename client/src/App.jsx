@@ -22,6 +22,7 @@ import Navigation from './pages/Navigation/Navigation';
 import Logout from "./pages/Navbar/Logout/logout";
 import CreateStaticSchedule from "./pages/Manager/CreateStaticSchedule";
 import Guestpopup from './pages/User/GetFlight/Guestpopup';
+import ViewDiscounts from "./pages/Manager/ViewDiscounts";
 
 const ROLES = {
   RegisteredUser: 5000,
@@ -106,9 +107,11 @@ function App() {
 
             {/* Admin Routings */}
             <Route exact path="/admin/*" element={<RequireAuth allowedRoles={[ROLES.Admin]} ><AdminDashboard /></RequireAuth>} />
+            
 
             {/* Manager Routings */}
             <Route exact path="/manager/*" element={<RequireAuth allowedRoles={[ROLES.Manager]} ><ManagerDashboard /></RequireAuth>} />
+            <Route exact path="/manager/view-discounts" element={<RequireAuth allowedRoles={[ROLES.Manager]}> <ViewDiscounts /> </RequireAuth>} />
 
               {/* GuestUsers routings */}
             <Route path="/guestuserbookings" element={<ViewBookings user='guest' />} />
