@@ -3,7 +3,7 @@ const router = express.Router()
 const discountController = require("../controllers/discountController");
 
 router.get("/all", discountController.getAllDiscounts)
-// router.delete("/delete/:id", discountController.deleteClass);
+router.post("/add", discountController.addDiscount);
 // router.put("/update/:id", discountController.updateClass);
 
 module.exports = router

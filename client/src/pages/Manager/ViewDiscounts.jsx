@@ -5,6 +5,7 @@
 
 import { useEffect, useState } from "react"
 import { Modal, Button } from 'react-bootstrap'
+import axios from "axios";
 
 const ViewDiscounts = () => {
 
@@ -48,7 +49,7 @@ const ViewDiscounts = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log(startDate, endDate);
+        // axios.post("http://localhost:3001/api/discount/add")
     }
 
     return (
