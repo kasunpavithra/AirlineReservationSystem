@@ -11,7 +11,7 @@ const registerUser = (userInfo) => {
         let birthday = userInfo.birthday;
         let password = userInfo.password;
 
-        if(!firstname || !lastname || !email || !address || !mobile || !birthday || !password || !userInfo.gender) return reject(new Error("BadReqest"));
+        if (!firstname || !lastname || !email || !address || !mobile || !birthday || !password || !userInfo.gender) return reject(new Error("BadReqest"));
 
         let gender;
         (userInfo.gender === "male") ? gender = 1 : gender = 0;
@@ -24,28 +24,42 @@ const registerUser = (userInfo) => {
             if (!isExist) {
                 let sql = "INSERT INTO registeredcustomer (firstname, lastname, email, address, password, gender,birthday) VALUES (?,?,?,?,?,?,?)";
 
-                db.query(sql, [firstname, lastname, email, address, password, gender, birthday], (err, data) => {
+                db.beginTransaction((err) => {
                     if (err) {
                         return reject(err);
-                    } else {
+                    }
+
+                    db.query(sql, [firstname, lastname, email, address, password, gender, birthday], (err, data) => {
+                        if (err) {
+                            db.rollback();
+                            return reject(err);
+                        }
                         let sqlAddmobile = "INSERT INTO userphone (registeredUserID,phoneNumber) VALUES((SELECT userID FROM registeredcustomer WHERE email=?),?)";
                         db.query(sqlAddmobile, [email, mobile], (err, data) => {
                             if (err) {
+                                db.rollback();
                                 return reject(err);
-                            } else {
-                                resolve(true);
-                                //look at here again
                             }
+                            db.commit(function (err4) {
+                                if (err4) {
+                                    db.rollback(function () {
+                                        return reject(err4);
+                                    });
+                                }
+                                return resolve(true);
+                            });
                         });
-                    }
+
+                    });
+
                 });
 
             } else reject(new Error("EmailAlreadyExists"));
-        }catch(err){
+        } catch (err) {
             reject(err);
         }
 
-        
+
 
     });
 }
