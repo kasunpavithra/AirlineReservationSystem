@@ -77,7 +77,7 @@ const BookSeat = () => {
       title: 'Oops...',  
       text: "We're sorry! The required seat count is unavailable. Please Select another flight or seat count!",  
     }).then(()=>{
-      registeredUserID? navigate(-1,{state:{unvailableSeatCount:true}}): navigate(-2,{state:{unvailableSeatCount:true}});
+      registeredUserID? navigate(-1,{state:{unavailableSeatCount:true}}): navigate(-2,{state:{unavailableSeatCount:true}});
     });
   }
 
