@@ -8,6 +8,7 @@ import jwtDecode from "jwt-decode";
 import { useNavigate } from "react-router";
 import "./style.css";
 import { useRef } from "react";
+import Swal from "sweetalert2";
 
 const GET_BOOKED_SEATS_URL = "/api/bookings/getBookedseatsByFlight/";
 const GET_ALL_SEATS_URL = "/api/airCraftSeat/getSeatsByflightID/";
@@ -46,17 +47,21 @@ const BookSeat = () => {
               const bookedSeats = result2.data.result;
               console.log(allseats);
               const rowData = [];
+              var reservedSeatCount = 0;
               allseats.forEach((element) => {
                 const obj = {};
                 obj.id = element?.airCraftseatID;
-                if (bookedSeats.includes(element.airCraftseatID))
+                if (bookedSeats.includes(element.airCraftseatID) || element.classID != parseInt(location.state.category)){
                   obj.isReserved = true;
-                if (element.classID != parseInt(location.state.category))
-                  obj.isReserved = true;
+                  reservedSeatCount++;
+                }
                 obj.number = element?.xCord;
                 if (rowData[element.yCord]) rowData[element.yCord].push(obj);
                 else rowData[element.yCord] = [obj];
               });
+              if(allseats.length-reservedSeatCount < parseInt(location.state.adultCount)+parseInt(location.state.childCount)){
+                informUnavailability();
+              }
               setRows(rowData);
               setLoading(false);
             });
@@ -65,6 +70,16 @@ const BookSeat = () => {
 
     getAllSeats();
   }, []);
+
+  const informUnavailability = ()=>{
+    Swal.fire({  
+      icon: 'error',  
+      title: 'Oops...',  
+      text: "We're sorry! The required seat count is unavailable. Please Select another flight or seat count!",  
+    }).then(()=>{
+      registeredUserID? navigate(-1,{state:{unvailableSeatCount:true}}): navigate(-2,{state:{unvailableSeatCount:true}});
+    });
+  }
 
   return (
     <>
