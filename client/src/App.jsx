@@ -27,6 +27,7 @@ import AddAirCraftType from './pages/Manager/handling/AddAirCraftType';
 import AllAirCraftTypes from './pages/Manager/handling/AllAirCraftTypes';
 
 import ViewDiscounts from "./pages/Manager/ViewDiscounts";
+import AddAircraftSeat from "./pages/Manager/AddAircraftSeats/AddAircraftSeats";
 
 const ROLES = {
   RegisteredUser: 5000,
@@ -121,7 +122,7 @@ function App() {
             {/* <Route exact path="/manager/handleaircrafts/addaircrafttype" element={<RequireAuth allowedRoles={[ROLES.Manager]} ><AddAirCraftType/></RequireAuth>} /> */}
             {/* <Route exact path="manager/handleaircrafts/all-aircraft-types" element={<AllAirCraftTypes/>} /> */}
             {/* <Route exact path="/manager/view-discounts" element={<RequireAuth allowedRoles={[ROLES.Manager]}> <ViewDiscounts /> </RequireAuth>} /> */}
-
+            <Route exact path="/AddAircraftSeats" element={<AddAircraftSeat />} />
               {/* GuestUsers routings */}
             <Route path="/guestuserbookings" element={<ViewBookings user='guest' />} />
             
