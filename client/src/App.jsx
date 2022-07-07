@@ -22,6 +22,10 @@ import Navigation from './pages/Navigation/Navigation';
 import Logout from "./pages/Navbar/Logout/logout";
 import CreateStaticSchedule from "./pages/Manager/CreateStaticSchedule";
 import Guestpopup from './pages/User/GetFlight/Guestpopup';
+import ManagerHandleAircrafts from "./pages/Manager/handling/ManagerHandleAircrafts";
+import AddAirCraftType from './pages/Manager/handling/AddAirCraftType';
+import AllAirCraftTypes from './pages/Manager/handling/AllAirCraftTypes';
+
 import ViewDiscounts from "./pages/Manager/ViewDiscounts";
 import AddAircraftSeat from "./pages/Manager/AddAircraftSeats/AddAircraftSeats";
 
@@ -97,10 +101,12 @@ function App() {
             <Route exact path="/" element={<Landing />} />
             <Route exact path="/navigation" element={<RequireAuth allowedRoles={[ROLES.RegisteredUser, ROLES.Manager, ROLES.Admin]} ><Navigation /></RequireAuth>} />
             <Route exact path="/login" element={<Login user='public' />} />
-            <Route exact path="/contact" element={<Contact/>} />
+            <Route exact path="/about-us" element={<Contact/>} />
             <Route exact path="/authorizelogin" element={<Login user='authorized' />} />
             <Route exact path="/logout" element={<Logout />} />
             <Route exact path="/createStaticScheduler" element={<CreateStaticSchedule />} />
+
+    
 
             {/* Prohibited routings */}
             <Route exact path="*" element={<NotFound />} />
@@ -111,11 +117,12 @@ function App() {
             
 
             {/* Manager Routings */}
-            <Route exact path="/manager/*" element={<RequireAuth allowedRoles={[ROLES.Manager]} ><ManagerDashboard /></RequireAuth>} />
-            <Route exact path="/manager/view-discounts" element={<RequireAuth allowedRoles={[ROLES.Manager]}> <ViewDiscounts /> </RequireAuth>} />
+            <Route exact path="/manager/" element={<RequireAuth allowedRoles={[ROLES.Manager]} ><ManagerDashboard /></RequireAuth>} />
+            <Route exact path="/manager/handleaircrafts/*" element={<RequireAuth allowedRoles={[ROLES.Manager]} > <ManagerHandleAircrafts/></RequireAuth>} />
+            {/* <Route exact path="/manager/handleaircrafts/addaircrafttype" element={<RequireAuth allowedRoles={[ROLES.Manager]} ><AddAirCraftType/></RequireAuth>} /> */}
+            {/* <Route exact path="manager/handleaircrafts/all-aircraft-types" element={<AllAirCraftTypes/>} /> */}
+            {/* <Route exact path="/manager/view-discounts" element={<RequireAuth allowedRoles={[ROLES.Manager]}> <ViewDiscounts /> </RequireAuth>} /> */}
             <Route exact path="/AddAircraftSeats" element={<AddAircraftSeat />} />
-
-
               {/* GuestUsers routings */}
             <Route path="/guestuserbookings" element={<ViewBookings user='guest' />} />
             

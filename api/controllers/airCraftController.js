@@ -111,6 +111,24 @@ const updateAirCraft = async (req, res) => {
     });
 };
 
+const   getAirCraft = async (req, res) => {
+  const aircraftId = req.params.id
+  await airCraftModel
+    . getAirCraft( aircraftId )
+    .then((result) => {
+      res.json({
+        success: true,
+        result,
+      });
+    })
+    .catch((err) => {
+      res.json({
+        success: false,
+        err,
+      });
+    });
+};
+
 module.exports = {
   getAirCraftByRoute,
   getAirCraftByFlight,
@@ -118,4 +136,5 @@ module.exports = {
   deleteAirCraft,
   updateAirCraft,
   getAllAirCrafts,
+  getAirCraft
 };

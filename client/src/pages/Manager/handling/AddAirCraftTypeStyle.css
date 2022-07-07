@@ -1,0 +1,41 @@
+.form-container {
+    text-align: center;
+    border: 1px solid #1376BD;
+    margin-top: 80px;
+   
+    
+  
+  }
+  .button{
+    border-radius: 40px;
+    border: none;
+    padding: 2px 15px 2px 15px; 
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    font-family:Arial, Helvetica, sans-serif;
+    margin: 15px 50px ;
+  }
+  
+  .error {
+    color: crimson;
+    width: fit-content;
+    padding: 5px;
+    margin: 2px;
+  }
+
+  .button1{
+    border-radius: 3px;
+    border: none;
+    padding: 2px 15px 2px 15px; 
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    font-family: fa;
+    color:black;
+    background-color:rgb(223, 238, 246);
+   
+  
+  }

@@ -1,7 +1,8 @@
 const airCraftTypeModel = require("../models/airCraftTypeModel");
 
 const addAirCraftType = async (req, res) => {
-    const airCraftTypeData = req.body
+    var airCraftTypeData=req.body
+    airCraftTypeData={... airCraftTypeData,'Image': req.file}
     await airCraftTypeModel.addAirCraftType(airCraftTypeData)
         .then(result => {
             console.log("AircraftType added!")
@@ -18,6 +19,28 @@ const addAirCraftType = async (req, res) => {
             })
         })
 };
+
+const getAllAirCraftTypes = async (req, res) => {
+    // var airCraftTypeData=req.body
+    // airCraftTypeData={... airCraftTypeData,'Image': req.file}
+    await airCraftTypeModel.getAllAirCraftTypes()
+        .then(result => {
+            console.log("AircraftType Getting Successfull!")
+            res.json({
+                success: true,
+                result
+            })
+        })
+        .catch(err => {
+            console.log("ERROR WHEN TAKING ALL AIRCRAFTTYPES: " + err);
+            res.json({
+                success: false,
+                err
+            })
+        })
+};
+
+
 
 const deleteAirCraftType = async (req, res) => {
     const deleteId = req.params.id
@@ -39,11 +62,33 @@ const deleteAirCraftType = async (req, res) => {
 };
 
 const updateAirCraftType = async (req, res) => {
-    const updateId = req.params.id
-    const aircraftTypeData = req.body
-    await airCraftTypeModel.updateAirCraftType(updateId, aircraftTypeData)
+    console.log('fdsf')
+    var airCraftTypeData=req.body
+    airCraftTypeData={... airCraftTypeData,'Image': req.file}
+    await airCraftTypeModel.updateAirCraftType(airCraftTypeData)
         .then(result => {
             console.log("AircraftType updated!")
+            res.json({
+                success: true,
+                result
+            })
+        })
+        .catch(err => {
+            console.log("ERROR WHEN UPDATING AN AIRCRAFTTYPE: " + err);
+            res.json({
+                success: false,
+                err
+            })
+        })
+};
+
+
+
+const  getAirCraftType = async (req, res) => {
+    const aircrafttypeId = req.params.id
+    await airCraftTypeModel.getAirCraftType(aircrafttypeId)
+        .then(result => {
+            console.log("AircraftType Reached!")
             res.json({
                 success: true,
                 result
@@ -61,5 +106,7 @@ const updateAirCraftType = async (req, res) => {
 module.exports = {
     addAirCraftType,
     deleteAirCraftType,
-    updateAirCraftType
+    updateAirCraftType,
+    getAllAirCraftTypes,
+    getAirCraftType
 }
