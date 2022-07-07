@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import "../../User/Update/updateStyle.css";
+import "./AddAirCraftTypeStyle.css";
 
 import { useNavigate,useLocation} from "react-router-dom";
 import { Row,Col, Dropdown,DropdownButton} from 'react-bootstrap';
@@ -15,7 +15,7 @@ import jwtDecode from "jwt-decode";
 import AircraftServices from '../../../../services/AircraftServices';
 
 
-const  AddAirCraftType=() => {
+const  AddAirCraftType=(prop) => {
     const formValues={
         'Name':'',
         'Description':'',
@@ -27,13 +27,17 @@ const  AddAirCraftType=() => {
     const [imgname, setImgName] = React.useState("");
     const [img_err, setImgErr] = React.useState("");
     const[imagepath,setImagePath] = React.useState('');
+    const[id,setId]=React.useState('');
     const navigate = useNavigate();
     const location=useLocation();
 
-
-    useEffect(() => {
-        getCustomerDetails();
-      }, []);
+    
+        useEffect(() => {
+            if(location.state){
+            getCustomerDetails();
+            }
+        }, []);
+    
 
       const getCustomerDetails = async () => {
         try {
@@ -50,7 +54,10 @@ const  AddAirCraftType=() => {
         //     user=null
         // }
         console.log('hi')
+        console.log(location.state)
         const getAirCraft = await AircraftServices.getaircraft(location.state)
+            
+        setId(location.state)
         console.log(getAirCraft)
         // console.log( getCustomer.data.result[0])
           // console.log("patient",getPatient);
@@ -63,6 +70,7 @@ const  AddAirCraftType=() => {
         //   console.log(state)
           setState(state);
           setImagePath( getAirCraft.data.result[0].image)
+
     
 
           // console.log("state",state);
@@ -86,12 +94,13 @@ const  AddAirCraftType=() => {
             reader.onload = function (e) {
                 console.log(e.target.result)
        
-            document.getElementById("imagePreview").innerHTML = '<img width="200" height="200" src="'+ e.target.result+'"/>';
+            document.getElementById("imagePreview").innerHTML = '<img width="400" height="400" src="'+ e.target.result+'"/>';
             //   setImg(reader.result.replace("data:", "").replace(/^.+,/, ""));
             console.log(fileInput.files[0])
             console.log(fileInput.files[0].name)
             setImg(fileInput.files[0]);
             setImgName(fileInput.files[0].name);
+            setImgErr('')
             };
     
               
@@ -107,19 +116,34 @@ const  AddAirCraftType=() => {
         const {value,error}=Validation.ValidateAircraftTypeAdd(state)
         console.log(error);
         console.log(state);
-        if (error) {
+        if (error || (!document.getElementById("file").value && !id)) {
             console.log("error",error)
+            if(error){
                 const errors={}
                 error.details.map(item => {
                     errors[item.path[0]] = item.message;
                 });
+                console.log(errors)
                 setError(errors);
+                console.log(document.getElementById("file"))
+            }
+            else{
+                setError({});
+            }
+
+                if (!document.getElementById("file").value && !id) {
+                    setImgErr("Profile photo is required");
+                  }
+                else {
+                setImgErr('')
+                }
     
             
         }
-        else{
-            setError({})
-        } 
+        // else{
+        //     console.log('hi')
+        //     setError({})
+        // } 
         // else {
         //     try {
         //         const response = await UserServices.AuthUserCompleteRegistration(state);
@@ -127,14 +151,8 @@ const  AddAirCraftType=() => {
         //         console.log(error.message);
         //     }
         // } 
-        if (!document.getElementById("file").value  && !imagepath) {
-            setImgErr("Profile photo is required");
-          }
-        else {
-        setImgErr('')
-        }
-        console.log(img_err)
-        console.log(errordata)
+        
+    
         // const options={
         //     labels:{
         //         confirmable:"Confirm",
@@ -142,31 +160,56 @@ const  AddAirCraftType=() => {
         //     }
         // }
         // const result=await confirm(`Please confirm your details\n\n\n\n\tFirst Name: ${patient_id}   Test type: ${testtype.name}\n\n\Click OK to start the test.`,options);
-            if(!img_err && !errordata['Name'] && !errordata['Description']){
+       
+        // (img_err=='') && errordata['Name']=='' && errordata['Description']==''
+        else{
                 // setLoader(true);
                 try {
                     // const test_id = location.state.test_id;
                     console.log('heeee')
                     console.log(img)
-       
+                    console.log(state)
                     const formData = new FormData();
                     formData.append("name", state['Name']);
                     formData.append("description",state['Description']);
                     formData.append("Image", img);
                     formData.append("ImageName", imgname);
+                    console.log(id)
+                    if(id){
+                        formData.append("id",id)
+                    }
+                   
                  
                     console.log('geee')
-                    const response = await AircraftServices.addaircrafttype(formData);
-                    console.log(response);
+                    if(id){
+                        var editresponse=await AircraftServices.updateaircrafttype(formData)
+                    }
+                 
+                    else if(!id){
+                        var addresponse = await AircraftServices.addaircrafttype(formData);
+                    }
+                    console.log('status',id)
+                    
                    
-                    if (response.status === 200) {
+                    console.log(editresponse)
+                    console.log(addresponse)
+                   
+                   if(addresponse?.status===200){
+                    
                     Messages.SuccessMessage("Added successfully");
                     navigate(`/manager/handleaircrafts/all-aircraft-types`);
-
+                   }
+                    
+                
+                    if (editresponse?.status === 200) {
+                        Messages.SuccessMessage("Edit successfully");
+                        navigate(`/manager/handleaircrafts/all-aircraft-types`);
+                    }
+                    
                     // setTimeout(() => {
                     //     // setLoader(false);
                     // }, 200);
-                    }
+                    
                     
                     
                 } catch (error) {
@@ -180,20 +223,26 @@ const  AddAirCraftType=() => {
                 }
             
         }
+        // console.log((img_err==''))
+        // console.log(errordata)
+        // console.log(errordata['Name'])
+        // console.log(errordata['Name']=='')
+        // console.log( errordata['Description']=='')
         
     
     }
   return (
     <div>
         <Layout content='update'/>
-    <div className=' col-xl-5 pt-4 mx-auto form-container'>
+    <div className=' col-xl-7 pt-4 mx-auto form-container'>
+        {console.log(id)}
         
-        <h1 className='fs-1 text-primary mb-3'>Aircraft Type </h1>
+        {location.state?<h1 className='fs-1 text-primary mb-3'> Edit Aircraft Type </h1>:<h1 className='fs-1 text-primary mb-3'> Add Aircraft Type </h1>}
          <Form onSubmit={handleSubmit} >
             <Form.Group  className=" fw-bold  col-xl-12 mb-3 mx-auto">
             <div className="preview" id="imagePreview">
-                    <img width="200"
-                        height="200"
+                    <img width="400"
+                        height="400"
                         src= {imagepath? imagepath:"https://i.ibb.co/Q68tPz8/No-Preview.png"}
                         alt=""
                     />
@@ -245,7 +294,7 @@ const  AddAirCraftType=() => {
             <Form.Group as={Row} className='fw-bold col-xl-12 mb-3 mx-auto' controlId='Description'>
                  <Form.Label style={{"font-family":"FontAwesome"}}   column sm={4} >Last Name </Form.Label>
                  <Col sm={7}>
-                <textarea rows="4" cols='40' style={{"font-family":"FontAwesome"}}  name='Description'  value={state["Description"]} placeholder='&#xf234; Description' onChange={handleUser}/>
+                <textarea rows="4" cols='42' style={{"font-family":"FontAwesome"}}  name='Description'  value={state["Description"]} placeholder='&#xf234; Description' onChange={handleUser}/>
                 </Col>
                 <Row>
                     <Col>
@@ -258,7 +307,7 @@ const  AddAirCraftType=() => {
             </Form.Group>
 
             
-           <Button className='button btn btn-primary' size="lg" block="block" type="submit">Create</Button>
+           <Button className='button btn btn-primary' size="lg" block="block" type="submit">{location.state?'Edit':'Create'}</Button>
         </Form>
         
     </div>

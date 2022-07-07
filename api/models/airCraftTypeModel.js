@@ -4,7 +4,7 @@ const addAirCraftType = (data) => {
   console.log("AAAwa")
   console.log(data) 
     return new Promise((resolve, reject) => {
-      var imgsrc = '/src/aircrafttypes/images/' + data.Image.filename
+      var imgsrc = '/src/images/aircrafttypes/' + data.Image.filename
       var sql = "INSERT INTO aircrafttype (aircraftTypeID, name, description, image, status) VALUES (DEFAULT, ?,?,?, 1);"
       const valueSet = [data.name, data.description, [imgsrc]]
       db.query(sql, valueSet, (err, result) => {
@@ -32,10 +32,13 @@ const addAirCraftType = (data) => {
     })
   };
   
-  const updateAirCraftType = (updateId, aircraftTypeData) => {
+  const updateAirCraftType = (data) => {
+
     return new Promise((resolve, reject) => {
-      var sql = "UPDATE aircrafttype SET name=?, description=?, image=?, status=? WHERE aircraftTypeID=?;"
-      const valueSet = [aircraftTypeData.name, aircraftTypeData.description, aircraftTypeData.image, aircraftTypeData.status, updateId]
+      if( data.Image){
+      var imgsrc = '/src/images/aircrafttypes/' + data.Image.filename
+      var sql = "UPDATE aircrafttype SET name=?, description=?, image=? WHERE aircraftTypeID=?;"
+      const valueSet = [data.name, data.description, [imgsrc],data.id]
       db.query(sql, valueSet, (err, result) => {
         if (err) {
           return reject(err)
@@ -43,8 +46,24 @@ const addAirCraftType = (data) => {
           return resolve(result);
         }
       })
+    }
+    else{
+      console.log(data)
+      var sql = "UPDATE aircrafttype SET name=?, description=?  WHERE aircraftTypeID=?;"
+      const valueSet = [data.name, data.description,data.id]
+      db.query(sql, valueSet ,(err, result) => {
+          if (err) {
+              return reject(err)
+          } else {
+              return resolve(result);
+          }
+      })
+  
+  }
     })
   };
+
+ 
 
   const  getAllAirCraftTypes  = () => {
     return new Promise((resolve, reject) => {

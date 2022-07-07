@@ -92,7 +92,7 @@ const ViewDiscounts = () => {
 
     return (
         <>
-            <div className="container"> <br /> <br />
+            <div className="container" style={{marginTop:60}}> <br /> <br />
                 <h2>All Discounts</h2> <br /><br />
 
                 {isPending && <p> Loading... </p>}

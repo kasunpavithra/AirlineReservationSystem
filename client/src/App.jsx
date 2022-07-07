@@ -118,9 +118,9 @@ function App() {
             {/* Manager Routings */}
             <Route exact path="/manager/" element={<RequireAuth allowedRoles={[ROLES.Manager]} ><ManagerDashboard /></RequireAuth>} />
             <Route exact path="/manager/handleaircrafts/*" element={<RequireAuth allowedRoles={[ROLES.Manager]} > <ManagerHandleAircrafts/></RequireAuth>} />
-            <Route exact path="/manager/handleaircrafts/addaircrafttype" element={<RequireAuth allowedRoles={[ROLES.Manager]} ><AddAirCraftType/></RequireAuth>} />
+            {/* <Route exact path="/manager/handleaircrafts/addaircrafttype" element={<RequireAuth allowedRoles={[ROLES.Manager]} ><AddAirCraftType/></RequireAuth>} /> */}
             {/* <Route exact path="manager/handleaircrafts/all-aircraft-types" element={<AllAirCraftTypes/>} /> */}
-            <Route exact path="/manager/view-discounts" element={<RequireAuth allowedRoles={[ROLES.Manager]}> <ViewDiscounts /> </RequireAuth>} />
+            {/* <Route exact path="/manager/view-discounts" element={<RequireAuth allowedRoles={[ROLES.Manager]}> <ViewDiscounts /> </RequireAuth>} /> */}
 
               {/* GuestUsers routings */}
             <Route path="/guestuserbookings" element={<ViewBookings user='guest' />} />

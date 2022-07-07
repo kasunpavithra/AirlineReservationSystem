@@ -32,6 +32,17 @@ const getaircraft=(id)=>{
 
 }
 
+const  updateaircrafttype=(data)=>{
+  return axios({
+    method: "put",
+    url: APIEndpoint + `/airCraftType/update/${data.id}`,
+    data:data
+  //   headers: { Authorization: `Bearer ${token.getAccessToken()}` },
+  });
+
+}
+
+
 
 
   
@@ -39,6 +50,7 @@ const getaircraft=(id)=>{
   export default{
     addaircrafttype,
     getallaircrafttypes,
-    getaircraft
+    getaircraft,
+    updateaircrafttype
 }
 

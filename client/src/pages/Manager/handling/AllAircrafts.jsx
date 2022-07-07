@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import AircraftServices from "../../../../services/AircraftServices";
 import {Button } from 'react-bootstrap'
 
-const AllAirCraftTypes = () => {
+const AllAircrafts = () => {
 
     // const [searchParams, setSearchParams] = useSearchParams()
     // const filter = parseInt(searchParams.get("filter"))
@@ -58,7 +58,7 @@ const AllAirCraftTypes = () => {
 
     return (
         <>
-            <h2 className="add-margin-top">All AirCraft Types</h2> <br />
+            <h2 className="add-margin-top">All Aircrafts</h2> <br />
         
 {/* 
             <select className="form-select" aria-label="Default select example"
@@ -74,7 +74,7 @@ const AllAirCraftTypes = () => {
             {/* {error && <p>Error occured: {error} </p>} */}
             {/* {data && !data.success && <p>Error occured: {JSON.stringify(data.err)} </p>} */}
             <Button variant="primary" onClick={()=>{navigate('/manager/handleaircrafts/addaircrafttype')}}>
-                            Add new AircraftType
+                            Add new Aircraft
                         </Button> <br /> <br />
                 <table className="table table-hover">
                     <thead>
@@ -121,4 +121,4 @@ const AllAirCraftTypes = () => {
     );
 }
 
-export default AllAirCraftTypes;
+export default AllAircrafts;

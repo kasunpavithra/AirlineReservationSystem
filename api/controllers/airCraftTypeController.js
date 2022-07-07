@@ -62,9 +62,10 @@ const deleteAirCraftType = async (req, res) => {
 };
 
 const updateAirCraftType = async (req, res) => {
-    const updateId = req.params.id
-    const aircraftTypeData = req.body
-    await airCraftTypeModel.updateAirCraftType(updateId, aircraftTypeData)
+    console.log('fdsf')
+    var airCraftTypeData=req.body
+    airCraftTypeData={... airCraftTypeData,'Image': req.file}
+    await airCraftTypeModel.updateAirCraftType(airCraftTypeData)
         .then(result => {
             console.log("AircraftType updated!")
             res.json({
