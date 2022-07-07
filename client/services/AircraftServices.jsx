@@ -14,6 +14,18 @@ const addaircrafttype = (formData) => {
     });
   };
 
+  
+const addaircraft = (formData) => {
+  console.log('aircrafttype')
+  return axios({
+    method: "post",
+    url: APIEndpoint + `/airCraft/add`,
+    data:formData,
+  //   headers: { Authorization: `Bearer ${token.getAccessToken()}` },
+  });
+};
+
+
 const getallaircrafttypes=()=>{
   return axios({
     method: "get",
@@ -42,7 +54,34 @@ const  updateaircrafttype=(data)=>{
 
 }
 
+const  updateaircraft=(data,id)=>{
+  return axios({
+    method: "put",
+    url: APIEndpoint + `/airCraft/update/${id}`,
+    data:data
+  //   headers: { Authorization: `Bearer ${token.getAccessToken()}` },
+  });
 
+}
+
+
+const    getallaircrafts=()=>{
+  return axios({
+    method: "get",
+    url: APIEndpoint + `/airCraft/all`,
+  //   headers: { Authorization: `Bearer ${token.getAccessToken()}` },
+  });
+
+}
+
+const getaircraftbyid=(id)=>{
+  return axios({
+    method: "get",
+    url: APIEndpoint + `/airCraft/getAirCraft/${id}`,
+  //   headers: { Authorization: `Bearer ${token.getAccessToken()}` },
+  });
+
+}
 
 
   
@@ -51,6 +90,10 @@ const  updateaircrafttype=(data)=>{
     addaircrafttype,
     getallaircrafttypes,
     getaircraft,
-    updateaircrafttype
+    updateaircrafttype,
+    getallaircrafts,
+    addaircraft,
+    getaircraftbyid,
+    updateaircraft
 }
 

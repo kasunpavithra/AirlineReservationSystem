@@ -23,20 +23,20 @@ const AllAircrafts = () => {
     //     ({ data, isPending, error } = useFetch("http://localhost:3001/api/authorized-user/all"))
     // }
     useEffect(()=>{
-        getAllAirCraftTypes();
+        getAllAirCrafts();
         
     },[])
 
-    const getAllAirCraftTypes=async()=>{
-        const AllAirCraftTypesDetails= await AircraftServices.getallaircrafttypes();
+    const getAllAirCrafts=async()=>{
+        const AllAirCrafts= await AircraftServices.getallaircrafts();
         // console.log(AllAirCraftTypesDetails.data.result)
-        setData(AllAirCraftTypesDetails.data)
-        console.log()
+        setData(AllAirCrafts.data)
+        console.log(AllAirCrafts)
     }
 
-    const handleDelete = (AirCraftTypeID) => {
+    const handleDelete = (aircraftid) => {
         if (window.confirm("Are you sure, you want to delete this Aircraft Type?") === true) {
-            axios.delete("http://localhost:3001/api/airCraftType/delete/" + AirCraftTypeID)
+            axios.delete("http://localhost:3001/api/airCraft/delete/" + aircraftid)
                 .then(result => {
                     window.location.reload(false);
                 })
@@ -46,8 +46,8 @@ const AllAircrafts = () => {
         }
     }
 
-    const handleEdit = (AirCraftTypeID) => {
-        navigate("/manager/handleaircrafts/addaircrafttype",{state: AirCraftTypeID})
+    const handleEdit = (aircraftid) => {
+        navigate("/manager/handleaircrafts/addaircraft",{state: aircraftid})
     }
 
     const handleSelectQuery = (e) => {
@@ -73,38 +73,40 @@ const AllAircrafts = () => {
             {isPending && <p> Loading... </p>} */}
             {/* {error && <p>Error occured: {error} </p>} */}
             {/* {data && !data.success && <p>Error occured: {JSON.stringify(data.err)} </p>} */}
-            <Button variant="primary" onClick={()=>{navigate('/manager/handleaircrafts/addaircrafttype')}}>
+            <Button variant="primary" onClick={()=>{navigate('/manager/handleaircrafts/addaircraft')}}>
                             Add new Aircraft
                         </Button> <br /> <br />
                 <table className="table table-hover">
                     <thead>
                         <tr>
-                            <th>AirCrft TypeID</th>
-                            <th>Name</th>
-                            <th>Description</th>
+                            <th>AirCrft ID</th>
+                            <th>Type</th>
+                            <th>Economy Seat Count</th>
                             {/* <th>Email</th>
                             <th>Type</th>
                             <th>Status</th> */}
-                            <th></th>
-                            <th></th>
+                            <th>Business Seat Count</th>
+                            <th>Platinum Seat Count</th>
                         </tr>
                     </thead>
                     <tbody>
                         {console.log(data?.result)}
                         {data?.result?.map(AirCraftTypeDetail => (
                             
-                            <tr key={AirCraftTypeDetail?.aircraftTypeID} className={AirCraftTypeDetail?.status === 0 ? "table-danger" : ""} >
-                                <td>{AirCraftTypeDetail?.aircraftTypeID}</td>
+                            <tr key={AirCraftTypeDetail?.aircraftid} className={AirCraftTypeDetail?.status === 0 ? "table-danger" : ""} >
+                                <td>{AirCraftTypeDetail?.aircraftid}</td>
                                 <td>{AirCraftTypeDetail?.name}</td>
-                                <td>{AirCraftTypeDetail?.description}</td>
+                                <td>{AirCraftTypeDetail?.EconomySeatCount}</td>
+                                <td>{AirCraftTypeDetail?.BusinessSeatCount}</td>
+                                <td>{AirCraftTypeDetail?.PlatinumSeatCount}</td>
                                 {/* <td>{AirCraftTypeDetail.email}</td>
                                 <td>{AirCraftTypeDetail.type === 1 ? "Manager" : "Admin"}</td>
                                 <td>{AirCraftTypeDetail.status === 1 ? "Active" : "Deleted"}</td> */}
 
-                                {!!AirCraftTypeDetail?.status &&
+                                {
                                     <>
-                                        <td><button className="btn btn-danger" onClick={() => handleDelete(AirCraftTypeDetail?.aircraftTypeID)}>Delete</button></td>
-                                        <td><button className="btn btn-info" onClick={() => handleEdit(AirCraftTypeDetail?.aircraftTypeID)}>Edit</button></td>
+                                        <td><button className="btn btn-danger" onClick={() => handleDelete(AirCraftTypeDetail?.aircraftid)}>Delete</button></td>
+                                        <td><button className="btn btn-info" onClick={() => handleEdit(AirCraftTypeDetail?.aircraftid)}>Edit</button></td>
                                     </>
                                 }
                                 {!AirCraftTypeDetail?.status &&

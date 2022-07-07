@@ -25,7 +25,7 @@ const getAirCraftByRoute = (data) => {
 const getAllAirCrafts = ()=>{
   return new Promise((resolve, reject) => {
     var sql =
-      "select name,aircraftid from aircraft inner join aircrafttype using(aircrafttypeid)";
+      "select name,aircraftid,EconomySeatCount,BusinessSeatCount,PlatinumSeatCount from aircraft inner join aircrafttype using(aircrafttypeid) where aircraft.status!=0";
     
     db.query(sql, (err, result) => {
       if (err) {
@@ -55,12 +55,12 @@ const getAirCraftByFlight = (data) => {
 const addAirCraft = (data) => {
   return new Promise((resolve, reject) => {
     var sql =
-      "INSERT INTO aircraft (aircraftID , aircraftTypeID , EconomySeatCount, BusinessSeatCount, PlanitnumSeatCount, status) VALUES (DEFAULT, ?,?,?,?, 1);";
+      "INSERT INTO aircraft (aircraftTypeID , EconomySeatCount, BusinessSeatCount, PlatinumSeatCount, status) VALUES (?,?,?,?, 1);";
     const valueSet = [
-      data.aircraftTypeID,
+      data.AircraftTypeID,
       data.EconomySeatCount,
       data.BusinessSeatCount,
-      data.PlanitnumSeatCount,
+      data.PlatinumSeatCount,
     ];
     db.query(sql, valueSet, (err, result) => {
       if (err) {
@@ -87,17 +87,34 @@ const deleteAirCraft = (deleteId) => {
 };
 
 const updateAirCraft = (updateId, aircraftData) => {
+  console.log(updateId)
+  console.log(aircraftData)
   return new Promise((resolve, reject) => {
     var sql =
-      "UPDATE aircraft SET aircraftTypeID=?, EconomySeatCount=?, BusinessSeatCount=?, PlanitnumSeatCount=? WHERE aircraftID=?;";
+      "UPDATE aircraft SET aircraftTypeID=?, EconomySeatCount=?, BusinessSeatCount=?, PlatinumSeatCount=? WHERE aircraftID=?;";
     const valueSet = [
-      aircraftData.aircraftTypeID,
+      aircraftData.AircraftTypeID,
       aircraftData.EconomySeatCount,
       aircraftData.BusinessSeatCount,
-      aircraftData.PlanitnumSeatCount,
+      aircraftData.PlatinumSeatCount,
       updateId,
     ];
     db.query(sql, valueSet, (err, result) => {
+      if (err) {
+        return reject(err);
+      } else {
+        return resolve(result);
+      }
+    });
+  });
+};
+
+const   getAirCraft= (data) => {
+  console.log(data)
+  return new Promise((resolve, reject) => {
+    var sql =
+    "Select * from aircraft join aircrafttype using(aircraftTypeID) WHERE aircraftID=?;"
+    db.query(sql, data, (err, result) => {
       if (err) {
         return reject(err);
       } else {
@@ -114,4 +131,5 @@ module.exports = {
   deleteAirCraft,
   updateAirCraft,
   getAllAirCrafts,
+  getAirCraft
 };

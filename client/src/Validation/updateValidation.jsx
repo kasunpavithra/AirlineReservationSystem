@@ -30,6 +30,25 @@ const ValidateAircraftTypeAdd = (data) => {
 
 }
 
+const ValidateAircraftAdd= (data) => {
+    const UpdateValidationSchema = Joi.object({
+
+        'EconomySeatCount': Joi.required(),
+        'BusinessSeatCount': Joi.required(),
+        'PlatinumSeatCount': Joi.required(),
+        'AircraftTypeID': Joi.required(),
+
+    
+
+    })
+    const { error, value } = UpdateValidationSchema.validate(data, { abortEarly: false });
+    return { value, error };
+
+}
+
+
+
+
 
 
 const ValidateGuest = (data) => {
@@ -82,5 +101,6 @@ export default {
     imageValidation,
     ValidateGuest,
     guestLogin,
-    ValidateAircraftTypeAdd
+    ValidateAircraftTypeAdd,
+    ValidateAircraftAdd
 }

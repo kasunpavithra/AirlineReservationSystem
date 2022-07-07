@@ -34,12 +34,12 @@ const  AddAirCraftType=(prop) => {
     
         useEffect(() => {
             if(location.state){
-            getCustomerDetails();
+            getAirCraftType();
             }
         }, []);
     
 
-      const getCustomerDetails = async () => {
+      const getAirCraftType = async () => {
         try {
         //   const genderType = await ExaminerServices.getgendertypes();
         //   // console.log(genderType.data.data);
@@ -94,7 +94,7 @@ const  AddAirCraftType=(prop) => {
             reader.onload = function (e) {
                 console.log(e.target.result)
        
-            document.getElementById("imagePreview").innerHTML = '<img width="400" height="400" src="'+ e.target.result+'"/>';
+            document.getElementById("imagePreview").innerHTML = '<img width="600" height="400" src="'+ e.target.result+'"/>';
             //   setImg(reader.result.replace("data:", "").replace(/^.+,/, ""));
             console.log(fileInput.files[0])
             console.log(fileInput.files[0].name)
@@ -241,7 +241,7 @@ const  AddAirCraftType=(prop) => {
          <Form onSubmit={handleSubmit} >
             <Form.Group  className=" fw-bold  col-xl-12 mb-3 mx-auto">
             <div className="preview" id="imagePreview">
-                    <img width="400"
+                    <img width="600"
                         height="400"
                         src= {imagepath? imagepath:"https://i.ibb.co/Q68tPz8/No-Preview.png"}
                         alt=""

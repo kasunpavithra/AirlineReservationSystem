@@ -31,15 +31,17 @@ const ViewBookings = (prop) => {
       
         //const abortCont = new AbortController();
         try {
+            if(localStorage.getItem("AccessToken")){
             var user = jwtDecode(localStorage.getItem("AccessToken"))
             console.log(user)
+            }
         }
 
 
         catch (err) {
             user = null
         }
-        const url=prop.user=='reg'? `http://localhost:3001/api/bookings/getRegUserBooking/${user.userInfo.id}` :`http://localhost:3001/api/bookings/getGuestUserBooking/${user.userInfo.id}`
+        const url=prop.user=='reg'? `http://localhost:3001/api/bookings/getRegUserBooking/${user?.userInfo?.id}` :`http://localhost:3001/api/bookings/getGuestUserBooking/${location?.state?.userID}`
 
        
         
@@ -51,6 +53,7 @@ const ViewBookings = (prop) => {
             .then(data => {
 
                 setData(data)
+                console.log(data)
                 setIsPending(false)
                 setError(null)
             })

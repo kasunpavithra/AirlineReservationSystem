@@ -13,6 +13,7 @@ import AllAirCraftTypes from "./AllAirCraftTypes";
 import AddAirCraftType from './AddAirCraftType';
 import ViewDiscounts from './../ViewDiscounts';
 import AllAircrafts from './AllAircrafts';
+import AddAirCraft from "./AddAirCraft";
 
 
 const ManagerHandleAircrafts = () => {
@@ -55,6 +56,10 @@ const ManagerHandleAircrafts = () => {
                             <Route exact path="/all-aircraft-types" element={<AllAirCraftTypes />} />
                             <Route exact path="/addaircrafttype" element={<AddAirCraftType/>} />
                             <Route exact path="/all-aircrafts" element={<AllAircrafts/>} />
+                             <Route exact path="/addaircraft" element={<AddAirCraft/>} />
+                             <Route exact path="/all-flights" element={<AddAirCraft/>} />
+                          
+
 
                             <Route exact path="/view-discounts" element={<ViewDiscounts />} />
                             {/* <Route exact path="/update-registered-customer/:id" element={<UpdateRegisteredCustomer />} />
