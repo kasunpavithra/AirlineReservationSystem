@@ -119,13 +119,15 @@ const ViewDiscounts = () => {
                                 {data.result.map(discountElement => (
                                     <tr key={discountElement.discountID} className={discountElement.status === 0 ? "table-danger" : ""} >
                                         <td>{discountElement.discountID}</td>
-                                        <td>{discountElement.discountClassType === 2 ? "NO_DISCOUNT" : (discountElement.discountClassType === 1 ? "FREQUENT" : "GOLDEN")}</td>
+                                        <td>{discountElement.discountClassType === "NO_DISCOUNT" ? "NO_DISCOUNT" : (discountElement.discountClassType === "FREQUENT" ? "FREQUENT" : "GOLDEN")}</td>
                                         <td>{discountElement.amount}</td>
                                         <td>{discountElement.status}</td>
-                                        <td>{(discountElement.startTimeDate).split("T")[0] + " " + (discountElement.startTimeDate).split("T")[1].split(".000Z")[0]}</td>
-                                        <td>{(discountElement.endTimeDate).split("T")[0] + " " + (discountElement.endTimeDate).split("T")[1].split(".000Z")[0]}</td>
+                                        {/* <td>{(discountElement.startTimeDate).split("T")[0] + " " + (discountElement.startTimeDate).split("T")[1].split(".000Z")[0]}</td>
+                                        <td>{(discountElement.endTimeDate).split("T")[0] + " " + (discountElement.endTimeDate).split("T")[1].split(".000Z")[0]}</td> */}
+                                        <td>{discountElement.startTimeDate}</td>
+                                        <td>{discountElement.endTimeDate}</td>
 
-                                        {!!discountElement.status &&
+                                        {!!discountElement.status && discountElement.discountID!==0 &&
                                             <>
                                                 <td><a className="btn btn-danger" onClick={() => handleDelete(discountElement.discountID)}>Delete</a></td>
                                             </>
