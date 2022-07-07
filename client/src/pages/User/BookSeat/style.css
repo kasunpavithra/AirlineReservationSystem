@@ -43,3 +43,10 @@
   .line {
     display: inline-block;
   }
+
+  .bookseat-body{
+    
+    background-image: url(../../../images/bookSeats.jpg);
+    background-position: center;
+
+  }
