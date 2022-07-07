@@ -1,0 +1,25 @@
+.month-picker-dropdown .select-months {
+    border: solid 0.5px #022424;
+    background-color: #00a699;
+    color: #fff;
+}
+
+.month-picker-dropdown .select-picker {
+    border-bottom: solid 0.5px #022424;
+    border-left: solid 0.5px #022424;
+    border-right: solid 0.5px #022424;
+}
+
+.month-picker-dropdown .select-picker .select-picker-options .options .option-title {
+    text-align: center;
+}
+
+.month-picker-dropdown .select-picker .select-picker-options .selected-month-background-color {
+    background: #00a699;
+    color: #fff;
+}
+
+.month-picker-dropdown .select-picker .select-picker-options .hovered-month-background-color {
+    background-color: #66e2da;
+    color: #fff;
+}
