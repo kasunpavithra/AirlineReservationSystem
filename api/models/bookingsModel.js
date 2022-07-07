@@ -98,6 +98,7 @@ const addBooking = (bookingInfo) => {
                             [bookingInfo.registeredUserID, bookingInfo.guestUserID, bookingInfo.flightID, bookingInfo.classID, bookingInfo.airCraftseatIDList[i], isChild],
                             function (err3, result3) {
                                 if (err3) {
+                                  console.log(err3);
                                     db.rollback();
                                     return reject1(false);
                                 }
