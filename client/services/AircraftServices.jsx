@@ -84,6 +84,16 @@ const getaircraftbyid=(id)=>{
 }
 
 
+
+const    getallairports=()=>{
+  return axios({
+    method: "get",
+    url: APIEndpoint + `/airport/all`,
+  //   headers: { Authorization: `Bearer ${token.getAccessToken()}` },
+  });
+}
+
+
   
 
   export default{
@@ -94,6 +104,7 @@ const getaircraftbyid=(id)=>{
     getallaircrafts,
     addaircraft,
     getaircraftbyid,
-    updateaircraft
+    updateaircraft,
+    getallairports
 }
 

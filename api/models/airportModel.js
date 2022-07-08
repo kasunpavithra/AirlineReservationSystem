@@ -2,7 +2,7 @@ const db = require("../db/db");
 
 const getAllAirPorts = () => {
   return new Promise((resolve, reject) => {
-    var sql = "SELECT * FROM airport WHERE status=1 order by name;";
+    var sql = "SELECT * FROM airport WHERE status=1 order by airport_id;";
     db.query(sql, (err, result) => {
       if (err) {
         return reject(err);
@@ -30,6 +30,7 @@ const addAirport = (airportInfo) => {
 };
 
 const deleteAirport = (id) => {
+  console.log(id)
   return new Promise((resolve, reject) => {
     var sql =
     "UPDATE `airport` SET status=0 WHERE airport_id=?;"
@@ -44,6 +45,7 @@ const deleteAirport = (id) => {
 };
 
 const updateAirport = (airportInfo) => {
+  console.log(airportInfo)
   return new Promise((resolve, reject) => {
     var sql =
       "UPDATE `airport` SET name=?  WHERE airport_id=? AND status=1;";
