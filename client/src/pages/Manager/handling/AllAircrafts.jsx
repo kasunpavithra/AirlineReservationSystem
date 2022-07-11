@@ -117,7 +117,7 @@ const AllAircrafts = () => {
                                 }
                             </tr>
                         ))}
-                    </tbody>
+                    </tbody> 
                 </table>
         </>
     );

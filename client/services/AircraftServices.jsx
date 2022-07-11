@@ -93,6 +93,34 @@ const    getallairports=()=>{
   });
 }
 
+const  getalllevels=()=>{
+  return axios({
+    method: "get",
+    url: APIEndpoint + `/level/allLevels`,
+  //   headers: { Authorization: `Bearer ${token.getAccessToken()}` },
+  });
+}
+
+
+const  getairportlevels=(id)=>{
+  console.log(id)
+  return axios({ 
+    method: "get",
+    url: APIEndpoint + `/airportInfo/getAirportInfoByID/${id}`,
+  //   headers: { Authorization: `Bearer ${token.getAccessToken()}` },
+  });
+}
+
+const getallroutes=()=>{
+
+  return axios({ 
+    method: "get",
+    url: APIEndpoint + `/routes/allRoutesForManager`,
+  //   headers: { Authorization: `Bearer ${token.getAccessToken()}` },
+  });
+}
+
+
 
   
 
@@ -105,6 +133,9 @@ const    getallairports=()=>{
     addaircraft,
     getaircraftbyid,
     updateaircraft,
-    getallairports
+    getallairports,
+    getalllevels,
+    getairportlevels,
+    getallroutes
 }
 

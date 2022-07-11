@@ -31,7 +31,7 @@ const getRegisteredBooking = (id) => {
 
 const getGuestBooking = (id) => {
   return new Promise((resolve, reject) => {
-    let sql = "select * from ((booking LEFT JOIN class ON booking.classID=class.classID) LEFT JOIN  discount ON booking.discountID = discount.discountID)  where booking.guestUserID =? ORDER BY booking.bookingID DESC";
+    let sql = "select bookingID,flightID,paymentStatus,bookingTimeDate,class.name,booking.airCraftseatID,booking.status from (booking JOIN class ON booking.classID=class.classID)  where booking.guestUserID =? ORDER BY booking.bookingID DESC";
     db.query(sql, id, (err, result) => {
       if (err) {
         return reject(err);

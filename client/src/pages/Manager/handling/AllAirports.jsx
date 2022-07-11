@@ -3,7 +3,8 @@ import axios from "axios"
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import AircraftServices from "../../../../services/AircraftServices";
-import {Modal,Button } from 'react-bootstrap'
+import {Modal,Button,Accordion } from 'react-bootstrap'
+import Swal from "sweetalert2";
 
 const AllAirports = () => {
 
@@ -11,10 +12,47 @@ const AllAirports = () => {
     // const filter = parseInt(searchParams.get("filter"))
     const [data,setData]=useState();
     const [show, setShow] = useState(false);
+    const [allAirPortLevels,  setAllAirPortLevels] = useState();
+    const [selectedLevelType,  setselectedLevelType] = useState();
+    const [allRemovedAirPortLevels,     setAllRemovedAirPortLevels] = useState();
+    const [tempAirPortLevels,       settempAirPortLevels] = useState({});
+    const [airportlevels,  setAirportLevels] = useState();
+    
+  
+ 
+   
+    const [levels,setLevel]=useState([{}
+        
+
+       
+    ])
+       
+    const [lst1, setIndex]=useState([])
+   
+
+    
     const handleClose = () => {
-        setselectedAiportID()
+        // setselectedAiportID()
+        setLevel([{}])
+        setAllAirPortLevels()
         setShow(false)};
-    const handleShow = () => setShow(true);
+
+       
+    const handleShow = () => {
+     
+        getAllAirPortLevels()
+        setIndex([])
+        setShow(true);
+    }
+
+        const getAllAirPortLevels=async()=>{
+            const AllAirPortsDetails= await AircraftServices.getalllevels();
+        
+            setAllAirPortLevels(AllAirPortsDetails.data.result)
+            settempAirPortLevels(AllAirPortsDetails.data.result)
+
+        }
+    
     const [ selectedAiportID,setselectedAiportID]=useState();
     const [ editAiport,  setEditAirport]=useState();
   
@@ -37,32 +75,119 @@ const AllAirports = () => {
     // } else {
     //     ({ data, isPending, error } = useFetch("http://localhost:3001/api/authorized-user/all"))
     // }
+
+   const  showErr = ()=>{
+        Swal.fire({  
+          icon: 'error',  
+          title: 'Oops...',  
+          text: 'Error Adding Airport',  
+        }).then(()=>{
+          window.location.reload();
+        });
+      }
+    
+      const showAddSuccess = ()=>{
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',    
+          text: 'Successfully Added Airport',  
+        }).then(()=>{
+        //   this.props.navigate("/dashboard",{ replace: true });
+        window.location.reload(false)
+
+        });
+      }
+
+      const showEditSuccess = ()=>{
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',    
+          text: 'Successfully Edited Airport',  
+        }).then(()=>{
+        //   this.props.navigate("/dashboard",{ replace: true });
+        window.location.reload(false)
+
+        });
+      }
+
+     
+
     useEffect(()=>{
         getAllAirPorts();
+  
         
     },[])
 
     const getAllAirPorts=async()=>{
         const AllAirPortsDetails= await AircraftServices.getallairports();
-        // console.log(AllAirCraftTypesDetails.data.result)
+
         setData(AllAirPortsDetails.data)
-        console.log()
+        console.log(AllAirPortsDetails)
+
+       
+    }
+    
+    const getAirPortLevels=async(AirPortID)=>{
+        const AllAirPortsDetails= await AircraftServices.getairportlevels(AirPortID);
+        console.log(AllAirPortsDetails)
+
+        setLevel(AllAirPortsDetails.data.result)
+        
+
+       
     }
 
     const handleDelete = (AirCraftTypeID) => {
-        if (window.confirm("Are you sure, you want to delete this Airport?") === true) {
-            axios.delete("http://localhost:3001/api/airport/deleteAirport/" + AirCraftTypeID)
-                .then(result => {
-                    window.location.reload(false);
-                })
-                .catch(err => console.log(err))
-        } else {
-            return
+       
+            Swal.fire({
+              icon: 'warning',
+              title: 'Are you sure?',    
+              text: "You won't be able to revert this!", 
+              showCancelButton:true,
+              confirmButtonColor:'#3085d6',
+              cancelButtonColor:'#d33',
+              confirmButtonText:'Yes delete it!' 
+            }).then((result)=>{
+            //   this.props.navigate("/dashboard",{ replace: true });
+            // document.location.reload()
+            if(result.isConfirmed){
+                axios.delete("http://localhost:3001/api/airport/deleteAirport/" + AirCraftTypeID)
+            .then(result => {
+
+                Swal.fire(
+                    'Deleted!',
+                    'Selected Airport has been deleted.',
+                    'success'
+                 ).then((result)=>
+                window.location.reload(false)
+                )
+               
+                
+            })
+            .catch(err => console.log(err))
+            // window.location.reload(false);
+
         }
+    
+            });
+          
+
+    }
+
+
+    const  handleLevel = (AirPortID,AirPortName) => {
+        handleShow()
+        getAirPortLevels(AirPortID)
+       
+     
+        setselectedAiportID({
+            'AirPortID':AirPortID,'AirPortName':AirPortName})
+        // navigate("/manager/handleaircrafts/addairport",{state: AirCraftTypeID})
     }
 
     const handleEdit = (AirPortID,AirPortName) => {
         handleShow()
+       
         setselectedAiportID({
             'AirPortID':AirPortID,'AirPortName':AirPortName})
         // navigate("/manager/handleaircrafts/addairport",{state: AirCraftTypeID})
@@ -76,18 +201,38 @@ const AllAirports = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-      
+       
+        var levelData=[]
         if(selectedAiportID){
-            const airportData = {
+            levels?.map((item,index)=>{
+            
+                levelData=[...levelData,[item.levelID,item.value,item.airportlevelDetailID]]
+    
+    
+            })
+            console.log(levelData)
+    
+            const updateData = {
+    
+                airport_id:selectedAiportID['AirPortID'],
+                infoArray:levelData
+           
+            }
+            console.log(updateData)
+
+            const updateName = {
     
                 name: editAiport['AirPortName']
                 , id: editAiport['AirPortID']
            
             }
-            console.log(airportData)
+
+        console.log(levels)
+  
+
                
 
-        axios.put("http://localhost:3001/api/airport/updateAirport",airportData)
+        axios.put("http://localhost:3001/api/airport/updateAirport",updateName)
         .then(result => {
             console.log(result)
             if (result.data.errType === "bad_request") {
@@ -95,24 +240,57 @@ const AllAirports = () => {
                 // document.getElementById("discount-invalid-feedback").className = "alert alert-danger"
             } else {
                 setShow(false)
-                document.location.reload()
+
+                axios.put("http://localhost:3001/api/airportInfo/updateAirportInfo",updateData)
+                .then(result => {
+                    console.log(result)
+                    if (result.data.errType === "bad_request") {
+                        // document.getElementById("discount-invalid-feedback").innerHTML = result.data.errMessage
+                        // document.getElementById("discount-invalid-feedback").className = "alert alert-danger"
+                    } else {
+                        setShow(false)
+                        showEditSuccess()
+                       
+                    }
+        
+                })
+                .catch(err => {
+                    console.log(err)
+                    showErr()
+                })
+        
+                // showEditSuccess()
+               
             }
 
         })
         .catch(err => {
             console.log(err)
+            showErr()
         })
+
+
 
         }
         else{
+            var levelData=[]
+            levels?.map((item,index)=>{
+                
+                levelData=[...levelData,[item.levelID,item.value]]
+
+
+            })
+            console.log(levelData)
 
             const airportData = {
     
-                name: modalAirport
+                airportName: modalAirport,
+                infoArray:levelData
            
             }
+            console.log(airportData)
 
-        axios.post("http://localhost:3001/api/airport/addAirport",airportData)
+        axios.post("http://localhost:3001/api/airportInfo/addAirportInfo",airportData)
             .then(result => {
                 console.log(result)
                 if (result.data.errType === "bad_request") {
@@ -120,14 +298,17 @@ const AllAirports = () => {
                     // document.getElementById("discount-invalid-feedback").className = "alert alert-danger"
                 } else {
                     setShow(false)
+                    
                     document.location.reload()
+                    showAddSuccess()
                 }
 
             })
             .catch(err => {
                 console.log(err)
+                showErr()
             })
-        }
+       }
     }
 
 
@@ -156,6 +337,7 @@ const AllAirports = () => {
                         <tr>
                             <th>AirPort ID</th>
                             <th>Name</th>
+                            <th></th>
                           
                             {/* <th>Email</th>
                             <th>Type</th>
@@ -165,16 +347,33 @@ const AllAirports = () => {
                         </tr>
                     </thead>
                     <tbody>
+                        
                 
-                        {data?.result?.map(AirCraftTypeDetail => (
+                        {data?.result?.map((AirCraftTypeDetail,index) => (
                             
                             <tr key={AirCraftTypeDetail?.airport_id} className={AirCraftTypeDetail?.status === 0 ? "table-danger" : ""} >
                                 <td>{AirCraftTypeDetail?.airport_id}</td>
+          
                                 <td>{AirCraftTypeDetail?.name}</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td >
+
+                        
+
+                                <div>
+                                    <Accordion   >
+                                        <Accordion.Item >
+                                            <Accordion.Header> See Location levels</Accordion.Header>
+                                            <Accordion.Body >
+                                          
+                                            </Accordion.Body>
+                                        </Accordion.Item>
+
+                                    </Accordion>
+                                </div>
+                                    </td>
+                             
+                             
+                                
                                 {/* <td>{AirCraftTypeDetail?.description}</td> */}
                                 {/* <td>{AirCraftTypeDetail.email}</td>
                                 <td>{AirCraftTypeDetail.type === 1 ? "Manager" : "Admin"}</td>
@@ -183,7 +382,8 @@ const AllAirports = () => {
                                 {!!AirCraftTypeDetail?.status &&
                                     <>
                                         <td><button className="btn btn-danger" onClick={() => handleDelete(AirCraftTypeDetail?.airport_id)}>Delete</button></td>
-                                        <td><button className="btn btn-info" style={{marginRight:300,width:80}} onClick={() => handleEdit(AirCraftTypeDetail?.airport_id,AirCraftTypeDetail?.name)}>Edit</button></td>
+
+                                        <td><button className="btn btn-info" style={{width:110}} onClick={() => handleLevel(AirCraftTypeDetail?.airport_id,AirCraftTypeDetail?.name)}>Edit Levels</button></td>
                                     </>
                                 }
                                 {/* {!AirCraftTypeDetail?.status &&
@@ -234,12 +434,160 @@ const AllAirports = () => {
 
                                     <div className="input-group mb-3">
                                         <span className="input-group-text" id="basic-addon1">Name</span>
-                                        <input type="text" required  value={selectedAiportID? selectedAiportID['AirPortName']:''}
-                                            onChange={(e) => setmodalAirport(setEditAirport({...selectedAiportID,'AirPortName':e.target.value}))}
-                                                
+                                        {selectedAiportID? <input type="text" required  defaultValue={selectedAiportID? selectedAiportID['AirPortName']:''}
+                                            onChange={(e) => setEditAirport({...selectedAiportID,'AirPortName':e.target.value})}
+                                             className="form-control" placeholder="Enter Airport Code" aria-label="amount" aria-describedby="basic-addon1" />:
+                                             <input type="text" required
+                                            onChange={(e) => setmodalAirport(e.target.value)}
+                                             className="form-control" placeholder="Enter Airport Code" aria-label="amount" aria-describedby="basic-addon1" />}
+
                                         
-                                            className="form-control" placeholder="Enter Airport Code" aria-label="amount" aria-describedby="basic-addon1" />
+                                            
                                     </div> <br />
+            
+
+              
+                       
+                {levels?.map((level,index)=>(<><div  style={{display:'flex'}}>
+                <div>
+                  <button
+                    type="button"
+                    class="btn btn-success dropdown-toggle"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    style={{'border-radius':0}}
+                    key={index}
+                  >
+                    {/* {Object.keys(levels[index]).length!=0? Object.keys(levels[index]) :'Level Type'} */}
+                    {levels[index]['levelName']? levels[index]['levelName'] :'Level Type'}
+                  </button>
+                  
+                   
+                     <div class="dropdown-menu">
+            
+            
+                    {
+                     allAirPortLevels?.map((levelType,idx)=>(
+                    
+                    // <button class="dropdown-item" id='but' value={levelType.levelID}  key={level.levelID} type="button" onClick={(event)=>{setLevel([...levels,{[event.target.value]:{'name':levelType.levelName,'id':event.target.value,'rank':levelType.levelrank}}]);}}>
+                    <button class="dropdown-item" id='but' value={levelType.levelID}  key={idx} type="button"   onClick={(e) => {
+                              var lst = [...levels];
+                              lst[index]={...lst[index],'levelID':parseInt( levelType.levelID),'levelName':levelType.levelName,'levelrank':levelType.levelrank};
+                              setIndex([...lst1,lst[index]])
+                              setLevel(lst);
+                              console.log(allAirPortLevels.map((a,index)=>a))
+                               tempAirPortLevels.some((item)=>{
+                                     var list=[]
+                                        if(item?.levelID===lst1[lst1.length-1]?.levelID){
+                                            tempAirPortLevels.some((item1)=>{
+                                                if(item1.levelrank===lst1[lst1.length-1].levelrank){
+                                                    console.log(item1)
+                                                    list=tempAirPortLevels.slice(tempAirPortLevels.indexOf(item1)+1)
+                                                
+                                                }
+                                            })
+                                                setAllAirPortLevels(list)
+                                        
+                                        // console.log(allAirPortLevels.slice(allAirPortLevels.indexOf(item)))
+                                        // setAllRemovedAirPortLevels(allAirPortLevels.slice(allAirPortLevels.indexOf(item)))
+                                      }})
+                        
+                            // allAirPortLevels.some(item => lst[index].includes(item))
+                        
+                         
+                           
+                }}>
+                                
+                      {levelType.levelName}
+                    </button>
+                      
+                     ))}
+                    
+                   
+                  </div>
+                  
+                </div>
+                <div className=" input-group  "  >
+            
+                    {selectedAiportID? <input   type="text" required  defaultValue={selectedAiportID? levels[index]?.value:''}
+                        onChange={(e) => {
+                            var lst = [...levels];
+                            lst[index]={...lst[index],'value':e.target.value};
+                            // setIndex([...lst1,lst[index]])
+                            setLevel(lst);
+                            }}
+                            className="form-control" placeholder="Enter Airport Code" aria-label="amount" aria-describedby="basic-addon1" />:
+                            <input type="text" required
+                        onChange={(e) => {
+                            var lst = [...levels];
+                            lst[index]={...lst[index],'value':e.target.value};
+                            // setIndex([...lst1,lst[index]])
+                            setLevel(lst);
+                            }}
+                            className="form-control" placeholder="Enter Level Name" aria-label="amount" aria-describedby="basic-addon1" />}
+
+                 </div> 
+               
+                 </div>
+                 
+                 <br></br>
+                    </> ))}
+                    <div style={{display:'flex',justifyContent:'flex-end'}} >
+                    {/* {console.log(levels.length>0 ?Object.keys(levels[levels?.length-1]).length:'')}
+                    {console.log(tempAirPortLevels.length>0? tempAirPortLevels.length-1:'')} */}
+                 <div >
+                            <Button style={{ borderRadius: "50px"}} id='j' disabled={levels?.length>0? Object.keys(levels[levels?.length-1])?.length!=4 || levels[levels?.length-1]['value'].length==0 ||lst1[lst1?.length-1]?.levelID===tempAirPortLevels[tempAirPortLevels.length-1]?.levelID :false} onClick={()=>{setLevel([...levels,{}]);
+                                if(levels.length==0){
+                                    getAllAirPortLevels();
+                                }
+                                else{
+                                    tempAirPortLevels.some((item)=>{
+                                     var list=[]
+                                        if(item?.levelID===lst1[lst1.length-1]?.levelID){
+                                            tempAirPortLevels.some((item1)=>{
+                                                if(item1.levelrank===lst1[lst1.length-1].levelrank){
+                                                    console.log(item1)
+                                                    list=tempAirPortLevels.slice(tempAirPortLevels.indexOf(item1)+1)
+                                                
+                                                }
+                                            })
+                                                setAllAirPortLevels(list)
+                                        
+                                        // console.log(allAirPortLevels.slice(allAirPortLevels.indexOf(item)))
+                                        // setAllRemovedAirPortLevels(allAirPortLevels.slice(allAirPortLevels.indexOf(item)))
+                                      }})
+                                }
+                                console.log(levels)
+                               
+                       
+                        }} >+ Add Level</Button>
+                      
+                </div>
+                &nbsp;
+                
+                <div>
+                            <Button style={{ borderRadius: "50px"}} onClick={()=>{levels.pop() ; setLevel([...levels]); 
+                            lst1.pop();
+
+                            console.log('hello',lst1)
+                    
+                            tempAirPortLevels.some((item)=>{if(item?.levelID===lst1[lst1.length-1]?.levelID){
+                                // setAllAirPortLevels(...allAirPortLevels)
+                                // getAllAirPortLevels()
+                                console.log(item)
+                                console.log(tempAirPortLevels)
+                                setAllAirPortLevels( tempAirPortLevels.slice(tempAirPortLevels.indexOf(item)+1))
+                                // setAllRemovedAirPortLevels(allAirPortLevels.slice(allAirPortLevels.indexOf(item)))
+                              }})
+                       }} >- Remove Level</Button>
+                    
+                </div>
+                </div>
+               
+             
+            
+                
 
 
                                     {/* <div className="input-group mb-3">
