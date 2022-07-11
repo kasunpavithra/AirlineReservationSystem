@@ -39,6 +39,7 @@ const addAirport = async (req, res) => {
 };
 
 const deleteAirport = async (req, res) => {
+    console.log('fddfd')
   await airportModel
       .deleteAirport(parseInt(req.params.id))
       .then((result) => {
@@ -57,6 +58,7 @@ const deleteAirport = async (req, res) => {
 
 
 const updateAirport = async (req, res) => {
+   
   await airportModel
       .updateAirport(req.body)
       .then((result) => {

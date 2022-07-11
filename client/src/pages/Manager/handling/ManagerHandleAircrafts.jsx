@@ -14,6 +14,9 @@ import AddAirCraftType from './AddAirCraftType';
 import ViewDiscounts from './../ViewDiscounts';
 import AllAircrafts from './AllAircrafts';
 import AddAirCraft from "./AddAirCraft";
+import AllAirports from './AllAirports';
+import AllAiportLevels from './AllAiportLevels';
+import AllRoutes from "./AllRoutes";
 
 
 const ManagerHandleAircrafts = () => {
@@ -39,12 +42,16 @@ const ManagerHandleAircrafts = () => {
                                 &nbsp; AirCrafts</NavLink>
                             </li> <br />
                             <li className="nav-item">
-                                <NavLink className="nav-link" to="/admin/create-authorized-user"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-right-circle-fill" viewBox="0 0 16 16"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/></svg>
-                                &nbsp; create-authorized-user</NavLink>                                
+                                <NavLink className="nav-link" to="/manager/handleaircrafts/all-airports"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-right-circle-fill" viewBox="0 0 16 16"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/></svg>
+                                &nbsp; Airports</NavLink>                                
                             </li> <br />
                             <li className="nav-item">
-                                <NavLink className="nav-link" to="/admin/create-registered-customer"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-right-circle-fill" viewBox="0 0 16 16"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/></svg>
-                                &nbsp; create-registered-customer</NavLink>
+                                <NavLink className="nav-link" to="/manager/handleaircrafts/all-airport-levels"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-right-circle-fill" viewBox="0 0 16 16"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/></svg>
+                                &nbsp; Airport Levels</NavLink>
+                            </li> <br/>
+                            <li className="nav-item">
+                                <NavLink className="nav-link" to="/manager/handleaircrafts/all-routes"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-right-circle-fill" viewBox="0 0 16 16"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/></svg>
+                                &nbsp; Routes</NavLink>
                             </li>
                         </ul>
                         <hr className="d-sm-none" />
@@ -58,6 +65,9 @@ const ManagerHandleAircrafts = () => {
                             <Route exact path="/all-aircrafts" element={<AllAircrafts/>} />
                              <Route exact path="/addaircraft" element={<AddAirCraft/>} />
                              <Route exact path="/all-flights" element={<AddAirCraft/>} />
+                             <Route exact path="/all-airports" element={<AllAirports/>} />
+                             <Route exact path="/all-airport-levels" element={<AllAiportLevels/>} />
+                             <Route exact path="/all-routes" element={<AllRoutes/>} />
                           
 
 
