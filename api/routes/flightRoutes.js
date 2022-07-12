@@ -14,7 +14,7 @@ router.get("/getRevenue/:AirCraftId", flightController.getRevenue)
 router.get("/getPastFlights/:OriginID/:DestinationID", flightController.getPastFlights)
 router.post("/addFlights",flightController.addFlights)
 
-
+router.put("/updateFlight", flightController.updateFlight);
 
 
 router.get(
