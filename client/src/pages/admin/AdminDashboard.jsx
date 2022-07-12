@@ -45,8 +45,7 @@ const AdminDashboard = () => {
                     </div>
 
                     <div className="col-sm-8 col-lg-9">
-                        <Routes>
-                            
+                        <Routes>  
                             <Route exact path="/all-registered-customers" element={<AllRegisteredCustomers />} />
                             <Route exact path="/all-authorized-users" element={<AllAuthorizedUsers />} />
                             <Route exact path="/create-authorized-user" element={<CreateAuthorizedUser />} />

@@ -17,6 +17,25 @@ const getAllRoutes = async (req, res) => {
     });
 };
 
+const getAllRoutesForManager = async (req, res) => {
+  await routeModel
+    .getAllRoutesForManager()
+    .then((result) => {
+      res.json({
+        success: true,
+        result,
+      });
+    })
+    .catch((err) => {
+      res.json({
+        success: false,
+        err,
+      });
+    });
+};
+
+
+
 const getRoutePrices = async (req, res) => {
   const routeID = req.params.routeID;
   await routeModel
@@ -72,4 +91,4 @@ const deleteRoute = async (req, res) => {
           });
       });
 };
-module.exports = { getAllRoutes, getRoutePrices,addRoute,deleteRoute };
+module.exports = { getAllRoutes, getRoutePrices,addRoute,deleteRoute,getAllRoutesForManager };

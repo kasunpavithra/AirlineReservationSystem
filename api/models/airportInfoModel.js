@@ -1,9 +1,10 @@
 const db = require("../db/db");
 
 const getAirportInfoByID = (id) => {
+    console.log(id)
     return new Promise((resolve, reject) => {
         var sql =
-            "SELECT airportLevelDetailID,levelID,value FROM `airportleveldetail`  WHERE airport_id=? AND status=1;"
+            "SELECT levelID,value,levelName,levelrank,airportlevelDetailID FROM `airportleveldetail` ad join level using(levelID)  WHERE airport_id=? AND ad.status=1 order by levelrank desc;"
         db.query(sql, [id], (err, result) => {
             if (err) {
                 return reject(err);
@@ -15,6 +16,7 @@ const getAirportInfoByID = (id) => {
 };
 
 const addAirportInfo = (airportInfo) => {
+    console.log(airportInfo)
     return new Promise((resolve, reject) => {
         if (!airportInfo?.airportName || !airportInfo?.infoArray) return reject(new Error("BadRequest"));
 

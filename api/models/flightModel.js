@@ -56,7 +56,7 @@ const getFlightsbyDate = (params) => {
   console.log(params);
   return new Promise((resolve, reject) => {
     var sql =
-      "SELECT flightID,routeID,dispatchTime,flightTimeID FROM `flight` right OUTER JOIN `flighttime` using(`flightID`) where dispatchTime like '%" +
+      "SELECT flightID,routeID,dispatchTime,flightTimeID,endTimeDate,aircraftID FROM `flight` right OUTER JOIN `flighttime` using(`flightID`) where dispatchTime like '%" +
       params.year +
       "-" +
       (params.month.length === 1 ? "0" + params.month : params.month) +
@@ -68,6 +68,7 @@ const getFlightsbyDate = (params) => {
         return reject(err);
       } else {
         console.log(result);
+        console.log(sql);
         return resolve(result);
       }
     });
@@ -312,59 +313,68 @@ const addFlights = (req) => {
         }
       }
       addFlightFunc(flights);
-
-      // for (let i = 0; i < flights.length; i++) {
-      //   async function addFlightFunc(flight) {
-      //     await new Promise((Innerresolve, Innerreject) => {
-      //       db.query(
-      //         sql1,
-      //         [flight.aircaftID, flight.RouteID],
-      //         (err, result) => {
-      //           if (err) {
-      //             return Innerreject(false);
-      //           } else {
-      //             const fid = result.insertId;
-      //             db.query(
-      //               sql2,
-      //               [fid, flight.dispatchTime, flight.startTimeDate],
-      //               (err, result) => {
-      //                 if (err) {
-      //                   return Innerreject(err);
-      //                 } else if (i === flights.length - 1) {
-      //                   db.commit((err) => {
-      //                     if (err) {
-      //                       return Innerreject(new Error(err.name));
-      //                     } else {
-      //                       return Outerresolve("Flights Added Successfully");
-      //                     }
-      //                   });
-      //                 } else {
-      //                   return Innerresolve(" a Flight added successfully");
-      //                 }
-      //               }
-      //             );
-      //           }
-      //         }
-      //       );
-      //     }).then(
-      //       (result) => {
-      //         if (result) {
-      //         }
-      //       },
-      //       (err) => {
-      //         db.rollback();
-      //         console.log("Rolled Back");
-      //         return Outerreject("Rejected adding");
-      //       }
-      //     );
-      //   }
-      //   const flight = flights[i];
-      //   addFlightFunc(flight);
-      // }
     });
   });
 };
 
+const updateFlight = (data) => {
+  const flightID = data.flightID;
+  const dispatchTime = data.dispatchTime;
+  const aircraftID = data.aircraftID;
+  const flightTimeID = data.flightTimeID;
+  const flightDate = data.flightDate;
+  let dateObj = new Date(flightDate);
+  const isChangedDate = data.isChangedDate;
+
+  const isChangedFlight = data.isChangedFlight;
+  const isChangedTime = data.isChangedTime;
+  dateObj.setHours(
+    dispatchTime.toString().split(":")[0],
+    dispatchTime.toString().split(":")[1]
+  );
+  console.log(dateObj.toLocaleString());
+
+  return new Promise((resolve, reject) => {
+    let sql1 = "UPDATE FLIGHTTIME SET ENDTIMEDATE=now() WHERE FLIGHTTIMEID=?";
+    let sql2 =
+      "INSERT INTO FLIGHTTIME(FLIGHTID,DISPATCHTIME,STARTTIMEDATE,STATUS) VALUES (?,?,NOW(),1)";
+    let sql3 = "UPDATE FLIGHT SET AIRCRAFTID=? WHERE FLIGHTID=?";
+    db.beginTransaction((err) => {
+      if (err) {
+        return reject("serverError");
+      } else {
+        db.query(sql3, [aircraftID, flightID], (err, res) => {
+          if (err) {
+            db.rollback();
+            return reject("BadRequest");
+          } else if (isChangedTime === true || isChangedDate === true) {
+            db.query(sql1, [flightTimeID], (err, res) => {
+              if (err) {
+                db.rollback();
+                return reject("BadRequest");
+              } else {
+                console.log(sql1);
+                db.query(sql2, [flightID, dateObj], (err, res) => {
+                  if (err) {
+                    db.rollback();
+                    return reject("BadRequest");
+                  } else {
+                    db.commit();
+                    console.log("success");
+                    return resolve("success");
+                  }
+                });
+              }
+            });
+          } else {
+            db.commit();
+            return resolve("Success");
+          }
+        });
+      }
+    });
+  });
+};
 module.exports = {
   addFlights,
   getAllFlights,
@@ -378,5 +388,6 @@ module.exports = {
   getAllBookings,
   getAllAirCraftTypes,
   getRevenue,
+  updateFlight,
   getPastFlights,
 };

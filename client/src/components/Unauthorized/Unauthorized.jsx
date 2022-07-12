@@ -25,7 +25,7 @@ const Unauthorized = ()=>{
 
           {/* <HeaderOne /> */}
 
-          <h1 className="notfound_header">401 Error - Unauthorized</h1>
+          <h1 className="notfound_header" style={{marginTop:130}}>401 Error - Unauthorized</h1>
 
           <p style={{color: "black", textAlign: "center", margin: "10px"}}>Sorry, You don't have permisson to access this page</p>
 
