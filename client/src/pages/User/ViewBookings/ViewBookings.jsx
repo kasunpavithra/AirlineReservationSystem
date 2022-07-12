@@ -4,6 +4,7 @@ import jwtDecode from "jwt-decode";
 import Layout from "../../Navbar/Layout/Layout";
 import axios from "axios";
 import Button from 'react-bootstrap/Button';
+import swal from "sweetalert2";
 // import axios from "../../../api/axios";
 import { useLocation } from "react-router";
 import { useNavigate } from 'react-router-dom';
@@ -41,7 +42,9 @@ const ViewBookings = (prop) => {
         catch (err) {
             user = null
         }
+
         const url=prop.user=='reg'? `http://localhost:3001/api/bookings/getRegUserBooking/${user?.userInfo?.id}` :`http://localhost:3001/api/bookings/getGuestUserBooking/${location?.state?.userID}`
+
 
        
         
@@ -79,6 +82,29 @@ const ViewBookings = (prop) => {
                 console.log("error: ", err);
             });
     }
+
+    const confirmMsg =(e, { user })=>{
+        swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, cancel my flight!'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              swal.fire(
+                'Deleted!',
+                'Your flight has been deleted.',
+                'success'
+              )
+              changeStatus(e, { user });
+            }
+          })
+    }
+
+
     return (
         <><div><Layout /></div>
             <div className="vbody" style={{ height: '753.6px'}}>
@@ -120,7 +146,7 @@ const ViewBookings = (prop) => {
                                         <td className="viewbookingstd vtd">{user.airCraftseatID}</td>
                                         <td className="viewbookingstd vtd">{user.amount}</td>
                                         {(user.status == 0 && <td className="viewbookingstd vtd" style={{ color: 'red' }}>Cancelled</td>) || (user.status == 1 && <td className="viewbookingstd vtd">Booked &nbsp;
-                                            <Button type="button"  className="btn btn-danger btn-sm" onClick={(e) => { changeStatus(e, { user }) }}>Cancel Booking</Button>
+                                            <Button type="button"  className="btn btn-danger btn-sm" onClick={(e) => { confirmMsg(e, { user }) }}>Cancel Booking</Button>
                                         </td>)}
                                     </tr>);
                                 }
