@@ -14,6 +14,21 @@ const getAllRoutes = () => {
   });
 };
 
+const getAllRoutesForManager = () => {
+  return new Promise((resolve, reject) => {
+    var sql =
+      // "SELECT routeID,originID,origin_name,destinationID,destination_name from origin_view LEFT OUTER JOIN destination_view using(routeID) order by origin_name,destination_name where status=1";
+      " SELECT routeID,originID,origin_name,destinationID,destination_name from (SELECT route.RouteID AS routeID,route.OriginID AS originID,airport.airport_id AS airport_ID,airport.name AS origin_name FROM route LEFT JOIN airport ON (route.OriginID = airport.airport_id) where route.status=1) as origin LEFT OUTER JOIN ( SELECT route.RouteID AS routeID,route.DestinationID AS destinationID,airport.airport_id AS airport_ID,airport.name AS destination_name FROM route LEFT JOIN airport ON (route.DestinationID = airport.airport_id) where route.status=1) as destination using(routeID) order by routeID"
+    db.query(sql, (err, result) => {
+      if (err) {
+        return reject(err); 
+      } else {
+        return resolve(result);
+      }
+    });
+  });
+};
+
 const getRoutePrices = (routeID) => {
   return new Promise((resolve, reject) => {
     var sql =
@@ -64,4 +79,5 @@ module.exports = {
   getRoutePrices,
   addRoute,
   deleteRoute,
+  getAllRoutesForManager
 };

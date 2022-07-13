@@ -18,7 +18,7 @@ const db = require("../db/db");
 
 const getRegisteredBooking = (id) => {
   return new Promise((resolve, reject) => {
-    let sql = "select * from ((booking LEFT JOIN class ON booking.classID=class.classID) LEFT JOIN  discount ON booking.discountID = discount.discountID)  where booking.registeredUserID =? ORDER BY booking.bookingID DESC";
+    let sql = "select bookingID,flightID,paymentStatus,bookingTimeDate,class.name,booking.airCraftseatID,discount.amount,booking.status from ((booking JOIN class ON booking.classID=class.classID) LEFT JOIN  discount ON booking.discountID = discount.discountID)  where booking.registeredUserID =? ORDER BY booking.bookingID DESC";
     db.query(sql, id, (err, result) => {
       if (err) {
         return reject(err);
@@ -31,7 +31,7 @@ const getRegisteredBooking = (id) => {
 
 const getGuestBooking = (id) => {
   return new Promise((resolve, reject) => {
-    let sql = "select * from ((booking LEFT JOIN class ON booking.classID=class.classID) LEFT JOIN  discount ON booking.discountID = discount.discountID)  where booking.guestUserID =? ORDER BY booking.bookingID DESC";
+    let sql = "select bookingID,flightID,paymentStatus,bookingTimeDate,class.name,booking.airCraftseatID,booking.status from (booking JOIN class ON booking.classID=class.classID)  where booking.guestUserID =? ORDER BY booking.bookingID DESC";
     db.query(sql, id, (err, result) => {
       if (err) {
         return reject(err);
@@ -98,6 +98,7 @@ const addBooking = (bookingInfo) => {
                             [bookingInfo.registeredUserID, bookingInfo.guestUserID, bookingInfo.flightID, bookingInfo.classID, bookingInfo.airCraftseatIDList[i], isChild],
                             function (err3, result3) {
                                 if (err3) {
+                                  console.log(err3);
                                     db.rollback();
                                     return reject1(false);
                                 }

@@ -22,14 +22,14 @@ const Guestpopup = (prop) => {
     Birthday: "",
   };
   const navigate = useNavigate();
-  // console.log(Object.keys(prop).length==0)
-  // React.useEffect(()=>{
-  //     if(Object.keys(prop).length==0){
-  //         console.log('fdfsdf')
-  //         navigate('/login')
-  //     }
+  console.log(location.state)
+  React.useEffect(()=>{
+      if(!location.state){
+          console.log('fdfsdf')
+          navigate('/login')
+      }
 
-  // },[])
+  },[])
 
   console.log("dfsdff");
   var [state, setState] = React.useState(formValues);

@@ -3,7 +3,7 @@ const db = require("../db/db");
 const getAllLevels = () => {
   return new Promise((resolve, reject) => {
     var sql =
-      "SELECT levelID,levelName,levelrank FROM `level` where status=1;";
+      "SELECT levelID,levelName,levelrank FROM `level` where status=1 order by levelrank desc;";
     db.query(sql, (err, result) => {
       if (err) {
         return reject(err);
