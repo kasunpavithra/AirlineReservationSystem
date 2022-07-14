@@ -220,6 +220,23 @@ const addFlights = async (req, res) => {
     });
 };
 
+const updateFlight = async (req, res) => {
+  console.log(req.body);
+  await flightModel
+    .updateFlight(req.body)
+    .then((result) => {
+      res.json({
+        success: true,
+        result,
+      });
+    })
+    .catch((err) => {
+      res.json({
+        success: false,
+        err,
+      });
+    });
+};
 module.exports = {
   addFlights,
   getAllFlights,
@@ -234,4 +251,5 @@ module.exports = {
   getAllAirCraftTypes,
   getRevenue,
   getPastFlights,
+  updateFlight,
 };

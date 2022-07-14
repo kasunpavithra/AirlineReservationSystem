@@ -6,6 +6,7 @@ const verifyRoles = require("../middleware/verifyRoles");
 const verifyJWT = require('../middleware/verifyJWT');
 
 
+
 router.get("/all",flightController.getAllFlights);
 router.get("/allFlightIds",verifyJWT,verifyRoles(ROLES_LIST.Manager), flightController.getFlightsById);
 router.get("/allFlightIdsPassengers/:FlightNo/:AgeType",verifyJWT,verifyRoles(ROLES_LIST.Manager), flightController.getPassengersByFlightId);
@@ -17,6 +18,7 @@ router.get("/allAirCraftTypes",verifyJWT,verifyRoles(ROLES_LIST.Manager), flight
 router.get("/getRevenue/:AirCraftId",verifyJWT,verifyRoles(ROLES_LIST.Manager), flightController.getRevenue)
 router.get("/getPastFlights/:OriginID/:DestinationID",verifyJWT,verifyRoles(ROLES_LIST.Manager), flightController.getPastFlights)
 router.post("/addFlights",verifyJWT,verifyRoles(ROLES_LIST.Manager),flightController.addFlights)
+router.put("/updateFlight",verifyJWT,verifyRoles(ROLES_LIST.Manager), flightController.updateFlight);
 
 router.get(
   "/year/:year/month/:month/date/:date",verifyJWT,verifyRoles(ROLES_LIST.Admin),

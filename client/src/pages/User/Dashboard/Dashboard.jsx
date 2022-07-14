@@ -122,11 +122,13 @@ function Dashboard() {
   return (
     <>
       <div>
-        <Layout/>
+        <Layout />
+
         <Container>
           <Row
             // style={{ margin: 10, justifyContent: "center" }}
-            className="Dashboard" style={{marginTop:105}}
+            className="Dashboard"
+            style={{ marginTop: 105 }}
           >
             <Col>
               <form onSubmit={handleSubmit}>
@@ -230,7 +232,7 @@ function Dashboard() {
               </Table>
             </Row>
           )}
-
+          {JSON.stringify(airRoute)}
           <Button
             onClick={() => {
               navigate("/getFlight");
@@ -239,13 +241,12 @@ function Dashboard() {
             Book Your Flight
           </Button>
           &nbsp;&nbsp;
-
           <Button
             onClick={() => {
               navigate("/reguserbookings");
             }}
           >
-           View My Bookings
+            View My Bookings
           </Button>
         </Container>
       </div>
