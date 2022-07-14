@@ -23,13 +23,21 @@ const dotenv = require("dotenv");
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const coresOptions = require('./config/corsOptions');
+const credentials = require('./middleware/credentials');
+const verifyJWT = require('./middleware/verifyJWT');
+const ROLES_LIST = require("./config/rolesList");
+const verifyRoles = require("./middleware/verifyRoles");
 
 const app = express();
 
 
 dotenv.config();
-app.use(express.json());
+
+app.use(credentials);
 app.use(cors(coresOptions));
+
+
+app.use(express.json());
 
 //midleware for cookies
 app.use(cookieParser());
@@ -39,24 +47,25 @@ app.use(cookieParser());
 app.use("/api",siteRouter);
 app.use("/api/auth",authROuter);
 
-app.use("/api/registered-customer", registeredCustomerRoutes);
-app.use("/api/authorized-user", authorizedUserRoutes);
+app.use("/api/registered-customer",verifyJWT,verifyRoles(ROLES_LIST.RegisteredUser), registeredCustomerRoutes);
+app.use("/api/authorized-user",verifyJWT,verifyRoles(ROLES_LIST.Admin), authorizedUserRoutes);
 app.use("/api/bookings", bookingRouter);
 app.use("/api/routes", airWayRoutesRouter);
-app.use("/api/airport", airportRouter);
-app.use("/api/airportInfo", airportInfoRouter);
-app.use("/api/classPrice", classPriceRouter);
+app.use("/api/airport",airportRouter);
+app.use("/api/airportInfo",verifyJWT,verifyRoles(ROLES_LIST.Manager), airportInfoRouter);
+app.use("/api/classPrice",verifyJWT,verifyRoles(ROLES_LIST.RegisteredUser), classPriceRouter);
 
 app.use("/api/flights", flightRoutes);
-app.use("/api/airCraft",airCraftRoute);
+
+app.use("/api/airCraft",verifyJWT,verifyRoles(ROLES_LIST.Manager),airCraftRoute);
 app.use("/api/guest",guest);
-app.use("/api/level",levelRouter);
-app.use("/api/airCraftType", airCraftTypeRoutes)
-app.use("/api/airCraftSeat", airCraftSeatRoutes)
-app.use("/api/class", classRoutes)
-app.use("/api/userPhone", userPhoneRoutes)
-app.use("/api/staticFlight", staticFlightRoute);
-app.use("/api/discount", discountRoutes)
+app.use("/api/level",verifyJWT,verifyRoles(ROLES_LIST.Manager),levelRouter);
+app.use("/api/airCraftType",verifyJWT,verifyRoles(ROLES_LIST.Manager), airCraftTypeRoutes)
+app.use("/api/airCraftSeat",verifyJWT, airCraftSeatRoutes)
+app.use("/api/class",verifyJWT,verifyRoles(ROLES_LIST.RegisteredUser), classRoutes)
+app.use("/api/userPhone",verifyJWT,verifyRoles(ROLES_LIST.RegisteredUser), userPhoneRoutes)
+app.use("/api/staticFlight",verifyJWT, verifyRoles(ROLES_LIST.Manager),staticFlightRoute);
+app.use("/api/discount",verifyJWT,verifyRoles(ROLES_LIST.Manager), discountRoutes)
 
 const PORT = process.env.PORT || 3001;
 app.listen(3001,()=>{

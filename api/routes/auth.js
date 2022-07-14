@@ -7,8 +7,8 @@ const verifyRoles = require("../middleware/verifyRoles");
 const router = require("express").Router();
 
 router.post("/login", loginHandler);
-router.get("/refresh",refreshTokenHandler);
-router.get("/logout",logoutHandler);
+router.get("/refresh/:role",refreshTokenHandler);
+router.get("/logout/:role",logoutHandler);
 
 router.get("/checklogin",verifyJWT,verifyRoles(ROLES_LIST.Admin),(req,res)=>{
     res.send({auth:true});

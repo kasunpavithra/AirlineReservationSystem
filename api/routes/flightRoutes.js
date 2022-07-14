@@ -1,25 +1,26 @@
 const express = require("express");
 const router = express.Router();
 const flightController = require("../controllers/flightController");
-
-router.get("/all", flightController.getAllFlights);
-router.get("/allFlightIds", flightController.getFlightsById);
-router.get("/allFlightIdsPassengers/:FlightNo/:AgeType", flightController.getPassengersByFlightId);
-router.get("/allDestinations", flightController.getAllDestinations);
-router.get("/allDateDestinationPassengers/:Destination/:StartDate/:EndDate", flightController.getPassengersByDateDestination);
-router.get("/allPassengerTypes", flightController.getAllPassengerTypes)
-router.get("/allBookings/:ClassId/:AgeType/:StartDate/:EndDate", flightController.getAllBookings);
-router.get("/allAirCraftTypes", flightController.getAllAirCraftTypes)
-router.get("/getRevenue/:AirCraftId", flightController.getRevenue)
-router.get("/getPastFlights/:OriginID/:DestinationID", flightController.getPastFlights)
-router.post("/addFlights",flightController.addFlights)
+const ROLES_LIST = require("../config/rolesList");
+const verifyRoles = require("../middleware/verifyRoles");
+const verifyJWT = require('../middleware/verifyJWT');
 
 
-
+router.get("/all",flightController.getAllFlights);
+router.get("/allFlightIds",verifyJWT,verifyRoles(ROLES_LIST.Manager), flightController.getFlightsById);
+router.get("/allFlightIdsPassengers/:FlightNo/:AgeType",verifyJWT,verifyRoles(ROLES_LIST.Manager), flightController.getPassengersByFlightId);
+router.get("/allDestinations",verifyJWT,verifyRoles(ROLES_LIST.Manager), flightController.getAllDestinations);
+router.get("/allDateDestinationPassengers/:Destination/:StartDate/:EndDate",verifyJWT,verifyRoles(ROLES_LIST.Manager), flightController.getPassengersByDateDestination);
+router.get("/allPassengerTypes",verifyJWT,verifyRoles(ROLES_LIST.Manager), flightController.getAllPassengerTypes)
+router.get("/allBookings/:ClassId/:AgeType/:StartDate/:EndDate",verifyJWT,verifyRoles(ROLES_LIST.Manager), flightController.getAllBookings);
+router.get("/allAirCraftTypes",verifyJWT,verifyRoles(ROLES_LIST.Manager), flightController.getAllAirCraftTypes)
+router.get("/getRevenue/:AirCraftId",verifyJWT,verifyRoles(ROLES_LIST.Manager), flightController.getRevenue)
+router.get("/getPastFlights/:OriginID/:DestinationID",verifyJWT,verifyRoles(ROLES_LIST.Manager), flightController.getPastFlights)
+router.post("/addFlights",verifyJWT,verifyRoles(ROLES_LIST.Manager),flightController.addFlights)
 
 router.get(
-  "/year/:year/month/:month/date/:date",
+  "/year/:year/month/:month/date/:date",verifyJWT,verifyRoles(ROLES_LIST.Admin),
   flightController.getFlightsbyDate
 );
-router.get("/getFlightsOnwards", flightController.getFlightsOnwards);
+router.get("/getFlightsOnwards",verifyJWT,verifyRoles(ROLES_LIST.Admin), flightController.getFlightsOnwards);
 module.exports = router;

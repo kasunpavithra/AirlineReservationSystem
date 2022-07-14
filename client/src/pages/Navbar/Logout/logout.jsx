@@ -1,6 +1,8 @@
 // import AuthServices from '../services/AuthServices';
 import {useEffect,useState } from 'react';
+import axios from "axios";
 // import Loader from "./loader/Loader";
+import Token from '../../../../services/Token'
 const Logout=()=>{
   // const [loader, setLoader] = useState(false);
   useEffect(()=>{
@@ -10,7 +12,14 @@ const Logout=()=>{
     
     try {
       // setLoader(true);
-      // const response = await AuthServices.logout();
+      
+      const user=Token.getAuth()
+    
+      const response = await axios({
+        method: "get",
+        url:  `http://localhost:3001/api/auth/logout/${user.userInfo.role}`,
+        withCredentials:true
+      });
       localStorage.clear();
       window.location.href="/";
 

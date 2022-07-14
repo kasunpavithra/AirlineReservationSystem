@@ -1,5 +1,5 @@
 
-import axios from "axios"
+import axios from "../../../../services/HttpServices"
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import AircraftServices from "../../../../services/AircraftServices";
@@ -354,16 +354,24 @@ const AllAirports = () => {
                             <tr key={AirCraftTypeDetail?.airport_id} className={AirCraftTypeDetail?.status === 0 ? "table-danger" : ""} >
                                 <td>{AirCraftTypeDetail?.airport_id}</td>
           
-                                <td>{AirCraftTypeDetail?.name}</td>
+                                <b  style={{paddingTop:'3'}}><td>{AirCraftTypeDetail?.name}</td></b>
                                 <td >
 
                         
 
-                                <div>
-                                    <Accordion   >
-                                        <Accordion.Item >
-                                            <Accordion.Header> See Location levels</Accordion.Header>
-                                            <Accordion.Body >
+                                <div key={index}>
+                                    <Accordion style={{border:'20 solid'}}  >
+                                        <Accordion.Item  eventKey="0">
+                                            <Accordion.Header > See Location levels</Accordion.Header>
+                                            <Accordion.Body style={{background:'#2fa1ff',justifyContent:'center'}} >
+                                                {AirCraftTypeDetail?.location.map((location,index)=><>
+                                                <div style={{display:'flex',justifyContent:'flex-start'}}>
+                                                    <h4>{location.levelName}</h4>  :-
+                                                    &nbsp;
+                                                    <h5 style={{marginTop:'1px'}}>{location.value} </h5>
+                                                </div>
+                                                </>
+                                                )}
                                           
                                             </Accordion.Body>
                                         </Accordion.Item>
@@ -379,13 +387,13 @@ const AllAirports = () => {
                                 <td>{AirCraftTypeDetail.type === 1 ? "Manager" : "Admin"}</td>
                                 <td>{AirCraftTypeDetail.status === 1 ? "Active" : "Deleted"}</td> */}
 
-                                {!!AirCraftTypeDetail?.status &&
+                                {/* {!!AirCraftTypeDetail?.status && */}
                                     <>
                                         <td><button className="btn btn-danger" onClick={() => handleDelete(AirCraftTypeDetail?.airport_id)}>Delete</button></td>
 
-                                        <td><button className="btn btn-info" style={{width:110}} onClick={() => handleLevel(AirCraftTypeDetail?.airport_id,AirCraftTypeDetail?.name)}>Edit Levels</button></td>
+                                        <td><button className="btn btn-info" style={{marginLeft:10,width:110}} onClick={() => handleLevel(AirCraftTypeDetail?.airport_id,AirCraftTypeDetail?.name)}>Edit Levels</button></td>
                                     </>
-                                }
+                                
                                 {/* {!AirCraftTypeDetail?.status &&
                                     <>
                                         <td></td>
