@@ -108,18 +108,65 @@ const addBooking = (bookingInfo) => {
                 var isChild = (childCount>0)? 1:0;
                 childCount--;
                 try {
+
                     var success = await new Promise((resolve1, reject1) => {
-                        db.query("INSERT INTO `booking` (registeredUserID,guestUserID,flightID,classID,airCraftseatID,under18,status) VALUES (?,?,?,?,?,?,1);",
-                            [bookingInfo.registeredUserID, bookingInfo.guestUserID, bookingInfo.flightID, bookingInfo.classID, bookingInfo.airCraftseatIDList[i], isChild],
-                            function (err3, result3) {
+      
+              
+                      db.query("set @discountID_value = 0;",
+                            [bookingInfo.registeredUserID],
+                            function (err3, result1) {
                                 if (err3) {
                                   console.log(err3);
                                     db.rollback();
                                     return reject1(false);
                                 }
-                                resolve1(true);
+                        
+                                db.query(" call get_dicountID_for_a_userID(?, @discountID_value)",
+                                [bookingInfo.registeredUserID],
+                                function (err3, result2) {
+                                    if (err3) {
+                                      console.log(err3);
+                                        db.rollback();
+                                        return reject1(false);
+                                    }
+                                 
+                                    db.query("select @discountID_value"
+                                    ,
+                                    function (err3, result3) {
+                                        if (err3) {
+                                          console.log(err3);
+                                            db.rollback();
+                                            return reject1(false);
+                                        }
+                                        console.log(result3)
+                                        console.log('dsdf',result3[0]['@discountID_value'])
+                                        // resolve1(true);
+                                        db.query("INSERT INTO `booking` (registeredUserID,guestUserID,flightID,classID,airCraftseatID,under18,discountID,status) VALUES (?,?,?,?,?,?,?,1);",
+                                        [bookingInfo.registeredUserID, bookingInfo.guestUserID, bookingInfo.flightID, bookingInfo.classID, bookingInfo.airCraftseatIDList[i], isChild,result3[0]['@discountID_value']],
+                                        function (err3, result4) {
+                                            if (err3) {
+                                              console.log(err3);
+                                                db.rollback();
+                                                return reject1(false);
+                                            }
+                                            console.log(result4)
+                                            resolve1(true);
+            
+                                        });
+        
+                                    });
+
+                                 
+                                  
+    
+                                });
+                                
+                             
+
                             });
+                      
                     });
+
                     if (success) continue;
                 }
                 catch (err) {
