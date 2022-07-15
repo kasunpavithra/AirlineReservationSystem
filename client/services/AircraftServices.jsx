@@ -68,7 +68,7 @@ const  updateaircraft=(data,id)=>{
 const    getallaircrafts=()=>{
   return axios({
     method: "get",
-    url: APIEndpoint + `/airCraft/all`,
+    url: APIEndpoint + `/airCraft/allAirCraftsByManager`,
   //   headers: { Authorization: `Bearer ${token.getAccessToken()}` },
   });
 

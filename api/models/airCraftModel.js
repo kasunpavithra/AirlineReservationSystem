@@ -40,6 +40,7 @@ const getAllAirCrafts = ()=>{
 
 
 const getAllAirCraftsByManager = ()=>{
+  console.log('dfd')
   return new Promise((resolve, reject) => {
     var sql =
       "select name,aircraftid,EconomySeatCount,BusinessSeatCount,PlatinumSeatCount from aircraft inner join aircrafttype using(aircrafttypeid) where aircraft.status!=0";
