@@ -2,7 +2,7 @@ const allowedOrigins = require('../config/allowedOrigins');
 
 
 const credentials = (req, res, next) => {
-    console.log('credentials....');
+    // console.log('credentials....');
     const origin = req.headers.origin;
 
     if (allowedOrigins.includes(origin)) {
@@ -10,7 +10,7 @@ const credentials = (req, res, next) => {
         // res.setHeader('Access-Control-Allow-Headers', true);
     }
 
-    console.log(`credential ... done for ${origin}`);
+    // console.log(`credential ... done for ${origin}`);
     next();
 }
 
