@@ -47,7 +47,9 @@ const BookSeat = () => {
               const allseats = result1.data.result;
               const bookedSeats = result2.data.result;
               console.log(allseats);
-              const rowData = [];
+              const maxX = Math.max(...allseats.map(e=>e?.xCord));
+              const maxY = Math.max(...allseats.map(e=>e?.yCord));
+              const rowData = getInitialGrid(maxX+1,maxY+1);
               var reservedSeatCount = 0;
               allseats.forEach((element) => {
                 const obj = {};
@@ -59,10 +61,11 @@ const BookSeat = () => {
                   obj.isReserved = true;
                   reservedSeatCount++;
                 }
-                obj.number = element?.xCord;
+                obj.number = element?.yCord;
                 obj.orientation = "east";
-                if (rowData[element.yCord]) rowData[element.yCord].push(obj);
-                else rowData[element.yCord] = [obj];
+                rowData[element.xCord][element.yCord]=obj;
+                // if (rowData[element.xCord]) rowData[element.xCord].push(obj);
+                // else rowData[element.xCord] = [obj];
               });
               if (
                 allseats.length - reservedSeatCount <
@@ -79,6 +82,19 @@ const BookSeat = () => {
 
     getAllSeats();
   }, []);
+
+  const getInitialGrid = (maxrows,maxCols)=>{
+    const out = []
+    for (let x = 0; x < maxrows; x++) {
+      var newRow = []
+      for (let y = 0; y < maxCols; y++) {
+        newRow.push(null);
+        
+      }
+      out.push(newRow);
+    }
+    return out;
+  }
 
   const informUnavailability = () => {
     Swal.fire({
