@@ -45,9 +45,10 @@ const addAirCraftSeat = (data) => {
   const getSeatsByflightID = (flightID) => {
     return new Promise((resolve, reject) => {
       var sql =
-        "SELECT aircraftID,EconomySeatCount,BusinessSeatCount,PlanitnumSeatCount,airCraftseatID,classID,xCord,yCord,seatNumber FROM flight inner join aircraft using(aircraftID) inner join airCraftSeat using(aircraftID) where flightID=? AND airCraftSeat.status=1;";
+        "SELECT aircraftID,EconomySeatCount,BusinessSeatCount,PlatinumSeatCount,airCraftseatID,classID,xCord,yCord,seatNumber FROM flight inner join aircraft using(aircraftID) inner join airCraftSeat using(aircraftID) where flightID=? AND airCraftSeat.status=1;";
       db.query(sql,[flightID], (err, result) => {
         if (err) {
+          console.log(err)
           return reject(err);
         } else {
           return resolve(result);

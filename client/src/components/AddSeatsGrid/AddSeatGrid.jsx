@@ -1,6 +1,6 @@
 import { useState } from "react";
 import SeatPicker from "react-seat-picker";
-import axios from "../../api/axios";
+import axios from "../../../services/HttpServices";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router";
 
