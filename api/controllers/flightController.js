@@ -16,7 +16,24 @@ const getAllFlights = async (req, res) => {
       });
     });
 };
-
+const cancelFlight = async (req, res) => {
+  console.log(req.body)
+  console.log("-------------------------------------------------")
+  await flightModel
+    .cancelFlight(req.body.flightID)
+    .then((result) => {
+      res.json({
+        success: true,
+        result,
+      });
+    })
+    .catch((err) => {
+      res.json({
+        success: false,
+        err,
+      });
+    });
+};
 const getAllBookings = async (req, res) => {
   await flightModel
     .getAllBookings(req.params)
@@ -252,4 +269,5 @@ module.exports = {
   getRevenue,
   getPastFlights,
   updateFlight,
+  cancelFlight,
 };

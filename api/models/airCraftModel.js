@@ -23,7 +23,7 @@ const getAirCraftByRoute = (data) => {
   });
 };
 const getAllAirCrafts = ()=>{
-  console.log('dfdgfgg')
+  // console.log('dfdgfgg')
   return new Promise((resolve, reject) => {
     var sql =
       "select name,aircraftid from aircraft inner join aircrafttype using(aircrafttypeid)";
