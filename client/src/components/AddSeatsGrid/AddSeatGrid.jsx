@@ -1,10 +1,18 @@
 import { useState } from "react";
 import SeatPicker from "react-seat-picker";
+import axios from "../../api/axios";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router";
+
+const ADD_AIRCRAFT_URL = "/api/airCraft/add";
 
 function AddSeatGrid(props) {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [seleted, setSelected] = useState([]);
-
+  const [classIncrementer, setClassIncrementer] = useState(0);
+  const [maxSeats, setMaxSeats] = useState(0);
+  const [fOut, setFOut] = useState([]);
 
   const genarateIntialRows = (x_length, y_length) => {
     const rows = [];
@@ -13,7 +21,7 @@ function AddSeatGrid(props) {
       var cols = [];
       for (let y = 0; y < y_length; y++) {
         var obj = {};
-        obj.id = id++;
+        obj.id = String.fromCharCode(65 + x) + y;
         obj.number = y;
         obj.orientation = "east";
         cols.push(obj);
@@ -23,12 +31,17 @@ function AddSeatGrid(props) {
     return rows;
   };
 
-  const [rows, setRows] = useState(genarateIntialRows(props.width,props.length));
+  const [rows, setRows] = useState(genarateIntialRows(5, 10));
 
   const addSeatCallback = ({ row, number, id }, addCb) => {
     setLoading(true);
     setSelected([...seleted, id]);
-
+    if (row.charCodeAt() - 64 === rows.length && number + 1 != rows[0].length)
+      addRow();
+    if (number + 1 === rows[0].length && row.charCodeAt() - 64 != rows.length)
+      addColumn();
+    if (row.charCodeAt() - 64 === rows.length && number + 1 === rows[0].length)
+      addRowColumn();
     console.log(`Added seat ${number}, row ${row}, id ${id}`);
     const newTooltip = `selected by you`;
     console.log(seleted);
@@ -50,16 +63,139 @@ function AddSeatGrid(props) {
     setLoading(false);
   };
 
+  const addRow = () => {
+    const newRow = [];
+    for (let y = 0; y < rows[0].length; y++) {
+      var obj = {};
+      obj.id = String.fromCharCode(rows.length + 65) + y;
+      obj.number = y;
+      obj.orientation = "east";
+      newRow.push(obj);
+    }
+
+    setRows([...rows, newRow]);
+  };
+
+  const addColumn = () => {
+    const newRows = [...rows];
+    for (let i = 0; i < newRows.length; i++) {
+      const element = newRows[i];
+      element.push({
+        id: String.fromCharCode(i + 65) + element.length,
+        number: element.length,
+        orientation: "east",
+      });
+    }
+    setRows(newRows);
+  };
+
+  const addRowColumn = () => {
+    const newRow = [];
+    for (let y = 0; y < rows[0].length; y++) {
+      var obj = {};
+      obj.id = String.fromCharCode(rows.length + 65) + y;
+      obj.number = y;
+      obj.orientation = "east";
+      newRow.push(obj);
+    }
+    const newRows = [...rows, newRow];
+    for (let i = 0; i < newRows.length; i++) {
+      const element = newRows[i];
+      element.push({
+        id: String.fromCharCode(i + 65) + element.length,
+        number: element.length,
+        orientation: "east",
+      });
+    }
+    setRows(newRows);
+  };
+
+  const showSuccess = ()=>{
+    Swal.fire({
+      icon: 'success',
+      title: 'Success',    
+      text: 'Successfully added the Aircraft',  
+    }).then(()=>{
+      navigate("/dashboard");  //navigate correct place here
+    });
+  }
+
+  const showErr = (errMsg)=>{
+    Swal.fire({  
+      icon: 'error',  
+      title: 'Oops...',  
+      text: errMsg,  
+    }).then(()=>{
+      window.location.reload(); //change if you want
+    });
+  }
+
+  const handleConfirmation =async () => {
+    if (classIncrementer < props.classCounts.length) {
+      setMaxSeats(maxSeats + props.classCounts[classIncrementer]?.count);
+      const newRows = [...rows];
+      const fOutElement = [];
+      seleted.forEach((element) => {
+        newRows[element.charCodeAt(0) - 65][
+          parseInt(element.slice(1))
+        ].isReserved = true;
+        fOutElement.push({
+          seatNumber: element,
+          xCord: element.charCodeAt(0) - 65,
+          yCord: parseInt(element.slice(1)),
+          classID: props.classCounts[classIncrementer].id,
+        });
+      });
+      setRows(newRows);
+      setFOut([...fOut, ...fOutElement]);
+      setSelected([]);
+      console.log(fOut);
+      if (classIncrementer < props.classCounts.length - 1)
+        setClassIncrementer(classIncrementer + 1);
+    }
+    if(classIncrementer===props.classCounts.length-1){
+      try {
+        const response = await axios.post(
+          ADD_AIRCRAFT_URL,
+          {
+            AircraftTypeID:props.aircraftTypeID,
+            EconomySeatCount:props.classCounts.find((e)=>e.name==="Economy").count,
+            BusinessSeatCount:props.classCounts.find((e)=>e.name==="Bussiness").count,
+            PlatinumSeatCount:props.classCounts.find((e)=>e.name==="Platinam").count,
+            seatInfo:fOut
+          },
+          {
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+        console.log(response);
+        showSuccess();
+        
+      } catch (err) {
+        console.log(err)
+        if (!err?.response) {
+          showErr("No server responce");
+        }else if(err.response?.status===500){
+          showErr("Server Error");
+        }else{
+          showErr("Something went wrong!")
+        }
+      }
+
+    }
+  };
+
   return (
     <div>
-      <h1>Seat Picker</h1>
-      <p>{props.width}</p>
+      <h1>Select {props.classCounts[classIncrementer].name} seats</h1>
       <div style={{ marginTop: "100px" }} rows={rows}>
         <SeatPicker
           addSeatCallback={addSeatCallback}
           removeSeatCallback={removeSeatCallback}
           rows={rows}
-          maxReservableSeats={1000}
+          maxReservableSeats={
+            maxSeats + props.classCounts[classIncrementer]?.count
+          }
           alpha
           visible
           selectedByDefault
@@ -67,12 +203,16 @@ function AddSeatGrid(props) {
           tooltipProps={{ multiline: true }}
         />
       </div>
+      <br />
       <button
-        onClick={() => {
-          setRows([...rows,[{number:6,orientation:'east'}]]);
-        }}
+        onClick={handleConfirmation}
+        disabled={
+          seleted.length < props.classCounts[classIncrementer]?.count
+            ? true
+            : false
+        }
       >
-        ADD
+        Confirm {props.classCounts[classIncrementer].name} seats
       </button>
     </div>
   );

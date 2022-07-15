@@ -15,7 +15,7 @@ const UpdateRegisteredCustomer = () => {
     const [email, setemail] = useState("")
     const [password, setpassword] = useState("")
     const [confirmPassword, setconfirmPassword] = useState("")
-
+    
     useEffect(() => {
 
         // setisPending(true)
@@ -23,6 +23,7 @@ const UpdateRegisteredCustomer = () => {
             .then(result => {
                 var data = result.data
                 if (data.success) {
+                    console.log("QQQQQQQQQQQQ", data.result[0]);
                     setregisteredCustomer(data.result[0])
                     setfirstname(data.result[0].firstname)
                     setlastname(data.result[0].lastname)
@@ -61,8 +62,10 @@ const UpdateRegisteredCustomer = () => {
             if (password !== confirmPassword) {
                 document.getElementById("invalid-confirmPassword").innerHTML = "Password and confirm password fields do not match"
             } else {
-                var updatedRegCustomer = { ...registeredCustomer, firstname, lastname, email, password }
-                console.log(updatedRegCustomer)
+                var newBirthday = '';
+                registeredCustomer.birthday ? newBirthday = (registeredCustomer.birthday).split("T")[0] : newBirthday = null;
+                console.log(newBirthday);
+                var updatedRegCustomer = { ...registeredCustomer, firstname, lastname, email, password, birthday: newBirthday}
                 axios.put("http://localhost:3001/api/registered-customer/update", updatedRegCustomer)
                     .then(result => {
                         // console.log("YAYYY", result.data);
@@ -78,11 +81,11 @@ const UpdateRegisteredCustomer = () => {
     return (
         <>
 
-            {isPending && <p> Loading... </p>}
-            {error && <p> Error occured: {error.message} </p>}
+            {isPending && <p className="add-margin-top"> Loading... </p>}
+            {error && <p className="add-margin-top"> Error occured: {error.message} </p>}
             {registeredCustomer &&
                 <>
-                    <form onSubmit={(e) => handleSubmit(e)} className="needs-validation">
+                    <form onSubmit={(e) => handleSubmit(e)} className="needs-validation add-margin-top">
                         <div className="mb-3 mt-3">
                             <label htmlFor="firstname" className="form-label">First name:</label>
                             <input type="text" className="form-control" id="firstname" placeholder="Enter firstname" name="firstname" required

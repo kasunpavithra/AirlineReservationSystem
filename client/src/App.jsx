@@ -25,9 +25,10 @@ import Guestpopup from './pages/User/GetFlight/Guestpopup';
 import ManagerHandleAircrafts from "./pages/Manager/handling/ManagerHandleAircrafts";
 import AddAirCraftType from './pages/Manager/handling/AddAirCraftType';
 import AllAirCraftTypes from './pages/Manager/handling/AllAirCraftTypes';
-
+import UpdateFlightSchedule from "./pages/Manager/UpdateFlightSchedule"
 import ViewDiscounts from "./pages/Manager/ViewDiscounts";
 import AddAircraftSeat from "./pages/Manager/AddAircraftSeats/AddAircraftSeats";
+import UpdateStaticSchedule from "./pages/Manager/UpdateStaticSchedule";
 
 const ROLES = {
   RegisteredUser: 5000,
@@ -97,7 +98,7 @@ function App() {
               /> */}
 
             {/* NavigationBar routings */}
-
+            <Route exact path="/updateFlightSchedule" element={<UpdateFlightSchedule />} />
             <Route exact path="/" element={<Landing />} />
             <Route exact path="/navigation" element={<RequireAuth allowedRoles={[ROLES.RegisteredUser, ROLES.Manager, ROLES.Admin]} ><Navigation /></RequireAuth>} />
             <Route exact path="/login" element={<Login user='public' />} />
@@ -105,6 +106,7 @@ function App() {
             <Route exact path="/authorizelogin" element={<Login user='authorized' />} />
             <Route exact path="/logout" element={<Logout />} />
             <Route exact path="/createStaticScheduler" element={<CreateStaticSchedule />} />
+            <Route exact path="/updateStaticScheduler" element={<UpdateStaticSchedule />} />
 
     
 

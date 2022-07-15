@@ -57,14 +57,14 @@ app.use("/api/classPrice",verifyJWT,verifyRoles(ROLES_LIST.Manager), classPriceR
 
 app.use("/api/flights", flightRoutes);
 
-app.use("/api/airCraft",verifyJWT,verifyRoles(ROLES_LIST.Manager),airCraftRoute);
+app.use("/api/airCraft",airCraftRoute);
 app.use("/api/guest",guest);
 app.use("/api/level",verifyJWT,verifyRoles(ROLES_LIST.Manager),levelRouter);
 app.use("/api/airCraftType",verifyJWT,verifyRoles(ROLES_LIST.Manager), airCraftTypeRoutes)
 app.use("/api/airCraftSeat", airCraftSeatRoutes)
 app.use("/api/class",verifyJWT,verifyRoles(ROLES_LIST.RegisteredUser), classRoutes)
 app.use("/api/userPhone",verifyJWT,verifyRoles(ROLES_LIST.RegisteredUser), userPhoneRoutes)
-app.use("/api/staticFlight",verifyJWT, verifyRoles(ROLES_LIST.Manager),staticFlightRoute);
+app.use("/api/staticFlight",staticFlightRoute);
 app.use("/api/discount",verifyJWT,verifyRoles(ROLES_LIST.Manager), discountRoutes)
 
 const PORT = process.env.PORT || 3001;
