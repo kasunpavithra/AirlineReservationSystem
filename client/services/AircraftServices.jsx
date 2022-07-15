@@ -68,7 +68,7 @@ const  updateaircraft=(data,id)=>{
 const    getallaircrafts=()=>{
   return axios({
     method: "get",
-    url: APIEndpoint + `/airCraft/allAirCraftsByManager`,
+    url: APIEndpoint + `/airCraft/getAllAirCraftsByManager`,
   //   headers: { Authorization: `Bearer ${token.getAccessToken()}` },
   });
 
@@ -88,7 +88,7 @@ const getaircraftbyid=(id)=>{
 const    getallairports=()=>{
   return axios({
     method: "get",
-    url: APIEndpoint + `/airport/all`,
+    url: APIEndpoint + `/airport/allAirPortsByManager`,
   //   headers: { Authorization: `Bearer ${token.getAccessToken()}` },
   });
 }

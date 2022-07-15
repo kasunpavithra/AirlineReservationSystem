@@ -57,7 +57,7 @@ app.use("/api/classPrice",verifyJWT,verifyRoles(ROLES_LIST.Manager), classPriceR
 
 app.use("/api/flights", flightRoutes);
 
-app.use("/api/airCraft",verifyJWT,verifyRoles(ROLES_LIST.Manager),airCraftRoute);
+app.use("/api/airCraft",airCraftRoute);
 app.use("/api/guest",guest);
 app.use("/api/level",verifyJWT,verifyRoles(ROLES_LIST.Manager),levelRouter);
 app.use("/api/airCraftType",verifyJWT,verifyRoles(ROLES_LIST.Manager), airCraftTypeRoutes)

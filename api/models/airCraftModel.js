@@ -1,4 +1,4 @@
-// const db = require("../db/db");
+const db = require("../db/db");
 const getAirCraftByRoute = (data) => {
   return new Promise((resolve, reject) => {
     var sql =
@@ -23,6 +23,7 @@ const getAirCraftByRoute = (data) => {
   });
 };
 const getAllAirCrafts = ()=>{
+  console.log('dfdgfgg')
   return new Promise((resolve, reject) => {
     var sql =
       "select name,aircraftid from aircraft inner join aircrafttype using(aircrafttypeid)";
