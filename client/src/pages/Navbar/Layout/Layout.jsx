@@ -25,7 +25,7 @@ const Layout = (props) => {
             </div>
         
             <ul>
-              <li><b><a href="/">Home </a></b></li>
+              {/* <Nav.Link style={{color:'red',hover:'blue'}} as={Link} to="/"><b>Home </b></Nav.Link>
               <li><b><a href="/about-us">About-us </a></b></li>
               {
                 user?.userInfo?.role==5002 && (<li><b><a href="/admin">Dashboard </a></b></li>)
@@ -44,8 +44,31 @@ const Layout = (props) => {
               <li><b><a href="/update">Update </a></b></li>
               )}
               {/* <li><b><a href="/admin">Admin </a></b></li> */}
-              {user && (
+              {/* {user && (
               <li><b><a href="/logout">Logout </a></b></li>
+              )} */}
+
+              <Nav.Link bsPrefix='button' style={{color:'Orange'}} as={Link} to="/"><b>Home </b></Nav.Link>
+              <Nav.Link bsPrefix="button" style={{color:'Orange'}}   as={Link} to="/about-us"><b>About-us </b></Nav.Link>
+              {
+                user?.userInfo?.role==5002 && (<Nav.Link bsPrefix="button" style={{color:'Orange'}}  as={Link} to="/admin"><b>Dashboard</b></Nav.Link>)
+              }
+               {
+                user?.userInfo?.role==5003 && (<Nav.Link bsPrefix="button" style={{color:'Orange'}}  as={Link} to="/manager"><b>Dashboard</b></Nav.Link>)
+              }
+               {
+                (user?.userInfo?.role!=5002  && user?.userInfo?.role!=5003)  && (<Nav.Link bsPrefix="button" style={{color:'Orange'}}  as={Link} to="/dashboard"><b>Dashboard</b></Nav.Link>)
+              }
+              {(((props.content!='login'|| props.user=='authorized')  && !user)&& (<Nav.Link bsPrefix="button" style={{color:'Orange'}}  as={Link} to="/login"><b>CustomerLogin</b></Nav.Link>))}
+              {(((props.content!='login'|| props.user=='public')  && !user)&& (<Nav.Link bsPrefix="button"style={{color:'Orange'}}  as={Link} to="/authorizelogin"><b>AuthorizeLogin</b></Nav.Link>))}
+              
+              {((props.content!='register' && !user)) && (<Nav.Link bsPrefix="button" style={{color:'Orange'}}  as={Link} to="/register"><b>Sign Up </b></Nav.Link>)}
+              {(user?.userInfo?.role==5000 && props.content!='update') && (
+              <Nav.Link bsPrefix="button" style={{color:'Orange'}}  as={Link} to="/update"><b>Update</b></Nav.Link>
+              )}
+              {/* <li><b><a href="/admin">Admin </a></b></li> */}
+              {user && (
+              <Nav.Link bsPrefix="button" style={{color:'Orange'}}  as={Link} to="/logout"><b>Logout</b></Nav.Link>
               )}
               
                 </ul>

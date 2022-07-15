@@ -126,8 +126,8 @@ const ViewDiscounts = () => {
                                         <td>{discountElement.status}</td>
                                         {/* <td>{(discountElement.startTimeDate).split("T")[0] + " " + (discountElement.startTimeDate).split("T")[1].split(".000Z")[0]}</td>
                                         <td>{(discountElement.endTimeDate).split("T")[0] + " " + (discountElement.endTimeDate).split("T")[1].split(".000Z")[0]}</td> */}
-                                        <td>{discountElement.startTimeDate}</td>
-                                        <td>{discountElement.endTimeDate}</td>
+                                        <td>{(new Date(discountElement.startTimeDate)).toLocaleString()}</td>
+                                        <td>{(new Date(discountElement.endTimeDate)).toLocaleString()}</td>
 
                                         {!!discountElement.status && discountElement.discountID!==0 &&
                                             <>

@@ -8,6 +8,7 @@ import ManagerServices from "../../../services/ManagerServices";
 import managerValidation from "../../Validation/managerValidation";
 import Layout from "../Navbar/Layout/Layout";
 import { useNavigate } from 'react-router';
+import { Bars } from 'react-loading-icons'
 
 const ManagerDashboard = () => {
   const navigate=useNavigate();
@@ -33,6 +34,8 @@ const ManagerDashboard = () => {
   const [flightPassengers,setFlightPassengers]=useState('');
   const [allPassengers,setAllPassengers]=useState('');
   const [allBookings,setAllBookings]=useState('');
+  
+  const [loader, setLoader] = useState(false);
  
   const [allPastFlights,setAllPastFlights]=useState('');
   const [FlightNumbers,setflightNumbers]=useState([]);
@@ -50,6 +53,7 @@ const ManagerDashboard = () => {
   let sidebarBtn = document.querySelector(".sidebarBtn");
 
   useEffect(() => {
+    setLoader(true)
     getFlightNumbers();
     getDestinationNames();
     getPassengerTypes();
@@ -404,10 +408,19 @@ const ManagerDashboard = () => {
     setPastFlightsError(errors);
     console.log( errorRevenue)
   }
+  setTimeout(() => {
+    setLoader(false);
+  }, 200);
+
+  if(loader){
+    return <Bars/>
+  }
+  else{
 
   return (
     <>
     <Layout/>
+    <Bars/>
       {/* <div class="sidebar">
         <div class="ml-4 logo-details mt-3">
           <span class=" logo_name">B Airways</span>
@@ -989,5 +1002,6 @@ const ManagerDashboard = () => {
     </>
   );
 };
+}
 
 export default ManagerDashboard;

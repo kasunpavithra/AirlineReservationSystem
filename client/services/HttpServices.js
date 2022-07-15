@@ -6,7 +6,8 @@ import dayJS from "dayjs";
 import Messages from "../src/pages/LandingPage/Messages";
 
 Axios.defaults.withCredentials = true;
-let bearer_token = Token.getAccessToken();
+let bearer_token = Token.getAccessToken(); 
+console.log(bearer_token)
 const axiosInstance = Axios.create({
     withCredentials: true,
     // baseURL: config.DOMAIN_NAME,

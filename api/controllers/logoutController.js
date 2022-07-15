@@ -5,7 +5,6 @@ const logoutHandler = async(req,res)=>{
 
     //need to delete the application on client also
     const cookies = req.cookies
-   
     console.log(req.params)
     if (!cookies?.jwt) return res.sendStatus(204); //no content to send
     const refreshToken = cookies.jwt;

@@ -33,10 +33,10 @@ const ValidateAircraftTypeAdd = (data) => {
 const ValidateAircraftAdd= (data) => {
     const UpdateValidationSchema = Joi.object({
 
-        'EconomySeatCount': Joi.string().regex(/^[0-9]+$/i).required(),
+        'EconomySeatCount': Joi.string().required(),
         'BusinessSeatCount': Joi.string().required(),
         'PlatinumSeatCount': Joi.string().required(),
-        'AircraftTypeID': Joi.string().required(),
+        'AircraftTypeID': Joi.required(),
 
     
 

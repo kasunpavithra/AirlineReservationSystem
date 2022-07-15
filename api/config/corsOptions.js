@@ -12,8 +12,10 @@ const coresOptions = {
             // console.log('not allowd');
             callback(new Error('Not allowed by CORS'));
         }
+        
        
     },
+
   
     optionsSuccessStatus: 200,
     

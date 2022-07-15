@@ -1,5 +1,5 @@
 import useFetch from "./useFetch";
-import axios from 'axios'
+import axios from '../../../services/HttpServices'
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 const AllRegisteredCustomers = () => {

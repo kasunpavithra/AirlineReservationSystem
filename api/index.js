@@ -47,13 +47,13 @@ app.use(cookieParser());
 app.use("/api",siteRouter);
 app.use("/api/auth",authROuter);
 
-app.use("/api/registered-customer",verifyJWT,verifyRoles(ROLES_LIST.RegisteredUser), registeredCustomerRoutes);
+app.use("/api/registered-customer",verifyJWT,verifyRoles(ROLES_LIST.Admin), registeredCustomerRoutes);
 app.use("/api/authorized-user",verifyJWT,verifyRoles(ROLES_LIST.Admin), authorizedUserRoutes);
 app.use("/api/bookings", bookingRouter);
 app.use("/api/routes", airWayRoutesRouter);
 app.use("/api/airport",airportRouter);
 app.use("/api/airportInfo",verifyJWT,verifyRoles(ROLES_LIST.Manager), airportInfoRouter);
-app.use("/api/classPrice",verifyJWT,verifyRoles(ROLES_LIST.RegisteredUser), classPriceRouter);
+app.use("/api/classPrice",verifyJWT,verifyRoles(ROLES_LIST.Manager), classPriceRouter);
 
 app.use("/api/flights", flightRoutes);
 
@@ -61,7 +61,7 @@ app.use("/api/airCraft",verifyJWT,verifyRoles(ROLES_LIST.Manager),airCraftRoute)
 app.use("/api/guest",guest);
 app.use("/api/level",verifyJWT,verifyRoles(ROLES_LIST.Manager),levelRouter);
 app.use("/api/airCraftType",verifyJWT,verifyRoles(ROLES_LIST.Manager), airCraftTypeRoutes)
-app.use("/api/airCraftSeat",verifyJWT, airCraftSeatRoutes)
+app.use("/api/airCraftSeat", airCraftSeatRoutes)
 app.use("/api/class",verifyJWT,verifyRoles(ROLES_LIST.RegisteredUser), classRoutes)
 app.use("/api/userPhone",verifyJWT,verifyRoles(ROLES_LIST.RegisteredUser), userPhoneRoutes)
 app.use("/api/staticFlight",verifyJWT, verifyRoles(ROLES_LIST.Manager),staticFlightRoute);

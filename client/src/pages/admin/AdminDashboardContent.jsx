@@ -1,8 +1,9 @@
-import axios from "axios";
+import axios from "../../../services/HttpServices";
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import "./admin.css"
-import useFetch from "./useFetch"
+import Token from "../../../services/Token";
+
 
 const AdminDashboardContent = () => {
 
@@ -15,6 +16,7 @@ const AdminDashboardContent = () => {
     const [totalAuthorizedusers, settotalAuthorizedusers] = useState('')
 
     useEffect(() => {
+    
         axios.get("http://localhost:3001/api/registered-customer/total")
             .then(result => {
                 settotalRegUsers(result.data.result[0].total)

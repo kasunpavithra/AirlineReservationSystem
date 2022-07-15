@@ -101,11 +101,12 @@ const  AddAirCraft=(prop) => {
            
             // console.log( getCustomer.data.result[0])
               // console.log("patient",getPatient);
+              
               state = {
         
-                "EconomySeatCount":AirCraft.data.result[0].EconomySeatCount,
-                "BusinessSeatCount": AirCraft.data.result[0].BusinessSeatCount,
-                "PlatinumSeatCount":AirCraft.data.result[0].PlatinumSeatCount,
+                "EconomySeatCount":( AirCraft.data.result[0].EconomySeatCount.toString()),
+                "BusinessSeatCount":(AirCraft.data.result[0].BusinessSeatCount.toString()) ,
+                "PlatinumSeatCount":(AirCraft.data.result[0].PlatinumSeatCount.toString()) ,
                 'AircraftTypeID':AirCraft.data.result[0].aircraftTypeID
                 
               };
@@ -402,7 +403,7 @@ const  AddAirCraft=(prop) => {
                 <Col sm={7} >
                 
                
-                <Form.Control style={{"font-family":"FontAwesome"}}  type="text" name='EconomySeatCount'  value={state["EconomySeatCount"]}   placeholder='&#xf007;EconomySeatCount' onChange={handleUser} />
+                <Form.Control style={{"font-family":"FontAwesome"}}  type="number" min={0} name='EconomySeatCount'  value={state["EconomySeatCount"]}   placeholder='&#xf007;EconomySeatCount' onChange={handleUser} />
                 </Col>
                 <Row>
                     <Col>
@@ -421,7 +422,7 @@ const  AddAirCraft=(prop) => {
                 <Col sm={7} >
                 
                
-                <Form.Control style={{"font-family":"FontAwesome"}}  type="text" name='BusinessSeatCount'  value={state["BusinessSeatCount"]}   placeholder='&#xf007;BusinessSeatCount' onChange={handleUser} />
+                <Form.Control style={{"font-family":"FontAwesome"}}  type="number" min={0} name='BusinessSeatCount'  value={state["BusinessSeatCount"]}   placeholder='&#xf007;BusinessSeatCount' onChange={handleUser} />
                 </Col>
                 <Row>
                     <Col>
@@ -439,7 +440,7 @@ const  AddAirCraft=(prop) => {
                 <Col sm={7} >
                 
                
-                <Form.Control style={{"font-family":"FontAwesome"}}  type="text" name='PlatinumSeatCount'  value={state["PlatinumSeatCount"]}   placeholder='&#xf007;PlatinumSeatCount' onChange={handleUser} />
+                <Form.Control style={{"font-family":"FontAwesome"}}  type="number" min={0} name='PlatinumSeatCount'  value={state["PlatinumSeatCount"]}   placeholder='&#xf007;PlatinumSeatCount' onChange={handleUser} />
                 </Col>
                 <Row>
                     <Col>
