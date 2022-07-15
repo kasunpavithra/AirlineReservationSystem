@@ -1,6 +1,6 @@
 const db = require("../db/db");
 
-const getAllAirPorts = () => {
+const getAllAirPortsBYManager = () => {
   return new Promise((resolve, reject) => {
     // var sql = "SELECT * FROM airport a join `airportleveldetail` ad using(airport_id) join level using(levelID)    WHERE a.status=1 and ad.status=1  order by (airport_id)";
     var sql = "SELECT airport_id,name FROM airport where status=1 ";
@@ -118,10 +118,29 @@ const updateAirport = (airportInfo) => {
     });
   });
 };
+const getAllAirPorts = () => {
+  return new Promise((resolve, reject) => {
+    var sql = "SELECT * FROM airport WHERE status=1 order by name;";
+    db.query(sql, (err, result) => {
+      if (err) {
+        return reject(err);
+      } else {
+        return resolve(result);
+      }
+    });
+  });
+};
+
 
 module.exports = {
   getAllAirPorts,
   addAirport,
   deleteAirport,
   updateAirport,
+  getAllAirPortsBYManager
 };
+
+
+
+
+
