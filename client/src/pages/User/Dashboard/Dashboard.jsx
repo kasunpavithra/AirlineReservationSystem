@@ -134,13 +134,13 @@ function Dashboard() {
       <div>
         <Layout />
 
-        <Container style={{ backgroundImage: `url(${Background})` }}>
+        <div style={{ backgroundImage: `url(${Background})` }}>
           <div>
             <hr />
             <hr />
             <hr />
             <Button
-              style={{ marginRight: 10, marginLeft: 475 }}
+              style={{ marginRight: 10, marginLeft: 610 }}
               onClick={() => {
                 navigate("/getFlight");
               }}
@@ -353,7 +353,7 @@ function Dashboard() {
               </Table>
             </Row>
           )}
-        </Container>
+        </div>
       </div>
     </div>
   );
