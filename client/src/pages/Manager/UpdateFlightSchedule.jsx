@@ -29,10 +29,14 @@ function UpdateFlightSchedule() {
       })
       .catch((err) => {});
   }, []);
+const Background =
+  "https://thumbs.dreamstime.com/b/white-model-plane-airplane-yellow-background-top-view-flat-lay-travel-vacation-concept-188196256.jpg";
 
   return (
-    <div>
-      hey
+    <div style={{ backgroundImage: `url(${Background})` }}>
+      <div style={{ textAlign: "center" }}>
+        <h1>UPDATE STATIC FLIGHT SCHEDULE</h1>
+      </div>
       {Object.entries(details).map(([key, val]) => (
         <Row>
           <FlightDetail value={val} />
