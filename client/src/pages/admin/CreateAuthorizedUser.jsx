@@ -13,7 +13,7 @@ const CreateAuthorizedUser = () => {
     const [email, setemail] = useState("")
     const [password, setpassword] = useState("")
     const [confirmPassword, setconfirmPassword] = useState("")
-    const [type, settype] = useState(null)
+    const [type, settype] = useState(1)
     const [error, seterror] = useState(null)
 
     const handleSubmit = (e) => {

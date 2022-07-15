@@ -81,11 +81,11 @@ const UpdateAuthorizedUser = () => {
     return (
         <>
 
-            {isPending && <p> Loading... </p>}
-            {error && <p> Error occured: {error.message} </p>}
+            {isPending && <p className="add-margin-top"> Loading... </p>}
+            {error && <p className="add-margin-top"> Error occured: {error.message} </p>}
             {authorizedUser &&
                 <>
-                    <form onSubmit={(e) => handleSubmit(e)} className="needs-validation">
+                    <form onSubmit={(e) => handleSubmit(e)} className="needs-validation add-margin-top">
                         <div className="mb-3 mt-3">
                             <label htmlFor="firstname" className="form-label">First name:</label>
                             <input type="text" className="form-control" id="firstname" placeholder="Enter firstname" name="firstname" required

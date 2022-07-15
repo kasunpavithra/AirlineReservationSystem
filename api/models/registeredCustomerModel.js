@@ -54,6 +54,8 @@ const delete_customers_by_id = (userID) => {
 }
 
 const update_customer = (userData) => {
+    if(userData.status === null) userData.status=1;
+
     return new Promise((resolve, reject) => {
         var sql = "UPDATE registeredcustomer SET userID=?, firstname=?, lastname=?, email=?, password=?, address=?, status=?, image=?, gender=?, birthday=? WHERE userID=?;"
         const hash = bcrypt.hashSync(userData.password, 9)
@@ -102,7 +104,7 @@ const update_customer_by_customer = (userData) => {
 
 const get_customer_by_id = (userID) => {
     return new Promise((resolve, reject) => {
-        var sql = "SELECT * FROM registeredcustomer r join userphone u on r.userID = u.registeredUserID WHERE userID=?;"
+        var sql = "SELECT * FROM registeredcustomer as r left outer join userphone as u on r.userID = u.registeredUserID WHERE userID=?;"
         db.query(sql, userID, (err, result) => {
             if (err) {
                 return reject(err)
