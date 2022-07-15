@@ -54,9 +54,8 @@ const delete_customers_by_id = (userID) => {
 }
 
 const update_customer = (userData) => {
-    console.log("WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW", userData)
     if(userData.status === null) userData.status=1;
-    
+
     return new Promise((resolve, reject) => {
         var sql = "UPDATE registeredcustomer SET userID=?, firstname=?, lastname=?, email=?, password=?, address=?, status=?, image=?, gender=?, birthday=? WHERE userID=?;"
         const hash = bcrypt.hashSync(userData.password, 9)
