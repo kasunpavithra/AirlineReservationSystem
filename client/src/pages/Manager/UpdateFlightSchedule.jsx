@@ -35,8 +35,9 @@ const Background =
   return (
     <div style={{ backgroundImage: `url(${Background})` }}>
       <div style={{ textAlign: "center" }}>
-        <h1>UPDATE STATIC FLIGHT SCHEDULE</h1>
+        <h1>UPDATE FLIGHT SCHEDULE</h1>
       </div>
+
       {Object.entries(details).map(([key, val]) => (
         <Row>
           <FlightDetail value={val} />

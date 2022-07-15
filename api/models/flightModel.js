@@ -12,7 +12,19 @@ const getAllFlights = () => {
     });
   });
 };
+const cancelFlight = (flightID) => {
+  return new Promise((resolve, reject) => {
+    var sql = "update flight set status=0 where flightID=?";
+    db.query(sql, [flightID], (err, result) => {
+      if (err) {
 
+        return reject(err);
+      } else {
+        return resolve(result);
+      }
+    });
+  });
+};
 const getAllDestinations = () => {
   return new Promise((resolve, reject) => {
     var sql = "SELECT name,airport_id FROM `airport`;";
@@ -56,7 +68,7 @@ const getFlightsbyDate = (params) => {
   console.log(params);
   return new Promise((resolve, reject) => {
     var sql =
-      "SELECT flightID,routeID,dispatchTime,flightTimeID,endTimeDate,aircraftID FROM `flight` right OUTER JOIN `flighttime` using(`flightID`) where dispatchTime like '%" +
+      "SELECT flightID,routeID,dispatchTime,flightTimeID,endTimeDate,aircraftID,flight.status FROM `flight` right OUTER JOIN `flighttime` using(`flightID`) where dispatchTime like '%" +
       params.year +
       "-" +
       (params.month.length === 1 ? "0" + params.month : params.month) +
@@ -390,4 +402,5 @@ module.exports = {
   getRevenue,
   updateFlight,
   getPastFlights,
+  cancelFlight
 };

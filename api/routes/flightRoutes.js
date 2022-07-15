@@ -18,7 +18,7 @@ router.get("/getRevenue/:AirCraftId",verifyJWT,verifyRoles(ROLES_LIST.Manager), 
 router.get("/getPastFlights/:OriginID/:DestinationID",verifyJWT,verifyRoles(ROLES_LIST.Manager), flightController.getPastFlights)
 router.post("/addFlights",verifyJWT,verifyRoles(ROLES_LIST.Manager),flightController.addFlights)
 router.put("/updateFlight", flightController.updateFlight);
-
+router.put("/cancelFlight", flightController.cancelFlight);
 router.get(
   "/year/:year/month/:month/date/:date",
   flightController.getFlightsbyDate
