@@ -6,6 +6,7 @@ const ROLES_LIST = require("../config/rolesList");
 const verifyRoles = require("../middleware/verifyRoles");
 
 router.get("/all", airportController.getAllAirPorts);
+router.get("/allAirPortsByManager", airportController.getAllAirPortsBYManager);
 router.post("/addAirport",verifyJWT,verifyRoles(ROLES_LIST.Manager), airportController.addAirport);
 router.delete("/deleteAirport/:id",verifyJWT,verifyRoles(ROLES_LIST.Manager),airportController.deleteAirport);
 router.put('/updateAirport',verifyJWT,verifyRoles(ROLES_LIST.Manager),airportController.updateAirport);
