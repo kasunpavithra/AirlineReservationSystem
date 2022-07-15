@@ -44,7 +44,7 @@ function FlightDetail(props) {
   );
   const [airCraft, setAirCraft] = useState({ airCrafts: [] });
   useEffect(() => {
-    // console.log(":")
+    console.log(props);
     axios.get("http://localhost:3001/api/routes/all").then((result) => {
       result.data.result.map((obj) => {
         // console.log(obj);
@@ -131,6 +131,7 @@ function FlightDetail(props) {
           </Col>
           <Col>
             <Button
+              disabled={props.value.status === 0}
               onClick={(e) => {
                 setShow(true);
               }}
@@ -138,7 +139,29 @@ function FlightDetail(props) {
               Update Flight Here
             </Button>
           </Col>
-          
+          <Col>
+            <Button
+              disabled={props.value.status === 0}
+              onClick={async (e) => {
+                await axios
+                  .put("http://localhost:3001/api/flights/cancelFlight", {
+                    flightID: props.value.flightID,
+                  })
+                  .then((result) => {
+                    swal("Flight Cancelled Successfully!", "success").then(
+                      (res) => {
+                        window.location.reload(true);
+                      }
+                    );
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  });
+              }}
+            >
+              Cancel Flight
+            </Button>
+          </Col>
           <Modal
             show={show}
             onHide={() => {
