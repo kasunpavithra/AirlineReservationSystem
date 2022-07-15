@@ -62,7 +62,6 @@ function FlightDetail(props) {
   }, []);
   return (
     <div>
-      {JSON.stringify(props.value)}
       <div className="container">
         <div className="row mt-3">
           <Col>
@@ -130,13 +129,16 @@ function FlightDetail(props) {
               </Form.Select>
             </div>
           </Col>
-          <Button
-            onClick={(e) => {
-              setShow(true);
-            }}
-          >
-            Update Flight Here
-          </Button>
+          <Col>
+            <Button
+              onClick={(e) => {
+                setShow(true);
+              }}
+            >
+              Update Flight Here
+            </Button>
+          </Col>
+          
           <Modal
             show={show}
             onHide={() => {
@@ -255,6 +257,7 @@ function FlightDetail(props) {
                     />
                   </Form.Group>
                 </div>
+                <hr />
                 <div>
                   <Form.Control
                     style={{ fontFamily: "FontAwesome" }}
@@ -299,6 +302,7 @@ function FlightDetail(props) {
                     required
                   />
                 </div>
+                <hr />
                 <div>
                   <Form.Select
                     aria-label="Default select example"
@@ -329,6 +333,7 @@ function FlightDetail(props) {
                     ))}
                   </Form.Select>
                 </div>
+                <hr />
                 <Button type="submit">Update</Button>
               </form>
             </Modal.Body>

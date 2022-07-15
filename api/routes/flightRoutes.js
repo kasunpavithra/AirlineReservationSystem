@@ -17,11 +17,11 @@ router.get("/allAirCraftTypes",verifyJWT,verifyRoles(ROLES_LIST.Manager), flight
 router.get("/getRevenue/:AirCraftId",verifyJWT,verifyRoles(ROLES_LIST.Manager), flightController.getRevenue)
 router.get("/getPastFlights/:OriginID/:DestinationID",verifyJWT,verifyRoles(ROLES_LIST.Manager), flightController.getPastFlights)
 router.post("/addFlights",verifyJWT,verifyRoles(ROLES_LIST.Manager),flightController.addFlights)
-router.put("/updateFlight",verifyJWT,verifyRoles(ROLES_LIST.Manager), flightController.updateFlight);
+router.put("/updateFlight", flightController.updateFlight);
 
 router.get(
   "/year/:year/month/:month/date/:date",
   flightController.getFlightsbyDate
 );
-router.get("/getFlightsOnwards",verifyJWT,verifyRoles(ROLES_LIST.Admin), flightController.getFlightsOnwards);
+router.get("/getFlightsOnwards",flightController.getFlightsOnwards);
 module.exports = router;

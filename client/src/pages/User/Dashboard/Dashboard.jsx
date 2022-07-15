@@ -232,7 +232,7 @@ function Dashboard() {
               </Table>
             </Row>
           )}
-          {JSON.stringify(airRoute)}
+         
           <Button
             onClick={() => {
               navigate("/getFlight");
