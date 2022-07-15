@@ -1,5 +1,5 @@
 
-import axios from "axios"
+import axios from "../../../../services/HttpServices"
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import AircraftServices from "../../../../services/AircraftServices";
@@ -247,7 +247,7 @@ const AllAiportLevels = () => {
                             
                             <tr key={AirCraftTypeDetail?.levelID} className={AirCraftTypeDetail?.status === 0 ? "table-danger" : ""} >
                                 <td>{AirCraftTypeDetail?.levelID}</td>
-                                <td>{AirCraftTypeDetail?.levelName}</td>
+                                <b><td>{AirCraftTypeDetail?.levelName}</td></b>
                                 <td>{AirCraftTypeDetail?.levelrank}</td>
                                 <td></td>
                                 <td></td>

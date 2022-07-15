@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { Button, Col, Form } from "react-bootstrap";
 import { IoLocation } from "react-icons/io5";
-import axios from "axios";
+import axios from "../../../services/HttpServices";
 // import TimePicker from 'react-time-picker'
 
 function StaticFlight(props) {

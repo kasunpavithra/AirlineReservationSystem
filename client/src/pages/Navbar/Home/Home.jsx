@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Axios from "axios";
+import Axios from "../../../../services/HttpServices";
 
 const Home = () => {
 

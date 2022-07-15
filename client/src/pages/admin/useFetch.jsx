@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import Token from "../../../services/Token"
 
 const useFetch = (url) => {
     const [data, setData] = useState(null)
@@ -9,7 +10,7 @@ const useFetch = (url) => {
 
         const abortCont = new AbortController();
 
-        fetch(url, { signal: abortCont.signal })
+        fetch(url, { signal: abortCont.signal,headers: { Authorization: `Bearer ${ Token.getAccessToken()}` }})
             .then(res => {
                 if (!res.ok) throw Error("Could not fetch the data for that resource")
                 return res.json()

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import SeatPicker from "react-seat-picker";
 
-function AddSeatGrid() {
+function AddSeatGrid(props) {
   const [loading, setLoading] = useState(false);
   const [seleted, setSelected] = useState([]);
 
@@ -23,7 +23,7 @@ function AddSeatGrid() {
     return rows;
   };
 
-  const [rows, setRows] = useState(genarateIntialRows(5, 5));
+  const [rows, setRows] = useState(genarateIntialRows(props.width,props.length));
 
   const addSeatCallback = ({ row, number, id }, addCb) => {
     setLoading(true);
@@ -53,6 +53,7 @@ function AddSeatGrid() {
   return (
     <div>
       <h1>Seat Picker</h1>
+      <p>{props.width}</p>
       <div style={{ marginTop: "100px" }} rows={rows}>
         <SeatPicker
           addSeatCallback={addSeatCallback}

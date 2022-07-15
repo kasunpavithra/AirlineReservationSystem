@@ -5,7 +5,8 @@
 
 import { useEffect, useState } from "react"
 import { Modal, Button } from 'react-bootstrap'
-import axios from "axios";
+import axios from "../../../services/HttpServices";
+import Token from "../../../services/Token";
 
 const ViewDiscounts = () => {
 
@@ -24,8 +25,9 @@ const ViewDiscounts = () => {
     useEffect(() => {
 
         const abortCont = new AbortController();
+        console.log(Token.getAccessToken())
 
-        fetch("http://localhost:3001/api/discount/all", { signal: abortCont.signal })
+        fetch("http://localhost:3001/api/discount/all", { signal: abortCont.signal ,    headers: { Authorization: `Bearer ${ Token.getAccessToken()}` }})
             .then(res => {
                 if (!res.ok) throw Error("Could not fetch the data for that resource")
                 return res.json()
@@ -124,8 +126,8 @@ const ViewDiscounts = () => {
                                         <td>{discountElement.status}</td>
                                         {/* <td>{(discountElement.startTimeDate).split("T")[0] + " " + (discountElement.startTimeDate).split("T")[1].split(".000Z")[0]}</td>
                                         <td>{(discountElement.endTimeDate).split("T")[0] + " " + (discountElement.endTimeDate).split("T")[1].split(".000Z")[0]}</td> */}
-                                        <td>{discountElement.startTimeDate}</td>
-                                        <td>{discountElement.endTimeDate}</td>
+                                        <td>{(new Date(discountElement.startTimeDate)).toLocaleString()}</td>
+                                        <td>{(new Date(discountElement.endTimeDate)).toLocaleString()}</td>
 
                                         {!!discountElement.status && discountElement.discountID!==0 &&
                                             <>

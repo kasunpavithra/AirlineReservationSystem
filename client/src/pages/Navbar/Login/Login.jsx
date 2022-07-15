@@ -6,11 +6,15 @@ import { useAuth } from "../../../utils/auth";
 import { useEffect } from "react";
 import { useRef } from "react";
 import Messages from "../../LandingPage/Messages";
+import { Circle,Default, Heart, Roller,Spinner } from 'react-spinners-css';
 
+// import axios from '../../../../services/HttpServices'
 import axios from "../../../api/axios";
 import Layout from './../Layout/Layout';
 import Validation from "../../../Validation/updateValidation";
 import UserServices from "../../../../services/UserServices";
+
+import { SpinningCircles } from "react-loading-icons";
 const LOGIN_URL = "/api/auth/login";
 
 
@@ -19,6 +23,8 @@ function Login(prop) {
 
   const navigate = useNavigate();
   const location = useLocation();
+  
+  const [loader, setLoader] = useState(false);
   const from = location.state?.from || "/navigation"  //you need to specify here dashboard 
 
   const emailRef = useRef();
@@ -34,12 +40,19 @@ function Login(prop) {
  
 
   useEffect(() => {
+ 
+    
     emailRef.current.focus();
   }, []);
 
   useEffect(() => {
+    setLoader(true)
     setErrMsg("");
   }, [email, pwd]);
+
+  setTimeout(() => {
+    setLoader(false);
+  }, 200);
 
   const handleGuest =async(event)=>{
     event.preventDefault();
@@ -75,6 +88,7 @@ function Login(prop) {
                 if (response.status === 200 && response.data.result.length===1) {
                 Messages.SuccessMessage("Success");
                 console.log('dfsdfdfaa')
+               
                 navigate(`/guestuserbookings`,{state:response?.data?.result[0]});
 
                 // setTimeout(() => {
@@ -127,6 +141,7 @@ function Login(prop) {
         {
           headers: { "Content-Type": "application/json" },
           //   withCredentials: true,
+          withCredentials:true
         }
       // :
       // (LOGIN_URL,
@@ -167,6 +182,16 @@ function Login(prop) {
       errRef.current.focus();
     }
   };
+  
+
+//   if(loader){
+//     return <Spinner color="red" size='2000' className="fdf"  style={{  position: 'absolute',
+//       left: '50%',
+//       bottom:'60%',
+     
+//  }}/>   
+//   }
+//   else if(!loader){
 
   return (
     <div className=" logincontainer">
@@ -295,4 +320,5 @@ function Login(prop) {
     </div>
   );
 }
+// }
 export default Login;

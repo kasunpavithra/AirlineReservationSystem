@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
-const { getUserByEmail, getAuthUserByEmail } = require('../models/authModel');
+const { getUserByEmail, getAuthUserByEmail,updateRefreshTokenAndLoggedAt} = require('../models/authModel');
 
 
 const loginHandler = async (req, res) => {
@@ -34,10 +34,24 @@ const loginHandler = async (req, res) => {
                         "id": id,
                         "role": role   //5000 for registered users
                     }
-                }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 300 });
-                const refreshToken = jwt.sign({ id }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1d' });
+                }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '60s'});
+                const refreshToken = jwt.sign({ id}, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1d' });
 
                 //here you need to store this refreshtoken in a database
+
+                var result1=""
+                  try{
+                    const update=async()=>{
+                        console.log('hello')
+                        result1= await updateRefreshTokenAndLoggedAt(refreshToken,id,role)
+                    }
+                    update();
+                   
+                }catch(err){
+                    console.log(err)
+                }
+                
+                console.log(result1)
 
                 res.cookie('jwt', refreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
                 res.send({ auth: true, accessToken: accessToken, result: result[0] });

@@ -2,6 +2,7 @@ import React from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import "./AddAirCraftTypeStyle.css";
+import Swal from "sweetalert2";
 
 import { useNavigate,useLocation} from "react-router-dom";
 import { Row,Col, Dropdown,DropdownButton} from 'react-bootstrap';
@@ -30,6 +31,42 @@ const  AddAirCraftType=(prop) => {
     const[id,setId]=React.useState('');
     const navigate = useNavigate();
     const location=useLocation();
+
+
+    const  showErr = ()=>{
+        Swal.fire({  
+          icon: 'error',  
+          title: 'Oops...',  
+          text: 'Error Adding AirCraft Type',  
+        }).then(()=>{
+          window.location.reload();
+        });
+      }
+    
+      const showAddSuccess = ()=>{
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',    
+          text: 'Successfully Added AirCraft Type',  
+        }).then(()=>{
+        //   this.props.navigate("/dashboard",{ replace: true });
+        window.location.reload(false)
+
+        });
+      }
+
+      const showEditSuccess = ()=>{
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',    
+          text: 'Successfully Edited AirCraft Type',  
+        }).then(()=>{
+        //   this.props.navigate("/dashboard",{ replace: true });
+        window.location.reload(false)
+
+        });
+      }
+
 
     
         useEffect(() => {
@@ -132,7 +169,7 @@ const  AddAirCraftType=(prop) => {
             }
 
                 if (!document.getElementById("file").value && !id) {
-                    setImgErr("Profile photo is required");
+                    setImgErr("AirCraft Type photo is required");
                   }
                 else {
                 setImgErr('')
@@ -195,14 +232,16 @@ const  AddAirCraftType=(prop) => {
                     console.log(addresponse)
                    
                    if(addresponse?.status===200){
+                    showAddSuccess()
                     
-                    Messages.SuccessMessage("Added successfully");
+                    // Messages.SuccessMessage("Added successfully");
                     navigate(`/manager/handleaircrafts/all-aircraft-types`);
                    }
                     
                 
                     if (editresponse?.status === 200) {
-                        Messages.SuccessMessage("Edit successfully");
+                        showEditSuccess()
+                        // Messages.SuccessMessage("Edit successfully");
                         navigate(`/manager/handleaircrafts/all-aircraft-types`);
                     }
                     
@@ -214,10 +253,11 @@ const  AddAirCraftType=(prop) => {
                     
                 } catch (error) {
                     console.log(error);
-                    Messages.ErrorMessage({
-                    error: error,
-                    custom_message: `Adding fail`,
-                    });
+                    // Messages.ErrorMessage({
+                    // error: error,
+                    // custom_message: `Adding fail`,
+                    // });
+                    showErr()
                     // setLoader(false)
                     navigate(0);
                 }
@@ -246,6 +286,7 @@ const  AddAirCraftType=(prop) => {
                         src= {imagepath? imagepath:"https://i.ibb.co/Q68tPz8/No-Preview.png"}
                         alt=""
                     />
+                    {console.log('image',imagepath)}
                     
                     </div>
                     <br></br>
@@ -292,7 +333,7 @@ const  AddAirCraftType=(prop) => {
             </Form.Group>
 
             <Form.Group as={Row} className='fw-bold col-xl-12 mb-3 mx-auto' controlId='Description'>
-                 <Form.Label style={{"font-family":"FontAwesome"}}   column sm={4} >Last Name </Form.Label>
+                 <Form.Label style={{"font-family":"FontAwesome"}}   column sm={4} >Description</Form.Label>
                  <Col sm={7}>
                 <textarea rows="4" cols='42' style={{"font-family":"FontAwesome"}}  name='Description'  value={state["Description"]} placeholder='&#xf234; Description' onChange={handleUser}/>
                 </Col>
