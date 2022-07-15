@@ -5,6 +5,7 @@
 
 import { useEffect, useState } from "react"
 import { Modal, Button } from 'react-bootstrap'
+// import axios from "../../../services/HttpServices";
 import axios from "../../../services/HttpServices";
 import Token from "../../../services/Token";
 
@@ -24,16 +25,13 @@ const ViewDiscounts = () => {
 
     useEffect(() => {
 
-        const abortCont = new AbortController();
+        // const abortCont = new AbortController();
         console.log(Token.getAccessToken())
 
-        fetch("http://localhost:3001/api/discount/all", { signal: abortCont.signal ,    headers: { Authorization: `Bearer ${ Token.getAccessToken()}` }})
-            .then(res => {
-                if (!res.ok) throw Error("Could not fetch the data for that resource")
-                return res.json()
-            })
+        axios.get("http://localhost:3001/api/discount/all")
+           
             .then(data => {
-                setData(data)
+                setData(data.data)
                 setIsPending(false)
                 setError(null)
             })
@@ -46,7 +44,7 @@ const ViewDiscounts = () => {
                 }
             })
 
-        return () => { abortCont.abort(); }
+        // return () => { abortCont.abort(); }
     }, [])
 
     const handleSubmit = (e) => {
