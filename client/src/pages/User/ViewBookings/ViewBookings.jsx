@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./viewbookings.css"
 import jwtDecode from "jwt-decode";
 import Layout from "../../Navbar/Layout/Layout";
-import axios from "axios";
+import axios from "../../../../services/HttpServices"
 import Button from 'react-bootstrap/Button';
 import swal from "sweetalert2";
 // import axios from "../../../api/axios";
@@ -50,7 +50,7 @@ const ViewBookings = (prop) => {
         
 
 
-        fetch(url)
+        axios.get(url)
             .then(res => {
                 if (!res.ok) throw Error("Could not fetch the data for that resource")
                 return res.json()
