@@ -21,7 +21,7 @@ const Layout = (props) => {
     
             <div className="fixed-top  pt-2 landing-nav-links1">
             <div className="fixed-top logo  col-1 ">
-              <img width='200' height="314" src={Logo} alt="" />
+              <img width='200' height="304" src={Logo} alt="" />
             </div>
         
             <ul>

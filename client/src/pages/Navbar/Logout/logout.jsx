@@ -3,7 +3,10 @@ import {useEffect,useState } from 'react';
 import axios from "axios";
 // import Loader from "./loader/Loader";
 import Token from '../../../../services/Token'
+import { useNavigate } from 'react-router-dom';
+import Messages from '../../LandingPage/Messages';
 const Logout=()=>{
+  const navigate=useNavigate()
   // const [loader, setLoader] = useState(false);
   useEffect(()=>{
     logout();
@@ -21,11 +24,20 @@ const Logout=()=>{
         withCredentials:true
       });
       localStorage.clear();
-      window.location.href="/";
+      
+      navigate('/')
+      Messages.ErrorMessage({
+      
+        custom_message: "Logged out"
+    })
 
     } catch (error) {
       localStorage.clear();
-      window.location.href="/";
+      navigate('/')
+      Messages.ErrorMessage({
+      
+        custom_message: "Logged out"
+    })
       
     }
     // setLoader(false); 

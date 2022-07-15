@@ -62,6 +62,7 @@ const UpdateRegisteredCustomer = () => {
                 document.getElementById("invalid-confirmPassword").innerHTML = "Password and confirm password fields do not match"
             } else {
                 var updatedRegCustomer = { ...registeredCustomer, firstname, lastname, email, password }
+                console.log(updatedRegCustomer)
                 axios.put("http://localhost:3001/api/registered-customer/update", updatedRegCustomer)
                     .then(result => {
                         // console.log("YAYYY", result.data);
