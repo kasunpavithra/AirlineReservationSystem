@@ -1,4 +1,4 @@
-const db = require("../db/db");
+// const db = require("../db/db");
 const getAirCraftByRoute = (data) => {
   return new Promise((resolve, reject) => {
     var sql =
@@ -23,6 +23,23 @@ const getAirCraftByRoute = (data) => {
   });
 };
 const getAllAirCrafts = ()=>{
+  return new Promise((resolve, reject) => {
+    var sql =
+      "select name,aircraftid from aircraft inner join aircrafttype using(aircrafttypeid)";
+    
+    db.query(sql, (err, result) => {
+      if (err) {
+        return reject(err);
+      } else {
+        return resolve(result);
+      }
+    });
+  });
+}
+
+
+
+const getAllAirCraftsByManager = ()=>{
   return new Promise((resolve, reject) => {
     var sql =
       "select name,aircraftid,EconomySeatCount,BusinessSeatCount,PlatinumSeatCount from aircraft inner join aircrafttype using(aircrafttypeid) where aircraft.status!=0";
@@ -131,5 +148,6 @@ module.exports = {
   deleteAirCraft,
   updateAirCraft,
   getAllAirCrafts,
-  getAirCraft
+  getAirCraft,
+  getAllAirCraftsByManager
 };
