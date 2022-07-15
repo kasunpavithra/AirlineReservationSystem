@@ -1,6 +1,6 @@
 import { useState } from "react";
 import SeatPicker from "react-seat-picker";
-import axios from "../../api/axios";
+import axios from "../../../services/HttpServices";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router";
 
@@ -12,7 +12,7 @@ function AddSeatGrid(props) {
   const [seleted, setSelected] = useState([]);
   const [classIncrementer, setClassIncrementer] = useState(0);
   const [maxSeats, setMaxSeats] = useState(0);
-  const [fOut, setFOut] = useState([]);
+  const [fOut,setFOut] =useState([]);
 
   const genarateIntialRows = (x_length, y_length) => {
     const rows = [];
@@ -131,10 +131,11 @@ function AddSeatGrid(props) {
   }
 
   const handleConfirmation =async () => {
+    const fOutElement = [];
     if (classIncrementer < props.classCounts.length) {
-      setMaxSeats(maxSeats + props.classCounts[classIncrementer]?.count);
+      setMaxSeats(maxSeats + parseInt(props.classCounts[classIncrementer]?.count));
       const newRows = [...rows];
-      const fOutElement = [];
+      
       seleted.forEach((element) => {
         newRows[element.charCodeAt(0) - 65][
           parseInt(element.slice(1))
@@ -147,11 +148,11 @@ function AddSeatGrid(props) {
         });
       });
       setRows(newRows);
-      setFOut([...fOut, ...fOutElement]);
       setSelected([]);
-      console.log(fOut);
-      if (classIncrementer < props.classCounts.length - 1)
+      if (classIncrementer < props.classCounts.length - 1){
+        setFOut([...fOut, ...fOutElement]);
         setClassIncrementer(classIncrementer + 1);
+      }
     }
     if(classIncrementer===props.classCounts.length-1){
       try {
@@ -162,7 +163,7 @@ function AddSeatGrid(props) {
             EconomySeatCount:props.classCounts.find((e)=>e.name==="Economy").count,
             BusinessSeatCount:props.classCounts.find((e)=>e.name==="Bussiness").count,
             PlatinumSeatCount:props.classCounts.find((e)=>e.name==="Platinam").count,
-            seatInfo:fOut
+            seatInfo:[...fOut,...fOutElement]
           },
           {
             headers: { "Content-Type": "application/json" },
@@ -194,7 +195,7 @@ function AddSeatGrid(props) {
           removeSeatCallback={removeSeatCallback}
           rows={rows}
           maxReservableSeats={
-            maxSeats + props.classCounts[classIncrementer]?.count
+            maxSeats + parseInt(props.classCounts[classIncrementer]?.count)
           }
           alpha
           visible
@@ -207,7 +208,7 @@ function AddSeatGrid(props) {
       <button
         onClick={handleConfirmation}
         disabled={
-          seleted.length < props.classCounts[classIncrementer]?.count
+          seleted.length < parseInt(props.classCounts[classIncrementer]?.count)
             ? true
             : false
         }

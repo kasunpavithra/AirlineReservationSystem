@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import axios from "../../api/axios";
+import axios from "../../../services/HttpServices";
 import SeatPicker from "react-seat-picker";
 import Swal from "sweetalert2";
 const ADD_BOOKING_URL = "/api/bookings/addBooking";
