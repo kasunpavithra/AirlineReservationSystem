@@ -81,7 +81,7 @@ function Login(prop) {
                 // const formData = new FormData();
                 // formData.append("firstname", state['First Name']);
                 // formData.append("lastname",state['Last Name']);
-
+              setError({})
                 const response = await UserServices.guestLogin(state)
                 console.log(response);
                
@@ -94,15 +94,18 @@ function Login(prop) {
                 // setTimeout(() => {
                 //     // setLoader(false);
                 // }, 200);
+                }else if(response.data.result.length==0){
+                  Messages.ErrorMessage({
+                    error: '',
+                    custom_message: `Invalid Email and Reference Number pair`,
+                    });
                 }
-                
-                
-                
+  
             } catch (error) {
-                console.log(error);
+              console.log(error)
                 Messages.ErrorMessage({
-                error: error,
-                custom_message: `Update fail`,
+                error: '',
+                custom_message: `Invalid Email and Reference Number pair`,
                 });
                 // setLoader(false)
                 navigate(0);
@@ -143,6 +146,7 @@ function Login(prop) {
           //   withCredentials: true,
           withCredentials:true
         }
+     
       // :
       // (LOGIN_URL,
       // {
