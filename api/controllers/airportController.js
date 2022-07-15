@@ -17,6 +17,24 @@ const getAllAirPorts = async (req, res) => {
     });
 };
 
+const getAllAirPortsBYManager = async (req, res) => {
+    await airportModel
+      .getAllAirPortsBYManager()
+      .then((result) => {
+        res.json({
+          success: true,
+          result,
+        });
+      })
+      .catch((err) => {
+        res.json({
+          success: false,
+          err,
+        });
+      });
+  };
+
+
 const addAirport = async (req, res) => {
   await airportModel
       .addAirport(req.body)
@@ -79,4 +97,4 @@ const updateAirport = async (req, res) => {
       });
 };
 
-module.exports = { getAllAirPorts,addAirport,deleteAirport,updateAirport};
+module.exports = { getAllAirPorts,addAirport,deleteAirport,updateAirport,getAllAirPortsBYManager};

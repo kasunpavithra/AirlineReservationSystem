@@ -18,7 +18,15 @@ const db = require("../db/db");
 
 const getRegisteredBooking = (id) => {
   return new Promise((resolve, reject) => {
-    let sql = "select bookingID,flightID,paymentStatus,bookingTimeDate,class.name,booking.airCraftseatID,discount.amount,booking.status from ((booking JOIN class ON booking.classID=class.classID) LEFT JOIN  discount ON booking.discountID = discount.discountID)  where booking.registeredUserID =? ORDER BY booking.bookingID DESC";
+    let sql = `SELECT *
+    FROM
+    (select  booking.registeredUserID,bookingID,booking.flightID,paymentStatus,bookingTimeDate,class.name,booking.airCraftseatID,discount.amount,booking.status,airport.name as originName from 
+        (((((booking JOIN class ON booking.classID=class.classID) LEFT JOIN  discount ON booking.discountID = discount.discountID)JOIN flight on booking.flightID=flight.flightID) 
+        JOIN route on flight.RouteID=route.RouteID)JOIN airport on route.OriginID=airport.airport_id ))as B
+    JOIN
+    (select flighttime.dispatchTime,flighttime.endTimeDate,booking.bookingID,airport.name as destName from booking JOIN flight on booking.flightID=flight.flightID JOIN route on flight.RouteID=route.RouteID 
+        JOIN airport on route.DestinationID=airport.airport_id  JOIN flighttime on flighttime.flightID=flight.flightID )as A on A.bookingID=B.bookingID where B.registeredUserID=? and  A.endTimeDate is NULL ORDER BY A.bookingID DESC`;
+    
     db.query(sql, id, (err, result) => {
       if (err) {
         return reject(err);
@@ -31,7 +39,14 @@ const getRegisteredBooking = (id) => {
 
 const getGuestBooking = (id) => {
   return new Promise((resolve, reject) => {
-    let sql = "select bookingID,flightID,paymentStatus,bookingTimeDate,class.name,booking.airCraftseatID,booking.status from (booking JOIN class ON booking.classID=class.classID)  where booking.guestUserID =? ORDER BY booking.bookingID DESC";
+    let sql = `SELECT *
+    FROM
+    (select  booking.guestUserID,bookingID,booking.flightID,paymentStatus,bookingTimeDate,class.name,booking.airCraftseatID,discount.amount,booking.status,airport.name as originName from 
+        (((((booking JOIN class ON booking.classID=class.classID) LEFT JOIN  discount ON booking.discountID = discount.discountID)JOIN flight on booking.flightID=flight.flightID) 
+        JOIN route on flight.RouteID=route.RouteID)JOIN airport on route.OriginID=airport.airport_id ))as B
+    JOIN
+    (select flighttime.dispatchTime,flighttime.endTimeDate,booking.bookingID,airport.name as destName from booking JOIN flight on booking.flightID=flight.flightID JOIN route on flight.RouteID=route.RouteID 
+        JOIN airport on route.DestinationID=airport.airport_id  JOIN flighttime on flighttime.flightID=flight.flightID )as A on A.bookingID=B.bookingID where B.guestUserID=? and  A.endTimeDate is NULL ORDER BY A.bookingID DESC`;
     db.query(sql, id, (err, result) => {
       if (err) {
         return reject(err);

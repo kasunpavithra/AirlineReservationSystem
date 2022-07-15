@@ -5,7 +5,9 @@
 
 import { useEffect, useState } from "react"
 import { Modal, Button } from 'react-bootstrap'
-import axios from "axios";
+// import axios from "../../../services/HttpServices";
+import axios from "../../../services/HttpServices";
+import Token from "../../../services/Token";
 
 const ViewDiscounts = () => {
 
@@ -23,15 +25,13 @@ const ViewDiscounts = () => {
 
     useEffect(() => {
 
-        const abortCont = new AbortController();
+        // const abortCont = new AbortController();
+        console.log(Token.getAccessToken())
 
-        fetch("http://localhost:3001/api/discount/all", { signal: abortCont.signal })
-            .then(res => {
-                if (!res.ok) throw Error("Could not fetch the data for that resource")
-                return res.json()
-            })
+        axios.get("http://localhost:3001/api/discount/all")
+           
             .then(data => {
-                setData(data)
+                setData(data.data)
                 setIsPending(false)
                 setError(null)
             })
@@ -44,7 +44,7 @@ const ViewDiscounts = () => {
                 }
             })
 
-        return () => { abortCont.abort(); }
+        // return () => { abortCont.abort(); }
     }, [])
 
     const handleSubmit = (e) => {
@@ -124,8 +124,8 @@ const ViewDiscounts = () => {
                                         <td>{discountElement.status}</td>
                                         {/* <td>{(discountElement.startTimeDate).split("T")[0] + " " + (discountElement.startTimeDate).split("T")[1].split(".000Z")[0]}</td>
                                         <td>{(discountElement.endTimeDate).split("T")[0] + " " + (discountElement.endTimeDate).split("T")[1].split(".000Z")[0]}</td> */}
-                                        <td>{discountElement.startTimeDate}</td>
-                                        <td>{discountElement.endTimeDate}</td>
+                                        <td>{(new Date(discountElement.startTimeDate)).toLocaleString()}</td>
+                                        <td>{(new Date(discountElement.endTimeDate)).toLocaleString()}</td>
 
                                         {!!discountElement.status && discountElement.discountID!==0 &&
                                             <>

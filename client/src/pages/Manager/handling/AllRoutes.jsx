@@ -1,5 +1,5 @@
 
-import axios from "axios"
+import axios from "../../../../services/HttpServices"
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import AircraftServices from "../../../../services/AircraftServices";
@@ -288,12 +288,12 @@ const AllRoutes = () => {
                     </thead>
                     <tbody>
                 
-                        {data?.result?.map(AirCraftTypeDetail => (
+                        {data?.result?.map(AirCraftTypeDetail =>
                             
                             <tr key={AirCraftTypeDetail?.routeID} className={AirCraftTypeDetail?.status === 0 ? "table-danger" : ""} >
                                 <td>{AirCraftTypeDetail?.routeID}</td>
-                                <td>{AirCraftTypeDetail?.origin_name}</td>
-                                <td>{AirCraftTypeDetail?.destination_name}</td>
+                                <td><b>{AirCraftTypeDetail?.origin_name}</b></td>
+                                <td><b>{AirCraftTypeDetail?.destination_name}</b></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -316,7 +316,7 @@ const AllRoutes = () => {
                                     </>
                                 } */}
                             </tr>
-                        ))}
+)}
                     </tbody>
                 </table>
                 <Modal style={{marginTop:150}}

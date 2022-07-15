@@ -8,6 +8,7 @@ import ManagerServices from "../../../services/ManagerServices";
 import managerValidation from "../../Validation/managerValidation";
 import Layout from "../Navbar/Layout/Layout";
 import { useNavigate } from 'react-router';
+import { Bars } from 'react-loading-icons'
 
 const ManagerDashboard = () => {
   const navigate=useNavigate();
@@ -33,6 +34,8 @@ const ManagerDashboard = () => {
   const [flightPassengers,setFlightPassengers]=useState('');
   const [allPassengers,setAllPassengers]=useState('');
   const [allBookings,setAllBookings]=useState('');
+  
+  const [loader, setLoader] = useState(false);
  
   const [allPastFlights,setAllPastFlights]=useState('');
   const [FlightNumbers,setflightNumbers]=useState([]);
@@ -50,6 +53,7 @@ const ManagerDashboard = () => {
   let sidebarBtn = document.querySelector(".sidebarBtn");
 
   useEffect(() => {
+    setLoader(true)
     getFlightNumbers();
     getDestinationNames();
     getPassengerTypes();
@@ -404,10 +408,19 @@ const ManagerDashboard = () => {
     setPastFlightsError(errors);
     console.log( errorRevenue)
   }
+  setTimeout(() => {
+    setLoader(false);
+  }, 200);
+
+  if(loader){
+    return <Bars/>
+  }
+  else{
 
   return (
     <>
     <Layout/>
+    <Bars/>
       {/* <div class="sidebar">
         <div class="ml-4 logo-details mt-3">
           <span class=" logo_name">B Airways</span>
@@ -883,105 +896,7 @@ const ManagerDashboard = () => {
 
               <div class="mr-5 number"></div>
             </div>
-            <div class="box">
-              <div class="right-side">
-                <div class="box-topic">Aircraft Type</div>
-                {/* <Form onSubmit={handleSubmitPastFlights}> */}
-                <div class="btn-group ml-2 mt-2">
-                  {/* <Button
-                  
-      
-                    onClick={navigate('/dfd')}
-                   
-                  >
-                    {'Add'}
-                  </Button> */}
-                 
-                  {/* <div class="dropdown-menu">
-                  {
-                     Destinations?.map((destination,idx)=>(
-                    
-    
-                    <button class="dropdown-item" value={destination.airport_id} type="button" onClick={(event)=>{setPastFlightsOriginId({'name':destination.name,'id':event.target.value});}}>
-                      {destination.name}
-                    </button>
-                     ))}
-                  </div> */}
-                </div>
-                {/* { errorPastFlights['Origin Id'] !== "" && <p className="error">{ errorPastFlights['Origin Id']}</p>} */}
-                
-              
-                <div class="ml-2 mt-2 btn-group">
-                  <button
-                    type="button"
-                    class="btn btn-info dropdown-toggle"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    {'Delete'}
-                    
-                  </button>
-                  
-                  {/* <div class="dropdown-menu">
-                  {
-                     Destinations?.map((destination,idx)=>(
-                    
-    
-                    <button class="dropdown-item" value={destination.airport_id} type="button" onClick={(event)=>{setPastFlightsDestinationId({'name':destination.name, 'id':event.target.value});}}>
-                      {destination.name}
-                    </button>
-                     ))}
-                  </div> */}
-                </div>
-
-                <div class="ml-2 mt-2 btn-group">
-                  <button
-                    type="button"
-                    class="btn btn-info dropdown-toggle"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    {'Edit'}
-                    
-                  </button>
-                  
-                  {/* <div class="dropdown-menu">
-                  {
-                     Destinations?.map((destination,idx)=>(
-                    
-    
-                    <button class="dropdown-item" value={destination.airport_id} type="button" onClick={(event)=>{setPastFlightsDestinationId({'name':destination.name, 'id':event.target.value});}}>
-                      {destination.name}
-                    </button>
-                     ))}
-                  </div> */}
-                </div>
-            
-                {/* { errorPastFlights['Destination Id'] !== "" && <p className="error">{ errorPastFlights['Destination Id'] }</p>} */}
-                {/* <div></div> */}
-                
-                <i class='mt-2 bx bxs-plane-take-off cart five'></i>
-{/*                 
-                <div className="row">
-                    <div className="col-9 "></div>
-                    <div className="col-3 ">
-                      <Button variant="info"  type="submit">
-                        search
-                      </Button>
-                    </div>
-                    </div> */}
-                {/* </Form> */}
-                <div class="indicator">
-                  <i class="bx bx-down-arrow-alt down"></i>
-                  <span class="text">Down From Today</span>
-                </div>
-              </div>
-
-              <div class="mr-5 number"></div>
-            </div>
-
+        
 
          
           </div>
@@ -1087,5 +1002,6 @@ const ManagerDashboard = () => {
     </>
   );
 };
+}
 
 export default ManagerDashboard;

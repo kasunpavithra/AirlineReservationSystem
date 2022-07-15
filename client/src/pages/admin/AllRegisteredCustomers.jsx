@@ -1,5 +1,5 @@
 import useFetch from "./useFetch";
-import axios from 'axios'
+import axios from '../../../services/HttpServices'
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 const AllRegisteredCustomers = () => {
@@ -58,6 +58,7 @@ const AllRegisteredCustomers = () => {
             <br />
             {isPending && <p> Loading... </p>}
             {error && <p>Error occured: {error} </p>}
+            {console.log(data)}
             {data && !data.success && <p>Error occured: {JSON.stringify(data.err)} </p>}
             {data && data.success &&
                 <table className="table table-hover">

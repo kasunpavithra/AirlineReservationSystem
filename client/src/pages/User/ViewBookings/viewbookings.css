@@ -24,17 +24,32 @@
 }
 
 .viewbookingstable {
-    margin-top:150px;
+    margin-top:250px;
 	width: 1300px;
 	border-collapse: collapse;
 	overflow: hidden;
 	box-shadow: 0 0 20px rgba(0,0,0,0.1);
 }
 
-.viewbookingsth,
-.viewbookingstd {
-	padding: 15px;
+.viewbookingsth{
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 9px;
 	background-color: rgba(255,255,255,0.2);
+	color: #fff;
+}
+
+.viewbookingstd1 {
+	padding-top: 15px;
+    padding-bottom: 15px;
+	background-color: rgba(255,255,255,0.2);
+	color: #fff;
+}
+
+.viewbookingstd2 {
+	padding-top: 15px;
+    padding-bottom: 15px;
+	background-color: hsla(322, 68%, 85%, 0.227);
 	color: #fff;
 }
 

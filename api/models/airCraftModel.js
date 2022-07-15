@@ -22,7 +22,26 @@ const getAirCraftByRoute = (data) => {
     });
   });
 };
-const getAllAirCrafts = () => {
+const getAllAirCrafts = ()=>{
+  console.log('dfdgfgg')
+  return new Promise((resolve, reject) => {
+    var sql =
+      "select name,aircraftid from aircraft inner join aircrafttype using(aircrafttypeid)";
+    
+    db.query(sql, (err, result) => {
+      if (err) {
+        return reject(err);
+      } else {
+        return resolve(result);
+      }
+    });
+  });
+}
+
+
+
+const getAllAirCraftsByManager = ()=>{
+  console.log('dfd')
   return new Promise((resolve, reject) => {
     var sql =
       "select name,aircraftid,EconomySeatCount,BusinessSeatCount,PlatinumSeatCount from aircraft inner join aircrafttype using(aircrafttypeid) where aircraft.status!=0";
@@ -166,5 +185,6 @@ module.exports = {
   deleteAirCraft,
   updateAirCraft,
   getAllAirCrafts,
-  getAirCraft
+  getAirCraft,
+  getAllAirCraftsByManager
 };
