@@ -57,9 +57,7 @@ const Guestpopup = (prop) => {
       icon: 'warning',  
       title: 'Remember',  
       text: `You need to remember your Email ${state.Email} and Reference Number ${id} to see your previous bookings`,  
-    }).then(()=>{
-      window.location.reload();
-    });
+    })
   }
 
   const errors = {};
