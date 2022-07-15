@@ -156,7 +156,7 @@ export default class SeatGrid extends Component {
             (this.state.seletedSeats.length < (parseInt(this.props.childCount)+ parseInt(this.props.adultCount))) ? true : false
           }
         >
-          Conform
+          Confirm
         </button>
       </div>
     );

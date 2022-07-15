@@ -116,7 +116,7 @@ function AddSeatGrid(props) {
       title: 'Success',    
       text: 'Successfully added the Aircraft',  
     }).then(()=>{
-      navigate("/dashboard");  //navigate correct place here
+      navigate(-2,{replace:true});  //navigate correct place here
     });
   }
 
