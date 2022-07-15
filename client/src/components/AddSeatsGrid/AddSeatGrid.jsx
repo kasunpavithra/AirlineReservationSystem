@@ -133,7 +133,7 @@ function AddSeatGrid(props) {
   const handleConfirmation =async () => {
     const fOutElement = [];
     if (classIncrementer < props.classCounts.length) {
-      setMaxSeats(maxSeats + props.classCounts[classIncrementer]?.count);
+      setMaxSeats(maxSeats + parseInt(props.classCounts[classIncrementer]?.count));
       const newRows = [...rows];
       
       seleted.forEach((element) => {
@@ -195,7 +195,7 @@ function AddSeatGrid(props) {
           removeSeatCallback={removeSeatCallback}
           rows={rows}
           maxReservableSeats={
-            maxSeats + props.classCounts[classIncrementer]?.count
+            maxSeats + parseInt(props.classCounts[classIncrementer]?.count)
           }
           alpha
           visible
@@ -208,7 +208,7 @@ function AddSeatGrid(props) {
       <button
         onClick={handleConfirmation}
         disabled={
-          seleted.length < props.classCounts[classIncrementer]?.count
+          seleted.length < parseInt(props.classCounts[classIncrementer]?.count)
             ? true
             : false
         }
