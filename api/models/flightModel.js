@@ -2,7 +2,7 @@ const db = require("../db/db");
 const getAllFlights = () => {
   return new Promise((resolve, reject) => {
     var sql =
-      "SELECT flightID,routeID,dispatchTime,flightTimeID FROM `flight` right OUTER JOIN `flighttime` using(`flightID`);";
+      "SELECT flightID,routeID,dispatchTime,flightTimeID,flight.status FROM `flight` right OUTER JOIN `flighttime` using(`flightID`);";
     db.query(sql, (err, result) => {
       if (err) {
         return reject(err);
@@ -65,7 +65,6 @@ const getAllAirCraftTypes = () => {
 };
 
 const getFlightsbyDate = (params) => {
-  console.log(params);
   return new Promise((resolve, reject) => {
     var sql =
       "SELECT flightID,routeID,dispatchTime,flightTimeID,endTimeDate,aircraftID,flight.status FROM `flight` right OUTER JOIN `flighttime` using(`flightID`) where dispatchTime like '%" +
