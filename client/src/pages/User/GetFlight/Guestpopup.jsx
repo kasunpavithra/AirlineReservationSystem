@@ -10,6 +10,8 @@ import Messages from "../../LandingPage/Messages";
 import UserServices from "../../../../services/UserServices";
 import Layout from "./../../Navbar/Layout/Layout";
 import React from "react";
+import Swal from "sweetalert2";
+
 
 const Guestpopup = (prop) => {
   const location = useLocation();
@@ -49,6 +51,16 @@ const Guestpopup = (prop) => {
       Gender: parseInt(event, 10),
     });
   };
+  
+  const  showErr = (id)=>{
+    Swal.fire({  
+      icon: 'warning',  
+      title: 'Remember',  
+      text: `You need to remember your Email ${state.Email} and Reference Number ${id} to see your previous bookings`,  
+    }).then(()=>{
+      window.location.reload();
+    });
+  }
 
   const errors = {};
   const handleSubmit = async (event) => {
@@ -85,6 +97,8 @@ const Guestpopup = (prop) => {
         console.log(response.data.result.insertId);
         if (response.status === 201) {
         //   Messages.SuccessMessage("Created successfully");
+        showErr(response.data.result.insertId)
+        console.log(response)
           navigate(`/bookSeat`, {
             state: {
               ...location.state,
@@ -111,7 +125,8 @@ const Guestpopup = (prop) => {
         className=" col-xl-5 pt-4  mx-auto form-container"
         style={{ marginTop: 150 }}
       >
-        <h1 className="fs-1 text-primary mb-5">Booking Details </h1>
+        <h1 className="fs-1 text-primary ">Add Your Details </h1>
+        <b><p className="mb-5" style={{color:'red'}}>You need to fill your details before book a ticket</p></b>
         <Form onSubmit={handleSubmit}>
           <Form.Group
             as={Row}
@@ -237,9 +252,9 @@ const Guestpopup = (prop) => {
                 bsPrefix="button1"
                 id="dropdown-basic-button"
                 title={
-                  state.Gender == ""
+                  state.Gender === ""
                     ? "Gender"
-                    : state.Gender == "1"
+                    : state?.Gender == "1"
                     ? "Male"
                     : "Female"
                 }

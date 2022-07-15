@@ -496,7 +496,7 @@ const ManagerDashboard = () => {
                <Button onClick={()=>{navigate('/createStaticScheduler')}} > <div class="box-topic" style={{fontSize:16}}> Create Static schedule</div></Button>
               </div>
               <div class="right-side" style={{marginLeft:15}}>
-               <Button  onClick={()=>{navigate('/manager/handleaircrafts')}} > <div class="box-topic" style={{fontSize:16}}>Handle aircrafts</div></Button>
+               <Button  onClick={()=>{navigate('/manager/handleaircrafts/all-aircraft-types')}} > <div class="box-topic" style={{fontSize:16}}>Handle aircrafts</div></Button>
               </div>
               <div class="right-side" style={{marginLeft:15}}>
                <Button onClick={()=>{navigate('/manager/updateStaticScheduler')}} > <div class="box-topic" style={{fontSize:16}}>Update Static schedule</div></Button>
@@ -617,10 +617,10 @@ const ManagerDashboard = () => {
                   </Form.Group>
                 </div>
                 </Form>
-                <div class="indicator">
+                {/* <div class="indicator">
                   <i class="bx bx-up-arrow-alt"></i>
                   <span class="text">Up from yesterday</span>
-                </div>
+                </div> */}
               </div>
               <div className=" number mr-5"> {flightPassengers? flightPassengers.Total:''} </div>
             </div>
@@ -676,10 +676,10 @@ const ManagerDashboard = () => {
                     </div>
                     </div>
                 </Form>
-                <div class="indicator">
+                {/* <div class="indicator">
                  
                   <span class="text">Up from yesterday</span>
-                </div>
+                </div> */}
               </div>
               
               <div class="number  mt-5">{allPassengers? allPassengers:''}</div>
@@ -762,10 +762,10 @@ const ManagerDashboard = () => {
                     </div>
                     </div>
                 </Form>
-                <div class="indicator">
+                {/* <div class="indicator">
                   <i class="bx bx-up-arrow-alt"></i>
                   <span class="text">Up from yesterday</span>
-                </div>
+                </div> */}
               </div>
               <div class="number mr-4 mt-5">{allBookings? allBookings.Total:''}</div>
             </div>
@@ -809,10 +809,10 @@ const ManagerDashboard = () => {
                     </div>
                     </Form.Group>
                 </Form>
-                <div class="indicator">
+                {/* <div class="indicator">
                   <i class="bx bx-down-arrow-alt down"></i>
                   <span class="text">Down From Today</span>
-                </div>
+                </div> */}
               </div>
               <div class="number">{revenue? `Rs ${revenue}` :`Rs 0`}</div>
             </div>
@@ -875,10 +875,10 @@ const ManagerDashboard = () => {
                     </div>
                     </div>
                 </Form>
-                <div class="indicator">
+                {/* <div class="indicator">
                   <i class="bx bx-down-arrow-alt down"></i>
                   <span class="text">Down From Today</span>
-                </div>
+                </div> */}
               </div>
 
               <div class="mr-5 number"></div>
