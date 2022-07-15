@@ -499,10 +499,10 @@ const ManagerDashboard = () => {
                <Button  onClick={()=>{navigate('/manager/handleaircrafts')}} > <div class="box-topic" style={{fontSize:16}}>Handle aircrafts</div></Button>
               </div>
               <div class="right-side" style={{marginLeft:15}}>
-               <Button onClick={()=>{navigate('/manager/handleaircrafts')}} > <div class="box-topic" style={{fontSize:16}}>Update Static schedule</div></Button>
+               <Button onClick={()=>{navigate('/manager/updateStaticScheduler')}} > <div class="box-topic" style={{fontSize:16}}>Update Static schedule</div></Button>
               </div>
               <div class="right-side" style={{marginLeft:15}}>
-               <Button onClick={()=>{navigate('/manager/handleaircrafts')}} > <div class="box-topic" style={{fontSize:16}}>Update Flight schedule</div></Button>
+               <Button onClick={()=>{navigate('/manager/updateFlightScheduler')}} > <div class="box-topic" style={{fontSize:16}}>Update Flight schedule</div></Button>
               </div>
           </div>
          
