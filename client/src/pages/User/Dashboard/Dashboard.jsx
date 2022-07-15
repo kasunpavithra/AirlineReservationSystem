@@ -128,8 +128,7 @@ function Dashboard() {
       setFlight((values) => ({ ...values, [obj.flightTimeID]: obj }))
     );
   };
-  const Background =
-    "https://images.pexels.com/photos/11644203/pexels-photo-11644203.jpeg?auto=compress&cs=tinysrgb&w=1200";
+  const Background = "https://wallpaperaccess.com/full/878615.jpg";
   return (
     <div style={{ backgroundColor: "black" }}>
       <div>
@@ -171,8 +170,8 @@ function Dashboard() {
                   display: "grid",
                 }}
               >
-                <div >
-                  <div >
+                <div>
+                  <div>
                     <Form.Control
                       aria-label="Default select example"
                       className=""
