@@ -6,6 +6,7 @@ const { updateRefreshToken,checkTokenFromDatabase} = require('../models/authMode
 const refreshTokenHandler =async (req, res) => {
     const cookies = req.cookies
     console.log(cookies)
+    console.log('came for token')
     if (!cookies?.jwt) return res.sendStatus(401);
     // console.log(cookies.jwt);
     const refreshToken = cookies.jwt;
