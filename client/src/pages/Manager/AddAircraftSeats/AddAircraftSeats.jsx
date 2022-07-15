@@ -1,15 +1,13 @@
 import { useState } from "react";
 import AddSeatGrid from "../../../components/AddSeatsGrid/AddSeatGrid";
+import { useLocation } from "react-router";
 
 function AddAircraftSeat() {
   const [width, setWidth] = useState(0);
   const [length, setLength] = useState(0);
-  const classCounts = [
-    { name: "Platinam", id: 1, count: 2 },
-    { name: "Bussiness", id: 2, count: 3 },
-    { name: "Economy", id: 3, count: 4 },
-  ];
-  const aircraftTypeID = 1;
+  const location = useLocation();
+  const classCounts = location.state.classCounts;
+  const aircraftTypeID = location.state.aircraftTypeID;
   //this is a comment
 
   return (
