@@ -1,9 +1,10 @@
 
-import axios from "axios"
+import axios from "../../../../services/HttpServices"
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import AircraftServices from "../../../../services/AircraftServices";
 import {Button } from 'react-bootstrap'
+import Swal from "sweetalert2";
 
 const AllAircrafts = () => {
 
@@ -35,15 +36,49 @@ const AllAircrafts = () => {
     }
 
     const handleDelete = (aircraftid) => {
-        if (window.confirm("Are you sure, you want to delete this Aircraft Type?") === true) {
-            axios.delete("http://localhost:3001/api/airCraft/delete/" + aircraftid)
-                .then(result => {
-                    window.location.reload(false);
-                })
-                .catch(err => console.log(err))
-        } else {
-            return
-        }
+        Swal.fire({
+            icon: 'warning',
+            title: 'Are you sure?',    
+            text: "You won't be able to revert this!", 
+            showCancelButton:true,
+            confirmButtonColor:'#3085d6',
+            cancelButtonColor:'#d33',
+            confirmButtonText:'Yes delete it!' 
+          }).then((result)=>{
+          //   this.props.navigate("/dashboard",{ replace: true });
+          // document.location.reload()
+          if(result.isConfirmed){
+              axios.delete("http://localhost:3001/api/airCraft/delete/" + aircraftid)
+          .then(result => {
+                window.location.reload(false)
+              Swal.fire(
+                  'Deleted!',
+                  'Selected AirCraft has been deleted.',
+                  'success'
+               )
+            // navigate('/manager/handleaircrafts/all-aircrafts')
+          
+              
+             
+              
+          })
+          .catch(err => console.log(err))
+          // window.location.reload(false);
+
+      }
+  
+          });
+
+
+        // if (window.confirm("Are you sure, you want to delete this Aircraft Type?") === true) {
+        //     axios.delete("http://localhost:3001/api/airCraft/delete/" + aircraftid)
+        //         .then(result => {
+        //             window.location.reload(false);
+        //         })
+        //         .catch(err => console.log(err))
+        // } else {
+        //     return
+        // }
     }
 
     const handleEdit = (aircraftid) => {
@@ -79,7 +114,7 @@ const AllAircrafts = () => {
                 <table className="table table-hover">
                     <thead>
                         <tr>
-                            <th>AirCrft ID</th>
+                            <th>AirCraft ID</th>
                             <th>Type</th>
                             <th>Economy Seat Count</th>
                             {/* <th>Email</th>
@@ -95,7 +130,7 @@ const AllAircrafts = () => {
                             
                             <tr key={AirCraftTypeDetail?.aircraftid} className={AirCraftTypeDetail?.status === 0 ? "table-danger" : ""} >
                                 <td>{AirCraftTypeDetail?.aircraftid}</td>
-                                <td>{AirCraftTypeDetail?.name}</td>
+                                <b><td>{AirCraftTypeDetail?.name}</td></b>
                                 <td>{AirCraftTypeDetail?.EconomySeatCount}</td>
                                 <td>{AirCraftTypeDetail?.BusinessSeatCount}</td>
                                 <td>{AirCraftTypeDetail?.PlatinumSeatCount}</td>

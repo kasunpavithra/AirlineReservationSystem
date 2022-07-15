@@ -1,8 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const bookingsController = require("../controllers/bookingsController");
+const ROLES_LIST = require("../config/rolesList");
+const verifyRoles = require("../middleware/verifyRoles");
 
-router.get("/getRegUserBooking/:id",bookingsController.getRegisteredBooking);
+router.get("/getRegUserBooking/:id",verifyRoles(ROLES_LIST.RegisteredUser),bookingsController.getRegisteredBooking);
 // router.get("/getRegUserBooking/:id",bookingsController.getRegisteredBooking);
 // router.get("/getGuestUserBooking/:id",bookingsController.getGuestBooking)
 // router.post("/add",bookingsController.addBooking);

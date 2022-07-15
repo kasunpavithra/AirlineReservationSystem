@@ -1,4 +1,5 @@
 const allowedOrigins = require('../config/allowedOrigins');
+const credentials = require('../middleware/credentials');
 
 
 const coresOptions = {
@@ -11,8 +12,13 @@ const coresOptions = {
             // console.log('not allowd');
             callback(new Error('Not allowed by CORS'));
         }
+        
+       
     },
+
+  
     optionsSuccessStatus: 200,
+    
 }
 
 

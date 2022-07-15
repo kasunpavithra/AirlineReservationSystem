@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../services/HttpServices";
 import config from "../src/config.json";
 
 const APIEndpoint = config.DOMAIN_NAME + '/api';

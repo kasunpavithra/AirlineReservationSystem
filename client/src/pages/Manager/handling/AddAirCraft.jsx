@@ -12,6 +12,7 @@ import UserServices from '../../../../services/UserServices';
 import Layout from '../../Navbar/Layout/Layout'
 import { useEffect } from 'react';
 import jwtDecode from "jwt-decode";
+import Swal from "sweetalert2";
 import AircraftServices from '../../../../services/AircraftServices';
 
 
@@ -36,6 +37,41 @@ const  AddAirCraft=(prop) => {
     const navigate = useNavigate();
     const location=useLocation();
     const [airCraftTypes,setAirCraftTypes]=React.useState();
+
+
+    const  showErr = ()=>{
+        Swal.fire({  
+          icon: 'error',  
+          title: 'Oops...',  
+          text: 'Error Adding AirCraft',  
+        }).then(()=>{
+          window.location.reload();
+        });
+      }
+    
+      const showAddSuccess = ()=>{
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',    
+          text: 'Successfully Added AirCraft',  
+        }).then(()=>{
+        //   this.props.navigate("/dashboard",{ replace: true });
+        // window.location.reload(false)
+
+        });
+      }
+
+      const showEditSuccess = ()=>{
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',    
+          text: 'Successfully Edited AirCraft',  
+        }).then(()=>{
+        //   this.props.navigate("/dashboard",{ replace: true });
+        // window.location.reload(false)
+
+        });
+      }
 
 
     useEffect(()=>{
@@ -65,11 +101,12 @@ const  AddAirCraft=(prop) => {
            
             // console.log( getCustomer.data.result[0])
               // console.log("patient",getPatient);
+              
               state = {
         
-                "EconomySeatCount":AirCraft.data.result[0].EconomySeatCount,
-                "BusinessSeatCount": AirCraft.data.result[0].BusinessSeatCount,
-                "PlatinumSeatCount":AirCraft.data.result[0].PlatinumSeatCount,
+                "EconomySeatCount":( AirCraft.data.result[0].EconomySeatCount.toString()),
+                "BusinessSeatCount":(AirCraft.data.result[0].BusinessSeatCount.toString()) ,
+                "PlatinumSeatCount":(AirCraft.data.result[0].PlatinumSeatCount.toString()) ,
                 'AircraftTypeID':AirCraft.data.result[0].aircraftTypeID
                 
               };
@@ -254,15 +291,15 @@ const  AddAirCraft=(prop) => {
                     // console.log(editresponse)
                     console.log(addresponse)
                    
-                   if(addresponse?.status===200){
+                   if(addresponse?.status===201){
                     
-                    Messages.SuccessMessage("Added successfully");
+                    showAddSuccess()
                     navigate(`/manager/handleaircrafts/all-aircrafts`);
                    }
                     
                 
                     if (editresponse?.status === 200) {
-                        Messages.SuccessMessage("Edit successfully");
+                        showEditSuccess()
                         navigate(`/manager/handleaircrafts/all-aircrafts`);
                     }
                     
@@ -274,10 +311,11 @@ const  AddAirCraft=(prop) => {
                     
                 } catch (error) {
                     console.log(error);
-                    Messages.ErrorMessage({
-                    error: error,
-                    custom_message: `Adding fail`,
-                    });
+                    // Messages.ErrorMessage({
+                    // error: error,
+                    // custom_message: `Adding fail`,
+                    // });
+                    showErr()
                     // setLoader(false)
                     navigate(0);
                 }
@@ -358,14 +396,14 @@ const  AddAirCraft=(prop) => {
                   </div>
                   
                 </div>
-                {errordata.AirCraftTypeID !== "" && !selectedAirCraftType && <p className=" fw-bold error" style={{marginLeft:200}}>{errordata.AirCraftTypeID}</p>}
+                {errordata.AircraftTypeID !== "" && !selectedAirCraftType && <p className=" fw-bold error" style={{marginLeft:200}}>{errordata.AircraftTypeID}</p>}
 
             <Form.Group as={Row} className='fw-bold col-xl-12 mb-3 mx-auto' controlId='EconomySeatCount'>
                 <Form.Label style={{"font-family":"FontAwesome"}}  column sm={4}>EconomySeatCount</Form.Label>
                 <Col sm={7} >
                 
                
-                <Form.Control style={{"font-family":"FontAwesome"}}  type="text" name='EconomySeatCount'  value={state["EconomySeatCount"]}   placeholder='&#xf007;EconomySeatCount' onChange={handleUser} />
+                <Form.Control style={{"font-family":"FontAwesome"}}  type="number" min={0} name='EconomySeatCount'  value={state["EconomySeatCount"]}   placeholder='&#xf007;EconomySeatCount' onChange={handleUser} />
                 </Col>
                 <Row>
                     <Col>
@@ -384,7 +422,7 @@ const  AddAirCraft=(prop) => {
                 <Col sm={7} >
                 
                
-                <Form.Control style={{"font-family":"FontAwesome"}}  type="text" name='BusinessSeatCount'  value={state["BusinessSeatCount"]}   placeholder='&#xf007;BusinessSeatCount' onChange={handleUser} />
+                <Form.Control style={{"font-family":"FontAwesome"}}  type="number" min={0} name='BusinessSeatCount'  value={state["BusinessSeatCount"]}   placeholder='&#xf007;BusinessSeatCount' onChange={handleUser} />
                 </Col>
                 <Row>
                     <Col>
@@ -402,7 +440,7 @@ const  AddAirCraft=(prop) => {
                 <Col sm={7} >
                 
                
-                <Form.Control style={{"font-family":"FontAwesome"}}  type="text" name='PlatinumSeatCount'  value={state["PlatinumSeatCount"]}   placeholder='&#xf007;PlatinumSeatCount' onChange={handleUser} />
+                <Form.Control style={{"font-family":"FontAwesome"}}  type="number" min={0} name='PlatinumSeatCount'  value={state["PlatinumSeatCount"]}   placeholder='&#xf007;PlatinumSeatCount' onChange={handleUser} />
                 </Col>
                 <Row>
                     <Col>

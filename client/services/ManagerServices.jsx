@@ -1,5 +1,6 @@
-import axios from "axios";
+import axios from "../services/HttpServices";
 import config from "../src/config.json";
+import token from "../services/Token";
 
 const APIEndpoint = config.DOMAIN_NAME + '/api';
 
@@ -12,9 +13,7 @@ const getFlightNumbers = () => {
     });
   };
 
-  
 
-  
 const getPassengerTypes = () => {
   return axios({
     method: "get",
@@ -74,7 +73,7 @@ const getRevenue = (Data) => {
   return axios({
     method: "get",
     url: APIEndpoint + `/flights/getRevenue/${Data['AirCraft Id']}`,
-  //   headers: { Authorization: `Bearer ${token.getAccessToken()}` },
+    // headers: { Authorization: `Bearer ${token.getAccessToken()}` },
   });
 };
 

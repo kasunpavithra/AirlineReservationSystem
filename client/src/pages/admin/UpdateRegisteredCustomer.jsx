@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import axios from "../../../services/HttpServices";
 
 const UpdateRegisteredCustomer = () => {
     const userID = useParams().id
