@@ -15,7 +15,7 @@ const UpdateRegisteredCustomer = () => {
     const [email, setemail] = useState("")
     const [password, setpassword] = useState("")
     const [confirmPassword, setconfirmPassword] = useState("")
-
+    
     useEffect(() => {
 
         // setisPending(true)
@@ -61,7 +61,9 @@ const UpdateRegisteredCustomer = () => {
             if (password !== confirmPassword) {
                 document.getElementById("invalid-confirmPassword").innerHTML = "Password and confirm password fields do not match"
             } else {
-                var updatedRegCustomer = { ...registeredCustomer, firstname, lastname, email, password }
+                var newBirthday = (registeredCustomer.birthday).split("T")[0]
+                console.log(newBirthday);
+                var updatedRegCustomer = { ...registeredCustomer, firstname, lastname, email, password, birthday: newBirthday}
                 axios.put("http://localhost:3001/api/registered-customer/update", updatedRegCustomer)
                     .then(result => {
                         // console.log("YAYYY", result.data);
