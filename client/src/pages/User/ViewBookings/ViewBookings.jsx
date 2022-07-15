@@ -51,14 +51,14 @@ const ViewBookings = (prop) => {
 
 
         axios.get(url)
-            .then(res => {
-                if (!res.ok) throw Error("Could not fetch the data for that resource")
-                return res.json()
-            })
+            // .then(res => {
+            //     if (!res.ok) throw Error("Could not fetch the data for that resource")
+            //     return res.json()
+            // })
             .then(data => {
 
-                setData(data)
-                console.log(data)
+                setData(data.data)
+                console.log(data.data)
                 setIsPending(false)
                 setError(null)
             })
@@ -117,7 +117,9 @@ const ViewBookings = (prop) => {
                 <br />
                 {isPending && <p> Loading... </p>}
                 {error && <p>Error occured: {error} </p>}
+               
                 {data && !data.success && <p>Error occured: {JSON.stringify(data.err)} </p>}
+                
                 {data && data.success &&
                     <div className="viewbookingscontainer"><table className="viewbookingstable">
                         <thead>
@@ -136,7 +138,7 @@ const ViewBookings = (prop) => {
                         </thead>
 
                         <tbody>
-
+                        {console.log(data)}
                             {data.result.map(user => {
 
                                 if ((user.status === 1) || (user.status === 0)) {

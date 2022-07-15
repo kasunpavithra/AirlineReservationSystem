@@ -114,7 +114,7 @@ const AllAirCraftTypes = () => {
                 <table className="table table-hover">
                     <thead>
                         <tr>
-                            <th>AirCrft TypeID</th>
+                            <th >AirCrft TypeID</th>
                             <th>Name</th>
                             <th>Description</th>
                             {/* <th>Email</th>
@@ -130,7 +130,7 @@ const AllAirCraftTypes = () => {
                             
                             <tr key={AirCraftTypeDetail?.aircraftTypeID} className={AirCraftTypeDetail?.status === 0 ? "table-danger" : ""} >
                                 <td>{AirCraftTypeDetail?.aircraftTypeID}</td>
-                                <td>{AirCraftTypeDetail?.name}</td>
+                                <td><b>{AirCraftTypeDetail?.name}</b></td>
                                 <td>{AirCraftTypeDetail?.description}</td>
                                 {/* <td>{AirCraftTypeDetail.email}</td>
                                 <td>{AirCraftTypeDetail.type === 1 ? "Manager" : "Admin"}</td>

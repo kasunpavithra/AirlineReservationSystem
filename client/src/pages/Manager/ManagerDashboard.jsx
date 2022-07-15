@@ -2,16 +2,19 @@ import React from "react";
 import { useState, useEffect } from "react";
 
 
-import { Button, ButtonGroup, Card, Form, ToggleButton } from "react-bootstrap";
+import { Button, ButtonGroup, Card, Dropdown, DropdownButton, Form, ToggleButton,Modal } from "react-bootstrap";
 import "./managerStyle.css";
 import ManagerServices from "../../../services/ManagerServices";
 import managerValidation from "../../Validation/managerValidation";
 import Layout from "../Navbar/Layout/Layout";
 import { useNavigate } from 'react-router';
-import { Bars } from 'react-loading-icons'
+
 
 const ManagerDashboard = () => {
   const navigate=useNavigate();
+  const [show, setShow] = useState(false);
+  // const handleClose = () => setShow(false);
+  // const handleShow = () => setShow(true);
   const [ageType, setAgeType] = useState('');
   const [ageTypeForBookings, setAgeTypeForBookings] = useState('');
   
@@ -35,7 +38,7 @@ const ManagerDashboard = () => {
   const [allPassengers,setAllPassengers]=useState('');
   const [allBookings,setAllBookings]=useState('');
   
-  const [loader, setLoader] = useState(false);
+
  
   const [allPastFlights,setAllPastFlights]=useState('');
   const [FlightNumbers,setflightNumbers]=useState([]);
@@ -53,7 +56,6 @@ const ManagerDashboard = () => {
   let sidebarBtn = document.querySelector(".sidebarBtn");
 
   useEffect(() => {
-    setLoader(true)
     getFlightNumbers();
     getDestinationNames();
     getPassengerTypes();
@@ -408,19 +410,12 @@ const ManagerDashboard = () => {
     setPastFlightsError(errors);
     console.log( errorRevenue)
   }
-  setTimeout(() => {
-    setLoader(false);
-  }, 200);
 
-  if(loader){
-    return <Bars/>
-  }
-  else{
+ 
 
   return (
     <>
     <Layout/>
-    <Bars/>
       {/* <div class="sidebar">
         <div class="ml-4 logo-details mt-3">
           <span class=" logo_name">B Airways</span>
@@ -494,22 +489,23 @@ const ManagerDashboard = () => {
 
       <section class="home-section">
         <nav>
-          <div class="sidebar-button">
+          <div class="sidebar-button" style={{display:'flex'}}>
             <i class="bx bx-menu sidebarBtn mt-4" onClick={handleSideBar}></i>
-            <span class="dashboard mt-4 ">Manager</span>
-            
-            
+            <span class="dashboard mt-4">Manager</span>
+            <div class="rightside" style={{marginLeft:15}}>
+               <Button onClick={()=>{navigate('/createStaticScheduler')}} > <div class="box-topic" style={{fontSize:16}}> Create Static schedule</div></Button>
+              </div>
+              <div class="right-side" style={{marginLeft:15}}>
+               <Button  onClick={()=>{navigate('/manager/handleaircrafts')}} > <div class="box-topic" style={{fontSize:16}}>Handle aircrafts</div></Button>
+              </div>
+              <div class="right-side" style={{marginLeft:15}}>
+               <Button onClick={()=>{navigate('/manager/updateStaticScheduler')}} > <div class="box-topic" style={{fontSize:16}}>Update Static schedule</div></Button>
+              </div>
+              <div class="right-side" style={{marginLeft:15}}>
+               <Button onClick={()=>{navigate('/manager/updateFlightScheduler')}} > <div class="box-topic" style={{fontSize:16}}>Update Flight schedule</div></Button>
+              </div>
           </div>
-          <div class="box mt-3" style={{'margin-left':1100}}>
-              <div class="right-side">
-               <Button onClick={()=>{navigate('/createStaticScheduler')}} > <div class="box-topic" style={{fontSize:20}}>Static schedule</div></Button>
-              </div>
-            </div>
-          <div class="box mt-3" style={{'margin-left':1100}}>
-              <div class="right-side">
-               <Button onClick={()=>{navigate('/manager/handleaircrafts')}} > <div class="box-topic" style={{fontSize:20}}>Handle aircrafts</div></Button>
-              </div>
-            </div>
+         
       
           {/* <div class="search-box">
             <input type="text" placeholder="Search..." />
@@ -530,7 +526,7 @@ const ManagerDashboard = () => {
                 Flight No
                 <Form onSubmit={handleSubmitFlightPassengers}>
                 <div class="btn-group mt-2">
-                  <button
+                  {/* <button
                     type="button"
                     class="btn btn-primary dropdown-toggle"
                     data-toggle="dropdown"
@@ -538,11 +534,31 @@ const ManagerDashboard = () => {
                     aria-expanded="false"
                   >
                     {flightId? flightId.name:'Flight No'}
-                  </button>
+                  </button> */}
+                
+                  <DropdownButton id="dropdown-basic-button" title=  {flightId? flightId.name:'Flight No'} onSelect={(event)=>{
+  
+                        // console.log(event.split('/')[1])
+                       
+                        setFlightId( {'name':event.split('/')[0],'id':event.split('/')[1]} );}}>
+                  {
+                     FlightNumbers?.map((flightno,idx)=>(
+                    // <button class="dropdown-item" value={flightno.flightID} type="button" onClick={(event)=>{setFlightId({'name':flightno.flightID,'id':event.target.value});}}>
+                    //   {flightno.flightID}
+                    // </button>     
+                      <Dropdown.Item  eventKey={ flightno.flightID.toString()+'/' +flightno.flightID.toString()} >
+                      {flightno.flightID}
+                      </Dropdown.Item>
+
+                     ))}
+
+              
+
+                  </DropdownButton>
         
 
                   {/* {errorData.NI !== "" && <p className="error">{errorData.NIC}</p>} */}
-                  <div class="dropdown-menu">
+                  {/* <div class="dropdown-menu">
                     {
                      FlightNumbers?.map((flightno,idx)=>(
                     
@@ -552,7 +568,7 @@ const ManagerDashboard = () => {
                     </button>
                      ))}
       
-                  </div>
+                  </div> */}
         
                 </div>
                 {errorFlightPassengers['Flight No'] !== "" && <p className="error">{errorFlightPassengers['Flight No']}</p>}
@@ -606,7 +622,7 @@ const ManagerDashboard = () => {
                   <span class="text">Up from yesterday</span>
                 </div>
               </div>
-              <div className=" number mr-5"> {flightPassengers? flightPassengers.Total:'NULL'} </div>
+              <div className=" number mr-5"> {flightPassengers? flightPassengers.Total:''} </div>
             </div>
            
 
@@ -621,28 +637,23 @@ const ManagerDashboard = () => {
                 Destination
                 <Form onSubmit={handleSubmitAllPassengers}>
                 <div class="btn-group mt-2">
-                  <button
-                    type="button"
-                    class="btn btn-success dropdown-toggle"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    {destinationId? destinationId.name:'Destination'}
-                  </button>
+            
+                            
+                <DropdownButton variant="success" id="dropdown-basic-button" title={destinationId? destinationId.name:'Destination'} onSelect={(event)=>{
+  
+  // console.log(event.split('/')[1])
+                    setDestinationId( {'name':event.split('/')[0],'id':event.split('/')[1]} );}}>
 
                      {/* {errorData.NI !== "" && <p className="error">{errorData.NIC}</p>} */}
-                     <div class="dropdown-menu">
-                    {
-                     Destinations?.map((Destination,idx)=>(
-                    
-    
-                    <button class="dropdown-item" value={Destination.airport_id} type="button" onClick={(event)=>{setDestinationId({'name':Destination.name,'id':event.target.value});}}>
-                      {Destination.name}
-                    </button>
-                     ))}
-                   
-                  </div>
+             
+                    {Destinations?.map((Destination,idx)=>(
+                    <Dropdown.Item  eventKey={ Destination.name.toString()+'/' +Destination.airport_id.toString()} >
+                       {Destination.name}
+                    </Dropdown.Item>
+                     ))
+                     }
+                  </DropdownButton>
+                
                 </div>
                 {errorAllPassengers['Destination Id'] !== "" && <p className="error">{errorAllPassengers['Destination Id']}</p>}
                 <div></div>
@@ -671,7 +682,7 @@ const ManagerDashboard = () => {
                 </div>
               </div>
               
-              <div class="number  mt-5">{allPassengers? allPassengers:'NULL'}</div>
+              <div class="number  mt-5">{allPassengers? allPassengers:''}</div>
             </div>
 
 
@@ -681,27 +692,20 @@ const ManagerDashboard = () => {
                 Class
                 <Form onSubmit={handleSubmitAllBookings}>
                 <div class="btn-group">
-                  <button
-                    type="button"
-                    class="btn btn-warning dropdown-toggle"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    {classId? classId.name:'Class'}
-                    
-                  </button>
-               
-                  <div class="dropdown-menu">
+                  <DropdownButton variant="warning" id="dropdown-basic-button" title={classId? classId.name:'Class'} onSelect={(event)=>{
+                    setClassId( {'name':event.split('/')[0],'id':event.split('/')[1]} );}}>
+              
                   {
                      passengerTypes?.map((passengertype,idx)=>(
                     
-    
-                    <button class="dropdown-item" value={passengertype.classID} type="button" onClick={(event)=>{setClassId({'name':passengertype.name,'id':event.target.value});}}>
-                      {passengertype.name}
-                    </button>
+                  <Dropdown.Item  eventKey={ passengertype.name.toString()+'/' +passengertype.classID.toString()} >
+                  {passengertype.name}
+                  </Dropdown.Item>
+
                      ))}
-                  </div>
+                  </DropdownButton>
+
+                 
                 </div>
                 {errorAllBookings['Class Id'] !== "" && <p className="error">{errorAllBookings['Class Id']}</p>}
                 
@@ -763,7 +767,7 @@ const ManagerDashboard = () => {
                   <span class="text">Up from yesterday</span>
                 </div>
               </div>
-              <div class="number mr-4 mt-5">{allBookings? allBookings.Total:'NULL'}</div>
+              <div class="number mr-4 mt-5">{allBookings? allBookings.Total:''}</div>
             </div>
 
 
@@ -773,28 +777,21 @@ const ManagerDashboard = () => {
                 AirCraft
                 <Form onSubmit={handleSubmitRevenue}>
                 <div class="btn-group mt-2">
-                  <button
-                    type="button"
-                    class="btn btn-danger dropdown-toggle"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    {aircrafttypeID? aircrafttypeID.name:'AirCraft'}
-                  </button>
-                 
+               
+                  <DropdownButton variant="danger" id="dropdown-basic-button" title={aircrafttypeID? aircrafttypeID.name:'AirCraft'} onSelect={(event)=>{
+                    setaircraftTypeID( {'name':event.split('/')[0],'id':event.split('/')[1]} );}}>
 
-                  
-                  <div class="dropdown-menu">
                   {
                      aircrafttypes?.map((aircrafttype,idx)=>(
-                    
-    
-                    <button class="dropdown-item" value={aircrafttype.aircraftTypeID} type="button" onClick={(event)=>{setaircraftTypeID({'name':aircrafttype.name,'id':event.target.value});}}>
-                      {aircrafttype.name}
-                    </button>
+                                      
+                    <Dropdown.Item  eventKey={ aircrafttype.name.toString()+'/' +aircrafttype.aircraftTypeID.toString()} >
+                    {aircrafttype.name}
+                    </Dropdown.Item>
+
                      ))}
-                  </div>
+          
+                  </DropdownButton>
+               
                 </div>
                
                 <div className="row"></div>
@@ -826,52 +823,42 @@ const ManagerDashboard = () => {
                 <div class="box-topic">Past Flights</div>
                 <Form onSubmit={handleSubmitPastFlights}>
                 <div class="btn-group ml-2 mt-2">
-                  <button
-                    type="button"
-                    class="btn btn-info dropdown-toggle"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    {pastFlightsOriginId? pastFlightsOriginId.name:'Origin'}
-                  </button>
-                 
-                  <div class="dropdown-menu">
+              
+                  <DropdownButton variant="info" id="dropdown-basic-button" title={pastFlightsOriginId? pastFlightsOriginId.name:'Origin'} onSelect={(event)=>{
+                    setPastFlightsOriginId( {'name':event.split('/')[0],'id':event.split('/')[1]} );}}>
+               
                   {
                      Destinations?.map((destination,idx)=>(
                     
-    
-                    <button class="dropdown-item" value={destination.airport_id} type="button" onClick={(event)=>{setPastFlightsOriginId({'name':destination.name,'id':event.target.value});}}>
-                      {destination.name}
-                    </button>
+                       <Dropdown.Item  eventKey={destination.name.toString()+'/' + destination.airport_id.toString()} >
+                           {destination.name}
+                       </Dropdown.Item>
                      ))}
-                  </div>
+
+                
+          
+                  </DropdownButton>
                 </div>
                 { errorPastFlights['Origin Id'] !== "" && <p className="error">{ errorPastFlights['Origin Id']}</p>}
                 
               
                 <div class="ml-2 mt-2 btn-group">
-                  <button
-                    type="button"
-                    class="btn btn-info dropdown-toggle"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    {pastFlightsDestinationId? pastFlightsDestinationId.name:'Destination'}
-                    
-                  </button>
-                  
-                  <div class="dropdown-menu">
+     
+
+                  <DropdownButton variant="info" id="dropdown-basic-button" title={pastFlightsDestinationId? pastFlightsDestinationId.name:'Destination'} onSelect={(event)=>{
+                    setPastFlightsDestinationId( {'name':event.split('/')[0],'id':event.split('/')[1]} );}}>
+         
                   {
                      Destinations?.map((destination,idx)=>(
-                    
-    
-                    <button class="dropdown-item" value={destination.airport_id} type="button" onClick={(event)=>{setPastFlightsDestinationId({'name':destination.name, 'id':event.target.value});}}>
-                      {destination.name}
-                    </button>
-                     ))}
-                  </div>
+                                        
+                    <Dropdown.Item  eventKey={destination.name.toString()+'/' + destination.airport_id.toString()} >
+                    {destination.name}
+                    </Dropdown.Item>
+                     ))
+                    }
+              
+                  </DropdownButton>
+               
                 </div>
             
                 { errorPastFlights['Destination Id'] !== "" && <p className="error">{ errorPastFlights['Destination Id'] }</p>}
@@ -906,12 +893,20 @@ const ManagerDashboard = () => {
           
 
           
+          <Modal
+                            show={flightPassengers || allBookings || allPastFlights}
+                            onHide={()=>{ setFlightPassengers()
+                              setAllBookings();
+                              setAllPastFlights()}}
+                            backdrop="static"
+                            keyboard={false}
+                        >
+                            <Modal.Header closeButton>
+                                <Modal.Title>Search Details</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
 
-
-
-
-
-          {flightPassengers &&
+                            {flightPassengers &&
           <div class="sales-boxes">
             <div class="recent-sales box">
               <table className="table table-hover">
@@ -927,12 +922,15 @@ const ManagerDashboard = () => {
                     <th></th>
                   </tr>
                 </thead>
-                <tr>
+                <tbody>                
+                  <tr>
                   <td>{flightPassengers?.Registercount}</td>
                   <td>{flightPassengers?.Guestcount}</td>
                   <td>{flightPassengers?.Total}</td>
 
                 </tr>
+                </tbody>
+
               </table>
             </div>
           </div>}
@@ -994,14 +992,110 @@ const ManagerDashboard = () => {
            </div>
          </div>
           }
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Button variant="secondary" onClick={()=>{ setFlightPassengers()
+                                  setAllBookings();
+                                  setAllPastFlights()}
+                                 
+                                  }>
+                                    Close
+                                </Button>
+                            </Modal.Footer>
+                        </Modal>
+
+
+
+
+{/* 
+          {flightPassengers &&
+          <div class="sales-boxes">
+            <div class="recent-sales box">
+              <table className="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Registered user count</th>
+                    <th>Guest user count</th>
+                    <th>Total</th>
+             
+                    <th></th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>                
+                  <tr>
+                  <td>{flightPassengers?.Registercount}</td>
+                  <td>{flightPassengers?.Guestcount}</td>
+                  <td>{flightPassengers?.Total}</td>
+
+                </tr>
+                </tbody>
+
+              </table>
+            </div>
+          </div>}
+          {allBookings &&
+           <div class="sales-boxes">
+           <div class="recent-sales box">
+             <table className="table table-hover">
+               <thead>
+                 <tr>
+                   <th>Registered user count</th>
+                   <th>Guest user count</th>
+                   <th>Total</th>
+            
+                   <th></th>
+                   <th></th>
+                 </tr>
+               </thead>
+               <tr>
+                 <td>{allBookings?.Registercount}</td>
+                 <td>{allBookings?.Guestcount}</td>
+                 <td>{allBookings?.Total}</td>
+
+               </tr>
+             </table>
+           </div>
+         </div>
+          }
+           {allPastFlights &&
+           <div class="sales-boxes">
+           <div class="recent-sales box">
+             <table className="table table-hover">
+               <thead>
+                 <tr>
+                 <th>Flight Id</th>
+                   <th>Registered user count</th>
+                   <th>Guest user count</th>
+                   <th>Total</th>
+                   
+                   <th></th>
+                   <th></th>
+                 </tr>
+               </thead>
+               {allPastFlights?.map(row=>(
+                  <tr>
+                  <td>{row?.Flightid}</td>
+                  <td>{row?.Registeredcount}</td>
+                  <td>{row?.Guestcount}</td>
+                  <td >{row?.Total}</td>
+                </tr>
+               ))
+
+               }
+             
+             </table>
+           </div>
+         </div>
+          }
           
-          
+           */}
 
         </div>
       </section>
     </>
   );
 };
-}
+
 
 export default ManagerDashboard;

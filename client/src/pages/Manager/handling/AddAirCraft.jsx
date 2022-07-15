@@ -13,6 +13,7 @@ import Layout from '../../Navbar/Layout/Layout'
 import { useEffect } from 'react';
 import jwtDecode from "jwt-decode";
 import Swal from "sweetalert2";
+
 import AircraftServices from '../../../../services/AircraftServices';
 
 
@@ -25,6 +26,7 @@ const  AddAirCraft=(prop) => {
         'PlatinumSeatCount':''
        
     }
+
     var [state,setState]=React.useState(formValues);
     const [errordata,setError]=React.useState(formValues);
     const [img, setImg] = React.useState();
@@ -283,19 +285,22 @@ const  AddAirCraft=(prop) => {
                     console.log(state)
                     
                     if(!id){
-                        var addresponse = await AircraftServices.addaircraft(state);
+                        // var addresponse = await AircraftServices.addaircraft(state);
+                        const details=[{name:"Platinam",id:1,count:state.PlatinumSeatCount},{name:"Bussiness",id:2,count:state.BusinessSeatCount},{name:"Economy",id:3,count:state.EconomySeatCount}];
+
+                        navigate('/AddAircraftSeats',{state:{'classCounts':details,'aircraftTypeID':state.AircraftTypeID}})
                     }
                     console.log('status',id)
                     
                    
                     // console.log(editresponse)
-                    console.log(addresponse)
+                  //   console.log(addresponse)
                    
-                   if(addresponse?.status===201){
+                  //  if(addresponse?.status===201){
                     
-                    showAddSuccess()
-                    navigate(`/manager/handleaircrafts/all-aircrafts`);
-                   }
+                  //   showAddSuccess()
+                  //   navigate(`/manager/handleaircrafts/all-aircrafts`);
+                  //  }
                     
                 
                     if (editresponse?.status === 200) {
