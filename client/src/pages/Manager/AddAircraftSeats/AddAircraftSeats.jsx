@@ -4,17 +4,13 @@ import AddSeatGrid from "../../../components/AddSeatsGrid/AddSeatGrid";
 function AddAircraftSeat() {
   const [width,setWidth] = useState(0);
   const [length,setLength] = useState(0);
+  const classCounts = [{name:"Platinam",id:1,count:2},{name:"Bussiness",id:2,count:3},{name:"Economy",id:3,count:4}];
+  const aircraftTypeID = 1;
 
   
   return (
     <>
-    <label>Width(In terms of seats): <input type="number" onChange={e=>setWidth(e.target.value)} /></label>
-    <br /><br />
-    <label>Length(In terms of seats): <input type="number" onChange={e=>setLength(e.target.value)} /></label>
-
-
-
-      {width && length && <AddSeatGrid width={width} length={length}/>}
+      <AddSeatGrid width={width} length={length} classCounts={classCounts} aircraftTypeID={aircraftTypeID}/>
     </>
   );
 }
