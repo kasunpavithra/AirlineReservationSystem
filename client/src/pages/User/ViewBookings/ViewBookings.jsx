@@ -42,7 +42,11 @@ const ViewBookings = (prop) => {
         catch (err) {
             user = null
         }
+
         const url=prop.user=='reg'? `http://localhost:3001/api/bookings/getRegUserBooking/${user?.userInfo?.id}` :`http://localhost:3001/api/bookings/getGuestUserBooking/${location?.state?.userID}`
+
+
+       
         
 
 
