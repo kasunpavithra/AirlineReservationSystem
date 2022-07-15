@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 //apiurl for RegistertUser= "http://localhost:3001/api/bookings/getRegUserBooking/1"
 const ViewBookings = (prop) => {
     const [data, setData] = useState(null)
-    const navigate=useNavigate();
+    const navigate = useNavigate();
     const [isPending, setIsPending] = useState(true)
     const [error, setError] = useState(null)
     // const [showStatus, setShowStatus] = useState([])
@@ -21,20 +21,20 @@ const ViewBookings = (prop) => {
 
 
     console.log(location.state)
-    console.log( !localStorage.getItem("AccessToken"))
-   
+    console.log(!localStorage.getItem("AccessToken"))
+
     if(!location.state && !localStorage.getItem("AccessToken")){
         console.log('fdfsdfd')
         navigate('/login')
     }
 
     useEffect(() => {
-      
+
         //const abortCont = new AbortController();
         try {
-            if(localStorage.getItem("AccessToken")){
-            var user = jwtDecode(localStorage.getItem("AccessToken"))
-            console.log(user)
+            if (localStorage.getItem("AccessToken")) {
+                var user = jwtDecode(localStorage.getItem("AccessToken"))
+                console.log(user)
             }
         }
 
@@ -43,9 +43,9 @@ const ViewBookings = (prop) => {
             user = null
         }
         const url=prop.user=='reg'? `http://localhost:3001/api/bookings/getRegUserBooking/${user?.userInfo?.id}` :`http://localhost:3001/api/bookings/getGuestUserBooking/${location?.state?.userID}`
-
-       
         
+
+
         fetch(url)
             .then(res => {
                 if (!res.ok) throw Error("Could not fetch the data for that resource")
@@ -81,7 +81,7 @@ const ViewBookings = (prop) => {
             });
     }
 
-    const confirmMsg =(e, { user })=>{
+    const confirmMsg = (e, { user }) => {
         swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -90,25 +90,25 @@ const ViewBookings = (prop) => {
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, cancel my flight!'
-          }).then((result) => {
+        }).then((result) => {
             if (result.isConfirmed) {
-              swal.fire(
-                'Deleted!',
-                'Your flight has been deleted.',
-                'success'
-              )
-              changeStatus(e, { user });
+                swal.fire(
+                    'Deleted!',
+                    'Your flight has been deleted.',
+                    'success'
+                )
+                changeStatus(e, { user });
             }
-          })
+        })
     }
 
 
     return (
         <><div><Layout /></div>
-            <div className="vbody" style={{ height: '753.6px'}}>
+            <div className="vbody" style={{ height: '753.6px' }}>
 
 
-                <div class=" container-fluid p-5" style={{ height: '15%', backgroundColor: "#351b63", position: 'fixed' }}><h2 style={{ color: 'white' }}>All bookings</h2></div>
+                <div class=" container-fluid p-5" style={{ height: '15%', backgroundColor: "#351b63", position: 'fixed', backgroundAttachment: 'fixed' }}><h2 style={{ color: 'white' }}>All bookings</h2></div>
 
                 <br />
                 {isPending && <p> Loading... </p>}
@@ -120,11 +120,13 @@ const ViewBookings = (prop) => {
                             <tr>
                                 <th className="viewbookingsth">Booking ID</th>
                                 <th className="viewbookingsth">Flight ID</th>
-                                <th className="viewbookingsth">Payment Status</th>
-                                <th className="viewbookingsth">Booking Time</th>
-                                <th className="viewbookingsth">Class ID</th>
+                                <th className="viewbookingsth">Origin to Destination</th>
+                                <th className="viewbookingsth" style={{ paddingLeft: '9px', paddingRight: '9px' }}>Booking Time</th>
+                                <th className="viewbookingsth" style={{ paddingLeft: '9px', paddingRight: '9px' }}>Dispatch Time</th>
+                                <th className="viewbookingsth" style={{ paddingLeft: '9px', paddingRight: '9px' }}>Class ID</th>
                                 <th className="viewbookingsth">Aircraft Seat ID</th>
-                                <th className="viewbookingsth">Discount Amount($)</th>
+                                <th className="viewbookingsth">Payment Status</th>
+                                <th className="viewbookingsth">Discount Amount(%)</th>
                                 <th className="viewbookingsth">Flight Status</th>
                             </tr>
                         </thead>
@@ -136,15 +138,19 @@ const ViewBookings = (prop) => {
                                 if ((user.status === 1) || (user.status === 0)) {
                                     v += 1;
                                     return (<tr className="vtr" key={user.bookingID}>
-                                        <td className="viewbookingstd vtd">{user.bookingID}</td>
-                                        <td className="viewbookingstd vtd">{user.flightID}</td>
-                                        {(user.paymentStatus == 1 && <td className="viewbookingstd vtd">Payed</td>) || (user.paymentStatus == 0 && <td className="viewbookingstd vtd">Not Payed</td>)}
-                                        <td className="viewbookingstd vtd">{new Date(user.bookingTimeDate).toLocaleString()}</td>
-                                        <td className="viewbookingstd vtd">{user.name}</td>
-                                        <td className="viewbookingstd vtd">{user.airCraftseatID}</td>
-                                        <td className="viewbookingstd vtd">{user.amount}</td>
-                                        {(user.status == 0 && <td className="viewbookingstd vtd" style={{ color: 'red' }}>Cancelled</td>) || (user.status == 1 && <td className="viewbookingstd vtd">Booked &nbsp;
-                                            <Button type="button"  className="btn btn-danger btn-sm" onClick={(e) => { confirmMsg(e, { user }) }}>Cancel Booking</Button>
+                                        <td className="viewbookingstd1 vtd" >{user.bookingID}</td>
+                                        <td className="viewbookingstd2 vtd" >{user.flightID}</td>
+                                        <td className="viewbookingstd1 vtd" >{user.originName}<span style={{ color: 'yellow' }}> &nbsp; to &nbsp;</span>{user.destName}</td>
+                                        <td className="viewbookingstd2 vtd" style={{ paddingLeft: '5px', paddingRight: '5px', textAlign: 'center' }} >{new Date(user.bookingTimeDate).toLocaleString()}</td>
+                                        <td className="viewbookingstd1 vtd" >{new Date(user.dispatchTime).toLocaleString()}</td>
+                                        <td className="viewbookingstd2 vtd" >{user.name}</td>
+                                        <td className="viewbookingstd1 vtd" >{user.airCraftseatID}</td>
+                                        {(user.paymentStatus == 1 && <td className="viewbookingstd2 vtd">Payed</td>) || (user.paymentStatus == 0 && <td className="viewbookingstd2 vtd">Not Payed</td>)}
+
+                                        <td className="viewbookingstd1 vtd" style={{ textAlign: 'center' }}>{user.amount * 100 == 0 && (<span>No discounts</span>)}
+                                                                                                            {user.amount * 100 != 0 && (<span>{user.amount * 100}%</span>)}</td>
+                                        {(user.status == 0 && <td className="viewbookingstd2 vtd" style={{ color: 'red' }}>Cancelled</td>) || (user.status == 1 && <td className="viewbookingstd2 vtd">Booked &nbsp;
+                                            <Button type="button" className="btn btn-danger btn-sm" onClick={(e) => { confirmMsg(e, { user }) }}>Cancel Booking</Button>
                                         </td>)}
                                     </tr>);
                                 }
