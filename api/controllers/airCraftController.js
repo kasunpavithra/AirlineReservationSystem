@@ -16,6 +16,24 @@ const getAllAirCrafts = async (req, res) => {
       });
     });
 };
+
+const getAllAirCraftsByManager= async (req, res) => {
+  await airCraftModel
+    .getAllAirCraftsByManager()
+    .then((result) => {
+      res.json({
+        success: true,
+        result,
+      });
+    })
+    .catch((err) => {
+      res.json({
+        success: false,
+        err,
+      });
+    });
+};
+
 const getAirCraftByRoute = async (req, res) => {
   await airCraftModel
     .getAirCraftByRoute(req.query)
@@ -136,5 +154,6 @@ module.exports = {
   deleteAirCraft,
   updateAirCraft,
   getAllAirCrafts,
-  getAirCraft
+  getAirCraft,
+  getAllAirCraftsByManager
 };
