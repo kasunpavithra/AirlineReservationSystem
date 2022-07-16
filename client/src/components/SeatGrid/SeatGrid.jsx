@@ -4,8 +4,6 @@ import SeatPicker from "react-seat-picker";
 import Swal from "sweetalert2";
 const ADD_BOOKING_URL = "/api/bookings/addBooking";
 
-
-
 export default class SeatGrid extends Component {
   state = {
     loading: false,
@@ -76,39 +74,40 @@ export default class SeatGrid extends Component {
     );
   };
 
-  showErr = ()=>{
-    Swal.fire({  
-      icon: 'error',  
-      title: 'Oops...',  
-      text: 'Seems like someone has booked your seats before! Please try with another seats!',  
-    }).then(()=>{
+  showErr = () => {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Seems like someone has booked your seats before! Please try with another seats!",
+    }).then(() => {
       window.location.reload();
     });
-  }
+  };
 
-  showSuccess = ()=>{
+  showSuccess = () => {
     Swal.fire({
-      icon: 'success',
-      title: 'Success',    
-      text: 'Congratulations! Successfully Booked your seats!',  
-    }).then(()=>{
-      if(localStorage.getItem("AccessToken")) this.props.navigate("/reguserbookings",{ replace: true });
-      else this.props.navigate("/guestuserbookings",{ replace: true });
+      icon: "success",
+      title: "Success",
+      text: "Congratulations! Successfully Booked your seats!",
+    }).then(() => {
+      if (localStorage.getItem("AccessToken"))
+        this.props.navigate("/reguserbookings", { replace: true });
+      else this.props.navigate("/guestuserbookings", { replace: true });
     });
-  }
+  };
 
   conformSeats = async () => {
-    const [errMsg,setErrMsg] = this.props.errHandler;
+    const [errMsg, setErrMsg] = this.props.errHandler;
     try {
       const response = await axios.post(
         ADD_BOOKING_URL,
         {
-          registeredUserID:this.props.registeredUserID,
-          guestUserID:this.props.guestUserID,
-          flightID:this.props.flightID,
-          classID:this.props.classID,
-          under18:parseInt(this.props.childCount),
-          airCraftseatIDList:this.state.seletedSeats
+          registeredUserID: this.props.registeredUserID,
+          guestUserID: this.props.guestUserID,
+          flightID: this.props.flightID,
+          classID: this.props.classID,
+          under18: parseInt(this.props.childCount),
+          airCraftseatIDList: this.state.seletedSeats,
         },
         {
           headers: { "Content-Type": "application/json" },
@@ -116,16 +115,15 @@ export default class SeatGrid extends Component {
       );
       console.log(response);
       this.showSuccess();
-      
     } catch (err) {
       if (!err?.response) {
         setErrMsg("No server responce");
       } else if (err.response?.status === 500 && err.response.data.tryAgain) {
         this.showErr();
-      } else if(err.response?.status===500){
+      } else if (err.response?.status === 500) {
         setErrMsg("Server Error");
-      }else{
-        setErrMsg("Something went wrong!")
+      } else {
+        setErrMsg("Something went wrong!");
       }
     }
   };
@@ -135,13 +133,16 @@ export default class SeatGrid extends Component {
     const { loading } = this.state;
     return (
       <div>
-        <h1>Seat Picker</h1>
+        <br />
+        <h1>Pick the seats</h1>
         <div style={{ marginTop: "100px" }}>
           <SeatPicker
             addSeatCallback={this.addSeatCallback}
             removeSeatCallback={this.removeSeatCallback}
             rows={rows}
-            maxReservableSeats={parseInt(this.props.childCount)+ parseInt(this.props.adultCount)}
+            maxReservableSeats={
+              parseInt(this.props.childCount) + parseInt(this.props.adultCount)
+            }
             alpha
             visible
             selectedByDefault
@@ -150,10 +151,15 @@ export default class SeatGrid extends Component {
           />
         </div>
         <br />
-        <button
+        <button style={{marginLeft:"400px"}}
+          type="button"
+          className="btn btn-success"
           onClick={this.conformSeats}
           disabled={
-            (this.state.seletedSeats.length < (parseInt(this.props.childCount)+ parseInt(this.props.adultCount))) ? true : false
+            this.state.seletedSeats.length <
+            parseInt(this.props.childCount) + parseInt(this.props.adultCount)
+              ? true
+              : false
           }
         >
           Confirm
