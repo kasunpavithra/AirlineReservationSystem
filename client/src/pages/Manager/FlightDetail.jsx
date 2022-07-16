@@ -131,7 +131,7 @@ function FlightDetail(props) {
           </Col>
           <Col>
             <Button
-              disabled={props.value.status === 0}
+              disabled={props.value.status === 0 || new Date(props.value.dispatchTime)<new Date()}
               onClick={(e) => {
                 setShow(true);
               }}
@@ -141,7 +141,7 @@ function FlightDetail(props) {
           </Col>
           <Col>
             <Button
-              disabled={props.value.status === 0}
+              disabled={props.value.status === 0 || new Date(props.value.dispatchTime) < new Date()}
               onClick={async (e) => {
                 await axios
                   .put("http://localhost:3001/api/flights/cancelFlight", {
