@@ -280,7 +280,11 @@ const  AddAirCraft=(prop) => {
                  
                     // console.log('geee')
                     if(id){
-                        var editresponse=await AircraftServices.updateaircraft(state,id)
+                        // var editresponse=await AircraftServices.updateaircraft(state,id)
+                        const details=[{name:"Platinam",id:1,count:state.PlatinumSeatCount},{name:"Bussiness",id:2,count:state.BusinessSeatCount},{name:"Economy",id:3,count:state.EconomySeatCount}];
+
+                        navigate('/AddAircraftSeats',{state:{'classCounts':details,'aircraftTypeID':state.AircraftTypeID,'aircraftID':id}})
+
                     }
                     console.log(state)
                     
@@ -303,10 +307,10 @@ const  AddAirCraft=(prop) => {
                   //  }
                     
                 
-                    if (editresponse?.status === 200) {
-                        showEditSuccess()
-                        navigate(`/manager/handleaircrafts/all-aircrafts`);
-                    }
+                    // if (editresponse?.status === 200) {
+                    //     showEditSuccess()
+                    //     navigate(`/manager/handleaircrafts/all-aircrafts`);
+                    // }
                     
                     // setTimeout(() => {
                     //     // setLoader(false);

@@ -110,9 +110,9 @@ const ViewBookings = (prop) => {
     return (
         <><div><Layout /></div>
             <div className="vbody" style={{ height: '753.6px' }}>
+            
 
-
-                <div class=" container-fluid p-5" style={{ height: '15%', backgroundColor: "#351b63", position: 'fixed', backgroundAttachment: 'fixed' }}><h2 style={{ color: 'white' }}>All bookings</h2></div>
+                <div style={{ height: '15%', backgroundColor: "#351b63", backgroundAttachment: 'fixed' ,width:'100',paddingLeft:'50px',paddingTop:'50px'}}><h2 style={{ color: 'white' }}>All bookings</h2></div>
 
                 <br />
                 {isPending && <p> Loading... </p>}

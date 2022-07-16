@@ -9,7 +9,7 @@ import "react-datepicker/dist/react-datepicker.css";
 // import "bootstrap/dist/css/bootstrap.css";
 import Spinner from "react-bootstrap/Spinner";
 import { useNavigate } from "react-router-dom";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col, Button, Form } from "react-bootstrap";
 import Layout from "../../Navbar/Layout/Layout";
 function Dashboard() {
   const [airRoute, setAirRoutes] = useState({ routeDat: [] });
@@ -20,7 +20,17 @@ function Dashboard() {
 
   const [flight, setFlight] = useState({ flights: {} });
 
-  const [dob, setdob] = useState("");
+  const [dob, setdob] = useState(
+    [
+      new Date().getFullYear(),
+      new Date().getMonth().toString().length === 2
+        ? new Date().getMonth() + 1
+        : "0" + (new Date().getMonth() + 1),
+      new Date().getDate().toString().length === 2
+        ? new Date().getDate().toString()
+        : "0" + new Date().getDate().toString(),
+    ].join("-")
+  );
 
   const [loading, setLoading] = useState(false);
 
@@ -80,8 +90,8 @@ function Dashboard() {
 
   let handleSubmit = async (event) => {
     event.preventDefault();
-    let date = event.target.dob.value;
-    let dateArr = date.split("/");
+    let date = event.target.value;
+    let dateArr = date.split("-");
 
     const url =
       "http://localhost:3001/api/flights/year/" +
@@ -118,48 +128,125 @@ function Dashboard() {
       setFlight((values) => ({ ...values, [obj.flightTimeID]: obj }))
     );
   };
-
+  const Background = "https://wallpaperaccess.com/full/878615.jpg";
   return (
-    <>
+    <div style={{ backgroundColor: "black" }}>
       <div>
         <Layout />
 
-        <Container>
+        <div style={{ backgroundImage: `url(${Background})` }}>
+          <div>
+            <hr />
+            <hr />
+            <hr />
+            <Button
+              style={{ marginRight: 10, marginLeft: 610 }}
+              onClick={() => {
+                navigate("/getFlight");
+              }}
+            >
+              Book Your Flight
+            </Button>
+
+            <Button
+              onClick={() => {
+                navigate("/reguserbookings");
+              }}
+            >
+              View My Bookings
+            </Button>
+            <hr />
+          </div>
           <Row
             // style={{ margin: 10, justifyContent: "center" }}
             className="Dashboard"
-            style={{ marginTop: 105 }}
           >
             <Col>
-              <form onSubmit={handleSubmit}>
-                <div className="row mt-2">
-                  <div className="col-md-6">
-                    <label className="labels">Date</label>
-                    <DatePicker
-                      className="form-control"
-                      selected={dob}
-                      onChange={(date) => {
-                        setdob(date);
+              <div
+                className=""
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                  display: "grid",
+                }}
+              >
+                <div>
+                  <div>
+                    <Form.Control
+                      aria-label="Default select example"
+                      className=""
+                      type="date"
+                      value={dob}
+                      onChange={async (e) => {
+                        setdob(e.target.value);
+                        let date = e.target.value;
+                        let dateArr = date.split("-");
+
+                        const url =
+                          "http://localhost:3001/api/flights/year/" +
+                          dateArr[0] +
+                          "/month/" +
+                          dateArr[1] +
+                          "/date/" +
+                          dateArr[2] +
+                          "";
+                        const { data } = await axios(url);
+                        setFlight({ flights: {} });
+                        const url2 = "http://localhost:3001/api/flights/all";
+                        const res = await axios(url2);
+                        let AllTimes = res.data.result;
+                        const checkIsChanged = function (obj) {
+                          AllTimes.map((data) => {
+                            if (
+                              data.flightID === obj.flightID &&
+                              data.flightTimeID > obj.flightTimeID
+                            ) {
+                              obj.updated = true;
+                              return true;
+                            }
+                          });
+                        };
+                        data.result.map((obj) => checkIsChanged(obj));
+                        console.log(data.result);
+                        data.result.map((obj) =>
+                          setFlight((values) => ({
+                            ...values,
+                            [obj.flightTimeID]: obj,
+                          }))
+                        );
                       }}
-                      placeholderText={"dd/mm/yyyy"}
-                      maxDate={new Date("09/09/2022")}
-                      minDate={new Date()}
-                      name="dob"
+                      min={[
+                        new Date().getFullYear(),
+                        new Date().getMonth().toString().length === 2
+                          ? new Date().getMonth() + 1
+                          : "0" + (new Date().getMonth() + 1),
+                        new Date().getDate().toString().length === 2
+                          ? new Date().getDate().toString()
+                          : "0" + new Date().getDate().toString(),
+                      ].join("-")}
+                      max={[
+                        new Date().getFullYear(),
+                        new Date().getMonth().toString().length === 2
+                          ? new Date().getMonth() + 1
+                          : "0" + (new Date().getMonth() + 1),
+                        (new Date().getDate() + 7).toString().length === 2
+                          ? (new Date().getDate() + 7).toString()
+                          : "0" + (new Date().getDate() + 7).toString(),
+                      ].join("-")}
                       required
                     />
-                  </div>
-                  <div className="col-md-6">
-                    <br />
-                    <button
-                      className="btn btn-primary profile-button"
-                      name="getSchedule"
-                      type="submit"
-                    >
-                      Get Schedule
-                    </button>
+                    {/* <DatePicker
+                        className="form-control"
+                        selected={dob}
+                        placeholderText={"dd/mm/yyyy"}
+                        maxDate={new Date("09/09/2022")}
+                        minDate={new Date()}
+                        name="dob"
+                        required
+                      /> */}
                   </div>
                 </div>
-              </form>
+              </div>
             </Col>
           </Row>
           {loading ? (
@@ -175,11 +262,12 @@ function Dashboard() {
                 striped
                 bordered
                 hover
-                variant="dark"
+                size="sm"
                 style={{
                   borderWidth: "1px",
                   borderColor: "#aaaaaa",
                   borderStyle: "solid",
+                  opacity: 1,
                 }}
               >
                 <thead>
@@ -204,15 +292,48 @@ function Dashboard() {
                                   obj.routeID === route.routeID ? (
                                     obj.updated ? (
                                       <pre style={{ color: "red" }}>
-                                        {new Date(
-                                          obj.dispatchTime
-                                        ).toLocaleTimeString()}
+                                        <Button
+                                          variant="danger"
+                                          type="button"
+                                          class="btn btn-secondary"
+                                          data-toggle="tooltip"
+                                          data-placement="top"
+                                          title="Delay"
+                                        >
+                                          {new Date(obj.dispatchTime)
+                                            .toLocaleTimeString()
+                                            .toString()}
+                                        </Button>
+                                      </pre>
+                                    ) : obj.status === 0 ? (
+                                      <pre style={{ color: "yellow" }}>
+                                        <Button
+                                          variant="success"
+                                          type="button"
+                                          class="btn btn-secondary"
+                                          data-toggle="tooltip"
+                                          data-placement="top"
+                                          title="Cancelled"
+                                        >
+                                          {new Date(obj.dispatchTime)
+                                            .toLocaleTimeString()
+                                            .toString()}
+                                        </Button>
                                       </pre>
                                     ) : (
                                       <pre>
-                                        {new Date(
-                                          obj.dispatchTime
-                                        ).toLocaleTimeString()}
+                                        <Button
+                                          variant="dark"
+                                          type="button"
+                                          class="btn btn-secondary"
+                                          data-toggle="tooltip"
+                                          data-placement="top"
+                                          title="Available"
+                                        >
+                                          {new Date(obj.dispatchTime)
+                                            .toLocaleTimeString()
+                                            .toString()}
+                                        </Button>
                                       </pre>
                                     )
                                   ) : (
@@ -232,25 +353,9 @@ function Dashboard() {
               </Table>
             </Row>
           )}
-         
-          <Button
-            onClick={() => {
-              navigate("/getFlight");
-            }}
-          >
-            Book Your Flight
-          </Button>
-          &nbsp;&nbsp;
-          <Button
-            onClick={() => {
-              navigate("/reguserbookings");
-            }}
-          >
-            View My Bookings
-          </Button>
-        </Container>
+        </div>
       </div>
-    </>
+    </div>
   );
 }
 

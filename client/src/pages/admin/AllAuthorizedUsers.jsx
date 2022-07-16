@@ -1,5 +1,6 @@
 import useFetch from "./useFetch";
 import axios from "../../../services/HttpServices"
+import Swal from "sweetalert2";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 const AllAuthorizedUsers = () => {
@@ -20,15 +21,24 @@ const AllAuthorizedUsers = () => {
     }
 
     const handleDelete = (userID) => {
-        if (window.confirm("are you sure, you want to delete this authorized user?") === true) {
-            axios.delete("http://localhost:3001/api/authorized-user/delete/" + userID)
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+          }).then((result) => {
+            if (result.isConfirmed) {
+                axios.delete("http://localhost:3001/api/authorized-user/delete/" + userID)
                 .then(result => {
                     window.location.reload(false);
                 })
                 .catch(err => console.log(err))
-        } else {
-            return
-        }
+            }
+          })
     }
 
     const handleEdit = (userID) => {

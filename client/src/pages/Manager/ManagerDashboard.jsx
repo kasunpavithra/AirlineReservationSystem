@@ -492,16 +492,16 @@ const ManagerDashboard = () => {
           <div class="sidebar-button" style={{display:'flex'}}>
             <i class="bx bx-menu sidebarBtn mt-4" onClick={handleSideBar}></i>
             <span class="dashboard mt-4">Manager</span>
-            <div class="rightside" style={{marginLeft:15}}>
+            <div class="rightside" style={{marginLeft:15,marginTop:22}}>
                <Button onClick={()=>{navigate('/createStaticScheduler')}} > <div class="box-topic" style={{fontSize:16}}> Create Static schedule</div></Button>
               </div>
-              <div class="right-side" style={{marginLeft:15}}>
-               <Button  onClick={()=>{navigate('/manager/handleaircrafts')}} > <div class="box-topic" style={{fontSize:16}}>Handle aircrafts</div></Button>
+              <div class="right-side" style={{marginLeft:15,marginTop:22}}>
+               <Button  onClick={()=>{navigate('/manager/handleaircrafts/all-aircraft-types')}} > <div class="box-topic" style={{fontSize:16}}>Handle aircrafts</div></Button>
               </div>
-              <div class="right-side" style={{marginLeft:15}}>
+              <div class="right-side" style={{marginLeft:15,marginTop:22}}>
                <Button onClick={()=>{navigate('/manager/updateStaticScheduler')}} > <div class="box-topic" style={{fontSize:16}}>Update Static schedule</div></Button>
               </div>
-              <div class="right-side" style={{marginLeft:15}}>
+              <div class="right-side" style={{marginLeft:15,marginTop:22}}>
                <Button onClick={()=>{navigate('/manager/updateFlightScheduler')}} > <div class="box-topic" style={{fontSize:16}}>Update Flight schedule</div></Button>
               </div>
           </div>
@@ -519,8 +519,8 @@ const ManagerDashboard = () => {
         </nav>
 
         <div class="home-content">
-          <div class="overview-boxes">
-            <div class="box">
+          <div class="overview-boxes" >
+            <div class="box"  style={{marginRight:30,marginLeft:15}}>
               <div class="right-side">
                 <div class="box-topic mb-2">Flight Passengers</div>
                 Flight No
@@ -606,7 +606,7 @@ const ManagerDashboard = () => {
                     <i class='mt-2 bx bxs-plane-alt cart'></i>
                    
                     <div className="row">
-                    <div className="col-9 "></div>
+                    <div className="col-7 "></div>
                     <div className="col-3 ">
                       <Button  type="submit">
                         search
@@ -617,10 +617,10 @@ const ManagerDashboard = () => {
                   </Form.Group>
                 </div>
                 </Form>
-                <div class="indicator">
+                {/* <div class="indicator">
                   <i class="bx bx-up-arrow-alt"></i>
                   <span class="text">Up from yesterday</span>
-                </div>
+                </div> */}
               </div>
               <div className=" number mr-5"> {flightPassengers? flightPassengers.Total:''} </div>
             </div>
@@ -631,7 +631,7 @@ const ManagerDashboard = () => {
 
 
 
-            <div class="box ">
+            <div class="box" style={{marginRight:30}}>
               <div class="right-side">
                 <div class="box-topic mb-2">All Passengers</div>
                 Destination
@@ -668,7 +668,7 @@ const ManagerDashboard = () => {
                   
                   <i class='mt-2 bx bx-user-circle cart two'></i>
                 <div className="row">
-                    <div className="col-9 "></div>
+                    <div className="col-7 "></div>
                     <div className="col-3 ">
                       <Button variant="success"  type="submit">
                         search
@@ -676,17 +676,17 @@ const ManagerDashboard = () => {
                     </div>
                     </div>
                 </Form>
-                <div class="indicator">
+                {/* <div class="indicator">
                  
                   <span class="text">Up from yesterday</span>
-                </div>
+                </div> */}
               </div>
               
               <div class="number  mt-5">{allPassengers? allPassengers:''}</div>
             </div>
 
 
-            <div class="box">
+            <div class="box" style={{marginRight:30}}>
               <div class="right-side">
                 <div class="box-topic">All Bookings</div>
                 Class
@@ -754,7 +754,7 @@ const ManagerDashboard = () => {
                 <i class='mt-2 bx bxs-book cart three'></i>
               
                 <div className="row">
-                    <div className="col-9 "></div>
+                    <div className="col-7 "></div>
                     <div className="col-3 ">
                       <Button variant="warning" type="submit">
                         search
@@ -762,17 +762,17 @@ const ManagerDashboard = () => {
                     </div>
                     </div>
                 </Form>
-                <div class="indicator">
+                {/* <div class="indicator">
                   <i class="bx bx-up-arrow-alt"></i>
                   <span class="text">Up from yesterday</span>
-                </div>
+                </div> */}
               </div>
               <div class="number mr-4 mt-5">{allBookings? allBookings.Total:''}</div>
             </div>
 
 
-            <div class="box">
-              <div class="right-side">
+            <div class="box" style={{marginRight:30}}>
+              <div class="right-side" >
                 <div class="box-topic mb-2">Total Revenue</div>
                 AirCraft
                 <Form onSubmit={handleSubmitRevenue}>
@@ -809,20 +809,20 @@ const ManagerDashboard = () => {
                     </div>
                     </Form.Group>
                 </Form>
-                <div class="indicator">
+                {/* <div class="indicator">
                   <i class="bx bx-down-arrow-alt down"></i>
                   <span class="text">Down From Today</span>
-                </div>
+                </div> */}
               </div>
-              <div class="number">{revenue? `Rs ${revenue}` :`Rs 0`}</div>
+              <div style={{width:200}} class="number">{revenue? `Rs ${revenue}` :`Rs 0`}</div>
             </div>
 
 
-            <div class="box">
+            <div class="box" style={{marginRight:25}}>
               <div class="right-side">
                 <div class="box-topic">Past Flights</div>
                 <Form onSubmit={handleSubmitPastFlights}>
-                <div class="btn-group ml-2 mt-2">
+                <div class="btn-group mt-2">
               
                   <DropdownButton variant="info" id="dropdown-basic-button" title={pastFlightsOriginId? pastFlightsOriginId.name:'Origin'} onSelect={(event)=>{
                     setPastFlightsOriginId( {'name':event.split('/')[0],'id':event.split('/')[1]} );}}>
@@ -842,7 +842,7 @@ const ManagerDashboard = () => {
                 { errorPastFlights['Origin Id'] !== "" && <p className="error">{ errorPastFlights['Origin Id']}</p>}
                 
               
-                <div class="ml-2 mt-2 btn-group">
+                <div class="mt-2 btn-group">
      
 
                   <DropdownButton variant="info" id="dropdown-basic-button" title={pastFlightsDestinationId? pastFlightsDestinationId.name:'Destination'} onSelect={(event)=>{
@@ -867,7 +867,7 @@ const ManagerDashboard = () => {
                 <i class='mt-2 bx bxs-plane-take-off cart five'></i>
                 
                 <div className="row">
-                    <div className="col-9 "></div>
+                    <div className="col-7 "></div>
                     <div className="col-3 ">
                       <Button variant="info"  type="submit">
                         search
@@ -875,10 +875,10 @@ const ManagerDashboard = () => {
                     </div>
                     </div>
                 </Form>
-                <div class="indicator">
+                {/* <div class="indicator">
                   <i class="bx bx-down-arrow-alt down"></i>
                   <span class="text">Down From Today</span>
-                </div>
+                </div> */}
               </div>
 
               <div class="mr-5 number"></div>
@@ -893,7 +893,7 @@ const ManagerDashboard = () => {
           
 
           
-          <Modal
+          <Modal style={{marginTop:150}}
                             show={flightPassengers || allBookings || allPastFlights}
                             onHide={()=>{ setFlightPassengers()
                               setAllBookings();
