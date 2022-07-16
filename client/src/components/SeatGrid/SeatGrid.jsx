@@ -93,7 +93,7 @@ export default class SeatGrid extends Component {
       text: 'Congratulations! Successfully Booked your seats!',  
     }).then(()=>{
       if(localStorage.getItem("AccessToken")) this.props.navigate("/reguserbookings",{ replace: true });
-      else this.props.navigate("/guestuserbookings",{ replace: true });
+      else this.props.navigate("/guestuserbookings",{ replace: true,state:{userID:this.props.guestUserID} });
     });
   }
 
