@@ -1,6 +1,5 @@
 import SeatGrid from "../../../components/SeatGrid/SeatGrid";
 import { useLocation } from "react-router";
-
 import { useEffect } from "react";
 // import axios from "../../../../services/HttpServices";
 import axios from "../../../api/axios";
@@ -10,6 +9,7 @@ import { useNavigate } from "react-router";
 import "./style.css";
 import { useRef } from "react";
 import Swal from "sweetalert2";
+import Layout from "../../Navbar/Layout/Layout";
 
 const GET_BOOKED_SEATS_URL = "/api/bookings/getBookedseatsByFlight/";
 const GET_ALL_SEATS_URL = "/api/airCraftSeat/getSeatsByflightID/";
@@ -109,9 +109,10 @@ const BookSeat = () => {
     });
   };
 
-  return (
-    <>
-      <body className="bookseat-body">
+  const background =  "https://wallpapercave.com/wp/wp4128800.jpg";
+  return (<> <Layout/>
+    <div style={{backgroundImage: `url(${background})`,backgroundPosition: 'center', backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat', height:"800px",marginTop:"50px"}}>
         <p
           ref={errRef}
           className={errMsg ? "errmsg" : "offscreen"}
@@ -134,7 +135,7 @@ const BookSeat = () => {
             errHandler={[errMsg, setErrMsg]}
           />
         )}
-      </body>
+    </div>
     </>
   );
 };

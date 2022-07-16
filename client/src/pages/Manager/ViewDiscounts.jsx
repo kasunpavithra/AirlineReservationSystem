@@ -8,6 +8,7 @@ import { Modal, Button } from 'react-bootstrap'
 // import axios from "../../../services/HttpServices";
 import axios from "../../../services/HttpServices";
 import Token from "../../../services/Token";
+import Swal from "sweetalert2";
 
 const ViewDiscounts = () => {
 
@@ -29,7 +30,7 @@ const ViewDiscounts = () => {
         console.log(Token.getAccessToken())
 
         axios.get("http://localhost:3001/api/discount/all")
-           
+
             .then(data => {
                 setData(data.data)
                 setIsPending(false)
@@ -74,25 +75,33 @@ const ViewDiscounts = () => {
     }
 
     const handleDelete = (deleteID) => {
-        let text = "Are you sure, you want to delete this discount?";
-        if (confirm(text) == true) {
-            axios.delete("http://localhost:3001/api/discount/delete/" + deleteID)
-                .then(result => {
-                    console.log(result)
-                    document.location.reload()
-                })
-                .catch(err => {
-                    console.log(err)
-                })
 
-        } else {
-            return
-        }
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios.delete("http://localhost:3001/api/discount/delete/" + deleteID)
+                    .then(result => {
+                        console.log(result)
+                        document.location.reload()
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
+            }
+        })
     }
 
     return (
         <>
-            <div className="container" style={{marginTop:60}}> <br /> <br />
+            <div className="container" style={{ marginTop: 60 }}> <br /> <br />
                 <h2>All Discounts</h2> <br /><br />
 
                 {isPending && <p> Loading... </p>}
@@ -121,13 +130,13 @@ const ViewDiscounts = () => {
                                         <td>{discountElement.discountID}</td>
                                         <td><b>{discountElement.discountClassType === "NO_DISCOUNT" ? "NO_DISCOUNT" : (discountElement.discountClassType === "FREQUENT" ? "FREQUENT" : "GOLDEN")}</b></td>
                                         <td>{discountElement.amount}</td>
-                                        <td>{discountElement.status}</td>
+                                        <td>{discountElement.status === 0 ? "Deleted" : "Active"}</td>
                                         {/* <td>{(discountElement.startTimeDate).split("T")[0] + " " + (discountElement.startTimeDate).split("T")[1].split(".000Z")[0]}</td>
                                         <td>{(discountElement.endTimeDate).split("T")[0] + " " + (discountElement.endTimeDate).split("T")[1].split(".000Z")[0]}</td> */}
                                         <td>{(new Date(discountElement.startTimeDate)).toLocaleString()}</td>
                                         <td>{(new Date(discountElement.endTimeDate)).toLocaleString()}</td>
 
-                                        {!!discountElement.status && discountElement.discountID!==0 &&
+                                        {!!discountElement.status && discountElement.discountID !== 0 &&
                                             <>
                                                 <td><a className="btn btn-danger" onClick={() => handleDelete(discountElement.discountID)}>Delete</a></td>
                                             </>

@@ -31,7 +31,7 @@ function AddSeatGrid(props) {
     return rows;
   };
 
-  const [rows, setRows] = useState(genarateIntialRows(5, 10));
+  const [rows, setRows] = useState(genarateIntialRows(10, 20));
 
   const addSeatCallback = ({ row, number, id }, addCb) => {
     setLoading(true);
@@ -188,8 +188,9 @@ function AddSeatGrid(props) {
 
   return (
     <div>
+      <br />
       <h1>Select {props.classCounts[classIncrementer].name} seats</h1>
-      <div style={{ marginTop: "100px" }} rows={rows}>
+      <div style={{ marginTop: "80px" }} rows={rows}>
         <SeatPicker
           addSeatCallback={addSeatCallback}
           removeSeatCallback={removeSeatCallback}
@@ -206,6 +207,9 @@ function AddSeatGrid(props) {
       </div>
       <br />
       <button
+      type="button"
+      className="btn btn-success"
+      style={{marginLeft:"200px"}}
         onClick={handleConfirmation}
         disabled={
           seleted.length < parseInt(props.classCounts[classIncrementer]?.count)
