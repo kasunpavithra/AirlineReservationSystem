@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 
 
-import { Button, ButtonGroup, Card, Dropdown, DropdownButton, Form, ToggleButton,Modal } from "react-bootstrap";
+import { Button, ButtonGroup, Card, Dropdown, DropdownButton, Form, ToggleButton,Modal, Col, Row } from "react-bootstrap";
 import "./managerStyle.css";
 import ManagerServices from "../../../services/ManagerServices";
 import managerValidation from "../../Validation/managerValidation";
@@ -536,7 +536,7 @@ const ManagerDashboard = () => {
                     {flightId? flightId.name:'Flight No'}
                   </button> */}
                 
-                  <DropdownButton id="dropdown-basic-button" title=  {flightId? flightId.name:'Flight No'} onSelect={(event)=>{
+                  {/* <DropdownButton id="dropdown-basic-button" title=  {flightId? flightId.name:'Flight No'} onSelect={(event)=>{
   
                         // console.log(event.split('/')[1])
                        
@@ -554,7 +554,25 @@ const ManagerDashboard = () => {
 
               
 
-                  </DropdownButton>
+                  </DropdownButton> */}
+              <Form.Group as={Row} className='fw-bold col-xl-12 mb-3 mx-auto' controlId='EconomySeatCount'>
+                {/* <Form.Label style={{"font-family":"FontAwesome"}}  column sm={4}>EconomySeatCount</Form.Label>
+                <Col sm={7} > */}
+                
+               
+                <Form.Control style={{"font-family":"FontAwesome"}}  type="number" min={1} name='EconomySeatCount'   placeholder='Flight No' onChange={(event)=>{setFlightId({'name':event.target.value,'id':event.target.value})}} />
+                {/* </Col> */}
+                <Row>
+                    <Col>
+                    </Col>
+                    <Col sm={8}>
+                    {/* {errordata['EconomySeatCount'] !== '' && <p className="error">{errordata['EconomySeatCount']}</p>} */}
+                    </Col>
+                </Row>
+               
+                
+            </Form.Group>
+
         
 
                   {/* {errorData.NI !== "" && <p className="error">{errorData.NIC}</p>} */}
@@ -820,7 +838,7 @@ const ManagerDashboard = () => {
 
             <div class="box" style={{marginRight:25}}>
               <div class="right-side">
-                <div class="box-topic">Past Flights</div>
+                <div class="box-topic">All Flights</div>
                 <Form onSubmit={handleSubmitPastFlights}>
                 <div class="btn-group mt-2">
               

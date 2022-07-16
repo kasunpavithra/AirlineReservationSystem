@@ -208,7 +208,7 @@ const getRevenue = (params) => {
   console.log(params);
   return new Promise((resolve, reject) => {
     var sql =
-      "    select sum(price*(1-amount)) as total from flight inner join airCraft using(airCraftID) inner join booking using(flightID) inner join classPrice cp using(classID,routeID) left outer join discount using(discountID) where ((bookingtimedate between cp.startTimeDate and cp.endTimeDate) or (bookingtimedate>cp.startTimeDate and cp.endTimedate is null)) and booking.paymentStatus=1 and booking.status=1 and (aircrafttypeID=1);"
+      "select sum(price*(1-amount)) as total from flight inner join airCraft using(airCraftID) inner join booking using(flightID) inner join classPrice cp using(classID,routeID) left outer join discount using(discountID) where ((bookingtimedate between cp.startTimeDate and cp.endTimeDate) or (bookingtimedate>cp.startTimeDate and cp.endTimedate is null)) and booking.paymentStatus=1 and booking.status=1 and (aircrafttypeID=?);"
     // "select sum(eachprice) as total from (select flightID,sum(price) as eachprice from booking b join classprice c using (classId) where b.status=1  group by flightID) as sumprice where flightID in (select flightID from aircrafttype join aircraft using(aircraftTypeID) join flight  using (aircraftID) where aircraftTypeID=?)"
     // "SELECT count(*) as passengers FROM `booking` where flightID=? and under18=? and status=1;";
 

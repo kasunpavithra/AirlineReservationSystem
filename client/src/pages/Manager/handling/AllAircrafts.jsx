@@ -141,7 +141,7 @@ const AllAircrafts = () => {
                                 {
                                     <>
                                         <td><button className="btn btn-danger" onClick={() => handleDelete(AirCraftTypeDetail?.aircraftid)}>Delete</button></td>
-                                        <td><button className="btn btn-info" onClick={() => handleEdit(AirCraftTypeDetail?.aircraftid)}>Edit</button></td>
+                                        {/* <td><button className="btn btn-info" onClick={() => handleEdit(AirCraftTypeDetail?.aircraftid)}>Edit</button></td> */}
                                     </>
                                 }
                                 {!AirCraftTypeDetail?.status &&
