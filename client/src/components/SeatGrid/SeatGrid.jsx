@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import axios from "../../../services/HttpServices";
+import axiosR from "../../../services/HttpServices";
+import axiosG from "../../api/axios";
 import SeatPicker from "react-seat-picker";
 import Swal from "sweetalert2";
+import axios from "../../api/axios";
 const ADD_BOOKING_URL = "/api/bookings/addBooking";
 
 export default class SeatGrid extends Component {
@@ -99,6 +101,7 @@ export default class SeatGrid extends Component {
   conformSeats = async () => {
     const [errMsg, setErrMsg] = this.props.errHandler;
     try {
+      var axios = localStorage.getItem("AccessToken") ? axiosR: axiosG;
       const response = await axios.post(
         ADD_BOOKING_URL,
         {
