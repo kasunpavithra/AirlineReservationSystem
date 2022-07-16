@@ -114,18 +114,18 @@ const addBooking = (bookingInfo) => {
               
                       db.query("set @discountID_value = 0;",
                             [bookingInfo.registeredUserID],
-                            function (err3, result1) {
-                                if (err3) {
-                                  console.log(err3);
+                            function (err1, result1) {
+                                if (err1) {
+                                  console.log(err1);
                                     db.rollback();
                                     return reject1(false);
                                 }
                         
                                 db.query(" call get_dicountID_for_a_userID(?, @discountID_value)",
                                 [bookingInfo.registeredUserID],
-                                function (err3, result2) {
-                                    if (err3) {
-                                      console.log(err3);
+                                function (err2, result2) {
+                                    if (err2) {
+                                      console.log(err2);
                                         db.rollback();
                                         return reject1(false);
                                     }
@@ -143,9 +143,9 @@ const addBooking = (bookingInfo) => {
                                         // resolve1(true);
                                         db.query("INSERT INTO `booking` (registeredUserID,guestUserID,flightID,classID,airCraftseatID,under18,discountID,status) VALUES (?,?,?,?,?,?,?,1);",
                                         [bookingInfo.registeredUserID, bookingInfo.guestUserID, bookingInfo.flightID, bookingInfo.classID, bookingInfo.airCraftseatIDList[i], isChild,result3[0]['@discountID_value']],
-                                        function (err3, result4) {
-                                            if (err3) {
-                                              console.log(err3);
+                                        function (err4, result4) {
+                                            if (err4) {
+                                              console.log(err4);
                                                 db.rollback();
                                                 return reject1(false);
                                             }
@@ -176,10 +176,10 @@ const addBooking = (bookingInfo) => {
             }
 
             if (success) {
-                db.commit(function (err4) {
-                    if (err4) {
+                db.commit(function (err5) {
+                    if (err5) {
                         db.rollback(function () {
-                            return reject(err4);
+                            return reject(err5);
                         });
                     }
                     return resolve();
