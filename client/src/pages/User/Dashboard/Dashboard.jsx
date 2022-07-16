@@ -88,46 +88,46 @@ function Dashboard() {
     setLoading(true);
   }, [setAirPort, setAirRoutes, setFlight]);
 
-  let handleSubmit = async (event) => {
-    event.preventDefault();
-    let date = event.target.value;
-    let dateArr = date.split("-");
+  // let handleSubmit = async (event) => {
+  //   event.preventDefault();
+  //   let date = event.target.value;
+  //   let dateArr = date.split("-");
 
-    const url =
-      "http://localhost:3001/api/flights/year/" +
-      dateArr[2] +
-      "/month/" +
-      dateArr[0] +
-      "/date/" +
-      dateArr[1] +
-      "";
-    const { data } = await axios(url);
-    // setLoading(true);
-    // setInterval(async () => {
+  //   const url =
+  //     "http://localhost:3001/api/flights/year/" +
+  //     dateArr[2] +
+  //     "/month/" +
+  //     dateArr[0] +
+  //     "/date/" +
+  //     dateArr[1] +
+  //     "";
+  //   const { data } = await axios(url);
+  //   // setLoading(true);
+  //   // setInterval(async () => {
 
-    //   setLoading(false);
-    // }, 1000);
-    setFlight({ flights: {} });
-    const url2 = "http://localhost:3001/api/flights/all";
-    const res = await axios(url2);
-    let AllTimes = res.data.result;
-    const checkIsChanged = function (obj) {
-      AllTimes.map((data) => {
-        if (
-          data.flightID === obj.flightID &&
-          data.flightTimeID > obj.flightTimeID
-        ) {
-          obj.updated = true;
-          return true;
-        }
-      });
-    };
-    data.result.map((obj) => checkIsChanged(obj));
-    console.log(data.result);
-    data.result.map((obj) =>
-      setFlight((values) => ({ ...values, [obj.flightTimeID]: obj }))
-    );
-  };
+  //   //   setLoading(false);
+  //   // }, 1000);
+  //   setFlight({ flights: {} });
+  //   const url2 = "http://localhost:3001/api/flights/all";
+  //   const res = await axios(url2);
+  //   let AllTimes = res.data.result;
+  //   const checkIsChanged = function (obj) {
+  //     AllTimes.map((data) => {
+  //       if (
+  //         data.flightID === obj.flightID &&
+  //         data.flightTimeID > obj.flightTimeID
+  //       ) {
+  //         obj.updated = true;
+  //         return true;
+  //       }
+  //     });
+  //   };
+  //   data.result.map((obj) => checkIsChanged(obj));
+  //   console.log(data.result);
+  //   data.result.map((obj) =>
+  //     setFlight((values) => ({ ...values, [obj.flightTimeID]: obj }))
+  //   );
+  // };
   const Background = "https://wallpaperaccess.com/full/878615.jpg";
   return (
     <div style={{ backgroundColor: "black" }}>

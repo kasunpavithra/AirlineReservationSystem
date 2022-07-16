@@ -110,6 +110,8 @@ function FlightCard(props) {
       {console.log(airCraft)}
       {props.f1(originName)}
       {props.f2(destinationName)}
+      {console.log(new Date(props.props.dispatchTime))}
+      {console.log(new Date())}
       <div className="card">
         <div className="card-body">
           <Container>
@@ -130,7 +132,11 @@ function FlightCard(props) {
                     </b>
                   </p>
                 ))}
-                <Button variant="primary" onClick={handleShow}>
+                <Button
+                  disabled={new Date(flight.dispatchTime) < new Date()}
+                  variant="primary"
+                  onClick={handleShow}
+                >
                   {"Select >"}
                 </Button>
               </Col>
