@@ -121,8 +121,8 @@ const ManagerDashboard = () => {
     } else sidebarBtn.classList.replace("bx-menu-alt-right", "bx-menu");
   };
   const passengertypes = [
-    ["Adult", "1"],
-    ["Children", "0"],
+    ["Adult", "0"],
+    ["Children", "1"],
   ];
   const errors = {};
 
